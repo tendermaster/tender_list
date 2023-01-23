@@ -1,0 +1,61 @@
+# https://github.com/khezen/compose-postgres
+version: '3.5'
+
+services:
+  rails:
+    build:
+      context: ".docker"
+      args:
+        - "UID=${UID:-1000}"
+        - "GID=${GID:-1000}"
+        - "RAILS_ENV=${RAILS_ENV:-production}"
+        - "NODE_ENV=${NODE_ENV:-production}"
+        - "TENDER_LIST_DATABASE_PASSWORD=${TENDER_LIST_DATABASE_PASSWORD:-s5AP3p6D9EquCMAM}"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "postgres"
+      # - "redis"
+    tty: true
+    volumes:
+      - .:/app
+
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-s5AP3p6D9EquCMAM}
+      PGDATA: /data/postgres
+    volumes:
+       - ./postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    # networks:
+    #   - postgres
+    # restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    depends_on:
+      - "postgres"
+    # networks:
+    #   - postgres
+    # restart: unless-stopped
+
+# networks:
+#   postgres:
+#     driver: bridge
+
+# volumes:
+#     postgres:
+#     pgadmin:

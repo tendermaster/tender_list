@@ -1,0 +1,59 @@
+<div id="<%= dom_id tender %>">
+  <p>
+    <strong>Tenderid:</strong>
+    <%= tender.tenderId %>
+  </p>
+
+  <p>
+    <strong>Title:</strong>
+    <%= tender.title %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= tender.description %>
+  </p>
+
+  <p>
+    <strong>Organisation:</strong>
+    <%= tender.organisation %>
+  </p>
+
+  <p>
+    <strong>State:</strong>
+    <%= tender.state %>
+  </p>
+
+  <p>
+    <strong>Tender value:</strong>
+    <%= tender.tender_value %>
+  </p>
+
+  <p>
+    <strong>Submission open date:</strong>
+    <%= tender.submission_open_date %>
+  </p>
+
+  <p>
+    <strong>Submission close date:</strong>
+    <%= tender.submission_close_date %>
+  </p>
+
+  <p>
+    <strong>Attachments:</strong>
+    <table>
+      <% tender.attachments.each_with_index do |attachment,index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= attachment.name %></td>
+          </tr>
+      <% end %>
+    </table>
+  </p>
+
+  <p>
+    <strong>Search data:</strong>
+    <%= tender.search_data %>
+  </p>
+
+</div>

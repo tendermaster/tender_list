@@ -1,0 +1,33 @@
+Rails.application.routes.draw do
+  # nav
+  get '/about', controller: :home, action: :about
+  get '/login', controller: :home, action: :login
+  get '/signup', controller: :home, action: :signup
+  get '/services', controller: :home, action: :services
+  get '/coming-soon', controller: :home, action: :coming_soon
+
+  # footer
+  get '/privacy-policy', controller: :home, action: :privacy_policy
+  get '/terms-and-conditions', controller: :home, action: :terms_and_conditions
+
+  # 404
+  # get '*unmatched_route', to: 'home#not_found'
+  get '/not-found', to: 'home#not_found'
+
+  # resources :attachments
+  # resources :tenders
+
+  # /
+  root controller: :tenders, action: :home
+
+  # /tender/title-slug/uuid
+  get '/tender/:title-:slug_uuid', controller: :tenders, action: :tender_show
+
+  # /search?q=a
+  get '/search', controller: :tenders, action: :search
+
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+
+  # Defines the root path route ("/")
+  # root "articles#index"
+end

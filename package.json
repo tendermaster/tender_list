@@ -1,0 +1,21 @@
+{
+  "name": "tender_list",
+  "packageManager": "yarn@3.3.1",
+  "dependencies": {
+    "flowbite": "^1.6.2"
+  },
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "tw:watch": "tailwindcss -i app/assets/stylesheets/application.tailwind.css -o app/assets/builds/tailwind.css -c config/tailwind.config.js --minify -w",
+    "dev": "bin/rails server -b 0.0.0.0 -p 3000 -e development"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

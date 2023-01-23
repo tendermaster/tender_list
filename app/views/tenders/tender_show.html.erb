@@ -1,0 +1,226 @@
+
+<%= render 'layouts/navbar' %>
+
+<div class="text-gray-800 lg:pt-2 xl:px-36">
+  <!--header-->
+
+  <!-- content -->
+  <div class="mx-8 my-12">
+    <div>
+      <h3 class="my-8 text-xl font-semibold">Tender Details</h3>
+      <div class="relative overflow-x-auto">
+        <table
+          class="w-full overflow-hidden text-left text-sm text-gray-500 dark:text-gray-400 sm:rounded-lg"
+        >
+          <thead
+            class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+          >
+          <tr>
+            <th scope="col" class="py-3 px-6">Particulars</th>
+            <th scope="col" class="py-3 px-6">Details</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr
+            class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+          >
+            <th
+              scope="row"
+              class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+            >
+              Title
+            </th>
+            <td class="py-4 px-6"><%= @tender_data.title %></td>
+          </tr>
+          <tr
+            class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+          >
+            <th
+              scope="row"
+              class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+            >
+              Description
+            </th>
+            <td class="py-4 px-6"><%= @tender_data.description %></td>
+          </tr>
+          <tr
+            class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+          >
+            <th
+              scope="row"
+              class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+            >
+              Organisation
+            </th>
+            <td class="py-4 px-6"><%= @tender_data.organisation %></td>
+          </tr>
+          <tr
+            class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+          >
+            <th
+              scope="row"
+              class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+            >
+              Tender Id
+            </th>
+            <td class="py-4 px-6"><%= @tender_data.tenderId %></td>
+          </tr>
+          <tr
+            class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+          >
+            <th
+              scope="row"
+              class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+            >
+              Reference Number
+            </th>
+            <td class="py-4 px-6"><%= @tender_json['TenderReferenceNumber'] %></td>
+          </tr>
+          <tr
+            class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+          >
+            <th
+              scope="row"
+              class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+            >
+              Tender Fee
+            </th>
+            <td class="py-4 px-6"><%= @tender_data.tender_fee %></td>
+          </tr>
+          <tr
+            class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+          >
+            <th
+              scope="row"
+              class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+            >
+              EMD
+            </th>
+            <td class="py-4 px-6"><%= @tender_data.emd %></td>
+          </tr>
+          <tr
+            class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+          >
+            <th
+              scope="row"
+              class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+            >
+              Tender Value
+            </th>
+            <td class="py-4 px-6"><%= @tender_data.tender_value %></td>
+          </tr>
+          <!--              <tr-->
+          <!--                class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"-->
+          <!--              >-->
+          <!--                <th-->
+          <!--                  scope="row"-->
+          <!--                  class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"-->
+          <!--                >-->
+          <!--                  Time Period-->
+          <!--                </th>-->
+          <!--                <td class="py-4 px-6">730d</td>-->
+          <!--              </tr>-->
+          <tr
+            class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+          >
+            <th
+              scope="row"
+              class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+            >
+              Place
+            </th>
+            <td class="py-4 px-6"><%= @tender_data.state %></td>
+          </tr>
+          <tr
+            class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+          >
+            <th
+              scope="row"
+              class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+            >
+              Link
+            </th>
+            <td class="py-4 px-6"><a class="underline underline-offset-2 hover:text-blue-600" target="_blank" href="<%= @tender_data.page_link %>"><%= @tender_data.page_link %></a></td>
+          </tr>
+          <tr
+            class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+          >
+            <th
+              scope="row"
+              class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+            >
+              End Date
+            </th>
+            <td class="py-4 px-6"><%= @tender_data.submission_close_date.strftime("%d/%m/%Y") %> (<%= time_left(@tender_data.submission_close_date) %>)</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!--      <div>-->
+    <!--        <h3 class="my-8 text-xl font-semibold">Attachments</h3>-->
+
+    <!--        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">-->
+    <!--          <table-->
+    <!--            class="w-full text-left text-sm text-gray-500 dark:text-gray-400"-->
+    <!--          >-->
+    <!--            <thead-->
+    <!--              class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"-->
+    <!--            >-->
+    <!--              <tr>-->
+    <!--                <th scope="col" class="py-3 px-6">S.No.</th>-->
+    <!--                <th scope="col" class="py-3 px-6">File Name</th>-->
+    <!--                <th scope="col" class="py-3 px-6">Size</th>-->
+    <!--                <th scope="col" class="py-3 px-6">Download Link</th>-->
+    <!--              </tr>-->
+    <!--            </thead>-->
+    <!--            <tbody>-->
+    <!--              <tr-->
+    <!--                class="border-b bg-white dark:border-gray-700 dark:bg-gray-900"-->
+    <!--              >-->
+    <!--                <th-->
+    <!--                  scope="row"-->
+    <!--                  class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"-->
+    <!--                >-->
+    <!--                  1-->
+    <!--                </th>-->
+    <!--                <td class="py-4 px-6">BOQ_770420.xls</td>-->
+    <!--                <td class="py-4 px-6">1Mb</td>-->
+    <!--                <td class="py-4 px-6">-->
+    <!--                  <a-->
+    <!--                    href="#"-->
+    <!--                    class="font-medium text-blue-600 hover:underline dark:text-blue-500"-->
+    <!--                    >Download</a-->
+    <!--                  >-->
+    <!--                </td>-->
+    <!--              </tr>-->
+    <!--              <tr-->
+    <!--                class="border-b bg-white dark:border-gray-700 dark:bg-gray-900"-->
+    <!--              >-->
+    <!--                <th-->
+    <!--                  scope="row"-->
+    <!--                  class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"-->
+    <!--                >-->
+    <!--                  1-->
+    <!--                </th>-->
+    <!--                <td class="py-4 px-6">NIT.pdf</td>-->
+    <!--                <td class="py-4 px-6">2Mb</td>-->
+    <!--                <td class="py-4 px-6">-->
+    <!--                  <a-->
+    <!--                    href="#"-->
+    <!--                    class="font-medium text-blue-600 hover:underline dark:text-blue-500"-->
+    <!--                    >Download</a-->
+    <!--                  >-->
+    <!--                </td>-->
+    <!--              </tr>-->
+    <!--            </tbody>-->
+    <!--          </table>-->
+    <!--        </div>-->
+    <!--      </div>-->
+  </div>
+</div>
+
+<%= render 'layouts/footer' %>
+
+<!--<div class="bg-sky-900 text-white">s</div>-->

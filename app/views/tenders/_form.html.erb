@@ -1,0 +1,67 @@
+<%= form_with(model: tender) do |form| %>
+  <% if tender.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(tender.errors.count, "error") %> prohibited this tender from being saved:</h2>
+
+      <ul>
+        <% tender.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :tenderId, style: "display: block" %>
+    <%= form.text_field :tenderId %>
+  </div>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div>
+    <%= form.label :organisation, style: "display: block" %>
+    <%= form.text_field :organisation %>
+  </div>
+
+  <div>
+    <%= form.label :state, style: "display: block" %>
+    <%= form.text_field :state %>
+  </div>
+
+  <div>
+    <%= form.label :tender_value, style: "display: block" %>
+    <%= form.number_field :tender_value %>
+  </div>
+
+  <div>
+    <%= form.label :submission_open_date, style: "display: block" %>
+    <%= form.datetime_field :submission_open_date %>
+  </div>
+
+  <div>
+    <%= form.label :submission_close_date, style: "display: block" %>
+    <%= form.datetime_field :submission_close_date %>
+  </div>
+
+  <div>
+    <%= form.label :attachments_id, style: "display: block" %>
+    <%= form.text_field :attachments_id %>
+  </div>
+
+  <div>
+    <%= form.label :search_data, style: "display: block" %>
+    <%= form.text_field :search_data %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

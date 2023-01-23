@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @tender %>
+
+<div>
+  <%= link_to "Edit this tender", edit_tender_path(@tender) %> |
+  <%= link_to "Back to tenders", tenders_path %>
+
+  <%= button_to "Destroy this tender", @tender, method: :delete %>
+</div>
