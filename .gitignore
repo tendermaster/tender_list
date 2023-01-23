@@ -40,6 +40,8 @@
 /dev/
 /.idea/
 /.env
+*.gz
+
 
 
 

@@ -15,7 +15,7 @@ class TendersController < ApplicationController
 
     # @search_result = Tender.where("search_data like ?", "%#{@query}%").limit(10)
 
-    @pagy, @records = pagy(Tender.where("search_data ilike ? and is_visible = true", "%#{@query}%"), items: 5, request_path: search_path)
+    @pagy, @records = pagy(Tender.where('search_data ilike ? and is_visible = true', "%#{@query}%"), items: 5, request_path: search_path)
     # p params, @query
 
   end
@@ -63,7 +63,7 @@ class TendersController < ApplicationController
 
     respond_to do |format|
       if @tender.save
-        format.html { redirect_to tender_url(@tender), notice: "Tender was successfully created." }
+        format.html { redirect_to tender_url(@tender), notice: 'Tender was successfully created.' }
         format.json { render :show, status: :created, location: @tender }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -76,7 +76,7 @@ class TendersController < ApplicationController
   def update
     respond_to do |format|
       if @tender.update(tender_params)
-        format.html { redirect_to tender_url(@tender), notice: "Tender was successfully updated." }
+        format.html { redirect_to tender_url(@tender), notice: 'Tender was successfully updated.' }
         format.json { render :show, status: :ok, location: @tender }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -90,7 +90,7 @@ class TendersController < ApplicationController
     @tender.destroy
 
     respond_to do |format|
-      format.html { redirect_to tenders_url, notice: "Tender was successfully destroyed." }
+      format.html { redirect_to tenders_url, notice: 'Tender was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

@@ -95,3 +95,5 @@ gem 'pagy', '~> 6.0'
 # gem "money", "~> 6.16"
 
 gem "money-rails", "~> 1.15"
+
+gem "sitemap_generator", "~> 6.3"
