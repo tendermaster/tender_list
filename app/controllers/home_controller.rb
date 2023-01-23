@@ -31,4 +31,13 @@ class HomeController < ApplicationController
 
   end
 
+  def page_404
+
+  end
+
+  def page_500
+
+  end
+
+
 end

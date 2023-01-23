@@ -4,13 +4,16 @@ version: '3.5'
 services:
   rails:
     build:
-      context: ".docker"
+      context: "."
       args:
         - "UID=${UID:-1000}"
         - "GID=${GID:-1000}"
         - "RAILS_ENV=${RAILS_ENV:-production}"
         - "NODE_ENV=${NODE_ENV:-production}"
-        - "TENDER_LIST_DATABASE_PASSWORD=${TENDER_LIST_DATABASE_PASSWORD:-s5AP3p6D9EquCMAM}"
+        # - "TENDER_LIST_DATABASE_PASSWORD=${TENDER_LIST_DATABASE_PASSWORD:-1234}"
+    environment:
+      - "RAILS_ENV=${RAILS_ENV:-production}"
+      - "TENDER_LIST_DATABASE_PASSWORD=${TENDER_LIST_DATABASE_PASSWORD:-1234}"
     ports:
       - "3000:3000"
     depends_on:
@@ -28,7 +31,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-s5AP3p6D9EquCMAM}
       PGDATA: /data/postgres
     volumes:
-       - ./postgres:/data/postgres
+      - postgres:/data/postgres
     ports:
       - "5432:5432"
     # networks:
@@ -38,12 +41,13 @@ services:
   pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4
+    # user: "1000:1000"
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-       - ./pgadmin:/var/lib/pgadmin
+      - pgadmin:/var/lib/pgadmin
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     depends_on:
@@ -52,10 +56,21 @@ services:
     #   - postgres
     # restart: unless-stopped
 
+#  https://nginxproxymanager.com/guide/#quick-setup
+  nginx:
+    image: 'jc21/nginx-proxy-manager:latest'
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - .docker/nginx-proxy-manager/data:/data
+      - .docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+
 # networks:
 #   postgres:
 #     driver: bridge
 
-# volumes:
-#     postgres:
-#     pgadmin:
+volumes:
+  postgres:
+  pgadmin:

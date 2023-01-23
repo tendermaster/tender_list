@@ -19,13 +19,14 @@ RUN bash -c "set -o pipefail && apt-get update \
 
 USER ruby
 
-ARG RAILS_ENV="production"
+ARG RAILS_ENV="development"
 ARG NODE_ENV="production"
 ENV RAILS_ENV="${RAILS_ENV}" \
     NODE_ENV="${NODE_ENV}" \
     USER="ruby"
 
-# COPY --chown=ruby:ruby Gemfile* ./
+ADD --chown=ruby:ruby Gemfile* ./
+ADD --chown=ruby:ruby package*.json ./
 RUN bundle install
 RUN yarn install
 
@@ -35,4 +36,4 @@ RUN bundle exec rails assets:precompile
 
 EXPOSE 3000
 
-CMD ["rails", "s"]
+CMD ["rails", "s", "-b", "0.0.0.0"]

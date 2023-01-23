@@ -7,7 +7,7 @@ class TendersController < ApplicationController
   end
 
   def home
-
+  #   root
   end
 
   def search
