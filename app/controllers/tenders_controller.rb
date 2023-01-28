@@ -11,17 +11,30 @@ class TendersController < ApplicationController
   end
 
   def search
-    @query = params['q'] || ' '
+    # Tender.reindex
+    @query = params['q']
+    SearchQuery.create(query: @query)
+
+    if @query.nil? || (@query == '*')
+      @query = ' '
+    end
+
+    p "searching #{@query}"
 
     # @search_result = Tender.where("search_data like ?", "%#{@query}%").limit(10)
 
-    @pagy, @records = pagy(Tender.where('search_data ilike ? and is_visible = true', "%#{@query}%"), items: 5, request_path: search_path)
+    # @pagy, @records = pagy(Tender.where('search_data ilike ? and is_visible = true', "%#{@query}%"), items: 5, request_path: search_path)
     # p params, @query
+
+    collection = Tender.pagy_search(@query, where: {
+                                      submission_close_date: {gt: Time.now}
+                                    })
+    @pagy, @records = pagy_searchkick(collection, items: 5)
 
   end
 
   def tender_show
-    p params
+    # p params
     # render locals: {
     #   params: params
     # }

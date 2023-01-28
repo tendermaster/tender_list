@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_15_094611) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_28_081436) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,19 +30,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_15_094611) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "search_queries", force: :cascade do |t|
+    t.string "query"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tenders", force: :cascade do |t|
     t.string "tenderId"
     t.string "title"
     t.text "description"
     t.string "organisation"
     t.string "state"
-    t.integer "tender_value"
-    t.integer "tender_fee"
-    t.integer "emd"
+    t.bigint "tender_value"
+    t.bigint "tender_fee"
+    t.bigint "emd"
     t.datetime "bid_open_date"
     t.datetime "submission_open_date"
     t.datetime "submission_close_date"
-    t.text "search_data"
+    t.text "tender_search_data"
     t.string "slug"
     t.string "slug_uuid"
     t.boolean "is_visible"
@@ -51,6 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_15_094611) do
     t.datetime "batch_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "search_conversions"
     t.index ["slug_uuid"], name: "index_tenders_on_slug_uuid", unique: true
   end
 

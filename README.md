@@ -14,28 +14,10 @@ rails generate scaffold attachments name:string tenderId:references
 ```shell
 rails generate migration add_emd_tender_fee_to_tender emd:integer tender_fee:integer
 rails generate migration add_filename_to_attachment filename:integer tender_fee:integer
-```
 
-- [] add view
-- [] add routes
+rails generate model search_query query:string
 
-/ home
-/state/delhi
-/org/ndmc
-/tender/title-slug/uuid
 
-- 2 col
-- latest news (ghost blog api)
-- subscribe (email,number,name)
-- sign up
-- TODO: set is visible to no and insert new id (transaction)
-  - index tenderId
-  - if find 
-    - update
-    - insert
-  - else
-    - insert
-    - 
 
 ```
 

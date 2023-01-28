@@ -28,7 +28,7 @@ services:
     image: postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-s5AP3p6D9EquCMAM}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-1234}
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
@@ -66,6 +66,7 @@ services:
     volumes:
       - .docker/nginx-proxy-manager/data:/data
       - .docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+      - ./public:/data/ngotenders.in/public
 
 # networks:
 #   postgres:
