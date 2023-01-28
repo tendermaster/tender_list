@@ -56,17 +56,31 @@ services:
     #   - postgres
     # restart: unless-stopped
 
-#  https://nginxproxymanager.com/guide/#quick-setup
-  nginx:
-    image: 'jc21/nginx-proxy-manager:latest'
+  #  https://nginxproxymanager.com/guide/#quick-setup
+  # nginx:
+  #   image: 'jc21/nginx-proxy-manager:latest'
+  #   ports:
+  #     - '80:80'
+  #     - '81:81'
+  #     - '443:443'
+  #   volumes:
+  #     - .docker/nginx-proxy-manager/data:/data
+  #     - .docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+  #     - ./public:/data/ngotenders.in/public:ro
+
+  caddy:
+    image: caddy:latest
+    # restart: unless-stopped
     ports:
-      - '80:80'
-      - '81:81'
-      - '443:443'
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
     volumes:
-      - .docker/nginx-proxy-manager/data:/data
-      - .docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
-      - ./public:/data/ngotenders.in/public
+      - .docker/Caddyfile:/etc/caddy/Caddyfile
+      # - $PWD/site:/srv
+      - ./public:/data/ngotenders.in/public:ro
+      - .docker/caddy/caddy_data:/data
+      - .docker/caddy/caddy_config:/config
 
 # networks:
 #   postgres:

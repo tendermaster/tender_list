@@ -41,7 +41,7 @@
 /.idea/
 /.env
 *.gz
-/.docker/
+/.docker/caddy/
 
 
 
