@@ -22,6 +22,11 @@ Rails.application.routes.draw do
 
   # /tender/title-slug/uuid
   get '/tender/:title-:slug_uuid', controller: :tenders, action: :tender_show
+  get '/tenders-by-state', controller: :home, action: :tenders_by_state
+  get '/tenders-by-sector', controller: :home, action: :tenders_by_sector
+
+  get '/state/:state', controller: :tenders, action: :state_page
+  get '/sector/:sector', controller: :tenders, action: :sector_page
 
   # /search?q=a
   get '/search', controller: :tenders, action: :search

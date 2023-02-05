@@ -14,6 +14,7 @@ services:
     environment:
       - "RAILS_ENV=${RAILS_ENV:-production}"
       - "TENDER_LIST_DATABASE_PASSWORD=${TENDER_LIST_DATABASE_PASSWORD:-1234}"
+      - "RAILS_MASTER_KEY=${RAILS_MASTER_KEY:-1234}"
     ports:
       - "3000:3000"
     depends_on:

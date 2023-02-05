@@ -10,7 +10,7 @@ RUN bash -c "set -o pipefail && apt-get update \
   && curl -sSL https://deb.nodesource.com/setup_18.x | bash - \
   && curl -sSL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo 'deb https://dl.yarnpkg.com/debian/ stable main' | tee /etc/apt/sources.list.d/yarn.list \
-  && apt-get update && apt-get install -y --no-install-recommends nodejs yarn \
+  && apt-get update && apt-get install -y --no-install-recommends nodejs yarn npm \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
   && apt-get clean \
   && groupadd -g \"${GID}\" ruby \
@@ -28,7 +28,7 @@ ENV RAILS_ENV="${RAILS_ENV}" \
 ADD --chown=ruby:ruby Gemfile* ./
 ADD --chown=ruby:ruby package*.json ./
 RUN bundle install
-RUN yarn install
+RUN npm install
 
 RUN bundle exec rails assets:precompile
 
@@ -36,4 +36,6 @@ RUN bundle exec rails assets:precompile
 
 EXPOSE 3000
 
-CMD ["rails", "s", "-b", "0.0.0.0"]
+RUN chmod +x ./bin/init
+#CMD ["rails", "s", "-b", "0.0.0.0"]
+CMD ["bash", "./bin/init"]

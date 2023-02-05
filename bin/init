@@ -1,5 +1,20 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+# exit on error
+set -o errexit
+
+npm install --production
+bundle install
+bundle exec rake assets:precompile
+bundle exec rake assets:clean
+bundle exec rake db:migrate
+
+# start server
 
 rails db:create
 rails db:migrate
-rails assets:precompile
+
+#rails assets:precompile
+#rails", "s", "-b", "0.0.0.0
+
+rails s -b 0.0.0.0
+

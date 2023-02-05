@@ -15,6 +15,14 @@ class HomeController < ApplicationController
     render 'home/coming_soon'
   end
 
+  def tenders_by_state
+
+  end
+
+  def tenders_by_sector
+
+  end
+
   def coming_soon
     render 'home/coming_soon'
   end

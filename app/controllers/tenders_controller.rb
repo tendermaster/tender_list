@@ -1,11 +1,6 @@
 class TendersController < ApplicationController
   before_action :set_tender, only: %i[ show edit update destroy ]
 
-  # GET /tenders or /tenders.json
-  def index
-    @tenders = Tender.all
-  end
-
   def home
   #   root
   end
@@ -51,11 +46,50 @@ class TendersController < ApplicationController
     # render :html => params
   end
 
+  def state_page
+    @query = params['state']
+
+    if @query.nil? || (@query == '*')
+      @query = ' '
+    end
+
+    p "searching #{@query}"
+
+    collection = Tender.pagy_search(@query, where: {
+      submission_close_date: {gt: Time.now}
+    })
+    @pagy, @records = pagy_searchkick(collection, items: 5)
+
+  end
+
+  def sector_page
+
+    @query = params['sector']
+
+    if @query.nil? || (@query == '*')
+      @query = ' '
+    end
+
+    p "searching #{@query}"
+
+    collection = Tender.pagy_search(@query, where: {
+      submission_close_date: {gt: Time.now}
+    })
+    @pagy, @records = pagy_searchkick(collection, items: 5)
+
+  end
+
   def time_left(time)
     time.is_a?(ActiveSupport::TimeWithZone) ? "#{distance_of_time_in_words(Date.today, time, true, highest_measure_only: true)} left" : '-'
     #   result.submission_close_date.is_a?(ActiveSupport::TimeWithZone) ? "#{distance_of_time_in_words(Date.today,result.submission_close_date, true, highest_measure_only: true)} left" : '-'
   end
   helper_method :time_left
+
+
+  # GET /tenders or /tenders.json
+  def index
+    @tenders = Tender.all
+  end
 
   # GET /tenders/1 or /tenders/1.json
   def show
