@@ -17,3 +17,40 @@
 /*    outline: 1px solid red;*/
 /*}*/
 
+/* .ml7 {
+  position: relative;
+  font-weight: 300;
+  font-size: 1.125rem;
+}
+.ml7 .text-wrapper {
+  position: relative;
+  display: inline-block;
+  padding-top: 0.2em;
+  padding-right: 0.05em;
+  padding-bottom: 0.1em;
+  overflow: hidden;
+}
+.ml7 .letter {
+  transform-origin: 0 100%;
+  display: inline-block;
+  line-height: 1em;
+} */
+
+.moving-text {
+  animation: marquee 30s linear infinite;
+  /* white-space:nowrap; */
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+marquee p
+{
+    white-space:nowrap;
+}

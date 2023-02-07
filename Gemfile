@@ -102,3 +102,5 @@ gem "searchkick"
 gem "elasticsearch"
 # gem "elasticsearch-model"
 # gem "elasticsearch-rails"
+gem "meta-tags"
+
