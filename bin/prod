@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
-
+echo "==="
+TZ=UTC-5:30 date -R
+TZ=UTC-5:30 date +"%I:%M %p"
 # create sitemap
+docker exec -it tender_list-rails-1 rails sitemap:create
 
 # index tenders
-
+docker exec -it tender_list-rails-1 rails searchkick:reindex CLASS=Tender
+echo "==="
 

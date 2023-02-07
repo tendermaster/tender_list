@@ -9,9 +9,8 @@ bundle exec rake assets:clean
 bundle exec rake db:migrate
 
 # start server
-
-rails db:create
-rails db:migrate
+#rails db:create
+#rails db:migrate
 
 #rails assets:precompile
 #rails", "s", "-b", "0.0.0.0
