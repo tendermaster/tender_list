@@ -2,7 +2,9 @@
   "name": "tender_list",
   "packageManager": "yarn@3.3.1",
   "dependencies": {
-    "flowbite": "^1.6.2"
+    "flowbite": "^1.6.2",
+    "jquery": "^3.6.3",
+    "textillate": "^0.4.1"
   },
   "description": "",
   "version": "1.0.0",

@@ -50,10 +50,12 @@
       </button>
     </div>
   </form>
+  <!-- filter -->
+  <%= render "tender_filter" %>
 </div>
 
 <!-- p2 trending tenders -->
-  <div class="bg-red-800 h-8 overflow-hidden">
+  <div class="bg-red-800 h-7 overflow-hidden">
     <p class="moving-text text-gray-100">Trending Tenders for Independent Entrepreneurs, Businesses, Industries, Schools, Colleges, Institutions, Universities, NGOs, Traders, Suppliers, Professionals &  Government Organizations</p>
   </div>
 
@@ -61,7 +63,15 @@
 
   <div class="md:grid md:grid-cols-3 pt-12 px-12 mx-auto max-w-6xl">
     <div class="md:col-span-2">
-      <h4 class="text-lg font- flex justify-center pb-4 ml7"><span class="text-wrapper"><span class="letters">Trending Tenders of the Day</span></span></h4>
+
+      <!-- <h4 class="text-lg font-bold flex justify-center pb-4 ml7"><span class="text-wrapper"><span class="letters">Trending Tenders of the Day (<%= DateTime.now.strftime("%d/%m/%Y %H:%M") %>)</span></span></h4> -->
+      <h4 class="mx-auto mb-6 font-bold text-red-800 rounded-lg tlt text-lg font- flex justify-center ml7 w-fit px-4" style="">
+        <ul class="texts">
+          <li data-out-effect="fadeOut" data-out-shuffle="true">Trending Tenders of the Day (<%= DateTime.now.strftime("%d/%m/%Y %H:%M") %>)</li>
+          <!-- <li data-in-effect="fadeIn">Trending Tenders of the Day (<%= DateTime.now.strftime("%d/%m/%Y %H:%M") %>)</li> -->
+        </ul>
+      </h4>
+
       <div class="md:grid md:grid-cols-3 flex flex-col items-center space-y-1">
         <div class="h-full p-2">
           <a
@@ -276,7 +286,7 @@
       </div>
     </div>
     <div class="md:col-span-1 space-y-2 md:pl-6">
-      <div class="text-2xl font-bold text-center mb-6">Tenders for all</div>
+      <div class="text-2xl font-bold text-center mb-6">Tenders for Profit</div>
       <a class="text-lg block hover:underline hover:underline-offset-2" href="<%= tenders_by_state_path %>">⭐ Tenders By State</a>
       <a class="text-lg block hover:underline hover:underline-offset-2" href="<%= tenders_by_sector_path %>">⭐ Tenders By Sector</a>
       <a class="text-lg block hover:underline hover:underline-offset-2">⭐ Tenders By Classification</a>

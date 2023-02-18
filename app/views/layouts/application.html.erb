@@ -8,11 +8,15 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "textillate/assets/animate", "data-turbo-track": "reload" %>
 <!--    <link rel="stylesheet" href="https://cdn.simplecss.org/simple-v1.css">-->
     <%= render 'layouts/google' %>
     <%= javascript_importmap_tags %>
 <!--    node_modules-->
-    <%= javascript_include_tag "flowbite/dist/flowbite" %>
+    <%= javascript_include_tag "flowbite/dist/flowbite.min" %>
+    <%= javascript_include_tag "jquery/dist/jquery.min" %>
+    <%= javascript_include_tag "letteringjs/jquery.lettering.js" %>
+    <%= javascript_include_tag "textillate/jquery.textillate" %>
   </head>
 
   <body class="">
