@@ -8,11 +8,16 @@ class TendersController < ApplicationController
   def search
     # Tender.reindex
     @query = params['q']
+    @min_value = params['min_value'].to_i
+    @max_value = params['max_value'].to_i
+
+    if @max_value == 0 then @max_value = 10**10 end
+
     SearchQuery.create(query: @query)
 
-    if @query.nil? || (@query == '*')
-      @query = ' '
-    end
+    # if @query.nil? || (@query == '*')
+    #   @query = ' '
+    # end
 
     p "searching #{@query}"
 
@@ -22,8 +27,13 @@ class TendersController < ApplicationController
     # p params, @query
 
     collection = Tender.pagy_search(@query, where: {
-                                      submission_close_date: {gt: Time.now}
+                                      submission_close_date: {gt: Time.now},
+                                      _or: [
+                                        { emd: { gte: @min_value * 0.02, lte: @max_value * 0.02 } },
+                                        { tender_value: { gte: @min_value, lte: @max_value } }
+                                      ]
                                     })
+    p collection
     @pagy, @records = pagy_searchkick(collection, items: 5)
 
   end
@@ -36,7 +46,7 @@ class TendersController < ApplicationController
     # @tender_data = Tender.first
 
     @tender_data = Tender.find_by({ slug_uuid: params['slug_uuid'] })
-    p @tender_data
+    # p @tender_data
     if @tender_data.nil?
       redirect_to(controller: :home, action: :not_found)
     else
@@ -78,13 +88,6 @@ class TendersController < ApplicationController
     @pagy, @records = pagy_searchkick(collection, items: 5)
 
   end
-
-  def time_left(time)
-    time.is_a?(ActiveSupport::TimeWithZone) ? "#{distance_of_time_in_words(Date.today, time, true, highest_measure_only: true)} left" : '-'
-    #   result.submission_close_date.is_a?(ActiveSupport::TimeWithZone) ? "#{distance_of_time_in_words(Date.today,result.submission_close_date, true, highest_measure_only: true)} left" : '-'
-  end
-  helper_method :time_left
-
 
   # GET /tenders or /tenders.json
   def index
