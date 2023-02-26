@@ -12,7 +12,7 @@ class HomeController < ApplicationController
   end
 
   def services
-    render 'home/coming_soon'
+    # render 'home/coming_soon'
   end
 
   def tenders_by_state
