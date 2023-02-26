@@ -6,7 +6,7 @@ console.log("a");
 
 $("#filter-search").on("click", () => {
   console.log("search");
-  let q = "";
+  let q = $("#main-search").val();
 
   $("input:checkbox:checked").each(function () {
     console.log(this.name);
