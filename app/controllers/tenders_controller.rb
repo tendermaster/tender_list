@@ -29,11 +29,20 @@ class TendersController < ApplicationController
     # p params, @query
 
     collection = Tender.where([
-                                "tenders.title @@ to_tsquery(?)
-                    or tenders.id in (select tender_id
-                                     from attachments
-                                     where file_text @@ to_tsquery(?))",
-                                @query, @query
+                                "(tenders.title @@ to_tsquery(?)
+    or tenders.id in (select tender_id
+                      from attachments
+                      where file_text @@ to_tsquery(?)))
+  and (emd between ? and ? or emd is null)
+  and (tender_value between ? and ? or tender_value is null)
+  and (submission_close_date > now())
+",
+                                @query,
+                                @query,
+                                @min_value * 0.02,
+                                @max_value * 0.02,
+                                @min_value,
+                                @max_value
                               ])
 
     @pagy, @records = pagy(collection, items: 5)
