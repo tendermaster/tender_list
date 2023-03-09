@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from Pagy::OverflowError, with: :record_not_found
 
   def time_left(time)
     time.is_a?(ActiveSupport::TimeWithZone) ? "#{distance_of_time_in_words(Date.today, time, true, highest_measure_only: true)} left" : '-'
