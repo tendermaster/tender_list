@@ -29,13 +29,13 @@ class TendersController < ApplicationController
     # p params, @query
 
     collection = Tender.where([
-                                "(tenders.title @@ to_tsquery(?)
+                                "(tenders.tsvector_index @@ websearch_to_tsquery('english', ?)
     or tenders.id in (select tender_id
                       from attachments
-                      where file_text @@ to_tsquery(?)))
+                      where file_text @@ websearch_to_tsquery('english', ?)))
   and (emd between ? and ? or emd is null)
   and (tender_value between ? and ? or tender_value is null)
-  and (submission_close_date > now())
+  and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata')
 ",
                                 @query,
                                 @query,
