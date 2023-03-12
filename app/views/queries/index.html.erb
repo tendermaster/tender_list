@@ -1,0 +1,78 @@
+<%= render 'layouts/navbar' %>
+
+<!--<div class="w-full">-->
+<%# if notice.present? %>
+<!--    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%#= notice %></p>-->
+<%# end %>
+
+<!--  <div class="flex justify-between items-center">-->
+<!--    <h1 class="font-bold text-4xl">Queries</h1>-->
+<%#= link_to 'New query', new_query_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+<!--  </div>-->
+
+<!--  <div id="queries" class="min-w-full">-->
+<%#= render @queries %>
+<!--  </div>-->
+<!--</div>-->
+
+
+<div class="md:w-3/4 w-full px-6 mx-auto pt-12">
+
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">Queries</h1>
+    <%= link_to 'New query', new_query_path, class: "btn" %>
+  </div>
+
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          S. No.
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Query Name
+        </th>
+        <th scope="col" class="px-6 py-3">
+          State Name
+        </th>
+        <th scope="col" class="px-6 py-3">
+          View
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Edit
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @queries.each_with_index { |query, index| %>
+        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <%= index + 1 %>
+          </th>
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <%= query.name %>
+          </th>
+          <td class="px-6 py-4">
+            <%= query.state_name %>
+          </td>
+          <td class="px-6 py-4">
+            <a href="<%= query_result_path(query_id: query.id) %>" target="_blank" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
+          </td>
+          <td class="px-6 py-4">
+            <a href="<%= edit_query_path(id: query.id) %>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+          </td>
+        </tr>
+      <% } %>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'layouts/footer' %>
+

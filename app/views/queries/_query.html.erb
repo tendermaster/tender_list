@@ -1,0 +1,37 @@
+<div id="<%= dom_id query %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Name:</strong>
+    <%= query.name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Query type:</strong>
+    <%= query.query_type %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">State name:</strong>
+    <%= query.state_name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Include keyword:</strong>
+    <%= query.include_keyword %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Exclude keyword:</strong>
+    <%= query.exclude_keyword %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">User:</strong>
+    <%= query.user_id %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this query", query, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Edit this query', edit_query_path(query), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>
