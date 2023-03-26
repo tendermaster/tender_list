@@ -37,20 +37,21 @@
 } */
 
 .moving-text {
-  animation: marquee 30s linear infinite;
-  /* white-space:nowrap; */
+    animation: marquee 30s linear infinite;
+    /* white-space:nowrap; */
 }
 
 @keyframes marquee {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(100%);
-  }
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(100%);
+    }
 }
 
-marquee p
-{
-    white-space:nowrap;
+marquee p {
+    white-space: nowrap;
 }
+
+

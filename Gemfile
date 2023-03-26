@@ -104,3 +104,8 @@ gem "elasticsearch"
 # gem "elasticsearch-rails"
 gem "meta-tags"
 
+gem "sidekiq", "~> 7.0"
+
+gem "redis", "~> 5.0"
+
+gem "devise", "~> 4.9"

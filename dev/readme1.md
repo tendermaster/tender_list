@@ -100,6 +100,111 @@ location / {
 [] add filter
 [x] seo title
 [] check controller filter
-[] add dropdown 1L-20L
+[x] add dropdown 1L-20L
+
+[] add faq
+[x] disable empty search
+[] live chat
+[] onboarding tutorial ui js
+    [] https://github.com/topics/introjs
+    product tour library
+    https://github.com/topics/tour
+    https://blog.bitsrc.io/7-awesome-javascript-web-app-tour-libraries-6b5d220fb862
+[] add pricing page
+[] signup
+    [] reset password
+    [] add services
+[] add profile with services for others
+    [] https://github.com/norman/friendly_id
+[] add gemportal, newspaper (tesseract)
+[] add goods/service column to eproc tender
+    [] pcs,goods/services
+
+[] signup must
+    [] retention
+[] seo slow
+[] add indian timezone in docker
+
+add col in db
+```shell
+rails generate migration add_tenderType_to_tenders tender_category:string tender_contract_type:string tender_source:string
+
+```
+[x] col txt in attachment
+[x] add background job
+    [x] sidekiq
+    [x] sitemap
+    [x] searchkick (large)
+[] fix seo down
+[] add download queue
+[] add redis,rabbitmq in docker compose
+[] boost by col
+[] add gem
+[] login and add keyword
+[] search attachment text
+[] add profile like tata nexarc
+[x] use ts_search sql search
+[] implement ts_rank
+[] add index in migration
+    [] rails to_tsquery
+    [] https://pganalyze.com/blog/full-text-search-ruby-rails-postgres
+    [] https://www.postgresql.org/docs/current/textsearch-controls.html
+
+[] fix tenderId -> tender_id
+[] ocr
+[] devise
+[] scaff
+
+
+[] add in one folder
+[] fix login signup
+[] add sitemap
+[] keyword
+[] remove ngotenders
+[] social media
+[] tutorial
+
+fix
+tenderId
+routes
+sitemap
+interlinking
+
+
+bookmark
+https://www.tenderdetail.com/registeruser/lmresult?QueryID=43752&SearchBoundary=3
+
+tender status and files
+https://wbtenders.gov.in/nicgep/app?page=WebTenderStatusLists&service=page
+
+add to watch list
+captacha solve
+
+/tenders/category-search
+/tender/abc
+
+/user/query
+
+canonical tag
+duplicate
+
+
+[] https://wbtenders.gov.in/nicgep/app?page=WebTenderStatusLists&service=page
+
+https://www.crunchydata.com/blog/postgres-full-text-search-a-search-engine-in-a-database
+
+https://gem.gov.in/view_contracts
+sbt captach
+post req
+
+https://tika.apache.org/
+tesseract image
+https://medium.com/@masreis/text-extraction-and-ocr-with-apache-tika-302464895e5f
+https://cwiki.apache.org/confluence/display/TIKA/TikaOCR
+
+storage.ngotenders.in
+ebs (ssd) -> ebs(hdd) -> efs
+
+
 
 

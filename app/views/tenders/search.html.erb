@@ -68,7 +68,7 @@
             </h5>
           </a>
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            <%= result.description.capitalize %>
+            <%= result.description&.capitalize %>
           </p>
           <a
             href="/tender/<%= result.slug %>-<%= result.slug_uuid %>"

@@ -7,7 +7,7 @@
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%#= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "textillate/assets/animate", "data-turbo-track": "reload" %>
 <!--    <link rel="stylesheet" href="https://cdn.simplecss.org/simple-v1.css">-->
     <%= render 'layouts/google' %>
@@ -21,6 +21,8 @@
 
   <body class="">
     <main class="">
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
       <%= yield %>
     </main>
   </body>

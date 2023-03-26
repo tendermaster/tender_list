@@ -14,7 +14,10 @@ module.exports = {
         sans: ['Raleway', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        primary: colors.orange
+        primary: colors.orange,
+        footerBg: '#425b76',
+        footerLink: '#cbd6e2',
+        footerHover: '#7fd1de'
       }
     },
   },

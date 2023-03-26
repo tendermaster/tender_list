@@ -10,24 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_28_081436) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_12_065820) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "attachments", force: :cascade do |t|
     t.string "file_name"
     t.string "file_path"
+    t.string "file_text"
+    t.string "download_link"
+    t.string "download_status"
     t.bigint "tender_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index "to_tsvector('english'::regconfig, (file_text)::text)", name: "file_text_idx", using: :gin
+    t.index ["file_path"], name: "index_attachments_on_file_path", unique: true
     t.index ["tender_id"], name: "index_attachments_on_tender_id"
   end
 
-  create_table "posts", force: :cascade do |t|
-    t.string "title"
-    t.text "content"
+  create_table "queries", force: :cascade do |t|
+    t.string "name"
+    t.string "query_type"
+    t.text "state_name"
+    t.text "include_keyword"
+    t.text "exclude_keyword"
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_queries_on_user_id"
   end
 
   create_table "search_queries", force: :cascade do |t|
@@ -58,8 +68,27 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_28_081436) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "search_conversions"
+    t.string "tender_category"
+    t.string "tender_contract_type"
+    t.string "tender_source"
+    t.virtual "tsvector_index", type: :tsvector, as: "to_tsvector('english'::regconfig, ((((((((((((COALESCE(\"tenderId\", ''::character varying))::text || ' '::text) || (COALESCE(title, ''::character varying))::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || (COALESCE(organisation, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text))", stored: true
+    t.index "to_tsvector('english'::regconfig, (((((((((((COALESCE(title, ''::character varying))::text || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || (COALESCE(organisation, ''::character varying))::text) || ' '::text) || (COALESCE(state, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text))", name: "index_tender_vector_search", using: :gin
     t.index ["slug_uuid"], name: "index_tenders_on_slug_uuid", unique: true
+    t.index ["tenderId"], name: "index_tenders_on_tenderId"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "attachments", "tenders"
+  add_foreign_key "queries", "users"
 end

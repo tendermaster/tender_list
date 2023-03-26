@@ -27,6 +27,9 @@ ENV RAILS_ENV="${RAILS_ENV}" \
     NODE_ENV="${NODE_ENV}" \
     USER="ruby"
 
+RUN apt-get install -y tzdata
+ENV TZ="Asia/Kolkata"
+
 #ADD --chown=ruby:ruby Gemfile* ./
 #ADD --chown=ruby:ruby package*.json ./
 # RUN bundle install

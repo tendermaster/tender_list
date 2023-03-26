@@ -8,6 +8,8 @@ bundle exec rake assets:precompile
 bundle exec rake assets:clean
 bundle exec rake db:migrate
 
+bundle exec sidekiq &
+
 # start server
 #rails db:create
 #rails db:migrate

@@ -35,6 +35,6 @@ module TenderList
     config.hosts << "ubuntu-vm.test"
     config.hosts << "ngotenders.in"
     config.hosts << "dev.ngotenders.in"
-    # config.hosts << "51fb-2409-4050-e4e-4a07-787b-ee78-2a15-b228.in.ngrok.io"
+    config.hosts << /.*\.ngrok\.io/
   end
 end

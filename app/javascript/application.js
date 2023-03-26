@@ -41,7 +41,7 @@ $("#filter-search").on("click", () => {
       max_value = 10**10
   }
 
-  const url = `${window.location.origin}/search/?${$.param({
+  const url = `${window.location.origin}/search?${$.param({
     q,
     min_value,
     max_value,

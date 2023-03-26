@@ -13,27 +13,45 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :name %>
+    <%= form.label :name, 'Query Group Name' %>
     <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div class="my-5">
-    <%= form.label "Query Description" %>
-    <%= form.text_field :query_type, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
+<!--  <div class="my-5">-->
+    <%#= form.label "Query Description" %>
+    <%#= form.text_field :query_type, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+<!--  </div>-->
+
+<!--  <div class="my-5">-->
+    <%#= form.label :state_name %>
+    <%#= form.text_area :state_name, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+<!--  </div>-->
 
   <div class="my-5">
-    <%= form.label :state_name %>
-    <%= form.text_area :state_name, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :include_keyword %>
+    <%= form.label :include_keyword, 'Include Keyword' %>
+    <button data-tooltip-target="tooltip-light-include" data-tooltip-style="light" type="button" class="w-5">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"></path>
+      </svg>
+    </button>
+    <div id="tooltip-light-include" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 tooltip">
+      (eg: Supply, Maintenance, contract work, Refinery etc....)
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
     <%= form.text_area :include_keyword, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
-    <%= form.label :exclude_keyword %>
+    <%= form.label :exclude_keyword, 'Exclude Keyword (Optional)' %>
+    <button data-tooltip-target="tooltip-light-exclude" data-tooltip-style="light" type="button" class="w-5">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"></path>
+      </svg>
+    </button>
+    <div id="tooltip-light-exclude" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 tooltip">
+      (eg: Construction, Repair, Road etc....)
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
     <%= form.text_area :exclude_keyword, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
@@ -43,7 +61,7 @@
 <!--  </div>-->
 
   <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit class: "btn-primary" %>
   </div>
 <% end %>
 

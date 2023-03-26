@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :queries
+  devise_for :users
   # nav
   get '/about', controller: :home, action: :about
   get '/login', controller: :home, action: :login
@@ -27,9 +29,13 @@ Rails.application.routes.draw do
 
   get '/state/:state', controller: :tenders, action: :state_page
   get '/sector/:sector', controller: :tenders, action: :sector_page
+  get '/tenders/:keyword', controller: :tenders, action: :sector_page
 
   # /search?q=a
   get '/search', controller: :tenders, action: :search
+
+  # /queries/tender_result/1
+  get '/queries/tender_result/:query_id', controller: :queries, action: :query_result, as: :query_result
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

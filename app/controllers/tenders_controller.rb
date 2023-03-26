@@ -17,55 +17,15 @@ class TendersController < ApplicationController
 
     SearchQuery.create(query: @query)
 
-    # if @query.nil? || (@query == '*') || @query == ""
-    #   @query = ' '
-    # end
-
     p "searching #{@query}"
 
-    # @search_result = Tender.where("search_data like ?", "%#{@query}%").limit(10)
-
-    # @pagy, @records = pagy(Tender.where('search_data ilike ? and is_visible = true', "%#{@query}%"), items: 5, request_path: search_path)
-    # p params, @query
-
-    collection = Tender.where([
-                                "(tenders.tsvector_index @@ websearch_to_tsquery('english', ?)
-    or tenders.id in (select tender_id
-                      from attachments
-                      where file_text @@ websearch_to_tsquery('english', ?)))
-  and (emd between ? and ? or emd is null)
-  and (tender_value between ? and ? or tender_value is null)
-  and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata')
-",
-                                @query,
-                                @query,
-                                @min_value * 0.02,
-                                @max_value * 0.02,
-                                @min_value,
-                                @max_value
-                              ])
+    collection = TendersController.search_tender(@query, @min_value, @max_value)
 
     @pagy, @records = pagy(collection, items: 5)
 
-    # collection = Tender.pagy_search(
-    #   @query,
-    #   where: {
-    #     submission_close_date: {gt: Time.now},
-    #     _or: [
-    #       { emd: { gte: @min_value * 0.02, lte: @max_value * 0.02 } },
-    #       { tender_value: { gte: @min_value, lte: @max_value } }
-    #     ]
-    #   },
-    #   boost_where: {
-    #     tenderId: { factor: 5 },
-    #     title: { factor: 5 },
-    #     description: { factor: 5 },
-    #     organisation: { factor: 5 },
-    #     state: { factor: 5 }
-    #   }
-    # )
-    #
-    # @pagy, @records = pagy_searchkick(collection, items: 1)
+  end
+
+  def search_query
 
   end
 
@@ -89,30 +49,40 @@ class TendersController < ApplicationController
 
   def state_page
     @query = params['state']
+    @min_value = params['min_value'].to_i
+    @max_value = params['max_value'].to_i
 
-    @query = ' ' if @query.nil? || (@query == '*')
+    if @max_value == 0 then
+      @max_value = 10 ** 10
+    end
+
+    SearchQuery.create(query: @query)
 
     p "searching #{@query}"
 
-    collection = Tender.pagy_search(@query, where: {
-      submission_close_date: { gt: Time.now }
-    })
-    @pagy, @records = pagy_searchkick(collection, items: 5)
+    collection = TendersController.search_tender(@query, @min_value, @max_value)
+
+    @pagy, @records = pagy(collection, items: 5)
 
   end
 
   def sector_page
 
     @query = params['sector']
+    @min_value = params['min_value'].to_i
+    @max_value = params['max_value'].to_i
 
-    @query = ' ' if @query.nil? || (@query == '*')
+    if @max_value == 0 then
+      @max_value = 10 ** 10
+    end
+
+    SearchQuery.create(query: @query)
 
     p "searching #{@query}"
 
-    collection = Tender.pagy_search(@query, where: {
-      submission_close_date: { gt: Time.now }
-    })
-    @pagy, @records = pagy_searchkick(collection, items: 5)
+    collection = TendersController.search_tender(@query, @min_value, @max_value)
+
+    @pagy, @records = pagy(collection, items: 5)
 
   end
 
@@ -172,7 +142,29 @@ class TendersController < ApplicationController
   #   end
   # end
 
-  # private
+
+  def self.search_tender(query, min_value, max_value)
+    Tender.where([
+                   "(tenders.tsvector_index @@ websearch_to_tsquery('english', ?)
+    or tenders.id in (select tender_id
+                      from attachments
+                      where file_text @@ websearch_to_tsquery('english', ?)))
+  and (emd between ? and ? or emd is null)
+  and (tender_value between ? and ? or tender_value is null)
+  and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata')
+",
+                   query,
+                   query,
+                   min_value * 0.02,
+                   max_value * 0.02,
+                   min_value,
+                   max_value
+                 ])
+  end
+
+
+  private
+
   #
   # # Use callbacks to share common setup or constraints between actions.
   # def set_tender
@@ -183,5 +175,4 @@ class TendersController < ApplicationController
   # def tender_params
   #   params.require(:tender).permit(:tenderId, :title, :description, :organisation, :state, :tender_value, :submission_open_date, :submission_close_date, :attachments_id, :search_data)
   # end
-
 end
