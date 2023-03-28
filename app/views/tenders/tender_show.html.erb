@@ -163,68 +163,75 @@
         </table>
       </div>
     </div>
-    <% if @tender_data.attachments.present? %>
-      <div>
-        <h3 class="my-8 text-xl font-semibold">Attachments</h3>
+    <% if user_signed_in? %>
+      <% if @tender_data.attachments.present? %>
+        <div>
+          <h3 class="my-8 text-xl font-semibold">Attachments</h3>
 
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table
-            class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
-          >
-            <thead
-              class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table
+              class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
             >
-            <tr>
-              <th scope="col" class="py-3 px-6">S.No.</th>
-              <th scope="col" class="py-3 px-6">File Name</th>
-              <th scope="col" class="py-3 px-6">Download Link</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% @tender_data.attachments.each_with_index do |file, index| %>
-              <tr
-                class="border-b bg-white dark:border-gray-700 dark:bg-gray-900"
+              <thead
+                class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
               >
-                <th
-                  scope="row"
-                  class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
-                >
-                  <%= index + 1 %>
-                </th>
-                <td class="py-4 px-6"><%= file.file_name %></td>
-                <td class="py-4 px-6">
-                  <a
-                    href="<%= "https://storage.sigmatenders.com/v1/file/#{file.file_path}" %>"
-                    class="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                  >Download</a
-                  >
-                </td>
+              <tr>
+                <th scope="col" class="py-3 px-6">S.No.</th>
+                <th scope="col" class="py-3 px-6">File Name</th>
+                <th scope="col" class="py-3 px-6">Download Link</th>
               </tr>
-            <% end %>
-<!--            <tr-->
-<!--              class="border-b bg-white dark:border-gray-700 dark:bg-gray-900"-->
-<!--            >-->
-<!--              <th-->
-<!--                scope="row"-->
-<!--                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"-->
-<!--              >-->
-<!--                1-->
-<!--              </th>-->
-<!--              <td class="py-4 px-6">NIT.pdf</td>-->
-<!--              <td class="py-4 px-6">2Mb</td>-->
-<!--              <td class="py-4 px-6">-->
-<!--                <a-->
-<!--                  href="#"-->
-<!--                  class="font-medium text-blue-600 hover:underline dark:text-blue-500"-->
-<!--                >Download</a-->
-<!--                >-->
-<!--              </td>-->
-<!--            </tr>-->
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+              <% @tender_data.attachments.each_with_index do |file, index| %>
+                <tr
+                  class="border-b bg-white dark:border-gray-700 dark:bg-gray-900"
+                >
+                  <th
+                    scope="row"
+                    class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                  >
+                    <%= index + 1 %>
+                  </th>
+                  <td class="py-4 px-6"><%= file.file_name %></td>
+                  <td class="py-4 px-6">
+                    <a
+                      href="<%= "https://storage.sigmatenders.com/v1/file/#{file.file_path}" %>"
+                      class="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                    >Download</a
+                    >
+                  </td>
+                </tr>
+              <% end %>
+              <!--            <tr-->
+              <!--              class="border-b bg-white dark:border-gray-700 dark:bg-gray-900"-->
+              <!--            >-->
+              <!--              <th-->
+              <!--                scope="row"-->
+              <!--                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"-->
+              <!--              >-->
+              <!--                1-->
+              <!--              </th>-->
+              <!--              <td class="py-4 px-6">NIT.pdf</td>-->
+              <!--              <td class="py-4 px-6">2Mb</td>-->
+              <!--              <td class="py-4 px-6">-->
+              <!--                <a-->
+              <!--                  href="#"-->
+              <!--                  class="font-medium text-blue-600 hover:underline dark:text-blue-500"-->
+              <!--                >Download</a-->
+              <!--                >-->
+              <!--              </td>-->
+              <!--            </tr>-->
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      <% else %>
+        <h3 class="my-8 text-xl font-semibold">No attachments found</h3>
+      <% end %>
+    <% else %>
+      <h3 class="my-8 text-xl font-semibold"><a href="<%= user_session_path %>" class="btn-sm">Log in</a> to view attachments</h3>
     <% end %>
+
   </div>
 </div>
 
