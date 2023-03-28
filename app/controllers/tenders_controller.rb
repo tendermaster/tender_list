@@ -145,10 +145,10 @@ class TendersController < ApplicationController
 
   def self.search_tender(query, min_value, max_value)
     Tender.where([
-                   "(tenders.tsvector_index @@ websearch_to_tsquery('english', ?)
+                   "(tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
     or tenders.id in (select tender_id
                       from attachments
-                      where file_text @@ websearch_to_tsquery('english', ?)))
+                        where file_text_vector @@ websearch_to_tsquery('english', ?)))
   and (emd between ? and ? or emd is null)
   and (tender_value between ? and ? or tender_value is null)
   and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata')
@@ -173,6 +173,6 @@ class TendersController < ApplicationController
   #
   # # Only allow a list of trusted parameters through.
   # def tender_params
-  #   params.require(:tender).permit(:tenderId, :title, :description, :organisation, :state, :tender_value, :submission_open_date, :submission_close_date, :attachments_id, :search_data)
+  #   params.require(:tender).permit(:tender_id, :title, :description, :organisation, :state, :tender_value, :submission_open_date, :submission_close_date, :attachments_id, :search_data)
   # end
 end

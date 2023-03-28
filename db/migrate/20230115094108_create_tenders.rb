@@ -1,7 +1,7 @@
 class CreateTenders < ActiveRecord::Migration[7.0]
   def change
     create_table :tenders do |t|
-      t.string :tenderId, index: true
+      t.string :tender_id, index: true
       t.string :title
       t.text :description
       t.string :organisation

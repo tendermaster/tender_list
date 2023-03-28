@@ -7,9 +7,6 @@ class BackgroundTaskJob
     when 'sitemap'
       # rake "-s sitemap:refresh"
       `rails sitemap:create`
-
-    when 'elasticsearch'
-      Tender.reindex(resume: true)
     end
   end
 end

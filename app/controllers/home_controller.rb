@@ -27,6 +27,17 @@ class HomeController < ApplicationController
     render 'home/coming_soon'
   end
 
+  def get_callback
+
+    end
+
+  def get_sample_tenders
+
+  end
+  def faq
+
+  end
+
   def privacy_policy
 
   end

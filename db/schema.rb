@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_12_065820) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_27_091525) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,8 +23,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_12_065820) do
     t.bigint "tender_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.virtual "file_text_vector", type: :tsvector, as: "to_tsvector('english'::regconfig, (file_text)::text)", stored: true
     t.index "to_tsvector('english'::regconfig, (file_text)::text)", name: "file_text_idx", using: :gin
     t.index ["file_path"], name: "index_attachments_on_file_path", unique: true
+    t.index ["file_text_vector"], name: "file_text_vector_idx", using: :gin
     t.index ["tender_id"], name: "index_attachments_on_tender_id"
   end
 
@@ -47,7 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_12_065820) do
   end
 
   create_table "tenders", force: :cascade do |t|
-    t.string "tenderId"
+    t.string "tender_id"
     t.string "title"
     t.text "description"
     t.string "organisation"
@@ -71,10 +73,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_12_065820) do
     t.string "tender_category"
     t.string "tender_contract_type"
     t.string "tender_source"
-    t.virtual "tsvector_index", type: :tsvector, as: "to_tsvector('english'::regconfig, ((((((((((((COALESCE(\"tenderId\", ''::character varying))::text || ' '::text) || (COALESCE(title, ''::character varying))::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || (COALESCE(organisation, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text))", stored: true
-    t.index "to_tsvector('english'::regconfig, (((((((((((COALESCE(title, ''::character varying))::text || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || (COALESCE(organisation, ''::character varying))::text) || ' '::text) || (COALESCE(state, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text))", name: "index_tender_vector_search", using: :gin
+    t.virtual "tender_text_vector", type: :tsvector, as: "to_tsvector('english'::regconfig, ((((((((((((COALESCE(tender_id, ''::character varying))::text || ' '::text) || (COALESCE(title, ''::character varying))::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || (COALESCE(organisation, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text))", stored: true
     t.index ["slug_uuid"], name: "index_tenders_on_slug_uuid", unique: true
-    t.index ["tenderId"], name: "index_tenders_on_tenderId"
+    t.index ["tender_id"], name: "index_tenders_on_tender_id"
+    t.index ["tender_text_vector"], name: "tender_text_vector_idx", using: :gin
   end
 
   create_table "users", force: :cascade do |t|

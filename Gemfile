@@ -98,8 +98,8 @@ gem "money-rails", "~> 1.15"
 
 gem "sitemap_generator", "~> 6.3"
 
-gem "searchkick"
-gem "elasticsearch"
+# gem "searchkick"
+# gem "elasticsearch"
 # gem "elasticsearch-model"
 # gem "elasticsearch-rails"
 gem "meta-tags"

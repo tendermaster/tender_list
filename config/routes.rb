@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   get '/signup', controller: :home, action: :signup
   get '/services', controller: :home, action: :services
   get '/coming-soon', controller: :home, action: :coming_soon
+  get '/get-callback', controller: :home, action: :get_callback, as: :get_callback
+  get '/get-sample-tenders', controller: :home, action: :get_sample_tenders, as: :get_sample_tenders
+  get '/faq', controller: :home, action: :faq, as: :faq
 
   # footer
   get '/privacy-policy', controller: :home, action: :privacy_policy

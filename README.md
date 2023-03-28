@@ -4,9 +4,9 @@
 
 rails generate scaffold post title:string content:text
 
-rails generate scaffold tender tenderId:string title:string description:string organisation:string state:string tender_value:integer submission_open_date:datetime submission_close_date:datetime attachments:references search_data:string
+rails generate scaffold tender tender_id:string title:string description:string organisation:string state:string tender_value:integer submission_open_date:datetime submission_close_date:datetime attachments:references search_data:string
 
-rails generate scaffold attachments name:string tenderId:references
+rails generate scaffold attachments name:string tender_id:references
 
 ```
 - [] add emd,tender_fee,slug,filename,file_path(uuid)

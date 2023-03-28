@@ -1,0 +1,11 @@
+<!-- Opensearch -->
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>SigmaTenders</ShortName>
+  <Description>SigmaTenders Search</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Image width="16" height="16" type="image/x-icon">https://sigmatenders.com/favicon.ico</Image>
+  <Url type="text/html" template="https://sigmatenders.com/search?q={searchTerms}"/>
+<!--  <Url type="application/x-suggestions+json" template="[suggestionURL]"/>-->
+  <moz:SearchForm>https://sigmatenders.com/search</moz:SearchForm>
+</OpenSearchDescription>
