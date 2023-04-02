@@ -35,6 +35,7 @@ module TenderList
     # config.eager_load_paths << Rails.root.join("extras")
     config.hosts << "ubuntu-vm.test"
     config.hosts << "ngotenders.in"
+    config.hosts << "sigmatenders.com"
     config.hosts << "dev.ngotenders.in"
     config.hosts << /.*\.ngrok\.io/
   end
