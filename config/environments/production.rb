@@ -118,9 +118,4 @@ Rails.application.configure do
   #   from: "noreply@example.com"
   # }
 
-  # ssl
-  config.to_prepare { Devise::SessionsController.force_ssl }
-  config.to_prepare { Devise::RegistrationsController.force_ssl }
-  config.to_prepare { Devise::PasswordsController.force_ssl }
-
 end
