@@ -106,6 +106,7 @@ Rails.application.configure do
   }
 
   config.action_mailer.default_url_options = {
+    protocol: 'https',
     host: 'sigmatenders.com',
     from: 'no-reply@sigmatenders.com'
   }
@@ -116,5 +117,10 @@ Rails.application.configure do
   # config.action_mailer.default_options = {
   #   from: "noreply@example.com"
   # }
+
+  # ssl
+  config.to_prepare { Devise::SessionsController.force_ssl }
+  config.to_prepare { Devise::RegistrationsController.force_ssl }
+  config.to_prepare { Devise::PasswordsController.force_ssl }
 
 end

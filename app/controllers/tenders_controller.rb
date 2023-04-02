@@ -161,7 +161,7 @@ class TendersController < ApplicationController
                         where file_text_vector @@ websearch_to_tsquery('english', ?)))
   and (emd between ? and ? or emd is null)
   and (tender_value between ? and ? or tender_value is null)
-  and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata' or true)
+  and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata')
 ",
                    query,
                    query,

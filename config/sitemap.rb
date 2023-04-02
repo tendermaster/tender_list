@@ -1,5 +1,5 @@
 # Set the host name for URL creation
-SitemapGenerator::Sitemap.default_host = 'https://ngotenders.in'
+SitemapGenerator::Sitemap.default_host = 'https://sigmatenders.com'
 
 SitemapGenerator::Sitemap.create_index = true
 
