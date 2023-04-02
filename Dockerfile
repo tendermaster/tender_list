@@ -33,11 +33,11 @@ ENV RAILS_ENV="${RAILS_ENV}" \
 # ADD --chown=ruby:ruby Gemfile* ./
 # ADD --chown=ruby:ruby package*.json ./
 
-COPY package*.json ./
-COPY Gemfile* ./
-
-RUN bundle install
-RUN npm install
+#COPY package*.json ./
+#COPY Gemfile* ./
+#
+#RUN bundle install
+#RUN npm install
 
 # RUN bundle exec rails assets:precompile
 

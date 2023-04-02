@@ -4,6 +4,10 @@ set -o errexit
 
 pwd
 [ ! -e tmp/pids/server.pid ] || rm tmp/pids/server.pid
+
+bundle install
+npm install
+
 rails db:prepare
 # rails db:create
 rails assets:clobber
