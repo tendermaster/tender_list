@@ -1,0 +1,28 @@
+<%= render 'layouts/navbar' %>
+<!--<div class="container">-->
+<!--  <ul class="grid grid-cols-2 gap-y-6 lg:grid-cols-3">-->
+<%# get_keyword_list.each_with_index do |keyword, index| %>
+<!--      <li><a href="<%#= keyword_tender_path(keyword: keyword.gsub(' ', '-')) %>" class="btn-sm">Tender in <%#= keyword %></a></li>-->
+<%# end %>
+<!--  </ul>-->
+<!--</div>-->
+
+<div class="container">
+<!--  <ul class="grid grid-cols-2 gap-y-6 lg:grid-cols-3">-->
+  <ul class="space-y-6">
+<%# get_keyword_list.each_with_index do |keyword, index| %>
+    <!--      <li><a href="<%#= keyword_tender_path(keyword: keyword.gsub(' ', '-')) %>" class="btn-sm">Tender in <%#= keyword %></a></li>-->
+<%# end %>
+    <% @items.each do |result| %>
+      <%#= result %>
+      <li>
+        <a href="<%= keyword_tender_path(keyword: result.gsub(' ', '-')) %>" class="btn-sm">Tender in <%= result %></a>
+      </li>
+    <% end %>
+  </ul>
+  <%= render 'layouts/pagy' %>
+</div>
+
+
+
+<%= render 'layouts/footer' %>

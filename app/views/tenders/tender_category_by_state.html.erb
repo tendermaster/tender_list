@@ -1,0 +1,10 @@
+<%= render 'layouts/navbar' %>
+<div class="container">
+  <ul class="grid grid-cols-2 gap-y-6 lg:grid-cols-3">
+    <% get_state_list.each_with_index do |state, index| %>
+      <li><a href="<%= keyword_tender_path(keyword: state.gsub(' ', '-')) %>" class="btn-sm">Tender in <%= state %></a></li>
+    <% end %>
+  </ul>
+</div>
+
+<%= render 'layouts/footer' %>

@@ -19,13 +19,14 @@ default: &default
   encoding: unicode
   username: postgres
   password: changeme
-  host: 127.0.0.1
+  # host: 127.0.0.1
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
+  host: 127.0.0.1
   database: tender_list_development
 
   # The specified database role being used to connect to postgres.

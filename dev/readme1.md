@@ -163,6 +163,36 @@ rails generate migration add_tenderType_to_tenders tender_category:string tender
 [] remove ngotenders
 [] social media
 [] tutorial
+[] add faq meta
+
+[] remake tender view
+[] sitemap
+[] url seo
+    [] keyword page
+[x] remove searchkick
+[] add email queue
+[] remove ngotender name
+
+[] request filing assistance
+
+[] social icons
+[] homepage keywords
+
+-- 1
+[] add keyword in tender by sector
+[] add email for login
+[] add keywords
+[] deploy
+[] add to google
+ [] analytics
+[] add email newsletter (5 Apr)
+
+[] wrong duplicate password css
+[] reset link
+
+-- 2
+
+
 
 fix
 tenderId
@@ -205,6 +235,37 @@ https://cwiki.apache.org/confluence/display/TIKA/TikaOCR
 storage.ngotenders.in
 ebs (ssd) -> ebs(hdd) -> efs
 
+---
+https://coalindiatenders.nic.in/nicgep/app?component=%24DirectLink_7&page=FrontEndTenderDetails&service=direct&session=T&sp=SZarO8liF4UutpPX%2BgHEwC9Zr5kVlU%2FOsldnPQCdaR%2FM%3D
+
+https://coalindiatenders.nic.in/nicgep/app?component=%24DirectLink_8&page=FrontEndTenderDetails&service=direct&session=T
+
+https://coalindiatenders.nic.in/nicgep/FrontEndZipDownloadServlet?marap=SmthYkNxUWpHaXdPU3FGYlljcDNhc0hiamVzdS80eCtNVlJnSGZONVhKT2FGZzRTQkV1NWhWMkNXa0pSY05aVzM2VnhSS3ZiVmlQUQpRRGZsdFlJODZ5RGpDQkwybm5jTmVaelFDWGpsQzhUcHJlY3NMS1BFeE5pN1N3VWtVWDQx
+
+https://coalindiatenders.nic.in/nicgep/app?component=%24DirectLink_7&page=FrontEndTenderDetails&service=direct&session=T&sp=SR1sqQc%2Fo1rdhz6N0V3j8cNZr5kVlU%2FOsldnPQCdaR%2FM%3D
+
+https://coalindiatenders.nic.in/nicgep/FrontEndZipDownloadServlet?marap=SmthYkNxUWpHaXdPU3FGYlljcDNhc0hiamVzdS80eCtNVlJnSGZONVhKT2FGZzRTQkV1NWhWMkNXa0pSY05aVzM2VnhSS3ZiVmlQUQpRRGZsdFlJODZ5RGpDQkwybm5jTmVaelFDWGpsQzhUcHJlY3NMS1BFeE5pN1N3VWtVWDQx
+
+
+?component=%24DirectLink_7&page=FrontEndTenderDetails&service=direct&session=T&sp=SR1sqQc%2Fo1rdhz6N0V3j8cNZr5kVlU%2FOsldnPQCdaR%2FM%3D
+
+/eprocure/app?component=%24DirectLink_8&page=FrontEndTenderDetails&service=direct&session=T
+/eprocure/app?component=%24DirectLink_7&page=FrontEndTenderDetails&service=direct&session=T&sp=SR1sqQc%2Fo1rdhz6N0V3j8cNZr5kVlU%2FOsldnPQCdaR%2FM%3D
+
+?component=%24DirectLink_7&page=FrontEndTenderDetails&service=direct&session=T&sp=SR1sqQc%2Fo1rdhz6N0V3j8cNZr5kVlU%2FOsldnPQCdaR%2FM%3D
 
 
 
+https://eprocure.gov.in/eprocure/app?component=%24DirectLink_8&page=FrontEndTenderDetails&service=direct&session=T&sp=SZarO8liF4UutpPX%2BgHEwC9Zr5kVlU%2FOsldnPQCdaR%2FM%3D
+
+
+https://eprocure.gov.in/eprocure/app?component=%24DirectLink_8&page=FrontEndTenderDetails&service=direct&session=T
+
+https://eprocure.gov.in/eprocure/app?component=%24DirectLink_8&page=FrontEndTenderDetails&service=direct&session=T&sp=SZarO8liF4UutpPX%2BgHEwC9Zr5kVlU%2FOsldnPQCdaR%2FM%3D
+
+---
+errors
+not all assets loading
+```shell
+rails assets:clobber
+```

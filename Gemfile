@@ -109,3 +109,7 @@ gem "sidekiq", "~> 7.0"
 gem "redis", "~> 5.0"
 
 gem "devise", "~> 4.9"
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem "omniauth-rails_csrf_protection"
+

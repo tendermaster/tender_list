@@ -68,6 +68,24 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
-  # devise
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  # TODO: devise mail
+  # config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # TODO: devise email
+  config.action_mailer.smtp_settings = {
+    address: 'email-smtp.us-east-2.amazonaws.com',
+    port: 587,
+    domain: 'sigmatenders.com',
+    user_name: 'AKIASMB3HZNVIXXX5MZ6',
+    password: 'BE/YmUnr2dEtI1pbfKFo2SrYvpFScCukdF3nEBvR3FFM',
+    enable_starttls: true
+  }
+
+  config.action_mailer.default_url_options = {
+    host: 'sigmatenders.com',
+    from: 'no-reply@sigmatenders.com'
+  }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.raise_delivery_errors = true
 end

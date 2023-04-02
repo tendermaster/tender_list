@@ -2,13 +2,15 @@
 # exit on error
 set -o errexit
 
-npm install --omit=dev
-bundle install
-bundle exec rake assets:precompile
-bundle exec rake assets:clean
-bundle exec rake db:migrate
+pwd
+[ ! -e tmp/pids/server.pid ] || rm tmp/pids/server.pid
+rails db:prepare
+# rails db:create
+rails assets:clobber
+rails assets:precompile
+# rails db:migrate
 
-bundle exec sidekiq &
+#bundle exec sidekiq &
 
 # start server
 #rails db:create

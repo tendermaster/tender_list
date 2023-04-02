@@ -24,7 +24,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_091525) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.virtual "file_text_vector", type: :tsvector, as: "to_tsvector('english'::regconfig, (file_text)::text)", stored: true
-    t.index "to_tsvector('english'::regconfig, (file_text)::text)", name: "file_text_idx", using: :gin
     t.index ["file_path"], name: "index_attachments_on_file_path", unique: true
     t.index ["file_text_vector"], name: "file_text_vector_idx", using: :gin
     t.index ["tender_id"], name: "index_attachments_on_tender_id"
@@ -85,6 +84,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_091525) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.integer "failed_attempts", default: 0, null: false
+    t.string "unlock_token"
+    t.datetime "locked_at"
+    t.string "name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true

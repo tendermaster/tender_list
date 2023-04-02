@@ -13,7 +13,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
@@ -28,7 +28,9 @@ Rails.application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
+  # TODO: set to false
   config.assets.compile = false
+  # config.assets.compile = true
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "https://assets.ngotenders.in"
@@ -53,7 +55,7 @@ Rails.application.configure do
   config.log_level = :info
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -83,11 +85,36 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.action_controller.default_url_options = { host: 'sigmatenders.com' }
+
+  # TODO: devise email
+  config.action_mailer.smtp_settings = {
+    address: 'email-smtp.us-east-2.amazonaws.com',
+    port: 587,
+    domain: 'sigmatenders.com',
+    user_name: 'AKIASMB3HZNVIXXX5MZ6',
+    password: 'BE/YmUnr2dEtI1pbfKFo2SrYvpFScCukdF3nEBvR3FFM',
+    enable_starttls: true
+  }
+
+  config.action_mailer.default_url_options = {
+    host: 'sigmatenders.com',
+    from: 'no-reply@sigmatenders.com'
+  }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.raise_delivery_errors = true
+  # https://guides.rubyonrails.org/configuring.html#configuring-action-mailer
+  # config.action_mailer.default_options = {
+  #   from: "noreply@example.com"
+  # }
+
 end

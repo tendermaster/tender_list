@@ -1,0 +1,11 @@
+<%= render 'layouts/navbar' %>
+<div class="container">
+  <ul class="flex flex-col space-y-6 ">
+    <li><a href="<%= tender_category_by_city_path %>" class="btn-sm">Tender by City</a></li>
+    <li><a href="<%= tender_category_by_state_path %>" class="btn-sm">Tender by State</a></li>
+<!--    <li><a href="<%#= tender_category_by_organization_path %>" class="btn-sm"></a></li>-->
+    <li><a href="<%= tender_category_by_sector_path %>" class="btn-sm">Tender by Sector</a></li>
+  </ul>
+
+</div>
+<%= render 'layouts/footer' %>

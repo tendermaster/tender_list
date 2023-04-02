@@ -2,15 +2,6 @@ class HomeController < ApplicationController
   def about
 
   end
-
-  def login
-    render 'home/coming_soon'
-  end
-
-  def signup
-    render 'home/coming_soon'
-  end
-
   def services
     # render 'home/coming_soon'
   end
@@ -23,13 +14,16 @@ class HomeController < ApplicationController
 
   end
 
+  def how_to_file_tender
+
+  end
   def coming_soon
     render 'home/coming_soon'
   end
 
   def get_callback
 
-    end
+  end
 
   def get_sample_tenders
 

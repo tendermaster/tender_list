@@ -1,0 +1,10 @@
+<%= render 'layouts/navbar' %>
+<div class="container">
+  <ul class="grid grid-cols-2 gap-y-6 lg:grid-cols-3">
+    <% get_city_list.each_with_index do |city, index| %>
+      <li><a href="<%= keyword_tender_path(keyword: city.gsub(' ', '-')) %>" class="btn-sm">Tender in <%= city %></a></li>
+    <% end %>
+  </ul>
+</div>
+
+<%= render 'layouts/footer' %>

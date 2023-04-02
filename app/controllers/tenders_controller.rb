@@ -7,7 +7,7 @@ class TendersController < ApplicationController
 
   def search
     # Tender.reindex
-    @query = params['q']
+    @query = params['q'] || params['keyword'].gsub('-', ' ')
     @min_value = params['min_value'].to_i
     @max_value = params['max_value'].to_i
 
@@ -30,12 +30,6 @@ class TendersController < ApplicationController
   end
 
   def tender_show
-    # p params
-    # render locals: {
-    #   params: params
-    # }
-    # @tender_data = Tender.first
-
     @tender_data = Tender.find_by({ slug_uuid: params['slug_uuid'] })
     # p @tender_data
     if @tender_data.nil?
@@ -43,48 +37,65 @@ class TendersController < ApplicationController
     else
       @tender_json = JSON.parse(@tender_data.full_data)
     end
-
-    # render :html => params
   end
 
-  def state_page
-    @query = params['state']
-    @min_value = params['min_value'].to_i
-    @max_value = params['max_value'].to_i
-
-    if @max_value == 0 then
-      @max_value = 10 ** 10
-    end
-
-    SearchQuery.create(query: @query)
-
-    p "searching #{@query}"
-
-    collection = TendersController.search_tender(@query, @min_value, @max_value)
-
-    @pagy, @records = pagy(collection, items: 5)
+  def tender_main_category
 
   end
 
-  def sector_page
-
-    @query = params['sector']
-    @min_value = params['min_value'].to_i
-    @max_value = params['max_value'].to_i
-
-    if @max_value == 0 then
-      @max_value = 10 ** 10
-    end
-
-    SearchQuery.create(query: @query)
-
-    p "searching #{@query}"
-
-    collection = TendersController.search_tender(@query, @min_value, @max_value)
-
-    @pagy, @records = pagy(collection, items: 5)
+  def tender_category_by_city
 
   end
+
+  def tender_category_by_state
+
+  end
+
+  def tender_category_by_organization
+  end
+
+  def tender_category_by_sector
+    @pagy, @items = pagy_array(helpers.get_sector_list, items: 15)
+  end
+
+  # def state_page
+  #   @query = params['state']
+  #   @min_value = params['min_value'].to_i
+  #   @max_value = params['max_value'].to_i
+  #
+  #   if @max_value == 0 then
+  #     @max_value = 10 ** 10
+  #   end
+  #
+  #   SearchQuery.create(query: @query)
+  #
+  #   p "searching #{@query}"
+  #
+  #   collection = TendersController.search_tender(@query, @min_value, @max_value)
+  #
+  #   @pagy, @records = pagy(collection, items: 5)
+  #
+  # end
+  #
+  # def sector_page
+  #
+  #   @query = params['sector']
+  #   @min_value = params['min_value'].to_i
+  #   @max_value = params['max_value'].to_i
+  #
+  #   if @max_value == 0 then
+  #     @max_value = 10 ** 10
+  #   end
+  #
+  #   SearchQuery.create(query: @query)
+  #
+  #   p "searching #{@query}"
+  #
+  #   collection = TendersController.search_tender(@query, @min_value, @max_value)
+  #
+  #   @pagy, @records = pagy(collection, items: 5)
+  #
+  # end
 
   # GET /tenders or /tenders.json
   # def index
@@ -142,7 +153,6 @@ class TendersController < ApplicationController
   #   end
   # end
 
-
   def self.search_tender(query, min_value, max_value)
     Tender.where([
                    "(tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
@@ -151,7 +161,7 @@ class TendersController < ApplicationController
                         where file_text_vector @@ websearch_to_tsquery('english', ?)))
   and (emd between ? and ? or emd is null)
   and (tender_value between ? and ? or tender_value is null)
-  and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata')
+  and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata' or true)
 ",
                    query,
                    query,
@@ -161,7 +171,6 @@ class TendersController < ApplicationController
                    max_value
                  ])
   end
-
 
   private
 

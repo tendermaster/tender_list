@@ -10,7 +10,7 @@ $("#filter-search").on("click", () => {
 
   $("input:checkbox:checked").each(function () {
     console.log(this.name);
-    q += this.name + " ";
+    q += " " + this.name + " ";
   });
 
   let min_value = 0
