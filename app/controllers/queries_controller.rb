@@ -12,7 +12,8 @@ class QueriesController < ApplicationController
     @query_id = params['query_id'].to_i
     @query = current_user.query.find(@query_id)
 
-    @query_string = "#{@query.include_keyword.split(',').map { |word| "\"#{word.strip}\"" }.join(' ')} #{@query.exclude_keyword&.split(',').map { |word| "-\"#{word.strip}\"" }.join(' ')}"
+    @query_string = "#{@query.include_keyword.split(',').map { |word| "\"#{word.strip}\" or " }.join(' ')} #{@query.exclude_keyword&.split(',').map { |word| "-\"#{word.strip}\"" }.join(' ')}"
+    pp @query_string
 
     @min_value = params['min_value'].to_i
     @max_value = params['max_value'].to_i

@@ -43,7 +43,7 @@ Rails.application.routes.draw do
   # /search?q=a
   get '/search', controller: :tenders, action: :search
   get '/tender/:slug_uuid', controller: :tenders, action: :tender_show
-
+  post '/tender/:slug_uuid/like', controller: :tenders, action: :tender_like
   # get '/tenders-by-state', controller: :home, action: :tenders_by_state
   # get '/tenders-by-sector', controller: :home, action: :tenders_by_sector
 

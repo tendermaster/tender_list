@@ -46,7 +46,10 @@ module ApplicationHelper
   end
 
   # TODO: cache value, memoize
-
+  # TODO: add gem keywords
+  def gem_keyword_list
+    ""
+  end
 
   def home_keyword_list
     "Empanelment of Agency
@@ -88,6 +91,7 @@ Skill Development
 Skill training
 house keeping
 Swachh Bharat Mission
+#{gem_keyword_list}
     ".split("\n").sort.map { |state| state.strip }.reject(&:empty?)
   end
 

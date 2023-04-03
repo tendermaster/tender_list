@@ -39,6 +39,12 @@ class TendersController < ApplicationController
     end
   end
 
+  def tender_like
+    pp params
+    pp current_user
+    render plain: 'OK'
+  end
+
   def tender_main_category
 
   end
