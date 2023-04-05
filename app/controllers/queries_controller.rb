@@ -12,15 +12,32 @@ class QueriesController < ApplicationController
     @query_id = params['query_id'].to_i
     @query = current_user.query.find(@query_id)
 
-    @query_string = "#{@query.include_keyword.split(',').map { |word| "\"#{word.strip}\" or " }.join(' ')} #{@query.exclude_keyword&.split(',').map { |word| "-\"#{word.strip}\"" }.join(' ')}"
+    # search query
+    include_keyword = @query.include_keyword
+    include_keyword = include_keyword.split(',')
+    include_keyword_length = include_keyword.length
+    include_keyword = include_keyword.map.with_index do |word, index|
+      # last
+      if index == include_keyword_length - 1
+        "\"#{word.strip}\""
+      else
+        "\"#{word.strip}\" or "
+      end
+    end
+
+    @query_string = <<QUERY
+    #{include_keyword.join(' ')}
+    #{@query.exclude_keyword&.split(',').map { |word| "-\"#{word.strip}\"" }.join(' ')}
+QUERY
+    @query_string.gsub!("\n", '')
+    @query_string.strip!
+    
     pp @query_string
 
     @min_value = params['min_value'].to_i
     @max_value = params['max_value'].to_i
 
-    if @max_value == 0 then
-      @max_value = 10 ** 10
-    end
+    @max_value = 10 ** 10 if @max_value == 0
 
     collection = TendersController.search_tender(@query_string, @min_value, @max_value)
 
