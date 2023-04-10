@@ -61,7 +61,7 @@ class TendersController < ApplicationController
     #   file.write("#{params['name']},#{params['email']},#{params['mobile']},#{params['sectors']}\n")
     # end
 
-    CSV.open("dev/get_relevant_tenders_post.txt", "w") do |csv|
+    CSV.open("dev/get_relevant_tenders_post.txt", "a+") do |csv|
       csv << [params['name'],
               params['email'],
               params['mobile'],
