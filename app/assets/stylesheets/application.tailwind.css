@@ -134,3 +134,25 @@ footer {
 .container {
   @apply md:w-3/4 w-full px-6 mx-auto pt-12
 }
+
+.container-home {
+  @apply px-6 sm:px-12 mx-auto max-w-7xl
+}
+
+#why_us li {
+  @apply lg:grid lg:grid-cols-12 justify-center items-center
+}
+#why_us li .icon {
+  @apply w-20 mx-auto text-white bg-orange-600 rounded-full p-3 mb-6 lg:col-span-2
+}
+#why_us li p {
+  @apply lg:col-span-10
+}
+
+#relevant_tenders_form form label {
+  @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white
+}
+
+#relevant_tenders_form form input {
+  @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500
+}

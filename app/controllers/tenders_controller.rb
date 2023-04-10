@@ -45,6 +45,33 @@ class TendersController < ApplicationController
     render plain: 'OK'
   end
 
+  def trending_tenders
+
+  end
+
+  def get_relevant_tenders
+
+  end
+
+  def get_relevant_tenders_post
+    pp params
+    #   save to file
+
+    # File.open('dev/get_relevant_tenders_post.txt', 'w') do |file|
+    #   file.write("#{params['name']},#{params['email']},#{params['mobile']},#{params['sectors']}\n")
+    # end
+
+    CSV.open("dev/get_relevant_tenders_post.txt", "w") do |csv|
+      csv << [params['name'],
+              params['email'],
+              params['mobile'],
+              params['sectors']]
+    end
+
+    flash[:success] = 'Form Submitted Successfully'
+    redirect_to action: :get_relevant_tenders
+  end
+
   def tender_main_category
 
   end
@@ -58,6 +85,7 @@ class TendersController < ApplicationController
   end
 
   def tender_category_by_organization
+
   end
 
   def tender_category_by_sector

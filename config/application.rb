@@ -37,6 +37,6 @@ module TenderList
     config.hosts << "ngotenders.in"
     config.hosts << "sigmatenders.com"
     config.hosts << "dev.ngotenders.in"
-    config.hosts << /.*\.ngrok\.io/
+    config.hosts << /.*\.ngrok-free\.app/
   end
 end

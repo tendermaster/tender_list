@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   get '/get-sample-tenders', controller: :home, action: :get_sample_tenders, as: :get_sample_tenders
   get '/faq', controller: :home, action: :faq, as: :faq
 
+  get '/pricing', controller: :home, action: :pricing, as: :pricing
+  get '/cancellation-and-refund-policy', controller: :home, action: :refund_policy, as: :refund_policy
+
+
   # blog
   get '/blog/how-to-file-tenders', controller: :home, action: :how_to_file_tender, as: :how_to_file_tender
 
@@ -39,6 +43,11 @@ Rails.application.routes.draw do
   get '/categories/tender-by-sector', controller: :tenders, action: :tender_category_by_sector, as: :tender_category_by_sector
 
   get '/tenders/:keyword-tenders', controller: :tenders, action: :search, as: :keyword_tender
+
+  get '/trending-tenders', controller: :tenders, action: :trending_tenders, as: :trending_tenders
+  get '/get-relevant-tenders', controller: :tenders, action: :get_relevant_tenders, as: :get_relevant_tenders
+  # get relevant keywords
+  post '/get-relevant-tenders', controller: :tenders, action: :get_relevant_tenders_post, as: :get_relevant_tenders_post
 
   # /search?q=a
   get '/search', controller: :tenders, action: :search

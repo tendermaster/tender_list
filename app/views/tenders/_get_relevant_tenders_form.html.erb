@@ -1,0 +1,35 @@
+
+<!--form-->
+<div class="border-2 border-orange-300 rounded-md p-4" id="relevant_tenders_form">
+
+  <h5 class="block mb-4 text-center text-lg font-medium text-gray-900 dark:text-white">Get customized tender Recommendations for your Enterprise</h5>
+  <%= form_with(url: get_relevant_tenders_post_path) do |form| %>
+
+
+<!--  <form action="<%#= get_relevant_tenders_post_path %>" method="post">-->
+    <div class="mb-6">
+      <%= form.label :name, 'Name' %>
+      <%= form.text_field :name, required: true %>
+    </div>
+    <div class="mb-6">
+      <%= form.label :email, 'Email' %>
+      <%= form.email_field :email, placeholder: 'email@gmail.com', required: true %>
+    </div>
+    <div class="mb-6">
+      <%= form.label :mobile, 'Mobile No.' %>
+      <%= form.telephone_field :mobile, required: true %>
+    </div>
+
+    <div class="mb-6">
+<!--      <label for="mobile" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sector of your Interests</label>-->
+<!--      <textarea id="message" rows="4" class="></textarea>-->
+      <%= form.label :sectors, 'Sector of your Interests' %>
+      <%= form.text_area :sectors, class: 'block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500', placeholder:'Supply, Construction, Agency, Manpower...' %>
+    </div>
+
+    <%= form.submit 'Submit' , class: 'text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800' %>
+<!--  </form>-->
+  <% end %>
+
+
+</div>

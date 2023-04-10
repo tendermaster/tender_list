@@ -6,14 +6,6 @@ class HomeController < ApplicationController
     # render 'home/coming_soon'
   end
 
-  def tenders_by_state
-
-  end
-
-  def tenders_by_sector
-
-  end
-
   def how_to_file_tender
 
   end
@@ -37,6 +29,14 @@ class HomeController < ApplicationController
   end
 
   def terms_and_conditions
+
+  end
+
+  def pricing
+
+  end
+
+  def refund_policy
 
   end
 

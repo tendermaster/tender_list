@@ -1,0 +1,37 @@
+<%= render 'layouts/navbar' %>
+
+<div class="container-home refund-policy pt-20 space-y-4">
+  <div class="text-center mb-8">
+    <p class="font-bold text-xl mb-6">Pricing</p>
+    <p>Services Offered</p>
+    <p>Business Support Services & Subscriptions</p></div>
+  <p class="font-bold">Details of Business Services</p>
+  <ul class="space-y-1 list-disc list-inside">
+    <li>B2B (Business-to-Business) Services: Providing services to businesses to help them participate in tender processes and manage the bidding process effectively.</li>
+    <li>B2G (Business-to-Government) Services: Providing services to government organizations to manage the tender process, including the publishing of tender notices, and receiving bids.</li>
+    <li>Subscription-based Model: Offering paid subscriptions to independent entrepreneurs, businesses, industries, schools, colleges, Institutions, universities, NGOs, traders, suppliers, professionals, and government organizations to access the tender portal and its features.</li>
+    <li>Baseline surveys/ Market research and Data Analytics: Using data analytics to provide valuable insights to businesses and government organizations on tender processes and trends.</li>
+    <li>Business set up and professional support services for meeting various compliances</li>
+    <li>Digital signature certificates (DSC) solutions</li>
+    <li>Networking with business houses for contracts and subcontracts</li>
+  </ul>
+
+  <p class="font-bold">Paid Subscription services</p>
+  <ul class="space-y-1 list-disc list-inside">
+    <li>Paid Monthly Subscription <span class="line-through">Rs. 399</span><span class="underline decoration-orange-400">  <a href="<%= new_user_registration_path %>" class="hover:text-orange-600">Join now for limited-time free access!</a></span></li>
+    <li>Paid Annual Subscription <span class="line-through">Rs. 3500</span><span class="underline decoration-orange-400">  <a href="<%= new_user_registration_path %>" class="hover:text-orange-600">Join now for limited-time free access!</a></span></li>
+    <li>Custom Support Services as mutual Agreed terms & Charges. contact:</li>
+  </ul>
+  <p>tendermasterinfo@gmail.com</p>
+  <p>Sigma Certification Services Pvt Limited</p>
+  <p>310, Wadhwa Complex, D-288-289/10, Laxmi Nagar, Delhi – 110092 India</p>
+  <div class="flex items-center">
+    <p>For Sales Enquiry: </p>
+    <a href="<%= get_callback_path %>" class="btn-sm block w-fit ml-4">Request a callback</a>
+  </div>
+</div>
+
+
+<%= render 'layouts/footer' %>
+
+
