@@ -32,7 +32,6 @@ module ApplicationHelper
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
       'mainEntity': data.each_with_index do |ques|
-        p ques
         {
           '@type': 'Question',
           'name': ques[:name],
