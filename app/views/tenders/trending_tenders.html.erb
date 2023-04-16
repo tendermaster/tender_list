@@ -41,24 +41,40 @@
       <% end %>
     </div>
   </div>
+
   <div class="md:col-span-1 space-y-2 md:pl-6">
-    <div class="text-2xl font-bold text-center mb-6">Tenders for Profit</div>
-    <a class="text-lg block hover:underline hover:underline-offset-2" href="<%= tender_main_category_path %>">⭐ Tender
+    <div class="text-gray-700 text-xl font-bold text-center mb-6">Find Tenders by Categories</div>
+    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_main_category_path %>">⭐ Tender
       Categories</a>
 
-    <a class="text-lg block hover:underline hover:underline-offset-2" href="<%= tender_category_by_city_path %>">⭐
+    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_category_by_city_path %>">⭐
       Tender by City</a>
-    <a class="text-lg block hover:underline hover:underline-offset-2" href="<%= tender_category_by_state_path %>">⭐
+    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_category_by_state_path %>">⭐
       Tender by State</a>
     <!--      <a class="text-lg block hover:underline hover:underline-offset-2" href="<%#= tender_category_by_organization_path %>">⭐ </a>-->
-    <a class="text-lg block hover:underline hover:underline-offset-2" href="<%= tender_category_by_sector_path %>">⭐
+    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_category_by_sector_path %>">⭐
       Tender by Sector</a>
-    <a class="text-lg block hover:underline hover:underline-offset-2" href="<%= how_to_file_tender_path %>">⭐
+    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-600 text-white px-4 py-2 rounded-md" href="<%= how_to_file_tender_path %>">⭐
       How to file tender?</a>
+
+    <%= render "get_relevant_tenders_form" %>
+
   </div>
-<!--  <div class="mt-6">-->
-<!--    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfj0rlhPDSH5hlU-w3gXoOX259e3Vw-XVRbz6LO7a8EE6C8SA/viewform?embedded=true" width="600" height="1250" class="border-0 overflow-hidden relative" style="margin-left: -22px" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>-->
-<!--  </div>-->
+  <!--  <div class="mt-6">-->
+  <!--    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfj0rlhPDSH5hlU-w3gXoOX259e3Vw-XVRbz6LO7a8EE6C8SA/viewform?embedded=true" width="600" height="1250" class="border-0 overflow-hidden relative" style="margin-left: -22px" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>-->
+  <!--  </div>-->
+  <div class="flex items-center w-full col-span-2 justify-center mt-8">
+    <a href="https://docs.google.com/forms/d/1sk835o7uoufAuJyMvAg7g60fzNoG2qeFZmuBXgf_xIo/viewform" target="_blank" class="inline-block underline underline-offset-2 px-3 py-4 text-white bg-orange-400 rounded-lg">Contact
+      Us</a>
+    <p class="text-green-600 mx-6 text-xl">Avail the Free Offer Now</p>
+    <div class="mx-4">
+      <svg class="w-10 text-orange-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
+      </svg>
+    </div>
+    <a href="https://forms.gle/JsH87J5g7QoKpiHx9" target="_blank" class="inline-block underline underline-offset-2 px-3 py-4 text-white bg-orange-400 rounded-lg">Pre-
+      Launch Subscription</a>
+  </div>
 
 </div>
 <%= render 'layouts/footer' %>
