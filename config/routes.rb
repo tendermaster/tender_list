@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   get '/pricing', controller: :home, action: :pricing, as: :pricing
   get '/cancellation-and-refund-policy', controller: :home, action: :refund_policy, as: :refund_policy
+  get '/disclaimer', controller: :home, action: :disclaimer, as: :disclaimer
 
 
   # blog

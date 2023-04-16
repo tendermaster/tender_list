@@ -40,6 +40,10 @@ class HomeController < ApplicationController
 
   end
 
+  def disclaimer
+
+  end
+
   def not_found
 
   end

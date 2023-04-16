@@ -1,4 +1,4 @@
-class AddTextSearchIndexToTenders < ActiveRecord::Migration[7.0]
+[class AddTextSearchIndexToTenders < ActiveRecord::Migration[7.0]
   def up
     # add_column :attachments, :file_text_vector
     execute <<~SQL
@@ -20,6 +20,7 @@ class AddTextSearchIndexToTenders < ActiveRecord::Migration[7.0]
                             coalesce(title, '') || ' ' ||
                             coalesce(description, '') || ' ' ||
                             coalesce(organisation, '') || ' ' ||
+                            coalesce(page_link, '') || ' ' ||
                             coalesce(tender_category, '') || ' ' ||
                             coalesce(tender_contract_type, '') || ' '
                         )) STORED;
@@ -33,3 +34,4 @@ class AddTextSearchIndexToTenders < ActiveRecord::Migration[7.0]
   end
 
 end
+]
