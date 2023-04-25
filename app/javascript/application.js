@@ -6,12 +6,27 @@ console.log("a");
 
 $("#filter-search").on("click", () => {
   console.log("search");
-  let q = $("#main-search").val();
+  // let q = $("#main-search").val();
+  let q = ''
 
-  $("input:checkbox:checked").each(function () {
+  // $("input:checkbox:checked").each(function () {
+  //   console.log(this.name);
+  //   q += " or " + this.name + " ";
+  // });
+
+  $(".state-filter input:checkbox:checked").each(function () {
     console.log(this.name);
-    q += " " + this.name + " ";
+    q += "" + this.name + " ";
   });
+
+  let sector = []
+  $(".sector-filter input:checkbox:checked").each(function () {
+    console.log(this.name);
+    // q += "" + this.name + " ";
+    sector.push(this.name)
+  });
+
+  q += `(${sector.join(' or ')})`
 
   let min_value = 0
   let max_value = 0
@@ -48,6 +63,10 @@ $("#filter-search").on("click", () => {
   })}`;
   window.location = url
 //   console.log(url);
+});
+
+$('.state-filter input[type="checkbox"]').on('change', function() {
+  $('.state-filter input[type="checkbox"]').not(this).prop('checked', false);
 });
 
 setTimeout(() => {
