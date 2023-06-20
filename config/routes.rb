@@ -65,6 +65,8 @@ Rails.application.routes.draw do
   # /queries/tender_result/1
   get '/queries/tender_result/:query_id', controller: :queries, action: :query_result, as: :query_result
 
+  get '/api/download_file', controller: :api, action: :download_file_get
+  post '/api/download_file', controller: :api, action: :download_file, as: :download_file
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

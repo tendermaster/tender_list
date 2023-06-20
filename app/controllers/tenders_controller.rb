@@ -25,6 +25,22 @@ class TendersController < ApplicationController
 
   end
 
+  # TODO: complete recommendation
+  def recommend_tender(keywords)
+    # fix space in query: cctv delhi recommend
+    #     query = keywords.split(' ').join(' or ')
+    #
+    #     Tenders.select()
+    #
+    #     @recommended_tenders = ActiveRecord::Base.connection.execute(['select id, title, ts_rank_cd(tenders.tender_text_vector, query) as rank
+    # from tenders,
+    #      websearch_to_tsquery(?) query
+    # where query @@ tender_text_vector
+    # limit 100', query])
+  end
+
+  helper_method :recommend_tender
+
   def search_query
 
   end
@@ -198,7 +214,8 @@ class TendersController < ApplicationController
                         where file_text_vector @@ websearch_to_tsquery('english', ?)))
   and (emd between ? and ? or emd is null)
   and (tender_value between ? and ? or tender_value is null)
-  and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata')
+  and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata' or true)
+  and is_visible = true
 ",
                    query,
                    query,
@@ -206,7 +223,7 @@ class TendersController < ApplicationController
                    max_value * 0.02,
                    min_value,
                    max_value
-                 ])
+                 ]).order(submission_close_date: :desc)
   end
 
   private

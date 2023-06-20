@@ -1,0 +1,27 @@
+<script src="https://www.google.com/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %>"></script>
+
+<script>
+    function submitRecaptacha(file_path) {
+        // show loading bar
+        $('.loading-spinner').toggle('hidden')
+        // alert(1)
+        grecaptcha.ready(function () {
+            grecaptcha.execute('<%= ENV['RECAPTCHA_SITE_KEY'] %>', {action: 'download_file'}).then(function (token) {
+                // console.log(token, file_name)
+
+                $.post('<%= download_file_path %>', {file_path, token}, function (response) {
+                    console.log(response)
+                    if (response['success']) {
+                        //     download file
+                        window.open(response['download_url'], '_blank').focus();
+                    } else {
+                        alert('Something went wrong')
+                    }
+                    $('.loading-spinner').toggle('hidden')
+
+                })
+
+            });
+        });
+    }
+</script>
