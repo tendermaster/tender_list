@@ -13,7 +13,7 @@ class ApiController < ActionController::API
     Signer.presigned_url(
       :get_object,
       bucket: 'sigmatenders',
-      key: 'dev/' + file_path,
+      key: 'prod/' + file_path,
       expires_in: 10 * 60,
       response_content_disposition: "attachment;filename=#{file_name}"
     )
