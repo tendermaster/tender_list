@@ -49,7 +49,8 @@ class TendersController < ApplicationController
     @tender_data = Tender.find_by({ slug_uuid: params['slug_uuid'] })
     # p @tender_data
     if @tender_data.nil?
-      redirect_to(controller: :home, action: :not_found)
+      # redirect_to(controller: :home, action: :not_found)
+      redirect_to root_path
     else
       @tender_json = JSON.parse(@tender_data.full_data)
     end
@@ -208,16 +209,12 @@ class TendersController < ApplicationController
 
   def self.search_tender(query, min_value, max_value)
     Tender.where([
-                   "(tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
-    or tenders.id in (select tender_id
-                      from attachments
-                        where file_text_vector @@ websearch_to_tsquery('english', ?)))
+                   "tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
   and (emd between ? and ? or emd is null)
   and (tender_value between ? and ? or tender_value is null)
   and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata' or true)
   and is_visible = true
 ",
-                   query,
                    query,
                    min_value * 0.02,
                    max_value * 0.02,
