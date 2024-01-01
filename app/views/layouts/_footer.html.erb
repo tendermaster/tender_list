@@ -14,6 +14,9 @@
           <a href="<%= about_path %>" class="">About</a>
         </li>
         <li class="mb-4">
+          <a href="<%= services_path %>" class="">Services</a>
+        </li>
+        <li class="mb-4">
           <a href="<%= pricing_path %>" class="">Pricing</a>
         </li>
         <!--        <li class="mb-4">-->
@@ -105,7 +108,7 @@
     class="py-4 px-4 dark:bg-gray-700 md:flex md:items-center md:justify-between"
   >
     <span class="text-sm sm:text-center"
-    >© 2023 <a href="/" class="capitalize">Sigma Certification Services Private Limited™</a>. All Rights
+    >© <%= Time.new.year %> <a href="/" class="capitalize">Sigma Certification Services Private Limited™</a>. All Rights
       Reserved.
     </span>
     <div class="mt-4 flex space-x-6 sm:justify-center md:mt-0">
