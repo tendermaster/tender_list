@@ -67,7 +67,14 @@
               >
                 Tender Id
               </th>
-              <td class="py-4 px-6"><%= @tender_data.tender_id %></td>
+              <td class="py-4 px-6 flex">
+                <% if current_user.nil? %>
+                  <p class="blur-md select-none">AAAAAAAAAA</p>
+                  <a class="underline underline-offset-2 text-orange-600 ml-8" href="<%= new_user_registration_path %>">Login to view</a>
+                <% else %>
+                  <%= @tender_data.tender_id %>
+                <% end %>
+              </td>
             </tr>
             <tr
               class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
@@ -78,7 +85,14 @@
               >
                 Reference Number
               </th>
-              <td class="py-4 px-6"><%= @tender_json['TenderReferenceNumber'] %></td>
+              <td class="py-4 px-6 flex">
+                <% if current_user.nil? %>
+                  <p class="blur-md select-none">AAAAAAAAAA</p>
+                  <a class="underline underline-offset-2 text-orange-600 ml-8" href="<%= new_user_registration_path %>">Login to view</a>
+                <% else %>
+                  <%= @tender_json['TenderReferenceNumber'] %>
+                <% end %>
+              </td>
             </tr>
             <tr
               class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
@@ -157,11 +171,12 @@
               >
                 End Date
               </th>
-              <td class="py-4 px-6 <%= time_left(@tender_data.submission_close_date).downcase.include?('expired') ? "bg-red-200" : 'bg-green-200'  %>">
+              <td class="py-4 px-6 <%= time_left(@tender_data.submission_close_date).downcase.include?('expired') ? "bg-red-200" : 'bg-green-200' %>">
                 <div class="md:flex md:items-center">
                   <p><%= @tender_data.submission_close_date.strftime("%d/%m/%Y") %>
-                  ( <%= time_left(@tender_data.submission_close_date) %> )</p>
-                  <a class="btn-sm inline-block mt-2 md:mt-0 md:ml-10" href="<%= root_path %>">Search other tenders</a></div>
+                    ( <%= time_left(@tender_data.submission_close_date) %> )</p>
+                  <a class="btn-sm inline-block mt-2 md:mt-0 md:ml-10" href="<%= root_path %>">Search other tenders</a>
+                </div>
               </td>
             </tr>
             </tbody>

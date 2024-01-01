@@ -42,10 +42,4 @@
 /.env
 *.gz
 /.docker/caddy/
-
-
-
-
-
-
-
+*_accessKeys.csv

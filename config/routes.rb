@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   resources :queries
 
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_for :users, controllers: {
+    omniauth_callbacks: 'users/omniauth_callbacks',
+    # sessions: 'users/sessions'
+    # confirmation: 'users/confirmations'
+  }
 
   # devise_for :users
   # nav
@@ -17,7 +21,6 @@ Rails.application.routes.draw do
   get '/pricing', controller: :home, action: :pricing, as: :pricing
   get '/cancellation-and-refund-policy', controller: :home, action: :refund_policy, as: :refund_policy
   get '/disclaimer', controller: :home, action: :disclaimer, as: :disclaimer
-
 
   # blog
   get '/blog/how-to-file-tenders', controller: :home, action: :how_to_file_tender, as: :how_to_file_tender

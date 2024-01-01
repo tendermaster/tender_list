@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :null_session
 
   private
+
   def after_sign_in_path_for(users)
     queries_path
   end
@@ -13,6 +14,5 @@ class ApplicationController < ActionController::Base
   def record_not_found
     render 'home/page_404', status: 404
   end
-
 
 end

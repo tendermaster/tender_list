@@ -1,6 +1,5 @@
 {
   "name": "tender_list",
-  "packageManager": "yarn@3.3.1",
   "dependencies": {
     "flowbite": "^1.6.2",
     "jquery": "^3.6.3",
