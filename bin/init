@@ -12,8 +12,7 @@ npm install --dev concurrently
 rails db:prepare
 # rails db:create
 rails assets:clobber
-RAILS_ENV=test rails assets:precompile
-
+rails assets:precompile
 # rails db:migrate
 
 #bundle exec sidekiq &

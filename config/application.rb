@@ -40,5 +40,10 @@ module TenderList
     config.hosts << /.*\.ngrok-free\.app/
 
     config.active_job.queue_adapter = :sidekiq
+
+    # FIX: SassC::SyntaxError: Error: Function rgb is missing argument $green.
+    # https://stackoverflow.com/questions/70401077/rails-7-asset-pipeline-sasscsyntaxerror-with-tailwind
+    #
+    config.assets.css_compressor = nil
   end
 end
