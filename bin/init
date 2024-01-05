@@ -11,6 +11,7 @@ npm install --dev concurrently
 
 rails db:prepare
 # rails db:create
+#rails tmp:clear
 rails assets:clobber
 rails assets:precompile
 # rails db:migrate

@@ -121,4 +121,7 @@ Rails.application.configure do
   config.site_name = 'SigmaTenders'
   config.site_url = 'https://sigmatenders.com'
 
+  # https://stackoverflow.com/questions/70662382/couldnt-deploy-rails-tailwind-on-heroku
+  config.assets.css_compressor = nil
+
 end
