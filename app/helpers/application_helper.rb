@@ -4,7 +4,10 @@ module ApplicationHelper
   def time_left(time)
     # time.is_a?(ActiveSupport::TimeWithZone) ? "#{distance_of_time_in_words(Date.today, time, true, highest_measure_only: true)} left" : '-'
     duration = ((time - Time.zone.now) / 1.day).floor
-    time.is_a?(ActiveSupport::TimeWithZone) and duration >= 0 ? "#{duration} days left" : "Expired #{duration*-1} days ago"
+    if time.is_a?(ActiveSupport::TimeWithZone)
+      duration
+    end
+    # time.is_a?(ActiveSupport::TimeWithZone) and duration >= 0 ? "#{duration} days left" : "Expired #{duration*-1} days ago"
     #   result.submission_close_date.is_a?(ActiveSupport::TimeWithZone) ? "#{distance_of_time_in_words(Date.today,result.submission_close_date, true, highest_measure_only: true)} left" : '-'
   end
 
@@ -162,6 +165,7 @@ Corporate social responsibility in India
 Non-profit grants in India
 ".split("\n").sort.map { |state| state.strip }
   end
+
   def get_state_list
     "Andhra Pradesh
 Arunachal Pradesh
@@ -203,6 +207,7 @@ Puducherry
 
 ".split("\n").sort.map { |state| state.strip }
   end
+
   def get_city_list
     "Mumbai
 Delhi

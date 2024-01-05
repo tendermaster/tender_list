@@ -18,7 +18,7 @@ class HomeController < ApplicationController
   end
 
   def get_sample_tenders
-    redirect_to new_user_registration_path
+    redirect_to get_callback_path
   end
   def faq
 

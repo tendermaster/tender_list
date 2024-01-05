@@ -8,7 +8,11 @@ class MailerJob
 
     Query.all.each do |query|
       p query
-      if query&.last_sent.present? && query&.updates.present? && Time.zone.now > query&.last_sent
+      if query&.last_sent.present? &&
+        query&.updates.present? &&
+        query&.last_sent.present? &&
+        Time.zone.now > query&.last_sent
+
         days_from_last_sent = (Time.zone.now - query.last_sent) / 1.day
         updates = query.updates
 
