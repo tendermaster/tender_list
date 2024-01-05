@@ -100,8 +100,8 @@ Rails.application.configure do
     address: 'email-smtp.us-east-2.amazonaws.com',
     port: 587,
     domain: 'sigmatenders.com',
-    user_name: 'AKIASMB3HZNVIXXX5MZ6',
-    password: 'BE/YmUnr2dEtI1pbfKFo2SrYvpFScCukdF3nEBvR3FFM',
+    user_name: ENV['AWS_SES_USER'],
+    password: ENV['AWS_SES_PASS'],
     enable_starttls: true
   }
 
@@ -117,5 +117,8 @@ Rails.application.configure do
   # config.action_mailer.default_options = {
   #   from: "noreply@example.com"
   # }
+
+  config.site_name = 'SigmaTenders'
+  config.site_url = 'https://sigmatenders.com'
 
 end

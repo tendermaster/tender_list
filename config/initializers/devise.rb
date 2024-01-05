@@ -315,8 +315,7 @@ Devise.setup do |config|
 
   # config.omniauth :google_oauth2, 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET', {}
   config.omniauth :google_oauth2,
-                  '43251437543-acli7j25p980bjkh2ck8976m640ml9dr.apps.googleusercontent.com',
-                  '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', {}
-
+                  ENV['GOOGLE_CLIENT_ID'],
+                  ENV['GOOGLE_CLIENT_SECRET'], {}
 
 end

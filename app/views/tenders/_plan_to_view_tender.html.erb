@@ -1,0 +1,7 @@
+<% if current_user.nil? %>
+  <a class="underline underline-offset-2 text-orange-600 ml-8" href="<%= new_user_session_path %>">Login
+    to view</a>
+<% else %>
+  <a class="underline underline-offset-2 text-orange-600 ml-8" href="<%= get_callback_path %>">Paid
+    Plan is required</a>
+<% end %>

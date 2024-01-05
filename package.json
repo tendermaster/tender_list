@@ -14,10 +14,12 @@
     "test": "test"
   },
   "scripts": {
-    "tw:watch": "tailwindcss -i app/assets/stylesheets/application.tailwind.css -o app/assets/builds/tailwind.css -c config/tailwind.config.js --minify -w",
-    "tw:watch2": "npx tailwindcss -i app/assets/stylesheets/application.tailwind.css -o app/assets/builds/tailwind.css -c config/tailwind.config.js --minify -w",
+    "tw:watch": "npx tailwindcss -i app/assets/stylesheets/application.tailwind.css -o app/assets/builds/tailwind.css -c config/tailwind.config.js --minify -w",
+    "tw:watch2": "tailwindcss -i app/assets/stylesheets/application.tailwind.css -o app/assets/builds/tailwind.css -c config/tailwind.config.js --minify -w",
+    "tw:watch3": "npx tailwindcss -i app/assets/stylesheets/application.tailwind.css -o app/assets/builds/tailwind.css -c config/tailwind.config.js --minify -w",
     "dev": "bin/rails server -b 0.0.0.0 -p 3000 -e development",
-    "start": "cross-env TENDER_LIST_DATABASE_PASSWORD=changeme  bin/rails server -b 0.0.0.0 -p 3000 -e production"
+    "start": "cross-env TENDER_LIST_DATABASE_PASSWORD=changeme  bin/rails server -b 0.0.0.0 -p 3000 -e production",
+    "sidekiq": "bundle exec sidekiq"
   },
   "keywords": [],
   "author": "",

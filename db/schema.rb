@@ -10,9 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_27_091525) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_05_164755) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_admin_comments", force: :cascade do |t|
+    t.string "namespace"
+    t.text "body"
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.string "author_type"
+    t.bigint "author_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
+    t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
+    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
+  end
+
+  create_table "admin_users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_admin_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
 
   create_table "attachments", force: :cascade do |t|
     t.string "file_name"
@@ -29,6 +55,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_091525) do
     t.index ["tender_id"], name: "index_attachments_on_tender_id"
   end
 
+  create_table "bookmarks", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "tender_id", null: false
+    t.string "personal_note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tender_id"], name: "index_bookmarks_on_tender_id"
+    t.index ["user_id"], name: "index_bookmarks_on_user_id"
+  end
+
+  create_table "misc_data_stores", force: :cascade do |t|
+    t.json "data"
+    t.string "name"
+    t.string "source"
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "queries", force: :cascade do |t|
     t.string "name"
     t.string "query_type"
@@ -38,6 +83,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_091525) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "updates", default: "WEEKLY"
+    t.datetime "last_sent", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["user_id"], name: "index_queries_on_user_id"
   end
 
@@ -66,16 +113,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_091525) do
     t.string "page_link"
     t.text "full_data"
     t.datetime "batch_time"
-    t.datetime "created_at", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", null: false
     t.jsonb "search_conversions"
     t.string "tender_category"
     t.string "tender_contract_type"
     t.string "tender_source"
-    t.virtual "tender_text_vector", type: :tsvector, as: "to_tsvector('english'::regconfig, ((((((((((((COALESCE(tender_id, ''::character varying))::text || ' '::text) || (COALESCE(title, ''::character varying))::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || (COALESCE(organisation, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text))", stored: true
+    t.virtual "tender_text_vector", type: :tsvector, as: "to_tsvector('english'::regconfig, ((((((((((((((COALESCE(tender_id, ''::character varying))::text || ' '::text) || (COALESCE(title, ''::character varying))::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || (COALESCE(organisation, ''::character varying))::text) || ' '::text) || (COALESCE(page_link, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text))", stored: true
+    t.string "tender_reference_number"
+    t.jsonb "location"
+    t.index ["created_at"], name: "index_tenders_on_created_at"
+    t.index ["emd"], name: "index_tenders_on_emd"
+    t.index ["is_visible"], name: "index_tenders_on_is_visible"
     t.index ["slug_uuid"], name: "index_tenders_on_slug_uuid", unique: true
+    t.index ["submission_close_date"], name: "index_tenders_on_submission_close_date"
     t.index ["tender_id"], name: "index_tenders_on_tender_id"
+    t.index ["tender_reference_number"], name: "index_tenders_on_tender_reference_number"
     t.index ["tender_text_vector"], name: "tender_text_vector_idx", using: :gin
+    t.index ["tender_value"], name: "index_tenders_on_tender_value"
   end
 
   create_table "users", force: :cascade do |t|
@@ -99,10 +154,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_091525) do
     t.string "name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role", default: "USER"
+    t.string "current_plan", default: "FREE"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "attachments", "tenders"
+  add_foreign_key "bookmarks", "tenders"
+  add_foreign_key "bookmarks", "users"
   add_foreign_key "queries", "users"
 end

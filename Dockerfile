@@ -21,7 +21,7 @@ RUN bash -c "set -o pipefail && apt-get update \
 
 USER ruby
 
-ARG RAILS_ENV="development"
+ARG RAILS_ENV="production"
 ARG NODE_ENV="production"
 ENV RAILS_ENV="${RAILS_ENV}" \
     NODE_ENV="${NODE_ENV}" \

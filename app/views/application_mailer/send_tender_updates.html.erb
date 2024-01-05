@@ -1,0 +1,7 @@
+<%# @tenders.each_with_index do |tender, index| %>
+  <%#= index + 1 %>
+  <%#= tender[:title] %>
+  <%#= tender[:description] %>
+<%# end %>
+You have <%= @tender_count %> new tenders on your saved matching keywords [<%= @query_name %>]: visit
+<a href="<%= Rails.application.config.site_url %>/queries/tender_result/<%= @query_id %>"><%= Rails.application.config.site_name %></a>

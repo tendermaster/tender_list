@@ -1,4 +1,12 @@
+require 'sidekiq/web'
+require 'sidekiq/cron/web'
+
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+  # /
+  root controller: :tenders, action: :home
+
   resources :queries
 
   devise_for :users, controllers: {
@@ -6,6 +14,9 @@ Rails.application.routes.draw do
     # sessions: 'users/sessions'
     # confirmation: 'users/confirmations'
   }
+  authenticate :admin_user, lambda { |u| u.present? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   # devise_for :users
   # nav
@@ -36,9 +47,6 @@ Rails.application.routes.draw do
   # resources :attachments
   # resources :tenders
 
-  # /
-  root controller: :tenders, action: :home
-
   get '/categories', controller: :tenders, action: :tender_main_category, as: :tender_main_category
   # sub list
   get '/categories/tender-by-city', controller: :tenders, action: :tender_category_by_city, as: :tender_category_by_city
@@ -50,6 +58,7 @@ Rails.application.routes.draw do
 
   get '/trending-tenders', controller: :tenders, action: :trending_tenders, as: :trending_tenders
   get '/get-relevant-tenders', controller: :tenders, action: :get_relevant_tenders, as: :get_relevant_tenders
+  get '/get-relevant-tenders/success', controller: :tenders, action: :get_relevant_tenders_success, as: :get_relevant_tenders_success
   # get relevant keywords
   post '/get-relevant-tenders', controller: :tenders, action: :get_relevant_tenders_post, as: :get_relevant_tenders_post
 
@@ -57,6 +66,8 @@ Rails.application.routes.draw do
   get '/search', controller: :tenders, action: :search
   get '/tender/:slug_uuid', controller: :tenders, action: :tender_show
   post '/tender/:slug_uuid/like', controller: :tenders, action: :tender_like
+  # post '/tender/:slug_uuid/bookmark', controller: :tenders, action: :bookmark_tender
+
   # get '/tenders-by-state', controller: :home, action: :tenders_by_state
   # get '/tenders-by-sector', controller: :home, action: :tenders_by_sector
 

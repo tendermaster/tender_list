@@ -1,8 +1,6 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
-// import "@hotwired/turbo-rails";
+import "@hotwired/turbo-rails";
 // import "controllers";
-
-console.log("a");
 
 $("#filter-search").on("click", () => {
   console.log("search");
@@ -37,23 +35,23 @@ $("#filter-search").on("click", () => {
 
   switch (tender_value) {
     case '50l':
-      tender_value_amt = 50*100000
+      tender_value_amt = 50 * 100000
       break
     case '1cr':
-      tender_value_amt = 100*100000
+      tender_value_amt = 100 * 100000
       break
     case '5cr':
-      tender_value_amt = 500*100000
+      tender_value_amt = 500 * 100000
       break
   }
 
   switch (tender_filter) {
     case 'lt':
       max_value = tender_value_amt
-    break
+      break
     case 'gt':
       min_value = tender_value_amt
-      max_value = 10**10
+      max_value = 10 ** 10
   }
 
   const url = `${window.location.origin}/search?${$.param({
@@ -65,10 +63,10 @@ $("#filter-search").on("click", () => {
 //   console.log(url);
 });
 
-$('.state-filter input[type="checkbox"]').on('change', function() {
+$('.state-filter input[type="checkbox"]').on('change', function () {
   $('.state-filter input[type="checkbox"]').not(this).prop('checked', false);
 });
 
 setTimeout(() => {
-    $('.tlt').textillate({ in: { effect: 'bounceIn' } });
-}, 2*1000);
+  $('.tlt').textillate({in: {effect: 'bounceIn'}});
+}, 2 * 1000);

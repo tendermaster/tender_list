@@ -46,6 +46,14 @@ module ApplicationHelper
     )
   end
 
+  def is_tender_id?(string)
+    if string.length <= 40 and string.scan('/').length >= 3
+      true
+    else
+      false
+    end
+  end
+
   # TODO: cache value, memoize
   # TODO: add gem keywords
   def gem_keyword_list

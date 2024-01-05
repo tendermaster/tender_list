@@ -5,8 +5,6 @@
   <h5 class="block mb-4 text-center text-lg font-medium text-gray-900 dark:text-white">Get customized tender Recommendations for your Enterprise</h5>
   <%= form_with(url: get_relevant_tenders_post_path) do |form| %>
 
-
-<!--  <form action="<%#= get_relevant_tenders_post_path %>" method="post">-->
     <div class="mb-6">
       <%= form.label :name, 'Name' %>
       <%= form.text_field :name, required: true %>

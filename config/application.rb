@@ -33,10 +33,12 @@ module TenderList
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    config.hosts << "ubuntu-vm.test"
-    config.hosts << "ngotenders.in"
+    # config.hosts << "ubuntu-vm.test"
+    # config.hosts << "ngotenders.in"
     config.hosts << "sigmatenders.com"
-    config.hosts << "dev.ngotenders.in"
+    # config.hosts << "dev.ngotenders.in"
     config.hosts << /.*\.ngrok-free\.app/
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

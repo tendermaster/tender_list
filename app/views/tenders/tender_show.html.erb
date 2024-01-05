@@ -12,7 +12,7 @@
     <div class="">
       <h3 class="my-8 text-xl font-semibold">Tender Details</h3>
       <div class="lg:grid grid-cols-12 gap-x-8">
-        <div class="relative overflow-x-auto col-span-8">
+        <div class="relative col-span-8 overflow-x-auto">
           <table
             class="w-full overflow-hidden text-left text-sm text-gray-500 dark:text-gray-400 sm:rounded-lg"
           >
@@ -34,7 +34,14 @@
               >
                 Title
               </th>
-              <td class="py-4 px-6 select-none"><%= @tender_data.title.capitalize %></td>
+              <td class="py-4 px-6 select-none flex">
+                <% if User.can_fully_view_tender(current_user) or !is_tender_id?(@tender_data.title) %>
+                  <%= @tender_data.title.capitalize %>
+                <% else %>
+                  <p class="blur-md select-none">AAAAAAAAAA</p>
+                  <%= render 'plan_to_view_tender' %>
+                <% end %>
+              </td>
             </tr>
             <tr
               class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
@@ -68,11 +75,11 @@
                 Tender Id
               </th>
               <td class="py-4 px-6 flex">
-                <% if current_user.nil? %>
-                  <p class="blur-md select-none">AAAAAAAAAA</p>
-                  <a class="underline underline-offset-2 text-orange-600 ml-8" href="<%= new_user_registration_path %>">Login to view</a>
-                <% else %>
+                <% if User.can_fully_view_tender(current_user) %>
                   <%= @tender_data.tender_id %>
+                <% else %>
+                  <p class="blur-md select-none">AAAAAAAAAA</p>
+                  <%= render 'plan_to_view_tender' %>
                 <% end %>
               </td>
             </tr>
@@ -86,12 +93,12 @@
                 Reference Number
               </th>
               <td class="py-4 px-6 flex">
-                <% if current_user.nil? %>
-                  <p class="blur-md select-none">AAAAAAAAAA</p>
-                  <a class="underline underline-offset-2 text-orange-600 ml-8" href="<%= new_user_registration_path %>">Login to view</a>
+                <% if User.can_fully_view_tender(current_user) %>
+                  <%= @tender_json['TenderReferenceNumber'] || @tender_data.tender_reference_number %>
                 <% else %>
-                  <%= @tender_json['TenderReferenceNumber'] %>
-                <% end %>
+                  <p class="blur-md select-none">AAAAAAAAAA</p>
+                  <%= render 'plan_to_view_tender' %>
+              <% end %>
               </td>
             </tr>
             <tr
@@ -158,8 +165,13 @@
               >
                 Link
               </th>
-              <td class="py-4 px-6">
-                <a class="underline underline-offset-2 hover:text-blue-600" target="_blank" rel="nofollow" href="<%= @tender_data.page_link %>"><%= @tender_data.page_link %></a>
+              <td class="py-4 px-6 flex">
+                <% if User.can_fully_view_tender(current_user) %>
+                  <a class="underline underline-offset-2 hover:text-blue-600 force-word-break" target="_blank" rel="nofollow" href="<%= @tender_data.page_link %>"><%= @tender_data.page_link %></a>
+                <% else %>
+                  <p class="blur-md select-none">AAAAAAAAAA</p>
+                  <%= render 'plan_to_view_tender' %>
+              <% end %>
               </td>
             </tr>
             <tr

@@ -1,11 +1,13 @@
 class TendersController < ApplicationController
   before_action :set_tender, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: [:bookmark_tender]
 
   def home
     #   root
   end
 
   def search
+
     # Tender.reindex
     @query = params['q'] || params['keyword'].gsub('-', ' ')
     @min_value = params['min_value'].to_i
@@ -56,6 +58,25 @@ class TendersController < ApplicationController
     end
   end
 
+  def bookmark_tender
+    # TODO: complete bookmark
+    # with turbo
+    #
+    # tender = Tender.find_by(slug_uuid: params[:slug_uuid])
+    # if tender.present? && current_user.present?
+    #   bookmark = Bookmark.find(user_id: current_user.id, tender_id: tender.id).count
+    #   if bookmark
+    #     bookmark.destroy!
+    #     render json: { message: 'removed bookmark' }
+    #   else
+    #     Bookmark.create!(user_id: current_user.id, tender_id: tender.id)
+    #     render json: { message: 'bookmarked tender' }
+    #     format.turbo_stream { render turbo_stream: turbo_stream.replace('#test_id', 'ss') }
+    #   end
+    # end
+    # render json: { error: 'unable to bookmark' }, status: :unprocessable_entity
+  end
+
   def tender_like
     pp params
     pp current_user
@@ -67,6 +88,9 @@ class TendersController < ApplicationController
   end
 
   def get_relevant_tenders
+  end
+
+  def get_relevant_tenders_success
 
   end
 
@@ -79,17 +103,28 @@ class TendersController < ApplicationController
     # end
 
     current_time = TZInfo::Timezone.get('Asia/Kolkata').now.strftime("%d-%b-%Y %I:%M %p")
-    CSV.open("dev/get_relevant_tenders_post.txt", "a+") do |csv|
-      csv << [params['name'],
-              params['email'],
-              params['mobile'],
-              params['sectors'],
-              current_time
-      ]
-    end
+    # CSV.open("dev/get_relevant_tenders_post.txt", "a+") do |csv|
+    #   csv << [params['name'],
+    #           params['email'],
+    #           params['mobile'],
+    #           params['sectors'],
+    #           current_time
+    #   ]
+    # end
 
-    flash[:success] = 'Form Submitted Successfully'
-    redirect_to action: :get_relevant_tenders
+    MiscDataStore.create!(
+      name: 'customized_tender_recommendations',
+      data: {
+        name: params['name'],
+        email: params['email'],
+        mobile: params['mobile'],
+        sectors: params['sectors'],
+        time: current_time
+      },
+      source: 'sidebar'
+    )
+
+    redirect_to action: :get_relevant_tenders_success
   end
 
   def tender_main_category

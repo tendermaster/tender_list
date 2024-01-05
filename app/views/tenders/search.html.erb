@@ -47,7 +47,7 @@
     </div>
   </form>
   <div class="flex justify-center">
-    <%= render "tender_filter" %>
+    <%= render "tenders/tender_filter" %>
   </div>
   <!-- search result -->
 
@@ -64,7 +64,18 @@
             <h5
               class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
             >
-              <%= result.title.capitalize %>
+              <%#= result.title.capitalize %>
+
+              <% if User.can_fully_view_tender(current_user) or !is_tender_id?(result.title) %>
+                <%= result.title.capitalize %>
+              <% else %>
+                <div class="flex">
+                  <p class="blur-md select- none">AAAAAAAAAA</p>
+                  <div class="text-sm flex items-center">
+                    <%= render 'tenders/plan_to_view_tender' %>
+                  </div>
+                </div>
+              <% end %>
             </h5>
           </a>
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
@@ -112,7 +123,7 @@
       <% end %>
     </div>
     <div class="col-span-4 mt-10 lg:mt-0">
-      <%= render "get_relevant_tenders_form" %>
+      <%= render "tenders/get_relevant_tenders_form" %>
     </div>
   </div>
 

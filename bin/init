@@ -7,6 +7,7 @@ pwd
 
 bundle install
 npm install
+npm install -g concurrently
 
 rails db:prepare
 # rails db:create
@@ -23,5 +24,4 @@ rails assets:precompile
 #rails assets:precompile
 #rails", "s", "-b", "0.0.0.0
 
-rails s -b 0.0.0.0
-
+concurrently 'rails s -b 0.0.0.0' 'bundle exec sidekiq'

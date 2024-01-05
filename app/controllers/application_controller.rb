@@ -7,8 +7,11 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def after_sign_in_path_for(users)
-    queries_path
+  def after_sign_in_path_for(resource)
+    # https://stackoverflow.com/questions/15944159/devise-redirect-back-to-the-original-location-after-sign-in-or-sign-up
+    # https://github.com/heartcombo/devise/wiki/How-To:-redirect-to-a-specific-page-on-successful-sign-in
+    #
+    stored_location_for(resource) || queries_path
   end
 
   def record_not_found

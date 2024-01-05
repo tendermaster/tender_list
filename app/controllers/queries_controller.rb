@@ -10,10 +10,26 @@ class QueriesController < ApplicationController
 
   def query_result
     @query_id = params['query_id'].to_i
-    @query = current_user.query.find(@query_id)
+    @saved_query = current_user.query.find(@query_id)
+    @query_string = QueriesController.get_query_string(@saved_query)
+    pp @query_string
 
+    @min_value = params['min_value'].to_i
+    @max_value = params['max_value'].to_i
+
+    @max_value = 10 ** 10 if @max_value == 0
+
+    collection = TendersController.search_tender(@query_string, @min_value, @max_value)
+
+    @pagy, @records = pagy(collection, items: 5)
+    @query = @query_string
+
+    render 'tenders/search'
+  end
+
+  def self.get_query_string(saved_query)
     # search query
-    include_keyword = @query.include_keyword
+    include_keyword = saved_query.include_keyword
     include_keyword = include_keyword.split(',')
     include_keyword_length = include_keyword.length
     include_keyword = include_keyword.map.with_index do |word, index|
@@ -25,23 +41,14 @@ class QueriesController < ApplicationController
       end
     end
 
-    @query_string = <<QUERY
+    query_string = <<QUERY
     #{include_keyword.join(' ')}
-    #{@query.exclude_keyword&.split(',').map { |word| "-\"#{word.strip}\"" }.join(' ')}
+    #{saved_query.exclude_keyword&.split(',').map { |word| "-\"#{word.strip}\"" }.join(' ')}
 QUERY
-    @query_string.gsub!("\n", '')
-    @query_string.strip!
-    
-    pp @query_string
+    query_string.gsub!("\n", '')
+    query_string.strip!
 
-    @min_value = params['min_value'].to_i
-    @max_value = params['max_value'].to_i
-
-    @max_value = 10 ** 10 if @max_value == 0
-
-    collection = TendersController.search_tender(@query_string, @min_value, @max_value)
-
-    @pagy, @records = pagy(collection, items: 5)
+    query_string
   end
 
   # GET /queries/1 or /queries/1.json
@@ -104,6 +111,6 @@ QUERY
 
   # Only allow a list of trusted parameters through.
   def query_params
-    params.require(:query).permit(:name, :include_keyword, :exclude_keyword)
+    params.require(:query).permit(:name, :include_keyword, :exclude_keyword, :updates)
   end
 end
