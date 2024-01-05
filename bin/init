@@ -7,7 +7,7 @@ pwd
 
 bundle install
 npm install
-npm install -g concurrently
+npm install --dev concurrently
 
 rails db:prepare
 # rails db:create
