@@ -183,10 +183,11 @@
               >
                 End Date
               </th>
-              <td class="py-4 px-6 <%= time_left(@tender_data.submission_close_date).downcase.include?('expired') ? "bg-red-200" : 'bg-green-200' %>">
+              <td class="py-4 px-6 <%= time_left(@tender_data.submission_close_date) >= 0 ? "bg-green-200" : 'bg-red-200' %>">
                 <div class="md:flex md:items-center">
                   <p><%= @tender_data.submission_close_date.strftime("%d/%m/%Y") %>
-                    ( <%= time_left(@tender_data.submission_close_date) %> )</p>
+                    ( <%= time_left_text(@tender_data.submission_close_date) %> )
+                  </p>
                   <a class="btn-sm inline-block mt-2 md:mt-0 md:ml-10" href="<%= root_path %>">Search other tenders</a>
                 </div>
               </td>

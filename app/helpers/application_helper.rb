@@ -11,6 +11,14 @@ module ApplicationHelper
     #   result.submission_close_date.is_a?(ActiveSupport::TimeWithZone) ? "#{distance_of_time_in_words(Date.today,result.submission_close_date, true, highest_measure_only: true)} left" : '-'
   end
 
+  def time_left_text(submission_close_date)
+    if time_left(submission_close_date) >= 0
+      "#{time_left(submission_close_date)} days left"
+    else
+      "Expired #{time_left(submission_close_date).abs} days ago"
+    end
+  end
+
   def currency_format(amt)
     amt_len = amt.to_s.length
     if amt_len < 6

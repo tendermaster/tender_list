@@ -104,7 +104,7 @@
           <div
             class="ml-4 inline-flex items-center rounded-lg border-2 px-3 py-2 text-center text-sm font-medium <%= time_left(result.submission_close_date) >= 0 ? 'bg-green-500 text-white' : 'bg-red-200' %>"
           >
-            <%= time_left(result.submission_close_date) >= 0 ? "#{time_left(result.submission_close_date)} days left" : "Expired #{time_left(result.submission_close_date).abs} days ago" %>
+            <%= time_left_text(result.submission_close_date) %>
             <svg
               aria-hidden="true"
               class="ml-2 -mr-1 h-4 w-4"
