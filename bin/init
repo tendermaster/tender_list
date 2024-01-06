@@ -24,4 +24,5 @@ rails assets:precompile
 #rails assets:precompile
 #rails", "s", "-b", "0.0.0.0
 
+npm install --include=dev concurrently
 npx concurrently 'rails s -b 0.0.0.0' 'bundle exec sidekiq'
