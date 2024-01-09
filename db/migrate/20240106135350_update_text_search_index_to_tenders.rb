@@ -1,7 +1,7 @@
 class UpdateTextSearchIndexToTenders < ActiveRecord::Migration[7.0]
   def up
-    change_column :tenders, :title, :text
-    change_column :tenders, :organisation, :text
+    # change_column :tenders, :title, :text
+    # change_column :tenders, :organisation, :text
 
     if column_exists? :tenders, :tender_text_vector
       remove_column :tenders, :tender_text_vector
