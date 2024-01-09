@@ -122,3 +122,4 @@ gem "recaptcha"
 gem "httparty"
 gem "sidekiq-cron"
 gem 'activeadmin'
+gem "solid_cache"

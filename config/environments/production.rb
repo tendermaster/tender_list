@@ -124,4 +124,8 @@ Rails.application.configure do
   # https://stackoverflow.com/questions/70662382/couldnt-deploy-rails-tailwind-on-heroku
   config.assets.css_compressor = nil
 
+  # https://github.com/rails/solid_cache
+  # https://guides.rubyonrails.org/caching_with_rails.html
+  #
+  config.cache_store = :solid_cache_store
 end

@@ -1,6 +1,11 @@
 <% title "#{@tender_data.title.capitalize}" %>
 <% description "sigmatenders.com is a tender portal specifically designed for independent entrepreneurs/ Business houses/ industries and  non-government organizations (NGOs) to get Realtime notifications of potential opportunities for their enterprise" %>
 <% keywords "sigma tenders, ngo service tenders, #{@tender_data.title.capitalize}, #{@tender_data.organisation}" %>
+<% set_meta_tags og: {
+  title: @tender_data.title.capitalize,
+  type: "website",
+  url: "#{Rails.application.config.site_url}/tender/#{@tender_data.slug_uuid}",
+} %>
 <%= render 'layouts/navbar' %>
 
 <div class="text-gray-800 lg:pt-2 xl:px-36">
@@ -98,7 +103,7 @@
                 <% else %>
                   <p class="blur-md select-none">AAAAAAAAAA</p>
                   <%= render 'plan_to_view_tender' %>
-              <% end %>
+                <% end %>
               </td>
             </tr>
             <tr
@@ -171,7 +176,7 @@
                 <% else %>
                   <p class="blur-md select-none">AAAAAAAAAA</p>
                   <%= render 'plan_to_view_tender' %>
-              <% end %>
+                <% end %>
               </td>
             </tr>
             <tr

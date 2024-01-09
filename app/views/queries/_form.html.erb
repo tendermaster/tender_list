@@ -37,7 +37,7 @@
       (eg: Supply, Maintenance, contract work, Refinery etc....)
       <div class="tooltip-arrow" data-popper-arrow></div>
     </div>
-    <%= form.text_area :include_keyword, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_area :include_keyword, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: 'Example: Construction, repair, medical equipment...' %>
   </div>
 
   <div class="my-5">
@@ -51,12 +51,12 @@
       (eg: Construction, Repair, Road etc....)
       <div class="tooltip-arrow" data-popper-arrow></div>
     </div>
-    <%= form.text_area :exclude_keyword, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_area :exclude_keyword, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" , placeholder: 'Example: Goods, Services, Repair...'%>
   </div>
 
   <div class="my-5">
     <%= form.label :updates, 'Email Updates' %>
-    <%= form.select :updates, [["Weekly", "WEEKLY"], ["Monthly", "MONTHLY"], ["None", "NONE"]], {}, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+    <%= form.select :updates, [ ["Regularly", "REGULARLY"], ["Weekly", "WEEKLY"], ["Monthly", "MONTHLY"], ["None", "NONE"]], {}, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
   </div>
   <!--  <div class="my-5">-->
   <%#= form.label :user_id %>

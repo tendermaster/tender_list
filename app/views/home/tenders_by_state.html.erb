@@ -3,7 +3,7 @@
 <div class="mx-8 my-12 lg:pt-2 xl:px-36">
   <!--  <h2 class="text-3xl text-center my-28">Coming Soon</h2>-->
   <ul>
-    <% get_states.each do |state| %>
+    <% get_state_list.each do |state| %>
       <li>
         <a class="text-lg block" href="/state/<%= state.gsub(' ', '-')%>">
           <%= state %>

@@ -24,7 +24,9 @@ $("#filter-search").on("click", () => {
     sector.push(this.name)
   });
 
-  q += `(${sector.join(' or ')})`
+  if (sector.length > 0) {
+    q += `(${sector.join(' or ')})`
+  }
 
   let min_value = 0
   let max_value = 0
@@ -34,6 +36,9 @@ $("#filter-search").on("click", () => {
   let tender_value_amt = 0
 
   switch (tender_value) {
+    case 'nil':
+      tender_value_amt = 0
+      break
     case '50l':
       tender_value_amt = 50 * 100000
       break

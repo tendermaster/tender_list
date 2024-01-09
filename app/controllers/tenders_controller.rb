@@ -95,7 +95,7 @@ class TendersController < ApplicationController
   end
 
   def get_relevant_tenders_post
-    pp params
+    # pp params
     #   save to file
 
     # File.open('dev/get_relevant_tenders_post.txt', 'w') do |file|
@@ -132,19 +132,28 @@ class TendersController < ApplicationController
   end
 
   def tender_category_by_city
-
+    @pagy, @items = pagy_array(helpers.get_city_list, items: 15)
+    render 'tender_category_by_sector'
   end
 
   def tender_category_by_state
-
-  end
-
-  def tender_category_by_organization
-
+    @pagy, @items = pagy_array(helpers.get_state_list, items: 15)
+    render 'tender_category_by_sector'
   end
 
   def tender_category_by_sector
     @pagy, @items = pagy_array(helpers.get_sector_list, items: 15)
+    render 'tender_category_by_sector'
+  end
+
+  def tender_by_organisation
+    @pagy, @items = pagy_array(helpers.get_organisation_list, items: 15)
+    render 'tender_category_by_sector'
+  end
+
+  def tender_by_products
+    @pagy, @items = pagy_array(helpers.get_products_list, items: 15)
+    render 'tender_category_by_sector'
   end
 
   # def state_page

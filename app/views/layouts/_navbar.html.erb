@@ -4,13 +4,13 @@
       <img src="<%= image_path 'Asset_1.svg' %>" class="h-6 mr-3 sm:h-9" alt="Sigma Tenders Logo"/>
       <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Sigma Tenders</span>
       <% if !current_user.nil? %>
-        <span class="bg-gray-900 text-gray-100 text-sm px-2 py-0.5 rounded-lg ml-2"><%= current_user&.current_plan %></span>
+        <span class="bg-gray-900 text-gray-100 text-sm px-2 py-0.5 rounded-lg ml-2"><%= User.active_plan(current_user) %></span>
       <% end %>
     </a>
     <div class="flex md:order-2 items-center">
       <!-- profile-->
       <% if user_signed_in? %>
-        <div class="w-8 h-8 mr-6 sm:hidden">
+        <div class="w-8 h-8 mr-6 ">
           <button data-popover-target="popover-default" type="button" class="bg-red-400 rounded-full w-full h-full text-white text-center"><%= current_user.email[0].upcase %></button>
           <div data-popover id="popover-default" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
             <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
@@ -18,6 +18,19 @@
             </div>
             <div class="px-3 py-2">
               <p><span class="font-semibold">Email</span>: <%= current_user.email %></p>
+            </div>
+            <div class="px-3 py-2 flex justify-center">
+              <p>
+                <span class="font-semibold">
+                  <%= button_to "Logout", destroy_user_session_path, method: :delete, class: 'bg-orange-600 text-white rounded-full px-4 py-2 font-bold' %>
+                </span>
+              </p>
+            </div>
+            <div class="px-3 py-2">
+              <p><span class="font-semibold">Active Plan</span>: <%= User.active_plan(current_user) %></p>
+            </div>
+            <div class="px-3 py-2">
+              <p><span class="font-semibold">Expiry</span>: <%= User.active_subscription_end_date(current_user) %></p>
             </div>
             <div data-popper-arrow></div>
           </div>
@@ -67,7 +80,7 @@
           <a href="<%= pricing_path %>" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</a>
         </li>
         <li>
-          <a href="<%= get_sample_tenders_path %>" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Free
+          <a href="<%= free_trial_path %>" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Free
             Trial</a>
         </li>
         <li class="flex">
@@ -170,9 +183,9 @@
           <li>
             <a href="<%= queries_path %>" class="btn-sm">Dashboard</a>
           </li>
-          <li>
-            <%= button_to "Logout", destroy_user_session_path, method: :delete, class: 'btn' %>
-          </li>
+          <!--          <li>-->
+          <%#= button_to "Logout", destroy_user_session_path, method: :delete, class: 'btn' %>
+          <!--          </li>-->
         <% else %>
           <li>
             <a href="<%= new_user_session_path %>" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Login</a>

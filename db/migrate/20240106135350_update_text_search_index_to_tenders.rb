@@ -1,5 +1,8 @@
 class UpdateTextSearchIndexToTenders < ActiveRecord::Migration[7.0]
   def up
+    change_column :tenders, :title, :text
+    change_column :tenders, :organisation, :text
+
     remove_column :tenders, :tender_text_vector
     execute <<~SQL
             -- tender vector
@@ -25,5 +28,8 @@ class UpdateTextSearchIndexToTenders < ActiveRecord::Migration[7.0]
 
   def down
     remove_column :tenders, :tender_text_vector
+
+    change_column :tenders, :title, :string
+    change_column :tenders, :organisation, :string
   end
 end

@@ -11,6 +11,7 @@ class ApplicationMailer < ActionMailer::Base
   def send_tender_updates
     email = params[:email]
     @tender_count = params[:tender_count]
+    @total_tender_count = params[:total_tender_count]
     @query_id = params[:query_id]
     @query_name = params[:query_name]
     # @tenders = params[:tenders]

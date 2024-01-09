@@ -2,6 +2,7 @@ class HomeController < ApplicationController
   def about
 
   end
+
   def services
     # render 'home/coming_soon'
   end
@@ -9,6 +10,7 @@ class HomeController < ApplicationController
   def how_to_file_tender
 
   end
+
   def coming_soon
     render 'home/coming_soon'
   end
@@ -20,6 +22,11 @@ class HomeController < ApplicationController
   def get_sample_tenders
     redirect_to get_callback_path
   end
+
+  def free_trial
+
+  end
+
   def faq
 
   end
@@ -55,6 +62,5 @@ class HomeController < ApplicationController
   def page_500
 
   end
-
 
 end

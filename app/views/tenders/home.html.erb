@@ -1,10 +1,6 @@
 <% title "Home" %>
 <% description "sigmatenders.com is a tender portal specifically designed for independent entrepreneurs/ Business houses/ industries and  non-government organizations (NGOs) to get Realtime notifications of potential opportunities for their enterprise" %>
 <% keywords "tenders" %>
-<% set_meta_tags open_search: {
-  title: "Tender Search",
-  href: "/opensearch.xml"
-} %>
 
 <%= render 'layouts/navbar' %>
 <% if flash[:notice].present? %>
@@ -207,6 +203,10 @@
     <!--      <a class="text-lg block hover:underline hover:underline-offset-2" href="<%#= tender_category_by_organization_path %>">⭐ </a>-->
     <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_category_by_sector_path %>">⭐
       Tender by Sector</a>
+    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_by_organisation_path %>">⭐
+      Tender by Organisation</a>
+    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_by_products_path %>">⭐
+      Tender by Products</a>
     <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-600 text-white px-4 py-2 rounded-md" href="<%= how_to_file_tender_path %>">⭐
       How to file tender?</a>
 
@@ -225,7 +225,8 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
       </svg>
     </div>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSc2lhMglZhxl7xI_TL6V4PYLwRGqcOVnRGTpCOtk5hokEsGNA/viewform" target="_blank" class="inline-block underline underline-offset-2 px-3 py-4 text-white bg-orange-400 rounded-lg">Free Trial Subscribers</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSc2lhMglZhxl7xI_TL6V4PYLwRGqcOVnRGTpCOtk5hokEsGNA/viewform" target="_blank" class="inline-block underline underline-offset-2 px-3 py-4 text-white bg-orange-400 rounded-lg">Free
+      Trial Subscribers</a>
   </div>
 
 

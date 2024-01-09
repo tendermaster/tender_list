@@ -21,12 +21,13 @@ Rails.application.routes.draw do
   # devise_for :users
   # nav
   get '/about', controller: :home, action: :about
-  get '/login', controller: :home, action: :login
-  get '/signup', controller: :home, action: :signup
+  # get '/login', controller: :home, action: :login
+  # get '/signup', controller: :home, action: :signup
   get '/services', controller: :home, action: :services
   get '/coming-soon', controller: :home, action: :coming_soon
   get '/get-callback', controller: :home, action: :get_callback, as: :get_callback
   get '/get-sample-tenders', controller: :home, action: :get_sample_tenders, as: :get_sample_tenders
+  get '/free-trial', controller: :home, action: :free_trial, as: :free_trial
   get '/faq', controller: :home, action: :faq, as: :faq
 
   get '/pricing', controller: :home, action: :pricing, as: :pricing
@@ -51,8 +52,9 @@ Rails.application.routes.draw do
   # sub list
   get '/categories/tender-by-city', controller: :tenders, action: :tender_category_by_city, as: :tender_category_by_city
   get '/categories/tender-by-state', controller: :tenders, action: :tender_category_by_state, as: :tender_category_by_state
-  get '/categories/tender-by-organization', controller: :tenders, action: :tender_category_by_organization, as: :tender_category_by_organization
   get '/categories/tender-by-sector', controller: :tenders, action: :tender_category_by_sector, as: :tender_category_by_sector
+  get '/categories/tender-by-organisation', controller: :tenders, action: :tender_by_organisation, as: :tender_by_organisation
+  get '/categories/tender-by-products', controller: :tenders, action: :tender_by_products, as: :tender_by_products
 
   get '/tenders/:keyword-tenders', controller: :tenders, action: :search, as: :keyword_tender
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_06_135350) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_09_105401) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -94,11 +94,33 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_06_135350) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "solid_cache_entries", force: :cascade do |t|
+    t.binary "key", null: false
+    t.binary "value", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_solid_cache_entries_on_key", unique: true
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.string "plan_name"
+    t.string "order_id"
+    t.decimal "price", precision: 12, scale: 2
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["end_date"], name: "index_subscriptions_on_end_date"
+    t.index ["order_id"], name: "index_subscriptions_on_order_id"
+    t.index ["plan_name"], name: "index_subscriptions_on_plan_name"
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "tenders", force: :cascade do |t|
     t.string "tender_id"
-    t.string "title"
+    t.text "title"
     t.text "description"
-    t.string "organisation"
+    t.text "organisation"
     t.string "state"
     t.bigint "tender_value"
     t.bigint "tender_fee"
@@ -121,7 +143,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_06_135350) do
     t.string "tender_source"
     t.string "tender_reference_number"
     t.jsonb "location"
-    t.virtual "tender_text_vector", type: :tsvector, as: "to_tsvector('english'::regconfig, ((((((((((((((((((((((COALESCE(tender_id, ''::character varying))::text || ' '::text) || (COALESCE(title, ''::character varying))::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || (COALESCE(organisation, ''::character varying))::text) || ' '::text) || (COALESCE(state, ''::character varying))::text) || ' '::text) || (COALESCE(slug_uuid, ''::character varying))::text) || ' '::text) || (COALESCE(page_link, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text) || (COALESCE(tender_source, ''::character varying))::text) || ' '::text) || (COALESCE(tender_reference_number, ''::character varying))::text) || ' '::text))", stored: true
+    t.virtual "tender_text_vector", type: :tsvector, as: "to_tsvector('english'::regconfig, ((((((((((((((((((((((COALESCE(tender_id, ''::character varying))::text || ' '::text) || COALESCE(title, ''::text)) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || COALESCE(organisation, ''::text)) || ' '::text) || (COALESCE(state, ''::character varying))::text) || ' '::text) || (COALESCE(slug_uuid, ''::character varying))::text) || ' '::text) || (COALESCE(page_link, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text) || (COALESCE(tender_source, ''::character varying))::text) || ' '::text) || (COALESCE(tender_reference_number, ''::character varying))::text) || ' '::text))", stored: true
     t.index ["created_at"], name: "index_tenders_on_created_at"
     t.index ["emd"], name: "index_tenders_on_emd"
     t.index ["is_visible"], name: "index_tenders_on_is_visible"
@@ -164,4 +186,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_06_135350) do
   add_foreign_key "bookmarks", "tenders"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "queries", "users"
+  add_foreign_key "subscriptions", "users"
 end

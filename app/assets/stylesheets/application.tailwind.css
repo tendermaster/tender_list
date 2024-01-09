@@ -174,3 +174,7 @@ footer {
     -webkit-hyphens: auto;
     hyphens: auto;
 }
+
+.pricing-card {
+    @apply mt-4 w-full col-span-1 flex justify-center
+}

@@ -18,7 +18,7 @@
           Select State
         </h6>
         <ul class="space-y-2 text-sm" aria-labelledby="dropdownDefault">
-          <% get_states.each do |state| %>
+          <% get_state_list.each do |state| %>
             <li class="flex items-center">
               <input id="<%= state.gsub(' ', '-') %>" type="checkbox" value="" name="<%= state %>"
                      class="state-name w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
@@ -37,7 +37,7 @@
           Select Sector
         </h6>
         <ul class="space-y-2 text-sm" aria-labelledby="dropdownDefault">
-          <% get_sectors.each do |sector| %>
+          <% get_filter_sectors.each do |sector| %>
             <li class="flex items-center">
               <input id="<%= sector.gsub(' ', '-') %>" type="checkbox" value="" name="<%= sector %>"
                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
@@ -62,15 +62,16 @@
             </label>
             <!--            <label for="tender-value" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>-->
             <select id="tender-filter" class="w-24 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              <option value="lt">less than</option>
               <option value="gt">more than</option>
+              <option value="lt">less than</option>
             </select>
 
-<!--            <input id="tender-value" placeholder="amount" type="number" value=""-->
-<!--            class="w-24 h-8 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>-->
+            <!--            <input id="tender-value" placeholder="amount" type="number" value=""-->
+            <!--            class="w-24 h-8 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>-->
 
             <!--            <label for="tender-value" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>-->
             <select id="tender-value" class="w-24 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option value="nil">Nil</option>
               <option value="50l">50 Lakh</option>
               <option value="1cr">1 Crore</option>
               <option value="5cr">5 Crore</option>
@@ -96,6 +97,4 @@
     </div>
 
   </div>
-
-
 </div>
