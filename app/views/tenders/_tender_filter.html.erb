@@ -18,7 +18,7 @@
           Select State
         </h6>
         <ul class="space-y-2 text-sm" aria-labelledby="dropdownDefault">
-          <% get_state_list.each do |state| %>
+          <% CategoryService.get_state_list.each do |state| %>
             <li class="flex items-center">
               <input id="<%= state.gsub(' ', '-') %>" type="checkbox" value="" name="<%= state %>"
                      class="state-name w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
@@ -37,7 +37,7 @@
           Select Sector
         </h6>
         <ul class="space-y-2 text-sm" aria-labelledby="dropdownDefault">
-          <% get_filter_sectors.each do |sector| %>
+          <% CategoryService.get_filter_sectors.each do |sector| %>
             <li class="flex items-center">
               <input id="<%= sector.gsub(' ', '-') %>" type="checkbox" value="" name="<%= sector %>"
                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>

@@ -132,27 +132,27 @@ class TendersController < ApplicationController
   end
 
   def tender_category_by_city
-    @pagy, @items = pagy_array(helpers.get_city_list, items: 15)
+    @pagy, @items = pagy_array(CategoryService.get_city_list, items: 15)
     render 'tender_category_by_sector'
   end
 
   def tender_category_by_state
-    @pagy, @items = pagy_array(helpers.get_state_list, items: 15)
+    @pagy, @items = pagy_array(CategoryService.get_state_list, items: 15)
     render 'tender_category_by_sector'
   end
 
   def tender_category_by_sector
-    @pagy, @items = pagy_array(helpers.get_sector_list, items: 15)
+    @pagy, @items = pagy_array(CategoryService.get_sector_list, items: 15)
     render 'tender_category_by_sector'
   end
 
   def tender_by_organisation
-    @pagy, @items = pagy_array(helpers.get_organisation_list, items: 15)
+    @pagy, @items = pagy_array(CategoryService.get_organisation_list, items: 15)
     render 'tender_category_by_sector'
   end
 
   def tender_by_products
-    @pagy, @items = pagy_array(helpers.get_products_list, items: 15)
+    @pagy, @items = pagy_array(CategoryService.get_products_list, items: 15)
     render 'tender_category_by_sector'
   end
 

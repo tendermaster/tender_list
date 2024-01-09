@@ -3,7 +3,9 @@ class UpdateTextSearchIndexToTenders < ActiveRecord::Migration[7.0]
     change_column :tenders, :title, :text
     change_column :tenders, :organisation, :text
 
-    remove_column :tenders, :tender_text_vector
+    if column_exists? :tenders, :tender_text_vector
+      remove_column :tenders, :tender_text_vector
+    end
     execute <<~SQL
             -- tender vector
             ALTER TABLE tenders
@@ -27,7 +29,9 @@ class UpdateTextSearchIndexToTenders < ActiveRecord::Migration[7.0]
   end
 
   def down
-    remove_column :tenders, :tender_text_vector
+    if column_exists? :tenders, :tender_text_vector
+      remove_column :tenders, :tender_text_vector
+    end
 
     change_column :tenders, :title, :string
     change_column :tenders, :organisation, :string
