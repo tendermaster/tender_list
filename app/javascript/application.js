@@ -4,8 +4,8 @@
 
 $("#filter-search").on("click", () => {
   console.log("search");
-  // let q = $("#main-search").val();
-  let q = ''
+  let q = $("#main-search").val() + ' '
+  // let q = ''
 
   // $("input:checkbox:checked").each(function () {
   //   console.log(this.name);

@@ -13,5 +13,4 @@ class RebuildSitemapJob
   end
 end
 
-# Sidekiq::Cron::Job.create(name: 'RebuildCategoriesCacheJob - every-day-at-1:30 ist', cron: '0 22 * * *', class: 'RebuildCategoriesCacheJob')
-# 10pm utc - 3:30am
+# Sidekiq::Cron::Job.create(name: 'RebuildSitemapJob - every-day-at-3 ist', cron: '0 3 * * *', class: 'RebuildSitemapJob')
