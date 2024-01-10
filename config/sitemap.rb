@@ -27,9 +27,40 @@ SitemapGenerator::Sitemap.create do
   #     add article_path(article), :lastmod => article.updated_at
   #   end
 
-  add '/'
+  # Tender.where('is_visible = true').find_each do |result|
+  #   add("tender/#{result.slug}-#{result.slug_uuid}", changefreq: 'weekly')
+  # end
 
-  Tender.where('is_visible = true and submission_close_date > now()').find_each do |result|
-    add("tender/#{result.slug}-#{result.slug_uuid}", changefreq: 'weekly')
+  add '/'
+  add '/about'
+  add '/pricing'
+  add '/free-trial'
+  add how_to_file_tender_path
+  add faq_path
+
+  # add all result pages
+  add tender_main_category_path, changefreq: 'weekly'
+  add tender_category_by_city_path, changefreq: 'weekly'
+  add tender_category_by_state_path, changefreq: 'weekly'
+  add tender_category_by_sector_path, changefreq: 'daily'
+  add tender_by_organisation_path, changefreq: 'daily'
+  add tender_by_products_path, changefreq: 'daily'
+
+  # result keywords search result pages
+  [
+    CategoryService.home_keyword_list,
+    CategoryService.get_city_list,
+    CategoryService.get_sector_list,
+    CategoryService.get_organisation_list,
+    CategoryService.get_products_list,
+    CategoryService.get_state_list,
+    CategoryService.get_filter_sectors
+  ].flatten.each do |keyword|
+    add keyword_tender_path(keyword: keyword.gsub(' ', '-')), changefreq: 'daily'
   end
+  # add all tender show path
+  Tender.where('is_visible = true').find_each do |tender|
+    add tender_show_path(slug_uuid: tender.slug_uuid), changefreq: 'weekly'
+  end
+
 end

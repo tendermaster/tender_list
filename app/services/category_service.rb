@@ -2,7 +2,7 @@ module CategoryService
 
   # TODO: rebuild cache before expiry, at night
   # run at 2am every day
-  def rebuild_categories_cache
+  def self.rebuild_categories_cache
     home_keyword_list(rebuild: true)
     get_city_list(rebuild: true)
     get_sector_list(rebuild: true)
@@ -22,10 +22,10 @@ module CategoryService
   def self.cache_keyword_list(name, keywords, options = {})
     list = Rails.cache.fetch(name)
     if list.nil? || options[:rebuild]
+      p "cache miss key:#{name}, rebuild: #{options[:rebuild]}"
       keywords = File.read("app/files/categories/#{keywords}") if options[:type] == 'file'
       active_keywords = get_active_categories_list(keywords)
       Rails.cache.write(name, active_keywords, expire_in: 48.hours)
-      p "cache miss key:#{name}, rebuild: #{options[:rebuild]}"
       active_keywords
     else
       p "cache hit key:#{name}"

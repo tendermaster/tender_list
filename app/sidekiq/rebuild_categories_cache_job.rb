@@ -9,4 +9,6 @@ end
 
 # every-day-at-2am
 # Sidekiq::Cron::Job.create(name: 'RebuildCategoriesCacheJob - every-day-at-2am', cron: '0 2 * * *', class: 'RebuildCategoriesCacheJob')
+# Sidekiq::Cron::Job.create(name: 'RebuildCategoriesCacheJob - every-day-at-1:30 ist', cron: '0 20 * * *', class: 'RebuildCategoriesCacheJob')
+# 8pm utc - 1:30am
 #
