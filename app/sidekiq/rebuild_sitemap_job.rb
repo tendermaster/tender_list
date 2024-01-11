@@ -3,7 +3,7 @@ class RebuildSitemapJob
 
   def perform(*args)
     # Do something
-    success = system 'bundle exec rake sitemap:create'
+    success = system 'bundle exec rake sitemap:refresh'
     if success
       p 'Sitemap created successfully'
     else

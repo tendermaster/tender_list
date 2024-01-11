@@ -1,0 +1,38 @@
+<%= render 'layouts/navbar' %>
+
+<div class="container" style="min-height: 60vh">
+
+  <%= render 'layouts/flash' %>
+
+  <div class="">
+    <div class="">
+      <h3 class="text-xl">Log in as:</h3>
+
+      <div class="flex mt-6">
+        <p>Current Admin User: <%= current_admin_user.email %></p>
+        <p>
+          <a class="bg-orange-600 text-white rounded-lg px-3 py-2 ml-4" href="<%= destroy_admin_user_session_path %>">Logout</a>
+        </p>
+      </div>
+
+      <div class="flex mt-4">
+        <p>Current User: <%= current_user ? current_user&.email : '' %></p>
+        <p>
+          <a class="bg-orange-600 text-white rounded-lg px-3 py-2 ml-4" href="<%= destroy_user_session_path %>">Logout</a>
+        </p>
+      </div>
+
+      <div class="pt-6">
+        <%= form_with url: login_as_path, method: :post do |form| %>
+          <%= form.label :user_id, "Login As:" %>
+          <%#= form.text_field :user %>
+          <%= form.select :user_id, user_list, { selected: current_user&.id }, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+          <%= form.submit "Login", class: 'btn-sm mt-4' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'layouts/footer' %>
+

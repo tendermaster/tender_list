@@ -85,6 +85,8 @@ Rails.application.routes.draw do
   post '/api/download_file', controller: :api, action: :download_file, as: :download_file
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  #   admin
+  get '/admin2', controller: :admin, action: :admin2, as: :admin2
+  post '/admin2/login_as', controller: :admin, action: :login_as, as: :login_as
+
 end

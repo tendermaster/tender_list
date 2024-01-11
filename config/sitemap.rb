@@ -3,7 +3,7 @@ SitemapGenerator::Sitemap.default_host = 'https://sigmatenders.com'
 
 SitemapGenerator::Sitemap.create_index = true
 
-SitemapGenerator::Sitemap.create(create_index: true, max_sitemap_links: 40_000) do
+SitemapGenerator::Sitemap.create(create_index: true, max_sitemap_links: 35_000) do
   # Put links creation logic here.
   #
   # The root path '/' and sitemap index file are added automatically for you.
