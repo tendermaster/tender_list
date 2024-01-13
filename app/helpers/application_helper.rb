@@ -39,20 +39,20 @@ module ApplicationHelper
   end
 
   def generate_faq(data)
-    JSON.pretty_generate(
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      'mainEntity': data.each_with_index do |ques|
-        {
-          '@type': 'Question',
-          'name': ques[:name],
-          'acceptedAnswer': {
-            '@type': 'Answer',
-            'text': ques[:ans]
-          }
-        }
-      end
-    )
+    JSON.pretty_generate({
+                           '@context': 'https://schema.org',
+                           '@type': 'FAQPage',
+                           'mainEntity': data.map do |ques|
+                             {
+                               '@type': 'Question',
+                               'name': ques[:name],
+                               'acceptedAnswer': {
+                                 '@type': 'Answer',
+                                 'text': ques[:ans]
+                               }
+                             }
+                           end
+                         })
   end
 
   def is_tender_id?(string)
