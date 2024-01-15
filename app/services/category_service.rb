@@ -15,8 +15,9 @@ module CategoryService
 
   def self.get_active_categories_list(string)
     string.split("\n").sort.map(&:strip).reject(&:empty?).map { |item|
-      item if TendersController.search_tender(item, 0, 10 ** 10).limit(1).present?
-    }.reject(&:nil?)
+      search_string = item.gsub('-', ' ')
+      search_string if TendersController.search_tender(search_string, 0, 10 ** 10).limit(1).present?
+    }.reject(&:nil?).uniq
   end
 
   def self.cache_keyword_list(name, keywords, options = {})
