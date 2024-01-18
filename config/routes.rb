@@ -2,12 +2,15 @@ require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
+  resources :coupons
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # /
   root controller: :tenders, action: :home
 
   resources :queries
+  get '/redeem', controller: :queries, action: :redeem, as: :redeem
+  post '/redeem', controller: :queries, action: :redeem_coupon, as: :redeem_coupon
 
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',

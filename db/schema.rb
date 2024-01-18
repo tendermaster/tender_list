@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_09_105401) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_18_165638) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,6 +65,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_09_105401) do
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
+  create_table "coupons", force: :cascade do |t|
+    t.text "coupon_code"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer "validity_seconds"
+    t.boolean "is_valid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coupon_code"], name: "index_coupons_on_coupon_code", unique: true
+  end
+
   create_table "misc_data_stores", force: :cascade do |t|
     t.json "data"
     t.string "name"
@@ -110,6 +121,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_09_105401) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "coupon_code"
+    t.index ["coupon_code"], name: "index_subscriptions_on_coupon_code"
     t.index ["end_date"], name: "index_subscriptions_on_end_date"
     t.index ["order_id"], name: "index_subscriptions_on_order_id"
     t.index ["plan_name"], name: "index_subscriptions_on_plan_name"

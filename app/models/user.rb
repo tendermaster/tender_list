@@ -33,7 +33,7 @@ class User < ApplicationRecord
   end
 
   def self.active_subscription_end_date(user)
-    user_subscription = user.subscriptions.where('end_date > now()').limit(1)
+    user_subscription = user.subscriptions.where('end_date > now()').order(end_date: :desc).limit(1)
     if user_subscription.present?
       end_date = user_subscription[0].end_date
       time_left = (end_date - Time.zone.now) / 1.days
@@ -44,9 +44,10 @@ class User < ApplicationRecord
   end
 
   def self.active_plan(user)
-    user_subscription = user.subscriptions.where('end_date > now()').limit(1)
+    user_subscription = user.subscriptions.where('end_date > now()').order(end_date: :desc).limit(1)
     if user_subscription.present?
-      user_subscription[0].plan_name
+      sub = user_subscription[0]
+      sub.plan_name
     else
       'FREE'
     end
@@ -58,6 +59,38 @@ class User < ApplicationRecord
       true
     else
       false
+    end
+  end
+
+  def self.redeem_coupon(user, code)
+    if !user.subscriptions.find_by(coupon_code: code).present?
+      #   can use add days
+      coupon = Coupon.find_by(coupon_code: code, is_valid: true)
+      if coupon.present? && Time.now.between?(coupon.start_date, coupon.end_date) && coupon.is_valid
+        Subscription.create!(
+          plan_name: 'PAID',
+          price: 0,
+          start_date: Time.now,
+          end_date: Time.now + coupon.validity_seconds,
+          user_id: user.id,
+          coupon_code: code
+        )
+
+        {
+          ok: true,
+          message: 'Coupon Redeemed Successfully'
+        }
+      else
+        {
+          ok: false,
+          message: 'Coupon is not valid'
+        }
+      end
+    else
+      {
+        ok: false,
+        message: 'Coupon has already been used'
+      }
     end
   end
 

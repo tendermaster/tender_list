@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  coupon_code: MyText
+  start_date: 2024-01-18 22:26:38
+  end_date: 2024-01-18 22:26:38
+  validity_seconds: 1
+  is_valid: false
+
+two:
+  coupon_code: MyText
+  start_date: 2024-01-18 22:26:38
+  end_date: 2024-01-18 22:26:38
+  validity_seconds: 1
+  is_valid: false

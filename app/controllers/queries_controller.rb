@@ -102,6 +102,21 @@ QUERY
     end
   end
 
+  def redeem
+
+  end
+
+  def redeem_coupon
+    coupon_code = params['coupon_code']
+    res = User.redeem_coupon(current_user, coupon_code)
+    if res[:ok]
+      flash[:success] = res[:message]
+    else
+      flash[:error] = res[:message]
+    end
+    redirect_to url_for(redeem)
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

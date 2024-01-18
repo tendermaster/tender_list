@@ -1,0 +1,23 @@
+<%= render 'layouts/navbar' %>
+
+<div class="px-6 md:px-24">
+  <div class="flex justify-between items-center ">
+    <h1 class="font-bold text-4xl">Redeem Coupon</h1>
+    <%= link_to 'Dashboard', queries_path, class: "btn-sm" %>
+  </div>
+
+  <div class="flex flex-col items-center">
+    <%= render 'layouts/flash' %>
+    <div class="">
+      <%= form_with(url: redeem_coupon_path, method: 'post', class: 'flex flex-col max-w-lg space-y-4') do |f| %>
+        <%= f.label :coupon_code, "Coupon code", class: 'text-lg font-bold' %>
+        <%= f.text_field :coupon_code, class: 'block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full' %>
+        <%= f.submit "Submit", class: 'btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+</div>
+</div>
+
+<%= render 'layouts/footer' %>
+

@@ -40,6 +40,6 @@ module TenderList
     config.hosts << /.*\.ngrok-free\.app/
 
     config.active_job.queue_adapter = :sidekiq
-
+    config.generators.scaffold_controller = :scaffold_controller
   end
 end
