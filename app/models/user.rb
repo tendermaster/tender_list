@@ -63,33 +63,58 @@ class User < ApplicationRecord
   end
 
   def self.redeem_coupon(user, code)
-    if !user.subscriptions.find_by(coupon_code: code).present?
-      #   can use add days
-      coupon = Coupon.find_by(coupon_code: code, is_valid: true)
-      if coupon.present? && Time.now.between?(coupon.start_date, coupon.end_date) && coupon.is_valid
-        Subscription.create!(
-          plan_name: 'PAID',
-          price: 0,
-          start_date: Time.now,
-          end_date: Time.now + coupon.validity_seconds,
-          user_id: user.id,
-          coupon_code: code
-        )
+    # one time use
+    coupon = Coupon.find_by(coupon_code: code, is_valid: true)
+    if coupon.present? && Time.now.between?(coupon.start_date, coupon.end_date) && coupon.is_valid
+      #   coupon valid
+      if coupon.one_time_use
+        if Subscription.find_by(coupon_code: code).present?
+          {
+            ok: false,
+            message: 'Coupon has already been used'
+          }
+        else
+          Subscription.create!(
+            plan_name: 'PAID',
+            price: 0,
+            start_date: Time.now,
+            end_date: Time.now + coupon.validity_seconds,
+            user_id: user.id,
+            coupon_code: code
+          )
 
-        {
-          ok: true,
-          message: 'Coupon Redeemed Successfully'
-        }
+          {
+            ok: true,
+            message: 'Coupon Redeemed Successfully'
+          }
+        end
       else
-        {
-          ok: false,
-          message: 'Coupon is not valid'
-        }
+        if user.subscriptions.find_by(coupon_code: code).present?
+          #   already in use
+          {
+            ok: false,
+            message: 'Coupon has already been used in this account'
+          }
+        else
+          Subscription.create!(
+            plan_name: 'PAID',
+            price: 0,
+            start_date: Time.now,
+            end_date: Time.now + coupon.validity_seconds,
+            user_id: user.id,
+            coupon_code: code
+          )
+
+          {
+            ok: true,
+            message: 'Coupon Redeemed Successfully'
+          }
+        end
       end
     else
       {
-        ok: false,
-        message: 'Coupon has already been used'
+        ok: true,
+        message: 'Invalid Coupon'
       }
     end
   end

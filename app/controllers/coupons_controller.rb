@@ -66,6 +66,6 @@ class CouponsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def coupon_params
-      params.require(:coupon).permit(:coupon_code, :start_date, :end_date, :validity_seconds, :is_valid)
+      params.require(:coupon).permit(:coupon_code, :start_date, :end_date, :validity_seconds, :is_valid, :one_time_use)
     end
 end

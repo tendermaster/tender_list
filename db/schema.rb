@@ -71,6 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_18_165638) do
     t.datetime "end_date"
     t.integer "validity_seconds"
     t.boolean "is_valid"
+    t.boolean "one_time_use"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["coupon_code"], name: "index_coupons_on_coupon_code", unique: true

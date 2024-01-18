@@ -6,6 +6,7 @@ class CreateCoupons < ActiveRecord::Migration[7.0]
       t.datetime :end_date
       t.integer :validity_seconds
       t.boolean :is_valid
+      t.boolean :one_time_use
 
       t.timestamps
     end
