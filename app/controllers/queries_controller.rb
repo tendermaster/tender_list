@@ -35,9 +35,9 @@ class QueriesController < ApplicationController
     include_keyword = include_keyword.map.with_index do |word, index|
       # last
       if index == include_keyword_length - 1
-        "\"#{word.strip}\""
+        "#{word.strip}"
       else
-        "\"#{word.strip}\" or "
+        "#{word.strip} or "
       end
     end
 
