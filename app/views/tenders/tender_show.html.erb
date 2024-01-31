@@ -205,7 +205,7 @@
             <div class="text-lg font-bold my-8">Similar Tenders</div>
             <div class="flex justify-center">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <% TendersController.similar_tenders(@tender_data.title).each do |tender| %>
+                <% TendersController.similar_tenders(@tender_data.title, @tender_data.id).each do |tender| %>
                   <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="<%= tender_show_path(tender.slug_uuid) %>">
                       <% if is_tender_id?(tender&.title) %>

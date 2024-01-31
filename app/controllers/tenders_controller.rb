@@ -267,11 +267,15 @@ class TendersController < ApplicationController
                  ]).order(submission_close_date: :desc)
   end
 
-  def self.similar_tenders(query)
-    Tender.where([
-                   "ts_rank(tender_text_vector, websearch_to_tsquery('english', ?)) > 0.6",
-                   query
-                 ]).limit(10).offset(1)
+  def self.similar_tenders(query, exclude_id)
+    tenders = Rails.cache.fetch("similar_tenders/#{query}")
+    if tenders.nil?
+      p "caching async: #{query}"
+      FillSimilarTendersJob.perform_async(query, exclude_id)
+      []
+    else
+      tenders
+    end
   end
 
   private
