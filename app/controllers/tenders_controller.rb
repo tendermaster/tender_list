@@ -271,6 +271,8 @@ class TendersController < ApplicationController
     tenders = Rails.cache.fetch("similar_tenders/#{query}")
     if tenders.nil?
       p "caching async: #{query}"
+      # to stop further same request until cache is filled
+      Rails.cache.write("similar_tenders/#{query}", [], expire_in: 20.minutes)
       FillSimilarTendersJob.perform_async(query, exclude_id)
       []
     else
