@@ -267,6 +267,13 @@ class TendersController < ApplicationController
                  ]).order(submission_close_date: :desc)
   end
 
+  def self.similar_tenders(query)
+    Tender.where([
+                   "ts_rank(tender_text_vector, websearch_to_tsquery('english', ?)) > 0.6",
+                   query
+                 ]).limit(10).offset(1)
+  end
+
   private
 
   #
