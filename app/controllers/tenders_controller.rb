@@ -279,7 +279,8 @@ class TendersController < ApplicationController
     # else
     #   tenders
     # end
-
+    query = query.squish
+    p "searching: #{query}"
     Tender.searchkick_search(
       body: {
         "query": {
@@ -292,7 +293,7 @@ class TendersController < ApplicationController
                       "title.analyzed",
                       "description.analyzed"
                     ],
-                    "like": query.squish,
+                    "like": query,
                     "min_term_freq": 1,
                     "max_query_terms": 25
                   }
