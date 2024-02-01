@@ -1,0 +1,1 @@
+ENV["ELASTICSEARCH_URL"] = ENV["ELASTICSEARCH_URL"].nil? ? "http://elastic:changeme@127.0.0.1:9200" : ENV["ELASTICSEARCH_URL"]

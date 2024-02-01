@@ -11,4 +11,18 @@ class Tender < ApplicationRecord
   def self.ransackable_attributes(auth_object = nil)
     ["batch_time", "bid_open_date", "created_at", "description", "emd", "full_data", "id", "is_visible", "location", "organisation", "page_link", "search_conversions", "slug", "slug_uuid", "state", "submission_close_date", "submission_open_date", "tender_category", "tender_contract_type", "tender_fee", "tender_id", "tender_reference_number", "tender_search_data", "tender_source", "tender_text_vector", "tender_value", "title", "updated_at"]
   end
+
+  searchkick
+
+  def search_data
+    {
+      db_id: id,
+      slug_uuid: slug_uuid,
+      title: title,
+      description: description,
+      place: state,
+      end_date: submission_close_date
+    }
+  end
+
 end
