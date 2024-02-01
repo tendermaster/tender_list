@@ -268,6 +268,7 @@ class TendersController < ApplicationController
   end
 
   def self.similar_tenders(query, exclude_id)
+    # TODO: remove sql search add search kick
     # tenders = Rails.cache.fetch("similar_tenders/#{query}")
     # if tenders.nil?
     #   p "caching async: #{query}"
@@ -291,7 +292,7 @@ class TendersController < ApplicationController
                       "title.analyzed",
                       "description.analyzed"
                     ],
-                    "like": query,
+                    "like": query.squish,
                     "min_term_freq": 1,
                     "max_query_terms": 25
                   }
