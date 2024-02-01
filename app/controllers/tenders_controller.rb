@@ -268,16 +268,58 @@ class TendersController < ApplicationController
   end
 
   def self.similar_tenders(query, exclude_id)
-    tenders = Rails.cache.fetch("similar_tenders/#{query}")
-    if tenders.nil?
-      p "caching async: #{query}"
-      # to stop further same request until cache is filled
-      Rails.cache.write("similar_tenders/#{query}", [], expire_in: 20.minutes)
-      FillSimilarTendersJob.perform_async(query, exclude_id)
-      []
-    else
-      tenders
-    end
+    # tenders = Rails.cache.fetch("similar_tenders/#{query}")
+    # if tenders.nil?
+    #   p "caching async: #{query}"
+    #   # to stop further same request until cache is filled
+    #   Rails.cache.write("similar_tenders/#{query}", [], expire_in: 20.minutes)
+    #   FillSimilarTendersJob.perform_async(query, exclude_id)
+    #   []
+    # else
+    #   tenders
+    # end
+
+    Tender.searchkick_search(
+      body: {
+        "query": {
+          "function_score": {
+            "query": {
+              "bool": {
+                "must": {
+                  "more_like_this": {
+                    "fields": [
+                      "title.analyzed",
+                      "description.analyzed"
+                    ],
+                    "like": query,
+                    "min_term_freq": 1,
+                    "max_query_terms": 25
+                  }
+                },
+                "must_not": [
+                  {
+                    "term": {
+                      "db_id": {
+                        "value": exclude_id
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "min_score": 1
+          }
+        },
+        "size": 10,
+        "sort": [
+          {
+            "end_date": {
+              "order": "desc"
+            }
+          }
+        ]
+      })
+
   end
 
   private
