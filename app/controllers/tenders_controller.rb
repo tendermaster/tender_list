@@ -3,7 +3,12 @@ class TendersController < ApplicationController
   before_action :authenticate_user!, only: [:bookmark_tender]
 
   def home
-    #   root
+    # root
+    @todays_tender = Rails.cache.fetch('home/todays_tender')
+    if @todays_tender.nil?
+      @todays_tender = CategoryService.home_keyword_list.sample(10)
+      Rails.cache.write('home/todays_tender', @todays_tender, expires_in: 1.days)
+    end
   end
 
   def search
