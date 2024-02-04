@@ -83,10 +83,6 @@ class TendersController < ApplicationController
     render plain: 'OK'
   end
 
-  def trending_tenders
-
-  end
-
   def get_relevant_tenders
   end
 
@@ -125,6 +121,18 @@ class TendersController < ApplicationController
     )
 
     redirect_to action: :get_relevant_tenders_success
+  end
+
+  def trending_tenders
+    all_keywords = [CategoryService.home_keyword_list,
+                    CategoryService.get_city_list,
+                    CategoryService.get_sector_list,
+                    CategoryService.get_organisation_list,
+                    CategoryService.get_products_list,
+                    CategoryService.get_state_list].flatten
+
+    @pagy, @items = pagy_array(all_keywords, items: 15)
+    render 'tender_category_by_sector'
   end
 
   def tender_main_category
