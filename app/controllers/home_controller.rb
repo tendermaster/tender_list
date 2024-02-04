@@ -19,6 +19,10 @@ class HomeController < ApplicationController
 
   end
 
+  def partner_with_us
+
+  end
+
   def get_sample_tenders
     redirect_to get_callback_path
   end
