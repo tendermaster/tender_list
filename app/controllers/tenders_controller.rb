@@ -6,7 +6,7 @@ class TendersController < ApplicationController
     # root
     @todays_tender = Rails.cache.fetch('home/todays_tender')
     if @todays_tender.nil?
-      @todays_tender = CategoryService.home_keyword_list.sample(10)
+      @todays_tender = CategoryService.home_keyword_list.sample(18)
       Rails.cache.write('home/todays_tender', @todays_tender, expires_in: 1.days)
     end
   end

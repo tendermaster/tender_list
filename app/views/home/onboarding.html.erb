@@ -1,0 +1,44 @@
+<%= render 'layouts/navbar' %>
+
+<div class="flex flex-col items-center w-full h-full">
+
+  <div class="h-full mb-4 mt-12 w-full flex flex-col justify-center container" id="onboarding">
+    <style>
+        #onboarding ul li:nth-child(odd) {
+            margin-left: 1rem;
+            font-weight: 700;
+        }
+
+        #onboarding ul li:nth-child(even) {
+            margin-left: 2rem;
+        }
+    </style>
+    <p class="font-bold">Onboarding Process for Premium Access with SigmaTenders:</p>
+    <ul class="list-disc mt-4">
+      <li class="">Registration and Verification:</li>
+      <li class="">Sign up with your Gmail ID on our website. Verify your email by logging in and checking your inbox
+        (including spam) for the verification link.
+      </li>
+      <li>Customization:</li>
+      <li>Log in to your account and customise your tender searches by adding or removing keywords according to your
+        interests.
+      </li>
+      <li>Payment and Subscription:</li>
+      <li>Submit your registered email ID to our WhatsApp number +91 8076222021 after signing up. Assistance is
+        available via WhatsApp message or call. Proceed to make a secure payment through Razorpay as per your chosen
+        plan. Keep a screenshot of the payment success as proof. If required You may request for direct payment to our
+        Bank Account through whatsapp, team will send you the company bank account details.
+      </li>
+      <li>Activation and Access:</li>
+      <li>Upon receipt of your payment proof and user ID, our team will activate your paid account. Enjoy full access to
+        our tender portal resources, including email notifications and tender searches.
+      </li>
+      <li>Email Preferences:</li>
+      <li>Customize the frequency of email notifications directly in your registered email ID to stay updated on your
+        saved queries.
+      </li>
+    </ul>
+  </div>
+</div>
+
+<%= render 'layouts/footer' %>

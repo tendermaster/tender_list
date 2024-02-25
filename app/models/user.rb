@@ -49,7 +49,7 @@ class User < ApplicationRecord
       sub = user_subscription[0]
       sub.plan_name
     else
-      'FREE'
+      'DEMO'
     end
   end
 

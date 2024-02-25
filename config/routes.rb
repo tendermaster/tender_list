@@ -30,8 +30,9 @@ Rails.application.routes.draw do
   get '/coming-soon', controller: :home, action: :coming_soon
   get '/get-callback', controller: :home, action: :get_callback, as: :get_callback
   get '/partner-with-us', controller: :home, action: :partner_with_us, as: :partner_with_us
+  get '/onboarding', controller: :home, action: :onboarding, as: :onboarding
   get '/get-sample-tenders', controller: :home, action: :get_sample_tenders, as: :get_sample_tenders
-  get '/free-trial', controller: :home, action: :free_trial, as: :free_trial
+  # get '/free-trial', controller: :home, action: :free_trial, as: :free_trial
   get '/faq', controller: :home, action: :faq, as: :faq
 
   get '/pricing', controller: :home, action: :pricing, as: :pricing

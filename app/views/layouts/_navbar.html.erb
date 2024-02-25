@@ -21,9 +21,10 @@
             </div>
             <div class="px-3 py-2 flex justify-center">
               <p>
-                <span class="font-semibold">
-                  <%= button_to "Logout", destroy_user_session_path, method: :delete, class: 'bg-orange-600 text-white rounded-full px-4 py-2 font-bold' %>
-                </span>
+<!--                <span class="font-semibold">-->
+                  <%#= button_to "Logout", destroy_user_session_path, method: :delete, class: 'bg-orange-600 text-white rounded-full px-4 py-2 font-bold' %>
+<!--                </span>-->
+                <a href="<%= queries_path %>" class="btn-sm">Dashboard</a>
               </p>
             </div>
             <div class="px-3 py-2">
@@ -31,6 +32,13 @@
             </div>
             <div class="px-3 py-2">
               <p><span class="font-semibold">Expiry</span>: <%= User.active_subscription_end_date(current_user) %></p>
+            </div>
+            <div class="px-3 py-2 flex justify-center">
+              <p>
+                <span class="font-semibold">
+                  <%= button_to "Logout", destroy_user_session_path, method: :delete, class: 'bg-orange-600 text-white rounded-full px-4 py-2 font-bold' %>
+                </span>
+              </p>
             </div>
             <div data-popper-arrow></div>
           </div>
@@ -79,12 +87,12 @@
         <li>
           <a href="<%= pricing_path %>" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</a>
         </li>
-        <li>
-          <a href="<%= free_trial_path %>" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 underline underline-offset-4 hover:underline-offset-6 transition-transform decoration-orange-600 decoration-2">Free
-            Trial</a>
-        </li>
+<!--        <li>-->
+<!--          <a href="<%#= free_trial_path %>" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 underline underline-offset-4 hover:underline-offset-6 transition-transform decoration-orange-600 decoration-2">Free-->
+<!--            Trial</a>-->
+<!--        </li>-->
         <li class="flex">
-          <a href="<%= partner_with_us_path %>" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Partnership Invited (EOI)</a>
+          <a href="<%= onboarding_path %>" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Get Onboarded</a>
         </li>
         <!--        menu-->
         <li>

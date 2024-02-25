@@ -23,13 +23,17 @@ class HomeController < ApplicationController
 
   end
 
+  def onboarding
+
+  end
+
   def get_sample_tenders
     redirect_to get_callback_path
   end
 
-  def free_trial
-
-  end
+  # def free_trial
+  #
+  # end
 
   def faq
 
