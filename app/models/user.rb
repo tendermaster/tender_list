@@ -53,9 +53,16 @@ class User < ApplicationRecord
     end
   end
 
-  def self.can_fully_view_tender(user)
+  def self.can_fully_view_tender(user, submission_close_date=nil)
+
+    if submission_close_date.is_a?(ActiveSupport::TimeWithZone)
+      is_tender_expired = submission_close_date < Time.zone.now
+    else
+      is_tender_expired = false
+    end
+
     # has paid valid subscription
-    if !user.nil? && ['PAID', 'PREMIUM'].include?(User.active_plan(user))
+    if (!user.nil? && ['PAID', 'PREMIUM'].include?(User.active_plan(user))) || is_tender_expired
       true
     else
       false

@@ -64,9 +64,8 @@
             <h5
               class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
             >
-              <%#= result.title.capitalize %>
-
-              <% if User.can_fully_view_tender(current_user) or !is_tender_id?(result.title) %>
+              <%#= hide title only if (tenderid) like (only title) (non paid acc) %>
+              <% if User.can_fully_view_tender(current_user, result.submission_close_date) || !is_tender_id?(result.title) %>
                 <%= result.title.capitalize %>
               <% else %>
                 <div class="flex">

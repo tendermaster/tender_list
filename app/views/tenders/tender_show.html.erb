@@ -40,7 +40,7 @@
                 Title
               </th>
               <td class="py-4 px-6 select-none flex">
-                <% if User.can_fully_view_tender(current_user) or !is_tender_id?(@tender_data.title) %>
+                <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) || !is_tender_id?(@tender_data.title)  %>
                   <%= @tender_data.title.capitalize %>
                 <% else %>
                   <p class="blur-md select-none">AAAAAAAAAA</p>
@@ -80,7 +80,7 @@
                 Tender Id
               </th>
               <td class="py-4 px-6 flex">
-                <% if User.can_fully_view_tender(current_user) %>
+                <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
                   <%= @tender_data.tender_id %>
                 <% else %>
                   <p class="blur-md select-none">AAAAAAAAAA</p>
@@ -98,7 +98,7 @@
                 Reference Number
               </th>
               <td class="py-4 px-6 flex">
-                <% if User.can_fully_view_tender(current_user) %>
+                <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
                   <%= @tender_json['TenderReferenceNumber'] || @tender_data.tender_reference_number %>
                 <% else %>
                   <p class="blur-md select-none">AAAAAAAAAA</p>
@@ -171,7 +171,7 @@
                 Link
               </th>
               <td class="py-4 px-6 flex">
-                <% if User.can_fully_view_tender(current_user) %>
+                <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
                   <a class="underline underline-offset-2 hover:text-blue-600 force-word-break" target="_blank" rel="nofollow" href="<%= @tender_data.page_link %>"><%= @tender_data.page_link %></a>
                 <% else %>
                   <p class="blur-md select-none">AAAAAAAAAA</p>
@@ -208,13 +208,14 @@
                 <% TendersController.similar_tenders(is_tender_id?(@tender_data.title) ? @tender_data.description : @tender_data.title, @tender_data.id).each do |tender| %>
                   <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="<%= tender_show_path(tender.slug_uuid) %>">
-                      <% if is_tender_id?(tender&.title) %>
+                      <%# no perm needed to only view title %>
+                      <% if User.can_fully_view_tender(current_user, tender.submission_close_date) || !is_tender_id?(tender.title) %>
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><%= tender.title&.capitalize %></h5>
+                      <% else %>
                         <div class="flex">
                           <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white blur-md select-none">AAAAAAAAAA</h5>
                           <%= render 'plan_to_view_tender' %>
                         </div>
-                      <% else %>
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><%= tender.title&.capitalize %></h5>
                       <% end %>
                     </a>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
