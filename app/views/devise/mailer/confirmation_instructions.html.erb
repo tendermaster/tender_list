@@ -1,5 +1,8 @@
-<p>Welcome <%= @email %>!</p>
+<!--<p>Welcome <%#= @email %>!</p>-->
 
-<p>You can confirm your account email through the link below:</p>
+<p>Greetings and welcome to our platform! We're delighted to have you on board.</p>
+<p>To complete the registration process and confirm your account email, kindly click on the link below:</p>
 
 <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+
+<p>Thank you for choosing to be part of our community. Should you have any questions or need further assistance, please don't hesitate to reach out.</p>

@@ -1,7 +1,8 @@
 class ApplicationMailer < ActionMailer::Base
   # default from: "notify@sigmatenders.com"
   default from: email_address_with_name('no-reply@sigmatenders.com',
-                                        'SigmaTenders')
+                                        'SigmaTenders'),
+          reply_to: 'tendermasterinfo@gmail.com'
   layout "mailer"
 
   def welcome_email
