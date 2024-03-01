@@ -46,7 +46,7 @@ class MailerJob
           if tender_count > 0
             email = query.user.email
             puts "Sending Email to: #{email}"
-            ApplicationMailer.with(email: email,
+            NotificationMailer.with(email: email,
                                    tender_count: tender_count,
                                    total_tender_count: total_tender_count,
                                    query_id: query.id,
