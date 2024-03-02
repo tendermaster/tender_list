@@ -1,0 +1,7 @@
+<%# @tenders.each_with_index do |tender, index| %>
+<%#= index + 1 %>
+<%#= tender[:title] %>
+<%#= tender[:description] %>
+<%# end %>
+
+You've got <%= @tender_count %> new tenders on [<%= @query_name %>] out of a total of <%= @total_tender_count %> active tenders on your saved tenders. Visit <a href="<%= Rails.application.config.site_url %>/queries/tender_result/<%= @query_id %>"><%= Rails.application.config.site_name %></a> to check them out.
