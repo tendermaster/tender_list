@@ -2,6 +2,11 @@ require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
+
+  # ahoy
+  # https://github.com/ankane/ahoy/blob/master/config/routes.rb
+  # TODO: change url
+
   resources :coupons
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

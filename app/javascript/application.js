@@ -1,6 +1,12 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 // import "@hotwired/turbo-rails";
 // import "controllers";
+//= require ahoy
+
+// ahoy.configure({
+//   visitsUrl: "/ah/visits",
+//   eventsUrl: "/ah/events",
+// })
 
 $("#filter-search").on("click", () => {
   console.log("search");
@@ -72,6 +78,19 @@ $('.state-filter input[type="checkbox"]').on('change', function () {
   $('.state-filter input[type="checkbox"]').not(this).prop('checked', false);
 });
 
-setTimeout(() => {
-  $('.tlt').textillate({in: {effect: 'bounceIn'}});
-}, 2 * 1000);
+if ($('.tlt').length) {
+  setTimeout(() => {
+    $('.tlt').textillate({in: {effect: 'bounceIn'}});
+  }, 2 * 1000);
+}
+
+$('#main-search-btn').on('click', (e) => {
+  const query = $('#main-search').val()
+  if (query.length) {
+    ahoy.track("user_search", {
+      query: query,
+      url: window.location.href,
+      time: new Date().toString()
+    });
+  }
+})
