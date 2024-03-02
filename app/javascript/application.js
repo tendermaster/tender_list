@@ -86,11 +86,13 @@ if ($('.tlt').length) {
 
 $('#main-search-btn').on('click', (e) => {
   const query = $('#main-search').val()
+  const userEmail = $('#user-email').text().trim()
   if (query.length) {
     ahoy.track("user_search", {
       query: query,
       url: window.location.href,
-      time: new Date().toString()
+      time: new Date().toString(),
+      email: userEmail.length > 0 ? userEmail : null
     });
   }
 })

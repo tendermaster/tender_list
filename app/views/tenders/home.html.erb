@@ -98,7 +98,7 @@
             href="<%= keyword == 'More' ? trending_tenders_path : keyword_tender_path(keyword: keyword.gsub(' ', '-')) %>"
             class="w-full md:h-full inline-flex items-center rounded-lg bg-orange-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-orange-800 focus:outline-none focus:ring-4 focus:ring-orange-300 dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800"
           >
-            <%= keyword %>
+            <%= keyword.humanize %>
             <svg
               aria-hidden="true"
               class="ml-2 -mr-1 h-4 w-4"
