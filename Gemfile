@@ -123,4 +123,5 @@ gem "httparty"
 gem "sidekiq-cron"
 gem 'activeadmin'
 gem "solid_cache"
+gem "ahoy_matey"
 
