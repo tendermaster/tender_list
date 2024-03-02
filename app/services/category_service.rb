@@ -10,6 +10,7 @@ module CategoryService
     get_products_list(rebuild: true)
     get_state_list(rebuild: true)
     get_filter_sectors(rebuild: true)
+    Rails.cache.delete('home/todays_tender')
     p "Rebuild Complete: #{Time.now}"
   end
 
