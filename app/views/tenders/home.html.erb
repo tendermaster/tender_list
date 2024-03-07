@@ -1,7 +1,6 @@
 <% title "Home" %>
 <% description "sigmatenders.com is a tender portal specifically designed for independent entrepreneurs/ Business houses/ industries and  non-government organizations (NGOs) to get Realtime notifications of potential opportunities for their enterprise" %>
 <% keywords "tenders" %>
-
 <%= render 'layouts/navbar' %>
 <% if flash[:notice].present? %>
   <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
@@ -12,7 +11,7 @@
 <% end %>
 
 <!--    content -->
-<div class=" flex flex-col items-center pt-20 h-96 object-cover bg-no-repeat bg-bottom" style="background-image: url(<%= image_path 'bg.jpg' %>);">
+<div class=" flex flex-col items-center pt-14 h-96 object-cover bg-no-repeat bg-bottom" style="background-image: url(<%= image_path 'bg.jpg' %>);">
   <h1 class="text-center text-4xl text-gray-100">Discovering the best Tenders for your business needs</h1>
   <!--    search-->
   <form class="mt-12 w-96" action="<%= search_path %>" id="search-form">
