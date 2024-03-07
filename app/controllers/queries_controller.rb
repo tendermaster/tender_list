@@ -1,6 +1,6 @@
 class QueriesController < ApplicationController
-  before_action :set_query, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  before_action :set_query, only: %i[ show edit update destroy ]
 
   # GET /queries or /queries.json
   def index

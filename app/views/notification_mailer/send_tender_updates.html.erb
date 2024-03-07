@@ -4,4 +4,10 @@
 <%#= tender[:description] %>
 <%# end %>
 
-You've got <%= @tender_count %> new tenders on [<%= @query_name %>] out of a total of <%= @total_tender_count %> active tenders on your saved tenders. Visit <a href="<%= Rails.application.config.site_url %>/queries/tender_result/<%= @query_id %>"><%= Rails.application.config.site_name %></a> to check them out.
+<p>
+  You've got <%= @tender_count %> new tenders on [<%= @query_name %>] out of a total of <%= @total_tender_count %> active tenders on your saved tenders. Visit <a href="<%= Rails.application.config.site_url %>/queries/tender_result/<%= @query_id %>"><%= Rails.application.config.site_name %></a> to check them out.
+</p>
+
+<p>
+  You can change email frequency by visiting <a href="<%= Rails.application.config.site_url %>/queries/<%= @query_id %>/edit">[<%= @query_name %>] settings page</a>.
+</p>
