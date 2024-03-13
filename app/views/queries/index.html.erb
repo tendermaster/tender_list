@@ -21,13 +21,21 @@
   <%= render 'layouts/flash' %>
 
   <%# if notice.present? %>
-<!--    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%#= notice %></p>-->
+  <!--    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%#= notice %></p>-->
   <%# end %>
 
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Search & Save</h1>
     <%= link_to 'Add keywords', new_query_path, class: "btn-sm" %>
   </div>
+
+  <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+
+  <% if @queries.length.zero? %>
+    <div class="mb-8">
+      <%= render partial: 'home/tutorial' %>
+    </div>
+  <% end %>
 
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
