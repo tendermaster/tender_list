@@ -15,6 +15,13 @@
   <div class="mx-8 my-12">
 
     <div class="">
+
+      <div class="mt-6">
+        <%= render partial: 'tender_search', locals: {
+          query: ''
+        }%>
+      </div>
+
       <h3 class="my-8 text-xl font-semibold">Tender Details</h3>
       <div class="lg:grid grid-cols-12 gap-x-8">
         <div class="relative col-span-8 overflow-x-auto">
