@@ -22,35 +22,16 @@ class TendersController < ApplicationController
     @min_value = params['min_value'].to_i
     @max_value = params['max_value'].to_i
 
-    if @max_value == 0 then
-      @max_value = 10 ** 10
-    end
+    @max_value = 10 ** 10 if @max_value == 0
 
     SearchQuery.create(query: @query)
 
     p "searching #{@query}"
-
-    collection = TendersController.search_tender(@query, @min_value, @max_value)
-
-    @pagy, @records = pagy(collection, items: 5)
+    # p params
+    # collection = TendersController.search_tender(@query, @min_value, @max_value)
+    @pagy, @records = TendersController.elastic_pagy(@query, params[:page])
 
   end
-
-  # TODO: complete recommendation
-  def recommend_tender(keywords)
-    # fix space in query: cctv delhi recommend
-    #     query = keywords.split(' ').join(' or ')
-    #
-    #     Tenders.select()
-    #
-    #     @recommended_tenders = ActiveRecord::Base.connection.execute(['select id, title, ts_rank_cd(tenders.tender_text_vector, query) as rank
-    # from tenders,
-    #      websearch_to_tsquery(?) query
-    # where query @@ tender_text_vector
-    # limit 100', query])
-  end
-
-  helper_method :recommend_tender
 
   def search_query
 
@@ -268,37 +249,102 @@ class TendersController < ApplicationController
   #   end
   # end
 
+  #   def self.search_tender(query, min_value, max_value)
+  #     Tender.where([
+  #                    "tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
+  #   and (emd between ? and ? or emd is null)
+  #   and (tender_value between ? and ? or tender_value is null)
+  #   and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata' or true)
+  #   and is_visible = true
+  # ",
+  #                    query,
+  #                    min_value * 0.02,
+  #                    max_value * 0.02,
+  #                    min_value,
+  #                    max_value
+  #                  ]).order(submission_close_date: :desc)
+  #   end
   def self.search_tender(query, min_value, max_value)
-    Tender.where([
-                   "tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
-  and (emd between ? and ? or emd is null)
-  and (tender_value between ? and ? or tender_value is null)
-  and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata' or true)
-  and is_visible = true
-",
-                   query,
-                   min_value * 0.02,
-                   max_value * 0.02,
-                   min_value,
-                   max_value
-                 ]).order(submission_close_date: :desc)
+    #     Tender.where([
+    #                    "tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
+    #   and (emd between ? and ? or emd is null)
+    #   and (tender_value between ? and ? or tender_value is null)
+    #   and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata' or true)
+    #   and is_visible = true
+    # ",
+    #                    query,
+    #                    min_value * 0.02,
+    #                    max_value * 0.02,
+    #                    min_value,
+    #                    max_value
+    #                  ]).order(submission_close_date: :desc)
+
+    # ElasticClient.search(
+    #   index: 'search-v2-sigmatenders',
+    #   body: {
+    #     query: {
+    #       multi_match: {
+    #         query: 'repair',
+    #         "fields": ["public_tenders_tender_id", "public_tenders_title", "public_tenders_description", "public_tenders_organisation", "public_tenders_slug_uuid", "public_tenders_page_link", "public_tenders_state"]
+    #       }
+    #     },
+    #     sort: [{
+    #              "public_tenders_submission_close_date": "desc"
+    #            }]
+    #   }
+    # )
+
+    #   map to db
+  end
+
+  # http://localhost:3000/search?q=chartered+accountatn
+  # https://ddnexus.github.io/pagy/docs/how-to/#paginate-non-activerecord-collections
+  # http://localhost:5601/app/management/data/index_management/indices/index_details?indexName=search-v2-sigmatenders&tab=overview
+  # problem: page set default 20 items
+  # Pagy::DEFAULT
+  #
+  def self.elastic_pagy(query, page_number)
+    items_per_page = 5
+    if page_number.nil?
+      offset = 0
+    else
+      offset = (page_number.to_i - 1) * items_per_page
+    end
+    begin
+      results = ElasticClient.search(
+        index: 'search-v2-sigmatenders',
+        body: {
+          query: {
+            multi_match: {
+              query: query,
+              "fields": ["public_tenders_tender_id", "public_tenders_title", "public_tenders_description", "public_tenders_organisation", "public_tenders_slug_uuid", "public_tenders_page_link", "public_tenders_state"]
+            }
+          },
+          sort: [{
+                   "public_tenders_submission_close_date": "desc"
+                 }],
+          size: items_per_page,
+          from: offset
+        }
+      )
+    rescue Elastic::Transport::Transport::Errors::BadRequest
+      raise ActiveRecord::RecordNotFound
+    end
+    total = results['hits']['total']['value']
+
+    pagy = Pagy.new(count: total, page: page_number, items: 5)
+    db_records = results['hits']['hits'].map do |item|
+      item['_source']['public_tenders_id']
+    end
+    results = Tender.find(db_records)
+    [pagy, results]
   end
 
   def self.similar_tenders(query, exclude_id)
-    # TODO: remove sql search add search kick
-    # tenders = Rails.cache.fetch("similar_tenders/#{query}")
-    # if tenders.nil?
-    #   p "caching async: #{query}"
-    #   # to stop further same request until cache is filled
-    #   Rails.cache.write("similar_tenders/#{query}", [], expire_in: 20.minutes)
-    #   FillSimilarTendersJob.perform_async(query, exclude_id)
-    #   []
-    # else
-    #   tenders
-    # end
     query = query.squish
     p "searching: #{query}"
-    Tender.searchkick_search(
+    results = ElasticClient.search(
+      index: 'search-v2-sigmatenders',
       body: {
         "query": {
           "function_score": {
@@ -307,8 +353,8 @@ class TendersController < ApplicationController
                 "must": {
                   "more_like_this": {
                     "fields": [
-                      "title.analyzed",
-                      "description.analyzed"
+                      "public_tenders_title",
+                      "public_tenders_description"
                     ],
                     "like": query,
                     "min_term_freq": 1,
@@ -332,13 +378,17 @@ class TendersController < ApplicationController
         "size": 10,
         "sort": [
           {
-            "end_date": {
+            "public_tenders_submission_close_date": {
               "order": "desc"
             }
           }
         ]
       })
-
+    db_records = results['hits']['hits'].map do |item|
+      item['_source']['public_tenders_id']
+    end
+    results = Tender.find(db_records)
+    results
   end
 
   private

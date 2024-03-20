@@ -432,6 +432,7 @@ DEPENDENCIES
   devise (~> 4.9)
   dotiw (~> 5.3)
   elasticsearch
+  elasticsearch-api (~> 8.12)
   httparty
   importmap-rails
   jbuilder

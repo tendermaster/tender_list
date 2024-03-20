@@ -19,11 +19,11 @@ class QueriesController < ApplicationController
 
     @max_value = 10 ** 10 if @max_value == 0
 
-    collection = TendersController.search_tender(@query_string, @min_value, @max_value)
+    # collection = TendersController.search_tender(@query_string, @min_value, @max_value)
+    @pagy, @records = TendersController.elastic_pagy(@query, params[:page])
 
-    @pagy, @records = pagy(collection, items: 5)
+    # @pagy, @records = pagy(collection, items: 5)
     @query = @query_string
-
     render 'tenders/search'
   end
 
