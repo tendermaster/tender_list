@@ -17,7 +17,15 @@ module CategoryService
   def self.get_active_categories_list(string)
     string.split("\n").sort.map(&:strip).reject(&:empty?).uniq.map { |item|
       search_string = item.gsub('-', ' ')
-      search_string if TendersController.search_tender(search_string, 0, 10 ** 10).limit(1).present?
+      # search_string if TendersController.search_tender(search_string, 0, 10 ** 10).limit(1).present?
+      begin
+        @pagy, @records = TendersController.elastic_pagy(search_string, 1)
+        if @records.present?
+          return search_string
+        end
+      rescue
+        return nil
+      end
     }.reject(&:nil?)
   end
 

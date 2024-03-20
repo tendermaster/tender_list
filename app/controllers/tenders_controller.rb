@@ -265,19 +265,19 @@ class TendersController < ApplicationController
   #                  ]).order(submission_close_date: :desc)
   #   end
   def self.search_tender(query, min_value, max_value)
-    #     Tender.where([
-    #                    "tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
-    #   and (emd between ? and ? or emd is null)
-    #   and (tender_value between ? and ? or tender_value is null)
-    #   and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata' or true)
-    #   and is_visible = true
-    # ",
-    #                    query,
-    #                    min_value * 0.02,
-    #                    max_value * 0.02,
-    #                    min_value,
-    #                    max_value
-    #                  ]).order(submission_close_date: :desc)
+        Tender.where([
+                       "tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
+      and (emd between ? and ? or emd is null)
+      and (tender_value between ? and ? or tender_value is null)
+      and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata' or true)
+      and is_visible = true
+    ",
+                       query,
+                       min_value * 0.02,
+                       max_value * 0.02,
+                       min_value,
+                       max_value
+                     ]).order(submission_close_date: :desc)
 
     # ElasticClient.search(
     #   index: 'search-v2-sigmatenders',
