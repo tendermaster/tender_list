@@ -14,19 +14,27 @@ module CategoryService
     p "Rebuild Complete: #{Time.now}"
   end
 
+  def self.keyword_present?(search_string)
+    begin
+      @pagy, @records = TendersController.elastic_pagy(search_string, 1)
+      if @records.present?
+        return search_string
+      else
+        nil
+      end
+    rescue
+      return nil
+    end
+  end
+
   def self.get_active_categories_list(string)
-    string.split("\n").sort.map(&:strip).reject(&:empty?).uniq.map { |item|
+    list = string.split("\n").sort.map(&:strip).reject(&:empty?).uniq.map { |item|
       search_string = item.gsub('-', ' ')
       # search_string if TendersController.search_tender(search_string, 0, 10 ** 10).limit(1).present?
-      begin
-        @pagy, @records = TendersController.elastic_pagy(search_string, 1)
-        if @records.present?
-          return search_string
-        end
-      rescue
-        return nil
-      end
+      CategoryService.keyword_present? search_string
     }.reject(&:nil?)
+    # p list
+    list
   end
 
   def self.cache_keyword_list(name, keywords, options = {})
