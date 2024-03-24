@@ -265,19 +265,19 @@ class TendersController < ApplicationController
   #                  ]).order(submission_close_date: :desc)
   #   end
   def self.search_tender(query, min_value, max_value)
-        Tender.where([
-                       "tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
+    Tender.where([
+                   "tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
       and (emd between ? and ? or emd is null)
       and (tender_value between ? and ? or tender_value is null)
       and (submission_close_date > now() AT TIME ZONE 'Asia/Kolkata' or true)
       and is_visible = true
     ",
-                       query,
-                       min_value * 0.02,
-                       max_value * 0.02,
-                       min_value,
-                       max_value
-                     ]).order(submission_close_date: :desc)
+                   query,
+                   min_value * 0.02,
+                   max_value * 0.02,
+                   min_value,
+                   max_value
+                 ]).order(submission_close_date: :desc)
 
     # ElasticClient.search(
     #   index: 'search-v2-sigmatenders',
@@ -302,6 +302,7 @@ class TendersController < ApplicationController
   # http://localhost:5601/app/management/data/index_management/indices/index_details?indexName=search-v2-sigmatenders&tab=overview
   # problem: page set default 20 items
   # Pagy::DEFAULT
+  # https://www.elastic.co/guide/en/elasticsearch/reference/current/full-text-queries.html
   #
   def self.elastic_pagy(query, page_number)
     items_per_page = 5
@@ -317,7 +318,7 @@ class TendersController < ApplicationController
           query: {
             multi_match: {
               query: query,
-              "fields": ["public_tenders_tender_id", "public_tenders_title", "public_tenders_description", "public_tenders_organisation", "public_tenders_slug_uuid", "public_tenders_page_link", "public_tenders_state"]
+              "fields": ["public_tenders_tender_id", "public_tenders_title^3", "public_tenders_description^3", "public_tenders_organisation^2", "public_tenders_slug_uuid", "public_tenders_page_link", "public_tenders_state^2"]
             }
           },
           sort: [{
