@@ -28,26 +28,9 @@ class QueriesController < ApplicationController
   end
 
   def self.get_query_string(saved_query)
-    # search query
-    include_keyword = saved_query.include_keyword
-    include_keyword = include_keyword.split(',')
-    include_keyword_length = include_keyword.length
-    include_keyword = include_keyword.map.with_index do |word, index|
-      # last
-      if index == include_keyword_length - 1
-        "#{word.strip}"
-      else
-        "#{word.strip} or "
-      end
-    end
-
-    query_string = <<QUERY
-    #{include_keyword.join(' ')}
-    #{saved_query.exclude_keyword&.split(',').map { |word| "-\"#{word.strip}\"" }.join(' ')}
-QUERY
-    query_string.gsub!("\n", '')
-    query_string.strip!
-
+    include_query = saved_query.include_keyword.split(',').map { |e| e.squish }.join(' | ')
+    exclude_query = saved_query.exclude_keyword.split(',').map { |e| "-#{e.squish.gsub(' ', '\\ ')}" }.join(' ')
+    query_string = "#{include_query} #{exclude_query}"
     query_string
   end
 

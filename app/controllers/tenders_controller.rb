@@ -303,6 +303,8 @@ class TendersController < ApplicationController
   # problem: page set default 20 items
   # Pagy::DEFAULT
   # https://www.elastic.co/guide/en/elasticsearch/reference/current/full-text-queries.html
+  # https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-simple-query-string-query.html
+  #   long tail keywords
   #
   def self.elastic_pagy(query, page_number)
     items_per_page = 5
@@ -316,8 +318,9 @@ class TendersController < ApplicationController
         index: 'search-v2-sigmatenders',
         body: {
           query: {
-            multi_match: {
+            simple_query_string: {
               query: query,
+              "default_operator": "and",
               "fields": ["public_tenders_tender_id", "public_tenders_title^3", "public_tenders_description^3", "public_tenders_organisation^2", "public_tenders_slug_uuid", "public_tenders_page_link", "public_tenders_state^2"]
             }
           },
