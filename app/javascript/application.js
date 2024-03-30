@@ -96,3 +96,16 @@ $('#main-search-btn').on('click', (e) => {
     });
   }
 })
+
+$('#nav-search-btn').on('click', (e) => {
+  const query = $('#search-navbar').val()
+  const userEmail = $('#user-email').text().trim()
+  if (query.length) {
+    ahoy.track("user_search_nav", {
+      query: query,
+      url: window.location.href,
+      time: new Date().toString(),
+      email: userEmail.length > 0 ? userEmail : null
+    });
+  }
+})
