@@ -1,3 +1,11 @@
+<%
+  set_meta_tags(
+    title: "#{@pagy.count} #{@query} in India - #{Date.today.year}".titleize,
+    description: "#{@query} tenders in India.",
+    keywords: "#{@query}, tenders, #{@query} tenders in india"
+  )
+%>
+
 <%= render 'layouts/navbar' %>
 
 <div class="container-home">
