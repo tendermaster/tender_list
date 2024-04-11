@@ -44,6 +44,8 @@ class User < ApplicationRecord
   end
 
   def self.active_plan(user)
+    return nil unless user
+
     user_subscription = user.subscriptions.where('end_date > now()').order(end_date: :desc).limit(1)
     if user_subscription.present?
       sub = user_subscription[0]
