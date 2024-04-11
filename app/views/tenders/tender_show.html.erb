@@ -48,7 +48,7 @@
               </th>
               <td class="py-4 px-6 select-none flex">
                 <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) || !is_tender_id?(@tender_data.title) %>
-                  <% if User.active_plan(current_user === 'PAID') %>
+                  <% if User.active_plan(current_user) === 'PAID' %>
                     <div class="select-text">
                       <%= @tender_data.title.capitalize %>
                     </div>
