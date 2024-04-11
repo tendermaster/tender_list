@@ -48,9 +48,13 @@
               </th>
               <td class="py-4 px-6 select-none flex">
                 <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) || !is_tender_id?(@tender_data.title) %>
-                  <div class="select-text">
-                    <%= @tender_data.title.capitalize %>
-                  </div>
+                  <% if User.active_plan(current_user === 'PAID') %>
+                    <div class="select-text">
+                      <%= @tender_data.title.capitalize %>
+                    </div>
+                  <% else %>
+                    <div><%= @tender_data.title.capitalize %></div>
+                  <% end %>
                 <% else %>
                   <p class="blur-md select-none">AAAAAAAAAA</p>
                   <%= render 'plan_to_view_tender' %>
@@ -67,7 +71,7 @@
                 Description
               </th>
               <td class="py-4 px-6 select-none">
-                <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
+                <% if User.active_plan(current_user) == 'PAID' %>
                   <div class="select-text">
                     <%= @tender_data.description&.capitalize %>
                   </div>
