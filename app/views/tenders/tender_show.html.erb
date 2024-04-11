@@ -19,7 +19,7 @@
       <div class="mt-6">
         <%= render partial: 'tender_search', locals: {
           query: ''
-        }%>
+        } %>
       </div>
 
       <h3 class="my-8 text-xl font-semibold">Tender Details</h3>
@@ -47,8 +47,10 @@
                 Title
               </th>
               <td class="py-4 px-6 select-none flex">
-                <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) || !is_tender_id?(@tender_data.title)  %>
-                  <%= @tender_data.title.capitalize %>
+                <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) || !is_tender_id?(@tender_data.title) %>
+                  <div class="select-text">
+                    <%= @tender_data.title.capitalize %>
+                  </div>
                 <% else %>
                   <p class="blur-md select-none">AAAAAAAAAA</p>
                   <%= render 'plan_to_view_tender' %>
@@ -64,7 +66,17 @@
               >
                 Description
               </th>
-              <td class="py-4 px-6 select-none"><%= @tender_data.description&.capitalize %></td>
+              <td class="py-4 px-6 select-none">
+                <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
+                  <div class="select-text">
+                    <%= @tender_data.description&.capitalize %>
+                  </div>
+                <% else %>
+                  <div>
+                    <%= @tender_data.description&.capitalize %>
+                  </div>
+                <% end %>
+              </td>
             </tr>
             <tr
               class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
