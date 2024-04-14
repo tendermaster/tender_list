@@ -6,6 +6,8 @@
   type: "website",
   url: "#{Rails.application.config.site_url}/tender/#{@tender_data.slug_uuid}",
 } %>
+<% set_meta_tags image_src: url_for('/apple-touch-icon.png') %>
+
 <%= render 'layouts/navbar' %>
 
 <div class="text-gray-800 lg:pt-2 xl:px-36">
