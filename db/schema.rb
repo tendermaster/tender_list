@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_02_134006) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_17_184544) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -203,9 +203,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_02_134006) do
     t.jsonb "location"
     t.virtual "tender_text_vector", type: :tsvector, as: "to_tsvector('english'::regconfig, ((((((((((((((((((((((COALESCE(tender_id, ''::character varying))::text || ' '::text) || COALESCE(title, ''::text)) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || COALESCE(organisation, ''::text)) || ' '::text) || (COALESCE(state, ''::character varying))::text) || ' '::text) || (COALESCE(slug_uuid, ''::character varying))::text) || ' '::text) || (COALESCE(page_link, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text) || (COALESCE(tender_source, ''::character varying))::text) || ' '::text) || (COALESCE(tender_reference_number, ''::character varying))::text) || ' '::text))", stored: true
     t.virtual "text_search_trigram", type: :text, as: "(((((((((((COALESCE(title, ''::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || COALESCE(organisation, ''::text)) || ' '::text) || (COALESCE(state, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text)", stored: true
+    t.text "short_blog"
+    t.jsonb "meta_data"
     t.index ["created_at"], name: "index_tenders_on_created_at"
     t.index ["emd"], name: "index_tenders_on_emd"
     t.index ["is_visible"], name: "index_tenders_on_is_visible"
+    t.index ["meta_data"], name: "index_tenders_on_meta_data"
     t.index ["slug_uuid"], name: "index_tenders_on_slug_uuid", unique: true
     t.index ["submission_close_date"], name: "index_tenders_on_submission_close_date"
     t.index ["tender_id"], name: "index_tenders_on_tender_id"
