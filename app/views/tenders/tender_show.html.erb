@@ -27,6 +27,12 @@
       <h3 class="my-8 text-xl font-semibold">Tender Details</h3>
       <div class="lg:grid grid-cols-12 gap-x-8">
         <div class="relative col-span-8 overflow-x-auto">
+          <% if !@tender_data.short_blog.nil? %>
+            <div class="px-4 mb-8 prose whitespace-pre-line text-center">
+              <h2 class="text-lg">About Tender</h2>
+              <%= @tender_data.short_blog.titleize %>
+            </div>
+          <% end %>
           <table
             class="w-full overflow-hidden text-left text-sm text-gray-500 dark:text-gray-400 sm:rounded-lg"
           >
