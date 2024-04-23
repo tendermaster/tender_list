@@ -190,3 +190,4 @@ Water Equipments/ Meter/ Drilling/ Boring
 Water Supply/ Sanitation Works
 Weighing/Measuring System
 X Ray Films
+Medical Equipment
