@@ -12,13 +12,13 @@ Manpower supply
 audit firm
 community sanitary complex
 Supply of chemicals
-contractual labour
+labour
 watchman
 beautification of municipal garden
 pesticides
 Street vendors
-service provider
-public school
+Service provider
+Public school
 Vehicle contract
 impact assessment
 professional services
@@ -28,8 +28,9 @@ Plantation of Trees
 stationary supply
 contract worker
 Security Guards
-gardener
+Gardener
 stray castration vaccination and sterilization dogs
+Sterilization dogs
 Waste Disposal
 waste collection
 Empanelment of vendor

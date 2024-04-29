@@ -191,3 +191,468 @@ Water Supply/ Sanitation Works
 Weighing/Measuring System
 X Ray Films
 Medical Equipment
+
+
+Road Construction
+Advertising Services
+Aircraft
+Animal feed
+Arts
+crafts equipment
+accessories
+supplies
+Audio
+visual presentation
+composing equipment
+Batteries
+Cells
+Components
+Bedclothes
+table
+kitchen linen
+towels
+Bread
+bakery products
+Building Construction
+Camping
+outdoor equipment
+accessories
+Cereal
+pulse products
+Chocolate
+sugars
+sweeteners
+confectionary products
+Civil Works
+Cleaning
+Janitorial Equipments
+Cleaning
+janitorial supplies
+Collectibles
+awards
+Community
+social services
+Comprehensive health services
+Construction Engineering Consultancy
+Conventional war weapons
+Dairy products
+eggs
+Dental equipment
+supplies
+Discrete semiconductor devices
+Domestic appliances
+Dyeing
+tanning extracts
+Edible oils
+fats
+Electrical equipment
+components
+supplies
+Electron tube devices
+accessories
+Electronic manufacturing machinery
+equipment
+accessories
+Entertainment services
+Extrusions
+Fertilizers
+plant nutrients
+herbicides
+Fibers
+threads
+yarns
+Fisheries
+aquaculture
+Fishing
+hunting equipment
+Fluid
+gas distribution
+Forestry
+Foundry machines
+equipment
+supplies
+Fuel for nuclear reactors
+Furniture
+Gaseous fuels
+additives
+Gaskets
+seals
+Grinding
+polishing
+smoothing materials
+Hand tools
+Heating
+ventilation
+air circulation
+Horticulture
+Housings
+cabinets
+casings
+Humanitarian aid
+relief
+Industrial food
+beverage equipment
+Industrial process machinery
+equipment
+supplies
+Industrial refrigeration
+Information services
+Insurance
+retirement services
+Kitchenware
+Laboratory supplies
+fixtures
+Lapidary machinery
+equipment
+Law enforcement
+Legal services
+Lighting
+fixtures
+accessories
+Livestock services
+Luggage
+handbags
+packs
+cases
+Machining
+processing services
+Management advisory services
+Marine transport
+Mass transfer equipment
+Material packing
+handling
+Meat
+poultry products
+Medical diagnostic imaging
+nuclear medicine products
+Medical sterilization products
+Minerals
+ores
+metals
+Mining
+quarrying machinery
+equipment
+Mixers
+their parts
+accessories
+Motor vehicles
+Non edible animal products
+Non motorized cycles
+Office machines
+their supplies
+accessories
+Oil
+gas drilling
+operation materials
+Orthopedic
+prosthetic
+sports medicine products
+Packing supplies
+Paper products
+Passive discrete components
+Personal appearance
+Personal safety
+protection
+Petroleum processing machinery
+Photographic filmmaking supplies
+Pipeline Projects
+Pneumatic
+hydraulic
+electric control systems
+Postmortem
+mortuary equipment
+supplies
+Power Plant Construction
+Power Transmission
+Generators
+Substation
+Printed circuits
+integrated circuits
+microassemblies
+Printing
+publishing equipment
+Professional engineering services
+Public order
+safety
+Raw materials processing machinery
+Recreation
+playground
+swimming
+spa equipment
+supplies
+Refuse disposal
+treatment
+Respiratory
+anesthesia
+resuscitation products
+Road Construction
+Rope
+chain
+cable
+wire
+strap
+Saddlery
+harness goods
+Scrap
+waste materials
+Seasonings
+preservatives
+Security surveillance
+detection
+Sewing supplies
+accessories
+Software
+Spacecraft
+Sports equipment
+accessories
+Telecommunications media services
+Timepieces
+Toys
+games
+Toys
+Games
+Trade policy
+services
+Transportation Services
+Travel facilitation
+Utilities
+Vehicle repair or maintenance services
+Vocational training
+Water resources development
+oversight
+Window treatments
+Work related organizations
+Writing
+translations
+Accounting
+auditing
+Adhesives
+sealants
+Agricultural
+forestry
+landscape machinery
+equipment
+Atomic
+nuclear energy machinery
+equipment
+Automotive specialty tools
+Banking
+investment
+Bearings
+bushings
+wheels
+gears
+Beverages
+Bridge Construction
+Business administration services
+Castings
+Chemicals
+Civic organizations
+associations
+movements
+Classroom decoratives
+supplies
+Cleaning
+janitorial services
+Clothing
+Communications Devices
+Accessories
+Components for information technology or broadcasting or telecommunications
+Computer Equipment
+Accessories
+Containers
+storage
+Crop production
+management
+protection
+Data Voice or Multimedia Network Equipment or Platforms
+Accessories
+Developmental
+professional teaching aids
+materials
+accessories
+supplies
+Domestic
+personal assistance
+Drugs
+Medicines
+Earth
+stone
+Educational facilities
+Electrical wire
+cable
+harness
+Electronic hardware
+component parts
+accessories
+Emergency
+field medical services products
+Environmental Services
+Fabrics
+leather materials
+Fibers
+textiles
+fabric industries
+Fire protection
+Fishing
+aquaculture equipment
+Floriculture
+silviculture products
+Footwear
+Forgings
+Fruits
+vegetables
+nuts
+seeds
+Fuels
+Gambling or wagering equipment
+Gases
+Gemstones
+Gymnastics Equipments
+Hardware
+Heavy construction machinery
+equipment
+Hotels
+lodging
+meeting facilities
+Human resources services
+Hydraulic machinery
+equipment
+Industrial optics
+Industrial pumps
+compressors
+Industrial use papers
+Institutional food services equipment
+Jewelry
+Laboratory
+scientific equipment
+Land
+soil preparation
+management
+protection
+Launchers
+Leatherworking repairing machinery
+equipment
+Light weapons
+ammunition
+Live animals
+Lubricants
+oils
+greases
+anti corrosives
+Machined raw stock
+Magnets
+magnetic materials
+Manufacturing support services
+Marketing
+distribution
+Material handling machinery
+equipment
+Measuring
+observing
+testing instruments
+Medical apparel
+textiles
+Medical facility products
+Metal
+mineral industries
+Mining
+Oil
+Gas Services
+Missiles
+Moldings
+Musical Instruments
+parts
+accessories
+Non edible plant
+forestry products
+Office
+desk accessories
+Office Stationery
+Oil
+gas drilling
+exploration equipment
+Oil
+gas operating
+production equipment
+Packaging materials
+Paints
+primers
+finishes
+Passenger transport
+Patient care
+treatment products
+supplies
+Personal care products
+Pest Control Products
+Services
+Photographic
+recording media
+Photographic or filming or video equipment
+Plastic
+chemical industries
+Pneumatic machinery
+equipment
+Power generation
+Power sources
+Prepared
+preserved foods
+Printed publications
+Printing Services
+Public administration
+finance services
+Railway
+tramway machinery
+equipment
+Real estate services
+Refractories
+Resins
+rosins
+other resin derived materials
+Restaurants
+catering
+Rockets
+subsystems
+Rubber
+elastomers
+Sawmilling
+lumber processing machinery
+equipment
+Seafood
+Security
+personal safety
+Seeds
+bulbs
+seedlings
+cuttings
+Signage
+accessories
+Soil Investigation Services
+Specialized educational services
+Surgical products
+Textile
+fabric machinery
+accessories
+Tobacco
+smoking products
+substitutes
+Trade policy
+regulation
+Transportation components
+systems
+Transportation services equipment
+Underwater Vehicle
+Vehicle bodies
+trailers
+Vending machines
+Water
+wastewater treatment supply
+disposal
+Wildlife
+flora
+Wood
+paper industries
+Workshop machinery
+equipment
+supplies
+
