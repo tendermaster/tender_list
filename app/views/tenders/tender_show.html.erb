@@ -44,7 +44,7 @@
               <th scope="col" class="py-3 px-6">Details</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="grid sm:table-row-group">
             <tr
               class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
@@ -126,7 +126,7 @@
                 scope="row"
                 class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
               >
-                Reference Number
+                Reference <br> Number
               </th>
               <td class="py-4 px-6 flex">
                 <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
@@ -226,6 +226,21 @@
                   </p>
                   <a class="btn-sm inline-block mt-2 md:mt-0 md:ml-10" href="<%= root_path %>">Search Similar
                     tenders?</a>
+                </div>
+              </td>
+            </tr>
+            <tr
+              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+            >
+              <th
+                scope="row"
+                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+              >
+                Join for More <br> Relevant Opportunities
+              </th>
+              <td class="py-4 px-6">
+                <div class="md:flex md:items-center">
+                  <a class="px-3 py-2 bg-green-500 rounded-full text-white" href="https://whatsapp.com/channel/0029Vab3ADv7YSd4FZmQpj02" target="_blank">Whatsapp Channel</a>
                 </div>
               </td>
             </tr>
