@@ -10,7 +10,7 @@
 
 $("#filter-search").on("click", () => {
   console.log("search");
-  $("#main-search").text('')
+  $("#main-search").val('')
 
   let q = $("#main-search").val() + ' '
   // let q = ''
