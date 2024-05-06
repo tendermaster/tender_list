@@ -10,6 +10,8 @@
 
 $("#filter-search").on("click", () => {
   console.log("search");
+  $("#main-search").text('')
+
   let q = $("#main-search").val() + ' '
   // let q = ''
 
@@ -31,7 +33,7 @@ $("#filter-search").on("click", () => {
   });
 
   if (sector.length > 0) {
-    q += `(${sector.join(' or ')})`
+    q += `(${sector.join(' | ')})`
   }
 
   let min_value = 0
