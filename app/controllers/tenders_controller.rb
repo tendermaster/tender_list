@@ -9,7 +9,7 @@ class TendersController < ApplicationController
       if CategoryService.home_keyword_list.include?('Ngo Services')
         @todays_tender = [CategoryService.home_keyword_list[0]] + CategoryService.home_keyword_list[1..].sample(17)
       else
-        @todays_tender = CategoryService.home_keyword_list.sample(18)
+        @todays_tender = CategoryService.home_keyword_list.sample(21)
       end
       Rails.cache.write('home/todays_tender', @todays_tender, expires_in: 1.days)
     end
