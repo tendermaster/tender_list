@@ -315,17 +315,17 @@ class TendersController < ApplicationController
     end
     begin
       results = ElasticClient.search(
-        index: 'search-v2-sigmatenders',
+        index: 'cdc_pg_tenders.public.tenders',
         body: {
           query: {
             simple_query_string: {
               query: query,
               "default_operator": "and",
-              "fields": ["public_tenders_tender_id", "public_tenders_title^3", "public_tenders_description^3", "public_tenders_organisation^2", "public_tenders_slug_uuid", "public_tenders_page_link", "public_tenders_state^2"]
+              "fields": ["after.tender_id", "after.title^3", "after.description^3", "after.organisation^2", "after.short_blog^2", "after.slug_uuid", "after.page_link", "after.state^2"]
             }
           },
           sort: [{
-                   "public_tenders_submission_close_date": "desc"
+                   "after.submission_close_date": "desc"
                  }],
           size: items_per_page,
           from: offset
@@ -338,7 +338,7 @@ class TendersController < ApplicationController
 
     pagy = Pagy.new(count: total, page: page_number, items: 5)
     db_records = results['hits']['hits'].map do |item|
-      item['_source']['public_tenders_id']
+      item['_source']['after']['id']
     end
     results = Tender.find(db_records)
     [pagy, results]
@@ -348,7 +348,7 @@ class TendersController < ApplicationController
     query = query.squish
     p "searching: #{query}"
     results = ElasticClient.search(
-      index: 'search-v2-sigmatenders',
+      index: 'cdc_pg_tenders.public.tenders',
       body: {
         "query": {
           "function_score": {
@@ -357,8 +357,9 @@ class TendersController < ApplicationController
                 "must": {
                   "more_like_this": {
                     "fields": [
-                      "public_tenders_title",
-                      "public_tenders_description"
+                      "after.title",
+                      "after.description",
+                      "after.short_blog"
                     ],
                     "like": query,
                     "min_term_freq": 1,
@@ -382,14 +383,14 @@ class TendersController < ApplicationController
         "size": 10,
         "sort": [
           {
-            "public_tenders_submission_close_date": {
+            "after.submission_close_date": {
               "order": "desc"
             }
           }
         ]
       })
     db_records = results['hits']['hits'].map do |item|
-      item['_source']['public_tenders_id']
+      item['_source']['after']['id']
     end
     results = Tender.find(db_records)
     results
