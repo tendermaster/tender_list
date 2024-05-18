@@ -546,46 +546,28 @@ Water Resource Department
 Western Coalfields Limited
 Yantra India Limited
 
-wb
-cpwd
-tender odisha
-e tender haryana
-e tender cpwd
-cpwd e
-maha e
-mp e
-e tender kerala
-mp
-wb e
-tender coconut
-e tender up
-tender details
-up
-gem
-mes
-iocl e
-jharkhand
-tender telangana
-e tender mp
-lsgd
-odisha
-e tender rajasthan
-e tender delhi
-tender breast meaning
-tender coconut water
+wb | wbtenders.gov.in
+odisha | tendersodisha.gov.in
+CPWD | etender.cpwd.gov.in
+Maharashtra | mahatenders.gov.in
+Kerala | etenders.kerala.gov.in
+Madhya Pradesh | mptenders.gov.in
+West Bengal | wbtenders.gov.in
+uttar pradesh | etender.up.nic.in
+haryana | etenders.hry.nic.in
+iocl | iocletenders.nic.in
+Jharkhand | jharkhandtenders.gov.in
+telangana
+odisha | tendersodisha.gov.in
+Rajasthan | eproc.rajasthan.gov.in
+Delhi | govtprocurement.delhi.gov.in
 tripura
-e tender wb
 hp
-e tender odisha
-e tender maharashtra
-legal tender news
 assam
 rajasthan
 ccl
 gem portal tender search
-up e
 e-tender cpwd
-hpcl e
 e tender west bengal
 pmgsy
 iocl
@@ -597,21 +579,18 @@ coal india
 arsikere copra tender today
 haryana
 tender maharashtra
-pwd tender delhi
 pwd
 lsgd tender kerala
 gsecl
 e tender maharashtra zp
 cpwd tender wizard
 cspdcl
-tender rajasthan
-haryana e
 jk
 jharkhand e
 wcl
 ecl
-e tender chandigarh
-railway
+Chandigarh | etenders.chd.nic.in
+Indian Railway | Railways | www.ireps.gov.in
 nhai
 west bengal e
 e tender punjab
