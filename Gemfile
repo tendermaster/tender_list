@@ -126,3 +126,8 @@ gem "solid_cache"
 gem "ahoy_matey"
 gem "elasticsearch-api", "~> 8.12"
 gem 'activerecord-session_store'
+
+# Sentry tracking
+gem "stackprof"
+gem "sentry-ruby"
+gem "sentry-rails"
