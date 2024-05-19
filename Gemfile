@@ -125,3 +125,4 @@ gem 'activeadmin'
 gem "solid_cache"
 gem "ahoy_matey"
 gem "elasticsearch-api", "~> 8.12"
+gem 'activerecord-session_store'
