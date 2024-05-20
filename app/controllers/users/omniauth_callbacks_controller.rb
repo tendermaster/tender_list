@@ -5,6 +5,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if @user.persisted?
       flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Google'
+      # confimable bypass
+      # https://github.com/heartcombo/devise/blob/main/lib/devise/models/confirmable.rb#L87C16-L87C43
+      # https://stackoverflow.com/questions/32834055/devise-skip-confirmation-when-using-omniauth
+      @user.skip_confirmation!
+
       sign_in_and_redirect @user, event: :authentication
     else
       session['devise.google_data'] = request.env['omniauth.auth'].except('extra') # Removing extra as it can overflow some session stores
