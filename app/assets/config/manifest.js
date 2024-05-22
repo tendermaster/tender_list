@@ -11,4 +11,4 @@
 //= link letteringjs/jquery.lettering.js
 //= link textillate/jquery.textillate.js
 //= link textillate/assets/animate.css
-
+//= link sweetalert2/dist/sweetalert2.all.min.js

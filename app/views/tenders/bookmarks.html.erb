@@ -1,0 +1,47 @@
+<%= render 'layouts/navbar' %>
+
+<div class="container" style="min-height: 60vh">
+
+  <%= render 'layouts/flash' %>
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">Bookmarks</h1>
+  </div>
+
+  <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          S. No.
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Title
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Link
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @bookmarks.each_with_index { |bookmark, index| %>
+        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-wrap">
+            <%= index + 1 %>
+          </th>
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white truncate whitespace-pre-wrap">
+            <%= bookmark.tender.title %>
+          </th>
+          <td class="px-6 py-4">
+            <a href="<%= tender_show_path(slug_uuid: bookmark.tender.slug_uuid) %>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline btn-sm">View</a>
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'layouts/footer' %>
+

@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get '/redeem', controller: :queries, action: :redeem, as: :redeem
   post '/redeem', controller: :queries, action: :redeem_coupon, as: :redeem_coupon
 
+  get '/dashboard/bookmarks', to: 'tenders#bookmarks', as: :bookmarks
+
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
     # sessions: 'users/sessions'
@@ -78,7 +80,7 @@ Rails.application.routes.draw do
   get '/search', controller: :tenders, action: :search
   get '/tender/:slug_uuid', controller: :tenders, action: :tender_show, as: :tender_show
   post '/tender/:slug_uuid/like', controller: :tenders, action: :tender_like
-  # post '/tender/:slug_uuid/bookmark', controller: :tenders, action: :bookmark_tender
+  post '/tender/bookmark', controller: :tenders, action: :bookmark_tender
 
   # get '/tenders-by-state', controller: :home, action: :tenders_by_state
   # get '/tenders-by-sector', controller: :home, action: :tenders_by_sector

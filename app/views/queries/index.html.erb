@@ -29,6 +29,10 @@
     <%= link_to 'Add keywords', new_query_path, class: "btn-sm" %>
   </div>
 
+  <div class="mt-4">
+    <a href="<%= bookmarks_path%>" class="btn-sm py-2">Bookmarks</a>
+  </div>
+
   <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
 
   <% if @queries.length.zero? %>

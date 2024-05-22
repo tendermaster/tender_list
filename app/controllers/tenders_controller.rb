@@ -1,6 +1,6 @@
 class TendersController < ApplicationController
   before_action :set_tender, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, only: [:bookmark_tender]
+  before_action :authenticate_user!, only: [:bookmark_tender, :bookmarks]
 
   def home
     # root
@@ -48,6 +48,10 @@ class TendersController < ApplicationController
     end
   end
 
+  def bookmarks
+    @bookmarks = Bookmark.where(user_id: current_user.id)
+  end
+
   def bookmark_tender
     # TODO: complete bookmark
     # with turbo
@@ -65,6 +69,24 @@ class TendersController < ApplicationController
     #   end
     # end
     # render json: { error: 'unable to bookmark' }, status: :unprocessable_entity
+
+    page_id = params[:pageId]
+    p params
+    tender = Tender.find_by({ slug_uuid: page_id })
+    if tender.nil?
+      render json: { error: 'Tender not found' }, status: :unprocessable_entity
+    end
+
+    marked = Bookmark.find_by({ user_id: current_user.id, tender_id: tender.id })
+    message = ''
+    if marked.present?
+      marked.destroy!
+      message = 'Removed from Bookmark'
+    else
+      Bookmark.create(user_id: current_user.id, tender_id: tender.id)
+      message = 'Added to Bookmark'
+    end
+    render json: { message: message }
   end
 
   def tender_like
@@ -392,8 +414,11 @@ class TendersController < ApplicationController
     db_records = results['hits']['hits'].map do |item|
       item['_source']['after']['id']
     end
-    results = Tender.find(db_records)
-    results
+    begin
+      Tender.find(db_records)
+    rescue StandardError
+      []
+    end
   end
 
   private
