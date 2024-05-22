@@ -31,7 +31,7 @@
             <%= index + 1 %>
           </th>
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white truncate whitespace-pre-wrap">
-            <%= bookmark.tender.title %>
+            <a href="<%= tender_show_path(slug_uuid: bookmark.tender.slug_uuid) %>" class="font-medium hover:underline hover:underline-offset-2"><%= bookmark.tender.title %></a>
           </th>
           <td class="px-6 py-4">
             <a href="<%= tender_show_path(slug_uuid: bookmark.tender.slug_uuid) %>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline btn-sm">View</a>

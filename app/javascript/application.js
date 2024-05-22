@@ -145,6 +145,9 @@ bookmarkBtn.on('click', (e) => {
         title: data?.message,
         timer: 2000
       });
+
+      // change color
+      bookmarkBtn.toggleClass('bg-orange-600 text-white');
     })
   })
     .fail(function (error) {
@@ -154,6 +157,4 @@ bookmarkBtn.on('click', (e) => {
         title: errorMesssage || 'Error'
       });
     })
-//   change color
-  bookmarkBtn.toggleClass('bg-orange-600 text-white');
 })
