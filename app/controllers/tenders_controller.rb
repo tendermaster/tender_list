@@ -16,8 +16,8 @@ class TendersController < ApplicationController
   end
 
   def search
+    return redirect_to '/' if params['q'].nil?
 
-    # Tender.reindex
     @query = params['q'] || params['keyword'].gsub('-', ' ')
     @min_value = params['min_value'].to_i
     @max_value = params['max_value'].to_i
