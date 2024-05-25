@@ -367,6 +367,8 @@ class TendersController < ApplicationController
   end
 
   def self.similar_tenders(query, exclude_id)
+    return [] if query.nil?
+
     query = query.squish
     p "searching: #{query}"
     results = ElasticClient.search(
