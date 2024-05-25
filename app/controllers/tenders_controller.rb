@@ -16,7 +16,7 @@ class TendersController < ApplicationController
   end
 
   def search
-    return redirect_to '/' if params['q'].nil?
+    redirect_to '/' if params['q'].nil? && params['keyword'].nil?
 
     @query = params['q'] || params['keyword'].gsub('-', ' ')
     @min_value = params['min_value'].to_i
@@ -73,9 +73,7 @@ class TendersController < ApplicationController
     page_id = params[:pageId]
     p params
     tender = Tender.find_by({ slug_uuid: page_id })
-    if tender.nil?
-      render json: { error: 'Tender not found' }, status: :unprocessable_entity
-    end
+    render json: { error: 'Tender not found' }, status: :unprocessable_entity if tender.nil?
 
     marked = Bookmark.find_by({ user_id: current_user.id, tender_id: tender.id })
     message = ''
