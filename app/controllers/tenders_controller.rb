@@ -336,6 +336,9 @@ class TendersController < ApplicationController
       offset = (page_number.to_i - 1) * items_per_page
     end
     begin
+      # removed
+      # "after.short_blog^2",
+
       results = ElasticClient.search(
         index: 'cdc_pg_tenders.public.tenders',
         body: {
@@ -343,7 +346,7 @@ class TendersController < ApplicationController
             simple_query_string: {
               query: query,
               "default_operator": "and",
-              "fields": ["after.tender_id", "after.title^3", "after.description^3", "after.organisation^2", "after.short_blog^2", "after.slug_uuid", "after.page_link", "after.state^2"]
+              "fields": ["after.tender_id", "after.title^3", "after.description^3", "after.organisation", "after.slug_uuid", "after.page_link", "after.state^2"]
             }
           },
           sort: [{

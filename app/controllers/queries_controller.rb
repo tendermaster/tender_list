@@ -28,8 +28,8 @@ class QueriesController < ApplicationController
   end
 
   def self.get_query_string(saved_query)
-    include_query = saved_query.include_keyword.split(',').map { |e| e.squish }.join(' | ')
-    exclude_query = saved_query.exclude_keyword.split(',').map { |e| "-#{e.squish.gsub(' ', '\\ ')}" }.join(' ')
+    include_query = saved_query.include_keyword.split(',').map { |e| "(#{e.squish})" }.join(' | ')
+    exclude_query = saved_query.exclude_keyword.split(',').map { |e| "-(#{e.squish.gsub(' ', '\\ ')})" }.join(' ')
     query_string = "#{include_query} #{exclude_query}"
     query_string
   end
