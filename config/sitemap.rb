@@ -58,9 +58,14 @@ SitemapGenerator::Sitemap.create(create_index: true, max_sitemap_links: 35_000) 
   ].flatten.each do |keyword|
     add keyword_tender_path(keyword: keyword.gsub(' ', '-')), changefreq: 'daily'
   end
+
+  # https://developers.google.com/search/docs/crawling-indexing/large-site-managing-crawl-budget
+  # https://github.com/kjvarga/sitemap_generator?tab=readme-ov-file#adding-links
+  # https://stackoverflow.com/questions/20257299/sitemap-xml-should-i-prefer-lastmod-to-changefreq
+  # TODO: fix updated_at 50K results and watch short_blog
   # add all tender show path
   Tender.where('is_visible = true').find_each do |tender|
-    add tender_show_path(slug_uuid: tender.slug_uuid), changefreq: 'weekly'
+    add tender_show_path(slug_uuid: tender.slug_uuid), lastmod: tender.updated_at # , changefreq: 'weekly'
   end
 
 end
