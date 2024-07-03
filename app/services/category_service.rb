@@ -19,13 +19,31 @@ module CategoryService
       @pagy, @records = TendersController.elastic_pagy(search_string, 1)
       if @records.present?
         return search_string
-      else
-        nil
       end
     rescue
-      return nil
+      nil
     end
   end
+
+  # def self.category(keyword)
+  #   keyword_array = keyword.split('<|>')
+  #   label = keyword_array[0]
+  #   query_string = keyword_array[0]
+  #
+  #   if keyword_array.length > 1
+  #     query_id = keyword_array[1].to_i
+  #     query = Query.find(query_id)
+  #     if query.present?
+  #       puts "Query Found: #{keyword}"
+  #       query_string = QueriesController.get_query_string(query)
+  #     end
+  #   end
+  #
+  #   {
+  #     label: label,
+  #     query_string: query_string,
+  #   }
+  # end
 
   def self.get_active_categories_list(string)
     list = string.split("\n").sort.map(&:strip).reject(&:empty?).uniq.map { |item|
@@ -33,8 +51,6 @@ module CategoryService
       # search_string if TendersController.search_tender(search_string, 0, 10 ** 10).limit(1).present?
       CategoryService.keyword_present? search_string
     }.reject(&:nil?)
-    # p list
-    list
   end
 
   def self.cache_keyword_list(name, keywords, options = {})

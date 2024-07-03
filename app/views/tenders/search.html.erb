@@ -12,14 +12,16 @@
   <!-- search bar -->
   <div class="mt-6">
     <%= render partial: 'tenders/tender_search', locals: {
-      query: @query
+      query: @query_label
     } %>
   </div>
 
   <!-- search result -->
-
-  <h1 class="mt-8 mb-2 text-sm font-bold text-gray-700"><%= @query %> Tenders</h1>
-  <h2 class="mb-8 text-xl font-bold">Results for: <%= @query %></h2>
+  <div class="hidden">
+    <%= @query %>
+  </div>
+  <h1 class="mt-8 mb-2 text-sm font-bold text-gray-700"><%= @query_label %> Tenders</h1>
+  <h2 class="mb-8 text-xl font-bold">Results for: <%= @query_label %></h2>
 
   <div class="lg:grid grid-cols-12 gap-x-8">
     <div class="results space-y-6 col-span-8">

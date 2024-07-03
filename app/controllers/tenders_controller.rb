@@ -29,6 +29,12 @@ class TendersController < ApplicationController
     p "searching #{@query}"
     # p params
     # collection = TendersController.search_tender(@query, @min_value, @max_value)
+    @query_label = @query
+    custom_query = CustomQuery.custom_query?(@query)
+    if custom_query
+      @query = custom_query
+    end
+
     @pagy, @records = TendersController.elastic_pagy(@query, params[:page])
 
   end
