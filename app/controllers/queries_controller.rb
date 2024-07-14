@@ -24,6 +24,7 @@ class QueriesController < ApplicationController
 
     # @pagy, @records = pagy(collection, items: 5)
     @query = @query_string
+    @query_label = @saved_query.name.presence || @query_string
     render 'tenders/search'
   end
 
