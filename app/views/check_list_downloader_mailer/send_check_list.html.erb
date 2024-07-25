@@ -1,0 +1,8 @@
+Please Download your <%= @report_data[:label] %> Dockets from here
+<% @report_data[:files].each_with_index do |f, index| %>
+  <ul>
+    <li>
+      <a href="<%= f[:link] %>"><%= f[:name] %></a>
+    </li>
+  </ul>
+<% end %>

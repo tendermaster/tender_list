@@ -1,0 +1,23 @@
+<div id="download-checklist" class="border-2 border-orange-300 p-4 rounded-md">
+  <div class="text-center text-xl font-semibold">
+    Download Checklist
+  </div>
+  <hr class="bg-gray-800 mt-2"/>
+  <div class="max-w-lg">
+    <%= form_with url: url_for(checklist_download_path), class: 'flex flex-col mx-auto space-y-4' do |f| %>
+      <%= f.label :full_name, class: "form-label" %>
+      <%= f.text_field :full_name, class: "form-text-input", required: true %>
+
+      <%= f.label :email, class: "form-label" %>
+      <%= f.email_field :email, class: "form-text-input", required: true %>
+
+      <%= f.label :phone, class: "form-label" %>
+      <%= f.telephone_field :phone, class: "form-text-input", required: true %>
+
+      <%= f.label :report_type, "Document Type", class: "form-label", text: "Document Type" %>
+      <%= f.select :report_type, checklist_options('form'), {}, class: "form-text-input", required: true %>
+
+      <%= f.submit "Download", class: "btn-sm mt-6" %>
+    <% end %>
+  </div>
+</div>

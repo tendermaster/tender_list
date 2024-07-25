@@ -1,6 +1,7 @@
 class TendersController < ApplicationController
   before_action :set_tender, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, only: [:bookmark_tender, :bookmarks]
+  include ApplicationHelper
 
   def home
     # root
@@ -102,9 +103,9 @@ class TendersController < ApplicationController
   def get_relevant_tenders
   end
 
-  def get_relevant_tenders_success
-
-  end
+  # def get_relevant_tenders_success
+  #   @full_message = "Form Submitted Successfully"
+  # end
 
   def get_relevant_tenders_post
     # pp params
@@ -114,7 +115,6 @@ class TendersController < ApplicationController
     #   file.write("#{params['name']},#{params['email']},#{params['mobile']},#{params['sectors']}\n")
     # end
 
-    current_time = TZInfo::Timezone.get('Asia/Kolkata').now.strftime("%d-%b-%Y %I:%M %p")
     # CSV.open("dev/get_relevant_tenders_post.txt", "a+") do |csv|
     #   csv << [params['name'],
     #           params['email'],
@@ -136,7 +136,47 @@ class TendersController < ApplicationController
       source: 'sidebar'
     )
 
-    redirect_to action: :get_relevant_tenders_success
+    # redirect_to action: :get_relevant_tenders_success
+    @full_message = 'Form Submitted Successfully'
+    render 'get_relevant_tenders_success'
+  end
+
+  def checklist_download
+    # return render plain: params.to_json
+    @full_message = 'Please Check your email (including spam folder) to download your files'
+
+    unless params[:report_type].present?
+      @full_message = 'Invalid report type'
+      return render 'get_relevant_tenders_success'
+    end
+
+    unless params[:email].present?
+      @full_message = 'Please specify email address'
+      return render 'get_relevant_tenders_success'
+    end
+
+    # validate email
+    email = params[:email]
+    if email.match?(URI::MailTo::EMAIL_REGEXP)
+      report_data = checklist_options('get_code', params[:report_type])
+
+      MiscDataStore.create!(
+        name: 'checklist_download',
+        data: {
+          full_name: params['full_name'],
+          email: params['email'],
+          phone: params['phone'],
+          report_type: params['report_type'],
+          time: current_time
+        },
+        source: 'homepage'
+      )
+
+      CheckListDownloaderMailer.send_check_list(params[:email], report_data).deliver_later
+    else
+      @full_message = 'Please recheck your email'
+    end
+    render 'get_relevant_tenders_success'
   end
 
   def trending_tenders
@@ -349,12 +389,13 @@ class TendersController < ApplicationController
           query: {
             simple_query_string: {
               query: query,
-              "default_operator": "and",
-              "fields": ["after.tender_id", "after.title^3", "after.description^3", "after.organisation", "after.slug_uuid", "after.page_link", "after.state^2"]
+              "default_operator": 'and',
+              "fields": ['after.tender_id', 'after.title^3', 'after.description^3', 'after.organisation',
+                         'after.slug_uuid', 'after.page_link', 'after.state^2']
             }
           },
           sort: [{
-                   "after.submission_close_date": "desc"
+                   "after.submission_close_date": 'desc'
                  }],
           size: items_per_page,
           from: offset
@@ -388,9 +429,9 @@ class TendersController < ApplicationController
                 "must": {
                   "more_like_this": {
                     "fields": [
-                      "after.title",
-                      "after.description",
-                      "after.short_blog"
+                      'after.title',
+                      'after.description',
+                      'after.short_blog'
                     ],
                     "like": query,
                     "min_term_freq": 1,
@@ -415,7 +456,7 @@ class TendersController < ApplicationController
         "sort": [
           {
             "after.submission_close_date": {
-              "order": "desc"
+              "order": 'desc'
             }
           }
         ]

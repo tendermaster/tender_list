@@ -231,11 +231,316 @@
 
 
 </div>
+
+<div class="flex flex-col items-center w-full py-16 mt-8" style="background-image: url('<%= image_path "bg-2.png" %>');background-repeat: no-repeat;background-size: 100% 100%;">
+  <div class="backdrop-blur-lg bg-white/30">
+    <%= render "tenders/shared/cheklist_download" %>
+  </div>
+</div>
+
+<div>
+  <div class="py-12 container">
+
+    <!--    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">-->
+    <!--    </div>-->
+
+    <h1 class="text-4xl font-bold text-center mb-8 text-orange-500">Most Searched Tender Categories</h1>
+
+<!--    <table class="table-fixed sm:table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-t-lg overflow-hidden">-->
+<!--      <thead>-->
+<!--      <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">-->
+<!--        <th class="px-4 py-2">Category</th>-->
+<!--        <th class="px-4 py-2">Search Link</th>-->
+<!--        <th class="px-4 py-2">Download Button</th>-->
+<!--        <th class="px-4 py-2">WhatsApp Channel</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Construction & Infrastructure</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/search?q=Construction+and+Infrastructure" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Construction Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Manpower Supply</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/tenders/Manpower-supply-tenders" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Manpower Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Website & Software Development</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/search?q=Website+Development" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Software & Web Dev Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Skill Development & Training</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/search?q=Skill+Development+and+Training" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Skill Development Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">NGO Services</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/search?q=Ngo+Services" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - NGO Services Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Legal & Secretarial</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/search?q=Legal+Services" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Legal Services Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Manufacturing & Production</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/search?q=Manufacturing" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Manufacturing Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Electrical Supply</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/search?q=Electricals+supply" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Electrical Supply Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Garden Maintenance & Horticulture</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/search?q=Garden+maintenance+and+horticulture" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Horticulture Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Vehicles, Logistics & Transportation</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/search?q=vehicle+hire" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Transportation Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Catering Services</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/search?q=Catering+services" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Catering Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Audit Firm</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/search?q=AUDIT+FIRM" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Audit Firm Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Security Services</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/tenders/Security-Services-tenders" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Security Services Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+
+<!--      </tbody>-->
+<!--    </table>-->
+
+    <table class="table-fixed sm:table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-t-lg overflow-hidden">
+      <thead>
+      <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <th class="px-4 py-2">Category</th>
+        <th class="px-4 py-2">Search Link</th>
+        <th class="px-4 py-2">Download Button</th>
+        <th class="px-4 py-2">WhatsApp Channel</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="border-b">
+        <td class="px-4 py-2">Construction & Infrastructure</td>
+        <td class="px-4 py-2">
+          <a href="https://sigmatenders.com/search?q=Construction+and+Infrastructure" class="text-blue-500 hover:text-blue-700">Search</a>
+        </td>
+        <td class="px-4 py-2">
+          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
+            Now - Construction Toolkit</a></td>
+        <td class="px-4 py-2"><a href="https://whatsapp.com/channel/0029Vabjzrx42Dck1E0Mhp32" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>
+      </tr>
+      <tr class="border-b">
+        <td class="px-4 py-2">Manpower Supply</td>
+        <td class="px-4 py-2">
+          <a href="https://sigmatenders.com/tenders/Manpower-supply-tenders" class="text-blue-500 hover:text-blue-700">Search</a>
+        </td>
+        <td class="px-4 py-2">
+          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
+            Now - Manpower Toolkit</a></td>
+        <td class="px-4 py-2"><a href="https://whatsapp.com/channel/0029VacF6luB4hdaNjBFyu2F" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>
+      </tr>
+      <tr class="border-b">
+        <td class="px-4 py-2">Website & Software Development</td>
+        <td class="px-4 py-2">
+          <a href="https://sigmatenders.com/search?q=Website+Development" class="text-blue-500 hover:text-blue-700">Search</a>
+        </td>
+        <td class="px-4 py-2">
+          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
+            Now - Software & Web Dev Toolkit</a></td>
+        <td class="px-4 py-2"><a href="https://whatsapp.com/channel/0029VagOEKGB4hdRuvnhjr0J" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>
+      </tr>
+      <tr class="border-b">
+        <td class="px-4 py-2">Skill Development & Training</td>
+        <td class="px-4 py-2">
+          <a href="https://sigmatenders.com/search?q=Skill+Development+and+Training" class="text-blue-500 hover:text-blue-700">Search</a>
+        </td>
+        <td class="px-4 py-2">
+          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
+            Now - Skill Development Toolkit</a></td>
+        <td class="px-4 py-2"><a href="https://whatsapp.com/channel/0029VagPRNOA2pLGgVWi4y0g" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>
+      </tr>
+      <tr class="border-b">
+        <td class="px-4 py-2">NGO Services</td>
+        <td class="px-4 py-2">
+          <a href="https://sigmatenders.com/search?q=Ngo+Services" class="text-blue-500 hover:text-blue-700">Search</a>
+        </td>
+        <td class="px-4 py-2">
+          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
+            Now - NGO Services Toolkit</a></td>
+        <td class="px-4 py-2"><a href="https://whatsapp.com/channel/0029VabvWIx9RZATaGpPLC1O" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>
+      </tr>
+      <tr class="border-b">
+        <td class="px-4 py-2">Legal & Secretarial</td>
+        <td class="px-4 py-2">
+          <a href="https://sigmatenders.com/search?q=Legal+Services" class="text-blue-500 hover:text-blue-700">Search</a>
+        </td>
+        <td class="px-4 py-2">
+          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
+            Now - Legal Services Toolkit</a></td>
+        <td class="px-4 py-2"><a href="https://whatsapp.com/channel/0029VafrOlXJENy3yqRnjz2f" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>
+      </tr>
+      <tr class="border-b">
+        <td class="px-4 py-2">Manufacturing & Production</td>
+        <td class="px-4 py-2">
+          <a href="https://sigmatenders.com/search?q=Manufacturing" class="text-blue-500 hover:text-blue-700">Search</a>
+        </td>
+        <td class="px-4 py-2">
+          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
+            Now - Manufacturing Toolkit</a></td>
+        <td class="px-4 py-2"><a href="https://whatsapp.com/channel/0029Vabew8fKGGGO64RL6X2f" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>
+      </tr>
+      <tr class="border-b">
+        <td class="px-4 py-2">Electrical Supply</td>
+        <td class="px-4 py-2">
+          <a href="https://sigmatenders.com/search?q=Electricals+supply" class="text-blue-500 hover:text-blue-700">Search</a>
+        </td>
+        <td class="px-4 py-2">
+          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
+            Now - Electrical Supply Toolkit</a></td>
+        <td class="px-4 py-2"><a href="https://whatsapp.com/channel/0029Vafo0R1DjiOVDEMLvX0m" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>
+      </tr>
+      <tr class="border-b">
+        <td class="px-4 py-2">Garden Maintenance & Horticulture</td>
+        <td class="px-4 py-2">
+          <a href="https://sigmatenders.com/search?q=Garden+maintenance+and+horticulture" class="text-blue-500 hover:text-blue-700">Search</a>
+        </td>
+        <td class="px-4 py-2">
+          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
+            Now - Horticulture Toolkit</a></td>
+        <td class="px-4 py-2"><a href="https://whatsapp.com/channel/0029VabFBwPICVfojc4IWp2P" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>
+      </tr>
+      <tr class="border-b">
+        <td class="px-4 py-2">Vehicles, Logistics & Transportation</td>
+        <td class="px-4 py-2">
+          <a href="https://sigmatenders.com/search?q=vehicle+hire" class="text-blue-500 hover:text-blue-700">Search</a>
+        </td>
+        <td class="px-4 py-2">
+          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
+            Now - Transportation Toolkit</a></td>
+        <td class="px-4 py-2"><a href="https://whatsapp.com/channel/0029VabYH1y5EjxtCfzB7r26" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>
+      </tr>
+      <tr class="border-b">
+        <td class="px-4 py-2">Catering Services</td>
+        <td class="px-4 py-2">
+          <a href="https://sigmatenders.com/search?q=Catering+services" class="text-blue-500 hover:text-blue-700">Search</a>
+        </td>
+        <td class="px-4 py-2">
+          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
+            Now - Catering Toolkit</a></td>
+        <td class="px-4 py-2"><a href="https://whatsapp.com/channel/0029VabmLqL3LdQRgzc9yI2W" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>
+      </tr>
+      <tr class="border-b">
+        <td class="px-4 py-2">Audit Firm</td>
+        <td class="px-4 py-2">
+          <a href="https://sigmatenders.com/search?q=AUDIT+FIRM" class="text-blue-500 hover:text-blue-700">Search</a>
+        </td>
+        <td class="px-4 py-2">
+          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
+            Now - Audit Firm Toolkit</a></td>
+        <td class="px-4 py-2"><a href="https://whatsapp.com/channel/0029VabvLLmLI8Ye1Gr5pH39" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>
+      </tr>
+<!--      <tr class="border-b">-->
+<!--        <td class="px-4 py-2">Security Services</td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="https://sigmatenders.com/tenders/Security-Services-tenders" class="text-blue-500 hover:text-blue-700">Search</a>-->
+<!--        </td>-->
+<!--        <td class="px-4 py-2">-->
+<!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
+<!--            Now - Security Services Toolkit</a></td>-->
+<!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
+<!--      </tr>-->
+
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
 <!--    p2-->
 <div class="container prose">
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLSe5kcwaWpsRDn_1M9nOP-dp-_sLqgwDIjR4B8_SL61W3Il4ag/viewform" target="_blank" class="btn-primary underline-offset-2 hover:underline-offset-4">Business Connectivity Inquiry Form</a>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSe5kcwaWpsRDn_1M9nOP-dp-_sLqgwDIjR4B8_SL61W3Il4ag/viewform" target="_blank" class="btn-primary underline-offset-2 hover:underline-offset-4">Business
+    Connectivity Inquiry Form</a>
 </div>
 
-
-</div>
 <%= render 'layouts/footer' %>
