@@ -72,9 +72,10 @@ Rails.application.routes.draw do
 
   get '/trending-tenders', controller: :tenders, action: :trending_tenders, as: :trending_tenders
   get '/get-relevant-tenders', controller: :tenders, action: :get_relevant_tenders, as: :get_relevant_tenders
-  get '/get-relevant-tenders/success', controller: :tenders, action: :get_relevant_tenders_success, as: :get_relevant_tenders_success
+  # get '/get-relevant-tenders/success', controller: :tenders, action: :get_relevant_tenders_success, as: :get_relevant_tenders_success
   # get relevant keywords
   post '/get-relevant-tenders', controller: :tenders, action: :get_relevant_tenders_post, as: :get_relevant_tenders_post
+  post '/checklist-download' => "tenders#checklist_download", as: :checklist_download
 
   # /search?q=a
   get '/search', controller: :tenders, action: :search
