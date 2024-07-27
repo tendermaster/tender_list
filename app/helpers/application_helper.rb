@@ -91,7 +91,7 @@ module ApplicationHelper
         code: 'website'
       },
       {
-        label: 'Guide to Applying for Skill Development & Training Tenders- Making an Impact',
+        label: 'Skill Development & Training Tenders',
         files: [
           { name: 'Guide to Applying for Skill Development', link: 'https://drive.google.com/open?id=1qnYmE-JnBVsBLOPrNMHBkpQ8ivu1cjnK&usp=drive_copy' },
           { name: 'Tentative checklist for applying for Skill Development and Training Tenders', link: 'https://drive.google.com/open?id=1mbzvwv58toh_PtLTf-cNRQn6xQblG44X&usp=drive_copy' },
@@ -174,10 +174,12 @@ module ApplicationHelper
     ]
     case opts
     when 'form'
-      form_option = {}
+      # form_option = {}
+      form_option = []
       data.each do |d|
-        form_option[d[:label]] =
-          [["Guide to Applying for #{d[:label]} Tenders", d[:code]], ["Checklist for #{d[:label]} Tenders", d[:code]]]
+        # form_option[d[:label]] =
+          # [["Guide to Applying for #{d[:label]} Tenders", d[:code]], ["Checklist for #{d[:label]} Tenders", d[:code]]]
+        form_option.append([d[:label], d[:code]])
       end
       form_option
     when 'get_code'
