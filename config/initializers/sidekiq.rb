@@ -1,7 +1,15 @@
 # frozen_string_literal: true
 
-redis_password = Rails.env == 'development' ? '' : ENV['REDIS_PASSWORD']
-redis_host = Rails.env == 'development' ? '127.0.0.1' : 'redis'
+if Rails.env.development?
+  redis_host = '127.0.0.1'
+  redis_password = ''
+end
+
+if Rails.env.production?
+  redis_host = ENV['REDIS_HOST']
+  redis_password = ENV['REDIS_PASSWORD']
+end
+
 redis_port = 6379
 redis_db = 2
 

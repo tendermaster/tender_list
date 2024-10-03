@@ -88,7 +88,7 @@ production:
   database: tender_list_production
   username: postgres
   password: <%= ENV["TENDER_LIST_DATABASE_PASSWORD"] %>
-  host: postgres
+  host: <%= ENV["POSTGRES_HOST"] || postgres %>
   port: 5432
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
