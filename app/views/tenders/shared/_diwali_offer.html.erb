@@ -1,0 +1,29 @@
+<div class="bg-gray-100 py-2 flex items-center">
+  <div class="w-full">
+    <div class="max-w-prose mx-auto overflow-hidden"></div>
+    <div id="marquee-container" class="whitespace-nowrap overflow-hidden">
+      <p id="marquee-text" class="inline-block text-2xl font-bold text-indigo-600 animate-marquee">
+        🔥 Diwali & Dussehra Offer! 50% Off Standard Plans! 🔥
+        <span class="mx-8">✨ Win More Govt. Projects This Festive Season! 50% Off! ✨</span>
+        <span class="mx-8">🚀 Limited Time Only! Grab Your Discount Now! 🚀</span>
+      </p>
+    </div>
+  </div>
+
+  <style>
+      @keyframes marquee {
+          0% {
+              transform: translateX(0%);
+          }
+          100% {
+              transform: translateX(-100%);
+          }
+      }
+
+      /* Apply the animation to the marquee text */
+      .animate-marquee {
+          animation: marquee 20s linear infinite; /* Adjust duration as needed */
+      }
+  </style>
+</div>
+
