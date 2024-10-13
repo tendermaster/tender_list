@@ -265,6 +265,13 @@
             </tbody>
           </table>
 
+          <div>
+            <!--            tender results-->
+            <% if @bid_result.present? %>
+              <%= render 'tenders/partials/tender_results' %>
+            <% end %>
+          </div>
+
           <div class="similar-tenders">
             <div class="text-lg font-bold my-8">Similar Tenders</div>
             <div class="flex justify-center">

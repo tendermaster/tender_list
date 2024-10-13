@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_19_095803) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_13_092121) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -214,6 +214,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_19_095803) do
     t.virtual "text_search_trigram", type: :text, as: "(((((((((((COALESCE(title, ''::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || COALESCE(organisation, ''::text)) || ' '::text) || (COALESCE(state, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text)", stored: true
     t.text "short_blog"
     t.jsonb "meta_data"
+    t.text "bid_result"
+    t.text "bid_result_status"
+    t.datetime "bid_result_updated_at", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["created_at"], name: "index_tenders_on_created_at"
     t.index ["emd"], name: "index_tenders_on_emd"
     t.index ["is_visible"], name: "index_tenders_on_is_visible"
