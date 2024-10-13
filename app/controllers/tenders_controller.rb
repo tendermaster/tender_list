@@ -52,7 +52,7 @@ class TendersController < ApplicationController
       redirect_to root_path
     else
       @tender_json = JSON.parse(@tender_data.full_data)
-      @bid_result = JSON.parse(@tender_data.bid_result)
+      @bid_result = JSON.parse(@tender_data.bid_result) if @tender_data.bid_result.present?
     end
   end
 
