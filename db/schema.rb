@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_13_092121) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_14_083944) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -217,6 +217,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_13_092121) do
     t.text "bid_result"
     t.text "bid_result_status"
     t.datetime "bid_result_updated_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["bid_result_status"], name: "index_tenders_on_bid_result_status"
     t.index ["created_at"], name: "index_tenders_on_created_at"
     t.index ["emd"], name: "index_tenders_on_emd"
     t.index ["is_visible"], name: "index_tenders_on_is_visible"
@@ -225,6 +226,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_13_092121) do
     t.index ["submission_close_date"], name: "index_tenders_on_submission_close_date"
     t.index ["tender_id"], name: "index_tenders_on_tender_id"
     t.index ["tender_reference_number"], name: "index_tenders_on_tender_reference_number"
+    t.index ["tender_source"], name: "index_tenders_on_tender_source"
     t.index ["tender_text_vector"], name: "tender_text_vector_idx", using: :gin
     t.index ["tender_value"], name: "index_tenders_on_tender_value"
     t.index ["text_search_trigram"], name: "idx_text_search_trigram", opclass: :gin_trgm_ops, using: :gin
