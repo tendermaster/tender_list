@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_14_083944) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_16_134844) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -217,6 +217,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_14_083944) do
     t.text "bid_result"
     t.text "bid_result_status"
     t.datetime "bid_result_updated_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updated_at_auto", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["bid_result_status"], name: "index_tenders_on_bid_result_status"
     t.index ["created_at"], name: "index_tenders_on_created_at"
     t.index ["emd"], name: "index_tenders_on_emd"
@@ -230,6 +231,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_14_083944) do
     t.index ["tender_text_vector"], name: "tender_text_vector_idx", using: :gin
     t.index ["tender_value"], name: "index_tenders_on_tender_value"
     t.index ["text_search_trigram"], name: "idx_text_search_trigram", opclass: :gin_trgm_ops, using: :gin
+    t.index ["updated_at_auto"], name: "index_tenders_on_updated_at_auto"
   end
 
   create_table "users", force: :cascade do |t|

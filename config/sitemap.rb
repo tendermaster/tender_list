@@ -67,7 +67,7 @@ SitemapGenerator::Sitemap.create(create_index: true, max_sitemap_links: 35_000) 
   #
   # add all tender show path
   Tender.where('is_visible = true').find_each do |tender|
-    add tender_show_path(slug_uuid: tender.slug_uuid), lastmod: tender.updated_at # , changefreq: 'weekly'
+    add tender_show_path(slug_uuid: tender.slug_uuid), lastmod: tender.updated_at_auto # , changefreq: 'weekly'
     # decreasing impression
     # add tender_show_path(slug_uuid: tender.slug_uuid), changefreq: 'weekly'
   end
