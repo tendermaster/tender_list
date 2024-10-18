@@ -125,6 +125,11 @@ class TendersController < ApplicationController
     #   ]
     # end
 
+    unless verify_recaptcha
+      @full_message = 'Please enter your reCAPTCHA again'
+      return render 'get_relevant_tenders_success'
+    end
+
     MiscDataStore.create!(
       name: 'customized_tender_recommendations',
       data: {
