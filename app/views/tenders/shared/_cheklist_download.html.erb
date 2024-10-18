@@ -18,17 +18,21 @@
       <%= f.select :report_type, checklist_options('form'), {}, class: "form-text-input", required: true %>
 
       <%#= f.submit "Download", class: "btn-sm mt-6" %>
-      <%= invisible_recaptcha_tags callback: 'submitChecklistInvisibleRecaptchaForm', text: 'Download', class: 'btn-sm mt-6' %>
-      <script>
-          var submitChecklistInvisibleRecaptchaForm = function () {
-              const form = document.getElementById("checklist-form")
-              if (form.checkValidity()) {
-                  form.submit();
-              } else {
-                  form.reportValidity()
-              }
-          };
-      </script>
+      <%#= invisible_recaptcha_tags callback: 'submitChecklistInvisibleRecaptchaForm', text: 'Download', class: 'btn-sm mt-6' %>
+      <div class="">
+        <%= recaptcha_tags %>
+      </div>
+      <%= f.submit "Download", class: 'btn-primary'%>
+<!--      <script>-->
+<!--          var submitChecklistInvisibleRecaptchaForm = function () {-->
+<!--              const form = document.getElementById("checklist-form")-->
+<!--              if (form.checkValidity()) {-->
+<!--                  form.submit();-->
+<!--              } else {-->
+<!--                  form.reportValidity()-->
+<!--              }-->
+<!--          };-->
+<!--      </script>-->
     <% end %>
   </div>
 </div>

@@ -10,9 +10,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    if verify_recaptcha
+      super
+    else
+      build_resource(sign_up_params)
+      clean_up_passwords(resource)
+      flash[:error] = 'Please enter your reCAPTCHA again'
+      render :new
+    end
+  end
 
   # GET /resource/edit
   # def edit

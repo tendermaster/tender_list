@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks',
     # sessions: 'users/sessions'
     # confirmation: 'users/confirmations'
+    registrations: 'users/registrations'
   }
   authenticate :admin_user, lambda { |u| u.present? } do
     mount Sidekiq::Web => '/sidekiq'

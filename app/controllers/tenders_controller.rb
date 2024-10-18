@@ -146,6 +146,11 @@ class TendersController < ApplicationController
     # return render plain: params.to_json
     @full_message = 'Please Check your email (including spam folder) to download your files'
 
+    unless verify_recaptcha
+      @full_message = 'Please enter your reCAPTCHA again'
+      return render 'get_relevant_tenders_success'
+    end
+
     unless params[:report_type].present?
       @full_message = 'Invalid report type'
       return render 'get_relevant_tenders_success'
