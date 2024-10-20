@@ -17,7 +17,7 @@ class TendersController < ApplicationController
   end
 
   def search
-    redirect_to '/' if params['q'].nil? && params['keyword'].nil?
+    return redirect_to '/' if params['q'].nil? && params['keyword'].nil?
 
     @query = params['q'] || params['keyword'].gsub('-', ' ')
     @min_value = params['min_value'].to_i
