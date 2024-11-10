@@ -398,21 +398,58 @@ class TendersController < ApplicationController
         index: 'cdc_pg_tenders.public.tenders',
         body: {
           query: {
-            simple_query_string: {
-              query: query,
-              "default_operator": 'and',
-              "fields": ['after.tender_id', 'after.title^3', 'after.description^3', 'after.organisation',
-                         'after.slug_uuid', 'after.page_link', 'after.state^2']
+            function_score: {
+              query: {
+                simple_query_string: {
+                  query: query,
+                  "default_operator": 'and',
+                  "fields": ['after.tender_id', 'after.title^3', 'after.description^3', 'after.organisation',
+                             'after.slug_uuid', 'after.page_link', 'after.state^2']
+                }
+              },
+              functions: [
+                {
+                  script_score: {
+                    script: {
+                      source: '' "
+                      long now = #{Time.zone.now.to_i * 1_000_000}L;
+                      long expiryDate = doc['after.submission_close_date'].value;
+                        if (expiryDate > now) {
+                          return 200;
+                        } else {
+                          return 0.5;
+                        }
+              " ''
+                    }
+                  }
+                }
+              ],
+              score_mode: 'multiply' # Adjust to your needs (e.g., "sum" or "avg")
             }
           },
-          sort: [{
-                   "after.submission_close_date": 'desc'
-                 }],
           size: items_per_page,
           from: offset
-        }
-      )
-    rescue Elastic::Transport::Transport::Errors::BadRequest
+        })
+
+      # results = ElasticClient.search(
+      #   index: 'cdc_pg_tenders.public.tenders',
+      #   body: {
+      #     query: {
+      #       simple_query_string: {
+      #         query: query,
+      #         "default_operator": 'and',
+      #         "fields": ['after.tender_id', 'after.title^3', 'after.description^3', 'after.organisation',
+      #                    'after.slug_uuid', 'after.page_link', 'after.state^2']
+      #       }
+      #     },
+      #     sort: [{
+      #              "after.submission_close_date": 'desc'
+      #            }],
+      #     size: items_per_page,
+      #     from: offset
+      #   }
+      # )
+    rescue Elastic::Transport::Transport::Errors::BadRequest => e
       raise ActiveRecord::RecordNotFound
     end
     total = results['hits']['total']['value']
