@@ -193,6 +193,1053 @@ X Ray Films
 Medical Equipment
 
 
+Flats
+HR Plate
+Beam
+Channel
+GI Coil
+Billets
+Wire Rod
+CRC
+Secondary TMT
+HRC
+Round Bar
+Angle
+Primary TMT
+Zinc Ingot
+Aluminium Wire Rod
+Aluminium Alloy Ingot
+Aluminium Ingot
+Copper Wire Rod
+Lead Ingot
+Aluminium T-Sow Ingot
+Copper Cathode
+HDPE
+ABS
+CPVC
+PPCP
+PVC
+PPHP
+LLDPE
+PET
+MDPE
+LDPE
+Vinyl Acetate Monomer (VAM)
+Ethyl Acetate
+Acetone
+N-Butanol
+N-Hexane
+Acetic Acid
+Melamine
+Isopropyl Alcohol (IPA)
+Styrene Monomer
+Methyl Ethyl Ketone (MEK)
+Methyl Isobutyl Ketone (MIBK)
+C-9 Solvent
+Methanol
+Mix Xylene (MX)
+Phenol
+Butyl Acrylate Monomer (BAM)
+Toluene
+Light Diesel Oil
+Bitumen
+Rubber Process Oil
+Emulsion
+Fuel Oil
+Base Oil
+SS Hot Rolled Coils
+SS Cold Rolled Coils
+MS ERW Round Pipe
+MS ERW Rectangular Hollow Section
+MS ERW Square Hollow Section
+AAC Blocks
+
+
+Steel Rebar
+Steel Scrap
+Pig Iron
+Cast Iron
+Stainless Steel Sheet
+Galvanized Steel Sheet
+Aluminum Extrusions
+Copper Cathodes
+Brass Ingots
+Bronze Ingots
+Nickel Pellets
+Zinc Dust
+Titanium Ingots
+Steel Wire Mesh
+Steel Pipes
+Steel Tubing
+Steel Fittings
+Steel Fasteners
+Polypropylene (PP)
+Polyethylene Terephthalate (PET)
+Polyvinyl Chloride (PVC)
+High-Density Polyethylene (HDPE)
+Low-Density Polyethylene (LDPE)
+Linear Low-Density Polyethylene (LLDPE)
+Polycarbonate (PC)
+Polyamide (PA)
+Polyetheretherketone (PEEK)
+Acrylonitrile Butadiene Styrene (ABS)
+Polypropylene Copolymer (PPCP)
+Polyvinyl Butyral (PVB)
+Polytetrafluoroethylene (PTFE)
+EPDM rubber
+Polyurethane (PU)
+Ethylene Glycol
+Propylene Glycol
+Glycerin
+Sodium Hydroxide
+Sulphuric Acid
+Hydrochloric Acid
+Nitric Acid
+Potassium Hydroxide
+Ammonia
+Chlorine
+Formaldehyde
+Benzene
+Toluene Diisocyanate (TDI)
+Methylene Diphenyl Diisocyanate (MDI)
+Sodium Carbonate
+Sodium Bicarbonate
+Calcium Chloride
+Sodium Chloride
+Potassium Chloride
+Natural Gas
+Propane
+Butane
+Kerosene
+Jet Fuel
+Gasoline
+Lubricating Oil
+Coal
+Coke
+Biodiesel
+Ethanol
+Cement
+Aggregates
+Bricks
+Tiles
+Roofing Materials
+Gypsum
+Plywood
+Lumber
+Steel reinforcement bars
+Concrete admixtures
+Drywall
+Fertilizers
+Pesticides
+Paper Pulp
+Textiles
+Rubber
+Glass
+Ceramics
+Food Products
+
+
+Iron Ore
+Coal Tar
+Petroleum Coke
+Solvent Naphtha
+Xylene Isomers
+Cumene
+Phenol
+Acetone
+Methyl Methacrylate (MMA)
+Polybutadiene Rubber
+Styrene Butadiene Rubber (SBR)
+Butyl Rubber
+Neoprene
+Ethylene Oxide
+Propylene Oxide
+Acrylic Acid
+Acrylonitrile
+Vinyl Chloride Monomer (VCM)
+Polyethylene Glycol (PEG)
+Polylactic Acid (PLA)
+Polyvinyl Acetate (PVAc)
+Epoxy Resins
+Polyester Resins
+Urea Formaldehyde Resin
+Melamine Formaldehyde Resin
+Sodium Silicate
+Potassium Silicate
+Calcium Carbonate
+Titanium Dioxide
+Zinc Oxide
+Aluminum Hydroxide
+Silica Gel
+Activated Carbon
+Sodium Hypochlorite
+Hydrogen Peroxide
+Sodium Sulfate
+Potassium Sulfate
+Calcium Sulfate
+Magnesium Oxide
+Aluminum Oxide
+Iron Oxide
+Copper Sulfate
+Zinc Sulfate
+Aluminum Sulfate
+Sodium Phosphate
+Potassium Phosphate
+Calcium Phosphate
+Magnesium Chloride
+Aluminum Chloride
+Iron Chloride
+Copper Chloride
+Zinc Chloride
+Aluminum Nitrate
+Iron Nitrate
+Copper Nitrate
+Zinc Nitrate
+Crude Oil
+Refined Petroleum Products
+Asphalt
+Bituminous Materials
+LNG
+LPG
+Synthetic Rubber
+Synthetic Fibers
+Plasticizers
+Stabilizers
+Flame Retardants
+Antioxidants
+Pigments
+Dyes
+Adhesives
+Sealants
+Lubricants
+Greases
+Waxes
+Paints
+Coatings
+Resins
+Solvents
+Acids
+Bases
+Salts
+Oils
+Fats
+Sugars
+Starches
+Proteins
+Amino Acids
+Vitamins
+Minerals
+Metals
+Alloys
+Plastics
+Polymers
+Fibers
+Textiles
+Paper
+Wood
+Stone
+Sand
+Gravel
+Clay
+Cement
+Concrete
+Steel
+Iron
+Copper
+Aluminum
+Zinc
+Nickel
+Tin
+Lead
+Titanium
+Manganese
+Chromium
+Tungsten
+Molybdenum
+Vanadium
+Cobalt
+Nickel
+Plastics
+Rubber
+Wood Products
+Paper Products
+Textile Products
+Agricultural Products
+Food Products
+Pharmaceutical Products
+Chemical Products
+Energy Products
+Mineral Products
+Metal Products
+Construction Materials
+Industrial Chemicals
+Consumer Goods
+
+Personal Protective Equipment (PPE)
+Safety Glasses
+Safety Boots
+Hard Hats
+Gloves
+Respirators
+Safety Harnesses
+Fire Extinguishers
+First Aid Kits
+Office Supplies
+Paper
+Pens
+Printing Ink
+Envelopes
+Binders
+File Folders
+Computer Hardware
+Software Licenses
+Network Equipment
+Servers
+Workstations
+Monitors
+Printers
+Scanners
+Projectors
+Telecommunications Equipment
+Telephones
+Mobile Phones
+Fax Machines
+Modems
+Routers
+Switches
+Cables
+Software
+IT Services
+Maintenance Services
+Cleaning Supplies
+Detergents
+Disinfectants
+Sanitizers
+Paper Towels
+Toilet Paper
+Soap
+Hand Sanitizers
+Janitorial Supplies
+Mop Heads
+Brooms
+Buckets
+Wastebaskets
+Furniture
+Desks
+Chairs
+Tables
+Filing Cabinets
+Shelving Units
+Lighting Fixtures
+Lamps
+Light Bulbs
+Electrical Supplies
+Wiring
+Circuit Breakers
+Outlets
+Switches
+Power Cords
+Plumbing Supplies
+Pipes
+Fittings
+Valves
+Tools
+Hand Tools
+Power Tools
+Measuring Instruments
+Testing Equipment
+Machinery
+Engines
+Motors
+Pumps
+Compressors
+Conveyors
+Manufacturing Equipment
+Packaging Materials
+Boxes
+Cartons
+Bags
+Labels
+Tapes
+Strapping
+Shipping Supplies
+Packaging Tape
+Bubble Wrap
+Shipping Labels
+Packaging Inserts
+Vehicle Parts
+Tires
+Batteries
+Engine Oil
+Filters
+Spare Parts
+Consumables
+Ink Cartridges
+Toner Cartons
+Maintenance Supplies
+Spare Parts
+Raw Materials
+Components
+Subassemblies
+Finished Goods
+Laboratory Equipment
+Test Tubes
+Beakers
+Flasks
+Pipettes
+Microscopes
+Spectrometers
+Chemicals
+Reagents
+Consumables
+Laboratory Supplies
+Fuel
+Diesel
+Gasoline
+Lubricants
+Heating Oil
+Natural Gas
+Electricity
+Water
+Waste Management Services
+Security Systems
+Cameras
+Alarms
+Access Control Systems
+Office Furniture
+Ergonomic Chairs
+Standing Desks
+Adjustable Height Desks
+File Cabinets
+Storage Units
+Whiteboards
+Project Management Software
+Customer Relationship Management (CRM) Software
+Enterprise Resource Planning (ERP) Software
+Human Resource Management (HRM) Software
+Accounting Software
+Data Analytics Software
+Cloud Computing Services
+Cybersecurity Services
+Training Services
+Consulting Services
+Printing Services
+Copy Services
+Mailing Services
+Shipping Services
+Transportation Services
+Logistics Services
+Contract Services
+Temporary Staffing
+Recruiting Services
+Legal Services
+Insurance Services
+Financial Services
+Real Estate Services
+Marketing Services
+Advertising Services
+Public Relations Services
+Research and Development Services
+
+
+Nuts and Bolts
+Washers
+Screws
+Rivets
+Welding Rods
+Welding Wire
+Cutting Tools
+Drilling Machines
+Lathes
+Milling Machines
+Grinding Machines
+Welding Machines
+Presses
+Forges
+Furnaces
+Industrial Ovens
+Chillers
+Compressors
+Pumps
+Valves
+Filters
+Sensors
+Actuators
+Controllers
+Programmable Logic Controllers (PLCs)
+Human Machine Interfaces (HMIs)
+Robotics
+Industrial Robots
+Collaborative Robots (Cobots)
+Automated Guided Vehicles (AGVs)
+Conveyors
+Packaging Machinery
+Filling Machines
+Labeling Machines
+Sealing Machines
+Pallet Wrapping Machines
+Forklifts
+Trucks
+Trailers
+Containers
+Shipping Containers
+Storage Containers
+Refrigerated Containers
+Dry Containers
+Open Top Containers
+Flat Rack Containers
+Tank Containers
+Specialized Containers
+Hand Trucks
+Pallet Jacks
+Conveyor Belts
+Roller Conveyors
+Belt Conveyors
+Chain Conveyors
+Overhead Conveyors
+Pneumatic Conveyors
+Hydraulic Conveyors
+Material Handling Equipment
+Hoists
+Cranes
+Lifts
+Jacks
+Straps
+Chains
+Ropes
+Slings
+Cargo Nets
+Lifting Equipment
+Safety Nets
+Scaffolding
+Ladders
+Platforms
+Workbenches
+Tool Carts
+Storage Cabinets
+Lockers
+Refrigerators
+Freezers
+Water Coolers
+Coffee Machines
+Vending Machines
+Air Conditioners
+Heating Systems
+Ventilation Systems
+Security Systems
+Surveillance Cameras
+Access Control Systems
+Fire Detection Systems
+Fire Suppression Systems
+Emergency Lighting Systems
+Building Automation Systems
+Energy Management Systems
+Environmental Monitoring Systems
+Software Subscriptions
+Cloud Storage
+Database Services
+Network Security
+Data Backup and Recovery
+IT Support
+Technical Support
+Training Courses
+Consulting Services
+Maintenance Contracts
+Repair Services
+Calibration Services
+Testing Services
+Inspection Services
+Quality Control Services
+Regulatory Compliance Services
+Insurance Policies
+Liability Insurance
+Property Insurance
+Workers' Compensation Insurance
+Product Liability Insurance
+Professional Liability Insurance
+Cybersecurity Insurance
+Business Interruption Insurance
+Fleet Insurance
+Legal Services
+Contract Negotiation
+Dispute Resolution
+Intellectual Property Protection
+Compliance Consulting
+Environmental Consulting
+Safety Consulting
+Training and Development
+Employee Benefits
+Compensation and Benefits Administration
+Payroll Services
+Recruitment Services
+Human Resources Information Systems (HRIS)
+Talent Management Systems
+Performance Management Systems
+Learning Management Systems (LMS)
+Applicant Tracking Systems (ATS)
+Background Check Services
+Drug Testing Services
+Employee Assistance Programs (EAPs)
+Financial Planning Services
+Retirement Planning Services
+Investment Management Services
+Insurance Brokerage Services
+Risk Management Services
+Tax Services
+Auditing Services
+Consulting Services
+Financial Services
+Banking Services
+Investment Banking Services
+Venture Capital Services
+Private Equity Services
+Real Estate Services
+Property Management Services
+Construction Management Services
+Project Management Services
+Facility Management Services
+Supply Chain Management Services
+Logistics Management Services
+Procurement Management Services
+Contract Management Services
+Risk Management Services
+Quality Management Services
+Environmental Management Services
+Safety Management Services
+Security Management Services
+Information Technology Services
+Telecommunications Services
+Data Center Services
+Cloud Services
+Cybersecurity Services
+Business Continuity Services
+Disaster Recovery Services
+Legal Services
+Intellectual Property Services
+Environmental Compliance Services
+Safety Compliance Services
+Security Compliance Services
+Regulatory Compliance Services
+Strategic Planning Services
+Business Development Services
+Marketing Services
+Sales Services
+Customer Service Services
+Human Resources Services
+Finance Services
+Legal Services
+Accounting Services
+Information Technology Services
+Operations Services
+Supply Chain Services
+Sales and Marketing Services
+Customer Service and Support Services
+Research and Development Services
+
+
+Specialty Gases
+Calibration Weights
+Laboratory Glassware
+Micropipettes
+Centrifuges
+Autoclaves
+Spectrophotometers
+Chromatographs
+Freezers (-80°C)
+Refrigerated Centrifuges
+Incubators
+Shakers
+Magnetic Stirrers
+Water Baths
+pH Meters
+Conductivity Meters
+Microscopes
+Balances
+Desiccators
+Ovens
+Hotplates
+Pipette Tips
+Gloves (various types and materials)
+Lab Coats
+Safety Eyewear
+Safety Shoes
+Biohazard Bags
+Waste Containers
+Chemical Storage Cabinets
+Fume Hoods
+Biosafety Cabinets
+Cleanroom Supplies
+Cleanroom Garments
+Cleanroom Wipes
+Cleanroom Consumables
+Air Compressors
+Vacuum Pumps
+Ultrapure Water Systems
+Gas Cylinders
+Regulators
+Flow Meters
+Pressure Gauges
+Gas Detection Equipment
+Data Acquisition Systems
+Process Control Systems
+Industrial Automation Systems
+SCADA Systems
+Field Instrumentation
+Temperature Sensors
+Pressure Sensors
+Flow Sensors
+Level Sensors
+Analytical Instruments
+Mass Spectrometers
+Atomic Absorption Spectrometers (AAS)
+Inductively Coupled Plasma Optical Emission Spectrometers (ICP-OES)
+Gas Chromatography-Mass Spectrometry (GC-MS)
+High-Performance Liquid Chromatography (HPLC)
+Titrators
+Particle Counters
+Microscopy Equipment
+Image Analysis Software
+Laboratory Information Management Systems (LIMS)
+Data Management Software
+Software Licenses (various)
+Maintenance Agreements
+Service Contracts
+Training Programs
+Consulting Services
+Engineering Services
+Technical Support
+Spare Parts
+Replacement Parts
+Repair Parts
+Consumables
+Chemicals
+Reagents
+Standards
+Solvents
+Cleaning Supplies
+Safety Equipment
+First Aid Supplies
+Office Supplies
+Furniture
+IT Equipment
+Networking Equipment
+Software
+Telecommunications Equipment
+Transportation Services
+Logistics Services
+Warehousing Services
+Inventory Management Software
+Supply Chain Management Software
+Demand Planning Software
+Procurement Software
+Contract Management Software
+Risk Management Software
+Compliance Management Software
+Environmental Management Software
+Safety Management Software
+Security Management Software
+Human Resource Management Software
+Financial Management Software
+Accounting Software
+Business Intelligence Software
+Data Analytics Software
+Cloud Computing Services
+Cybersecurity Services
+Data Backup and Recovery Services
+Disaster Recovery Services
+Business Continuity Planning Services
+IT Support Services
+Technical Support Services
+Training and Development Services
+Consulting Services
+Legal Services
+Insurance Services
+Financial Services
+Banking Services
+Investment Services
+Real Estate Services
+Property Management Services
+Facility Management Services
+Supply Chain Management Services
+Logistics Management Services
+Procurement Management Services
+Contract Management Services
+Risk Management Services
+Quality Management Services
+Environmental Management Services
+Safety Management Services
+Security Management Services
+Information Technology Services
+Telecommunications Services
+Data Center Services
+Cloud Services
+Cybersecurity Services
+Business Continuity Services
+Disaster Recovery Services
+Legal Services
+Intellectual Property Services
+Environmental Compliance Services
+Safety Compliance Services
+Security Compliance Services
+Regulatory Compliance Services
+Strategic Planning Services
+Business Development Services
+Marketing Services
+Sales Services
+Customer Service Services
+Human Resources Services
+Finance Services
+Legal Services
+Accounting Services
+Information Technology Services
+Operations Services
+Supply Chain Services
+Sales and Marketing Services
+Customer Service and Support Services
+Research and Development Services
+Design Services
+Engineering Services
+Manufacturing Services
+Assembly Services
+Testing Services
+Quality Assurance Services
+Packaging Services
+Shipping Services
+Distribution Services
+Inventory Management Services
+Warehouse Management Services
+Transportation Management Services
+Fleet Management Services
+
+
+Aircraft Parts
+Ship Parts
+Train Parts
+Automotive Parts
+Construction Equipment Parts
+Agricultural Equipment Parts
+Medical Equipment Parts
+Industrial Equipment Parts
+Electronic Components
+Semiconductors
+Integrated Circuits
+Printed Circuit Boards (PCBs)
+Microprocessors
+Memory Chips
+Power Supplies
+Connectors
+Sensors
+Actuators
+Displays
+Batteries
+Power Tools
+Hand Tools
+Measuring Instruments
+Test Equipment
+Calibration Equipment
+Safety Equipment
+Personal Protective Equipment (PPE)
+Uniforms
+Workwear
+Office Furniture
+Janitorial Supplies
+Facility Maintenance Supplies
+IT Infrastructure
+Software Applications
+Database Systems
+Network Hardware
+Security Software
+Cloud Services
+Consulting Services
+Training Services
+Legal Services
+Insurance Services
+Financial Services
+Real Estate Services
+Marketing Services
+Advertising Services
+Public Relations Services
+Research and Development Services
+Raw Materials
+Intermediate Goods
+Finished Goods
+Sub-assemblies
+Components
+Packaging Materials
+Labels
+Cartons
+Boxes
+Pallet
+Shrink Wrap
+Strapping
+Shipping Supplies
+Freight Forwarding Services
+Customs Brokerage Services
+Logistics Services
+Warehousing Services
+Distribution Services
+Supply Chain Management Services
+Inventory Management Services
+Demand Planning Services
+Procurement Services
+Contract Management Services
+Risk Management Services
+Quality Management Services
+Compliance Management Services
+Sustainability Management Services
+Corporate Social Responsibility (CSR) Programs
+Environmental, Social, and Governance (ESG) Reporting
+Energy Efficiency Upgrades
+Renewable Energy Sources
+Waste Management Services
+Recycling Services
+Sustainability Consulting Services
+Environmental Remediation Services
+Carbon Offset Programs
+Supply Chain Sustainability Initiatives
+Ethical Sourcing Programs
+Diversity and Inclusion Programs
+Employee Wellness Programs
+Community Engagement Programs
+Philanthropic Initiatives
+Corporate Governance Programs
+Risk Management Programs
+Compliance Programs
+Training and Development Programs
+Employee Engagement Programs
+Performance Management Programs
+Compensation and Benefits Programs
+Talent Acquisition Programs
+Legal Compliance Programs
+Health and Safety Programs
+Environmental Compliance Programs
+Security Programs
+Data Privacy Programs
+Information Security Programs
+Business Continuity Programs
+Disaster Recovery Programs
+Crisis Management Programs
+Change Management Programs
+Project Management Programs
+Program Management Programs
+Portfolio Management Programs
+Strategic Planning Programs
+Financial Planning Programs
+Budgeting Programs
+Forecasting Programs
+Investment Planning Programs
+Risk Assessment Programs
+Internal Audit Programs
+External Audit Programs
+Compliance Audits
+Financial Audits
+Operational Audits
+Information Technology Audits
+Security Audits
+Environmental Audits
+Sustainability Audits
+Social Audits
+Governance Audits
+Internal Controls
+Fraud Prevention Programs
+Data Security Programs
+Cybersecurity Programs
+Incident Response Programs
+Business Continuity Planning
+Disaster Recovery Planning
+Emergency Response Planning
+Contingency Planning
+Supply Chain Risk Management
+Vendor Risk Management
+Contract Risk Management
+Financial Risk Management
+Operational Risk Management
+Strategic Risk Management
+Compliance Risk Management
+Environmental Risk Management
+Safety Risk Management
+Security Risk Management
+Reputation Risk Management
+Legal Risk Management
+Insurance Risk Management
+Information Technology Risk Management
+Cybersecurity Risk Management
+Data Privacy Risk Management
+Financial Due Diligence
+Legal Due Diligence
+Environmental Due Diligence
+Social Due Diligence
+Governance Due Diligence
+Mergers and Acquisitions
+Joint Ventures
+Strategic Alliances
+Partnerships
+Licensing Agreements
+Franchising Agreements
+Distribution Agreements
+Sales Agreements
+Service Agreements
+Consulting Agreements
+Employment Agreements
+Lease Agreements
+Real Estate Agreements
+Intellectual Property Agreements
+Technology Transfer Agreements
+Research and Development Agreements
+Non-Disclosure Agreements
+Confidentiality Agreements
+Terms and Conditions
+Legal Notices
+Privacy Policies
+Terms of Service
+End-User License Agreements (EULAs)
+Intellectual Property Rights
+Trademarks
+Patents
+Copyrights
+Trade Secrets
+Proprietary Information
+Confidential Information
+Sensitive Information
+Data Security
+Data Privacy
+Cybersecurity
+Information Technology
+Network Infrastructure
+Software Applications
+Hardware Components
+Electronic Components
+Semiconductors
+Integrated Circuits
+Microprocessors
+Memory Chips
+Storage Devices
+Network Devices
+Routers
+Switches
+Modems
+Wireless Access Points
+Firewalls
+Intrusion Detection Systems
+Intrusion Prevention Systems
+Antivirus Software
+Anti-malware Software
+Data Loss Prevention (DLP) Software
+Security Information and Event Management (SIEM) Software
+Identity and Access Management (IAM) Systems
+Single Sign-On (SSO) Systems
+Multi-factor Authentication (MFA) Systems
+Cloud Security Services
+Data Backup and Recovery Services
+Disaster Recovery Services
+Business Continuity Services
+Compliance Services
+Audit Services
+Legal Services
+Consulting Services
+Training Services
+
+
 Road Construction
 Advertising Services
 Aircraft
