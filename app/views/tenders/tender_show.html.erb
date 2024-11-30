@@ -1,8 +1,8 @@
-<% title "#{@tender_data.title.capitalize}" %>
+<% title "#{@tender_data.title&.titleize}" %>
 <% description "sigmatenders.com is a tender portal specifically designed for independent entrepreneurs/ Business houses/ industries and  non-government organizations (NGOs) to get Realtime notifications of potential opportunities for their enterprise" %>
-<% keywords "sigma tenders, ngo service tenders, #{@tender_data.title.capitalize}, #{@tender_data.organisation}" %>
+<% keywords "sigma tenders, ngo service tenders, #{@tender_data.title.capitalize}, #{@tender_data.organisation} organization"&.titleize %>
 <% set_meta_tags og: {
-  title: @tender_data.title.capitalize,
+  title: @tender_data.title&.titleize,
   type: "website",
   url: "#{Rails.application.config.site_url}/tender/#{@tender_data.slug_uuid}",
 } %>
@@ -70,10 +70,10 @@
                 <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) || !is_tender_id?(@tender_data.title) %>
                   <% if User.active_plan(current_user) === 'PAID' %>
                     <div class="select-text">
-                      <%= @tender_data.title.capitalize %>
+                      <%= @tender_data.title&.titleize %>
                     </div>
                   <% else %>
-                    <div><%= @tender_data.title.capitalize %></div>
+                    <div><%= @tender_data.title&.titleize %></div>
                   <% end %>
                 <% else %>
                   <p class="blur-md select-none">AAAAAAAAAA</p>
@@ -93,11 +93,11 @@
               <td class="py-4 px-6 select-none">
                 <% if User.active_plan(current_user) == 'PAID' %>
                   <div class="select-text">
-                    <%= @tender_data.description&.capitalize %>
+                    <%= @tender_data.description&.titleize %>
                   </div>
                 <% else %>
                   <div>
-                    <%= @tender_data.description&.capitalize %>
+                    <%= @tender_data.description&.titleize %>
                   </div>
                 <% end %>
               </td>

@@ -68,6 +68,12 @@
               <% if result&.tender_fee %>
                 <div>Tender Fee: <%= currency_format(result&.tender_fee) %></div>
               <% end %>
+              <% if result&.organisation %>
+                <div>Organisation: <%= result&.organisation %></div>
+              <% end %>
+              <% if result&.submission_open_date %>
+                <div>Start Date: <%= result&.submission_open_date.in_time_zone("Asia/Kolkata").to_formatted_s(:long) %></div>
+              <% end %>
               <% if [result&.state, result&.location&.fetch('ctv')]&.uniq.join(', ').capitalize.strip.present? %>
                 <div>Place: <%= [result&.state, result&.location&.fetch('ctv')]&.uniq.join(', ').capitalize %></div>
               <% end %>
