@@ -1,43 +1,253 @@
 <%= render 'layouts/navbar' %>
 
-<div class="container">
+<div class="bg-gray-50 min-h-screen">
+  <!-- Hero Section -->
+  <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center">
+        <h1 class="text-4xl font-bold mb-4">How to File a Tender</h1>
+        <p class="text-xl text-orange-100 max-w-3xl mx-auto leading-relaxed">
+          Discover how our tender portal can meet your business needs. Learn how to effectively navigate and utilize this platform to win more contracts.
+        </p>
+      </div>
+    </div>
+  </div>
 
-  <h1 class="text-2xl font-bold text-orange-500">Discover how our tender portal can meet your business needs - learn how to effectively navigate and utilize this
-    platform</h1>
+  <!-- Main Content -->
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    
+    <!-- Introduction -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8">
+      <div class="text-center">
+        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">Complete Guide to Tender Filing</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Follow our comprehensive 9-step process to successfully file and win tenders. Each step is designed to maximize your chances of success.
+        </p>
+      </div>
+    </div>
 
-<!--  <div class="w-32 h-32 bg-orange-500">a</div>-->
-  <hr class="pt-8">
-  <div class="space-y-6">
+    <!-- Steps -->
+    <div class="space-y-6">
+      
+      <!-- Step 1 -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="flex">
+          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
+            <span class="text-2xl font-bold text-white">1</span>
+          </div>
+          <div class="flex-1 p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Register on the Tender Portal</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+              Register/Signup on the tender portal <a href="<%= new_user_registration_path %>" class="text-orange-600 hover:text-orange-700 font-semibold underline">sigmatenders.com</a>. 
+              To access various advanced valuable features of the tender portal, you need to register yourself as a subscriber.
+            </p>
+            <div class="flex items-center text-sm text-gray-500">
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              Quick registration process
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <p class="border-b-2 text-orange-500">Step-1</p>
-    Register/ Signup on the tender portal <a href="<%= new_user_registration_path %>" class="link">sigmatenders.com</a> To access various advanced valuable features of the
-    tender portal, you need to register yourself as a subscriber.
-    <p class="border-b-2 text-orange-500">Step-2</p>
-    search Tenders, once you have registered on the portal, you can search for the relevant tenders based on your business
-    needs/domain, turnover, capabilities, location, and other criteria.
-    <p class="border-b-2 text-orange-500">Step-3</p>
-    Analyse the tender documents thoroughly and understand the scope of work, timelines, evaluation criteria, and terms
-    and conditions. Ensure that you meet all the eligibility criteria and have the necessary resources to execute the
-    project.
-    <p class="border-b-2 text-orange-500">Step-4</p>
-    Visit the official Publisher of the tender as per the official link shown in the search result and locate the official
-    tender link as per the tender id/ tender reference shown in the search result. Here again you need to register
-    your company as a bidder, with a valid class 3 tender class DSC (Digital signature certificate)
-    <p class="border-b-2 text-orange-500">Step-5</p>
-    Prepare and submit the bid accordingly. This includes providing all the necessary documents and filling out the bid
-    form. Ensure that you comply with all the terms and conditions mentioned in the tender documents.
-    <p class="border-b-2 text-orange-500">Step-6</p>
-    Monitor the tender process: After submitting the bid, monitor the tender process regularly. This includes checking the
-    portal for any updates or amendments to the tender documents and attending any pre-bid meetings or site visits.
-    <p class="border-b-2 text-orange-500">Step-7</p>
-    Participate in the bid opening: On the day of the bid opening, participate in the process either in person or through
-    a video conference. This will give you an idea of your competition and the bid price range.
-    <p class="border-b-2 text-orange-500">Step-8</p>
-    Follow up with the tendering authority: After the bid opening, follow up with the tendering authority to know the
-    status of your bid. If your bid is successful, you can proceed with the next steps as per the tender documents.
-    <p class="border-b-2 text-orange-500">Step-9</p>
-    If you need support services* you may contact us:
-    <a href="<%= get_callback_path %>" class="btn-sm block mt-6 w-fit">Get Assistance</a>
+      <!-- Step 2 -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="flex">
+          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
+            <span class="text-2xl font-bold text-white">2</span>
+          </div>
+          <div class="flex-1 p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Search for Relevant Tenders</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+              Once you have registered on the portal, you can search for relevant tenders based on your business needs/domain, turnover, capabilities, location, and other criteria.
+            </p>
+            <div class="flex items-center text-sm text-gray-500">
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+              </svg>
+              Advanced search filters available
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="flex">
+          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
+            <span class="text-2xl font-bold text-white">3</span>
+          </div>
+          <div class="flex-1 p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Analyze Tender Documents</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+              Analyze the tender documents thoroughly and understand the scope of work, timelines, evaluation criteria, and terms and conditions. 
+              Ensure that you meet all the eligibility criteria and have the necessary resources to execute the project.
+            </p>
+            <div class="flex items-center text-sm text-gray-500">
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V4H6z" clip-rule="evenodd"></path>
+              </svg>
+              Thorough document review required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="flex">
+          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
+            <span class="text-2xl font-bold text-white">4</span>
+          </div>
+          <div class="flex-1 p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Visit Official Publisher Portal</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+              Visit the official publisher of the tender as per the official link shown in the search result and locate the official tender link as per the tender ID/tender reference shown in the search result. 
+              Here again you need to register your company as a bidder, with a valid Class 3 tender DSC (Digital Signature Certificate).
+            </p>
+            <div class="bg-amber-50 border border-amber-200 rounded-md p-3 mb-4">
+              <div class="flex items-center">
+                <svg class="w-5 h-5 text-amber-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="text-sm font-medium text-amber-800">Digital Signature Certificate required</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="flex">
+          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
+            <span class="text-2xl font-bold text-white">5</span>
+          </div>
+          <div class="flex-1 p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Prepare and Submit Your Bid</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+              Prepare and submit the bid accordingly. This includes providing all the necessary documents and filling out the bid form. 
+              Ensure that you comply with all the terms and conditions mentioned in the tender documents.
+            </p>
+            <div class="flex items-center text-sm text-gray-500">
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+              </svg>
+              Complete documentation required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 6 -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="flex">
+          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
+            <span class="text-2xl font-bold text-white">6</span>
+          </div>
+          <div class="flex-1 p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Monitor the Tender Process</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+              After submitting the bid, monitor the tender process regularly. This includes checking the portal for any updates or amendments to the tender documents and attending any pre-bid meetings or site visits.
+            </p>
+            <div class="flex items-center text-sm text-gray-500">
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+              </svg>
+              Regular monitoring essential
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 7 -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="flex">
+          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
+            <span class="text-2xl font-bold text-white">7</span>
+          </div>
+          <div class="flex-1 p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Participate in Bid Opening</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+              On the day of the bid opening, participate in the process either in person or through a video conference. 
+              This will give you an idea of your competition and the bid price range.
+            </p>
+            <div class="flex items-center text-sm text-gray-500">
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+              </svg>
+              Attendance recommended
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 8 -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="flex">
+          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
+            <span class="text-2xl font-bold text-white">8</span>
+          </div>
+          <div class="flex-1 p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Follow Up with Tendering Authority</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+              After the bid opening, follow up with the tendering authority to know the status of your bid. 
+              If your bid is successful, you can proceed with the next steps as per the tender documents.
+            </p>
+            <div class="flex items-center text-sm text-gray-500">
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" clip-rule="evenodd"></path>
+              </svg>
+              Proactive communication important
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 9 -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="flex">
+          <div class="flex-shrink-0 w-20 bg-green-500 flex items-center justify-center">
+            <span class="text-2xl font-bold text-white">9</span>
+          </div>
+          <div class="flex-1 p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Get Professional Support</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+              If you need support services, you may contact us for professional assistance throughout the tender process.
+            </p>
+            <a href="<%= get_callback_path %>" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 transition-colors">
+              <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              Get Professional Assistance
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-8 mt-12 text-center text-white">
+      <h3 class="text-2xl font-bold mb-4">Ready to Start Filing Tenders?</h3>
+      <p class="text-orange-100 mb-6 max-w-2xl mx-auto">
+        Join thousands of successful businesses who use SigmaTenders to find and win government contracts.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="<%= new_user_registration_path %>" class="inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-md text-orange-600 bg-white hover:bg-gray-50 transition-colors">
+          Start Free Trial
+        </a>
+        <a href="<%= pricing_path %>" class="inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-md text-white bg-transparent hover:bg-white hover:text-orange-600 transition-colors">
+          View Pricing Plans
+        </a>
+      </div>
+    </div>
+
   </div>
 </div>
 
