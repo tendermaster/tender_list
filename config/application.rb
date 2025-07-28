@@ -36,6 +36,7 @@ module TenderList
     # config.hosts << "ubuntu-vm.test"
     # config.hosts << "ngotenders.in"
     config.hosts << "sigmatenders.com"
+    config.hosts << "localhost"
     # config.hosts << "dev.ngotenders.in"
     config.hosts << /.*\.ngrok-free\.app/
 
