@@ -43,3 +43,6 @@
 *.gz
 /.docker/caddy/
 *_accessKeys.csv
+.aider*
+.yarn
+.vscode
