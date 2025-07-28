@@ -2,43 +2,142 @@
 
 <div class="flex flex-col items-center w-full h-full">
 
-  <div class="h-full mb-4 mt-12 w-full flex flex-col justify-center container" id="onboarding">
-    <style>
-        #onboarding ul li:nth-child(odd) {
-            margin-left: 1rem;
-            font-weight: 700;
-        }
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" id="onboarding">
+    
+    <!-- Hero Section -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Get Started with SigmaTenders</h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        We're happy to guide you through our subscription process so you can explore the full features of the SigmaTenders platform. 
+        The process is designed to be simple and can be completed in four straightforward steps.
+      </p>
+      <div class="mt-8">
+        <img src="<%= image_path 'onboarding.jpg' %>" alt="SigmaTenders Onboarding Guide" class="mx-auto rounded-lg shadow-lg max-w-full h-auto">
+      </div>
+    </div>
 
-        #onboarding ul li:nth-child(even) {
-            margin-left: 2rem;
-        }
-    </style>
-    <h1 class="text-3xl text-center font-bold mb-12">Onboarding Process</h1>
-    <p class="font-bold">Onboarding Process for Premium Access with SigmaTenders:</p>
-    <ul class="list-disc mt-4">
-      <li class="">Registration and Verification:</li>
-      <li class="">Sign up with your Gmail ID on our website. Verify your email by logging in and checking your inbox
-        (including spam) for the verification link.
-      </li>
-      <li>Customization:</li>
-      <li>Log in to your account and customise your tender searches by adding or removing keywords according to your
-        interests.
-      </li>
-      <li>Payment and Subscription:</li>
-      <li>Submit your registered email ID to our WhatsApp number +91 8076222021 after signing up. Assistance is
-        available via WhatsApp message or call. Proceed to make a secure payment through Razorpay as per your chosen
-        plan. Keep a screenshot of the payment success as proof. If required You may request for direct payment to our
-        Bank Account through whatsapp, team will send you the company bank account details.
-      </li>
-      <li>Activation and Access:</li>
-      <li>Upon receipt of your payment proof and user ID, our team will activate your paid account. Enjoy full access to
-        our tender portal resources, including email notifications and tender searches.
-      </li>
-      <li>Email Preferences:</li>
-      <li>Customize the frequency of email notifications directly in your registered email ID to stay updated on your
-        saved queries.
-      </li>
-    </ul>
+    <!-- Plan Highlight -->
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-12 text-center">
+      <p class="text-lg font-semibold text-blue-900">
+        The plan that includes access to all sectors is our <span class="text-blue-600">Standard Plan</span>.
+      </p>
+    </div>
+
+    <!-- Step-by-Step Guide -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">Step-by-Step Guide</h2>
+      
+      <!-- Step 1 -->
+      <div class="mb-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-start">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+          </div>
+          <div class="ml-4 flex-1">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Create Your Free Demo Account</h3>
+            <p class="text-gray-700 leading-relaxed">
+              First, sign up with your email to create a free demo account. This allows you to search our database and save tenders to see how the platform works. 
+              <span class="font-medium text-amber-700">Please note that direct tender links are hidden in the demo version.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="mb-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-start">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+          </div>
+          <div class="ml-4 flex-1">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Choose Your Plan & Make Payment</h3>
+            <p class="text-gray-700 leading-relaxed mb-3">
+              When you are ready to unlock full access, choose a subscription plan. You can pay securely via Razorpay or request our bank details via WhatsApp for a direct transfer.
+            </p>
+            <div class="bg-yellow-50 border border-yellow-200 rounded-md p-3">
+              <p class="text-sm font-medium text-yellow-800">
+                <strong>Important:</strong> Please take a screenshot of the successful payment confirmation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="mb-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-start">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+          </div>
+          <div class="ml-4 flex-1">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Activate Your Paid Account</h3>
+            <div class="space-y-3">
+              <p class="text-gray-700 leading-relaxed">
+                Send a message to our WhatsApp number: <a href="https://wa.me/918076222021" class="font-semibold text-green-600 hover:text-green-700">+91 8076222021</a>
+              </p>
+              <div class="bg-green-50 border border-green-200 rounded-md p-4">
+                <p class="text-sm text-green-800 mb-2"><strong>In your message, please provide:</strong></p>
+                <ul class="text-sm text-green-700 space-y-1">
+                  <li>• Your registered email address</li>
+                  <li>• Attach the payment screenshot</li>
+                </ul>
+              </div>
+              <p class="text-gray-700 leading-relaxed">
+                Our team will verify the details and activate your account.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="mb-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-start">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-lg">4</div>
+          </div>
+          <div class="ml-4 flex-1">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Enjoy Full Access</h3>
+            <div class="space-y-3">
+              <p class="text-gray-700 leading-relaxed">
+                Once activated, you will have complete access to all tender details and direct links.
+              </p>
+              <div class="bg-blue-50 border border-blue-200 rounded-md p-4">
+                <p class="text-sm font-medium text-blue-800 mb-2">What you'll get:</p>
+                <ul class="text-sm text-blue-700 space-y-1">
+                  <li>• Complete access to all tender details and direct links</li>
+                  <li>• Active email alerts for new opportunities</li>
+                  <li>• Customizable notification settings</li>
+                  <li>• Full platform features and resources</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="bg-gray-50 rounded-lg p-8 text-center">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Need Help?</h3>
+      <p class="text-gray-700 mb-6">
+        Once you have had a chance to familiarize yourself with the platform, we would be delighted to reconnect and discuss exclusive partnership opportunities in more detail.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="https://wa.me/918076222021" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+          </svg>
+          WhatsApp Support
+        </a>
+        <a href="mailto:tendermasterinfo@gmail.com" class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+          Email Support
+        </a>
+      </div>
+      <p class="text-sm text-gray-500 mt-4">
+        We look forward to welcoming you as a subscriber.
+      </p>
+    </div>
 
     <%= render partial: 'tutorial' %>
 
