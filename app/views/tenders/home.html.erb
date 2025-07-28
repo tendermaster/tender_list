@@ -2,6 +2,7 @@
 <% description "sigmatenders.com is a tender portal specifically designed for independent entrepreneurs/ Business houses/ industries and  non-government organizations (NGOs) to get Realtime notifications of potential opportunities for their enterprise" %>
 <% keywords "tenders" %>
 <%= render 'layouts/navbar' %>
+
 <% if flash[:notice].present? %>
   <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
     <span class="font-medium">
@@ -10,131 +11,168 @@
   </div>
 <% end %>
 
-<!--    content -->
-<div class=" flex flex-col items-center pt-14 object-cover bg-no-repeat bg-bottom py-4" style="background-image: url(<%= image_path 'bg.jpg' %>);">
-  <div class="container">
-    <h1 class="text-center text-4xl text-gray-100">Discovering the best Tenders for your business needs</h1>
-  </div>
-  <!--    search-->
-  <div class=" flex justify-center">
-    <form class="mt-12 sm:w-96" action="<%= search_path %>" id="search-form">
-      <label
-        for="search"
-        class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Search</label
-      >
-      <div class="relative">
-        <div
-          class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
-        >
-          <svg
-            aria-hidden="true"
-            class="h-5 w-5 text-gray-500 dark:text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            ></path>
-          </svg>
-        </div>
-        <input
-          type="search"
-          name="q"
-          id="main-search"
-          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-orange-500 focus:ring-orange-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-orange-500 dark:focus:ring-orange-500"
-          placeholder="Search Tender..."
-          required
+<!-- Hero Section -->
+<div class="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-orange-600 via-orange-500 to-orange-400 overflow-hidden">
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10" style="background-image: url(<%= image_path 'bg.jpg' %>);"></div>
+  
+  <!-- Content -->
+  <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="mb-8">
+      <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+        Discover the Best Tenders for Your Business
+      </h1>
+      <p class="text-xl md:text-2xl text-orange-100 max-w-3xl mx-auto leading-relaxed">
+        Access 1,00,000+ active tenders and GeM Portal historical data. Get real-time notifications for opportunities tailored to your enterprise.
+      </p>
+    </div>
+
+    <!-- Search Section -->
+    <div class="max-w-2xl mx-auto mb-8">
+      <form action="<%= search_path %>" id="search-form" class="relative">
+        <label for="search" class="sr-only">Search Tenders</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-4">
+            <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+          <input
+            type="search"
+            name="q"
+            id="main-search"
+            class="block w-full pl-12 pr-32 py-4 text-lg border-0 rounded-2xl bg-white shadow-xl focus:ring-4 focus:ring-orange-200 focus:outline-none placeholder-gray-500"
+            placeholder="Search for tenders, categories, locations..."
+            required
           />
-        <button
-          type="submit"
-          id="main-search-btn"
-          class="absolute right-2.5 bottom-2.5 rounded-lg bg-orange-700 px-4 py-2 text-sm font-medium text-white hover:bg-orange-800 focus:outline-none focus:ring-4 focus:ring-orange-300 dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800"
-        >
-          Search
-        </button>
+          <button
+            type="submit"
+            id="main-search-btn"
+            class="absolute right-2 top-2 bottom-2 px-8 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-xl transition-colors focus:outline-none focus:ring-4 focus:ring-orange-200"
+          >
+            Search
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Value Proposition -->
+    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white border-opacity-20">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-white">
+        <div class="flex items-center gap-2">
+          <svg class="w-6 h-6 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+          <span class="font-semibold">1,00,000+ Active Tenders</span>
+        </div>
+        <div class="hidden md:block w-px h-6 bg-white bg-opacity-30"></div>
+        <div class="flex items-center gap-2">
+          <svg class="w-6 h-6 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="font-semibold">Updated Daily</span>
+        </div>
+        <div class="hidden md:block w-px h-6 bg-white bg-opacity-30"></div>
+        <div class="flex items-center gap-2">
+          <svg class="w-6 h-6 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span class="font-semibold">Verified Opportunities</span>
+        </div>
       </div>
-    </form>
+    </div>
   </div>
 
-  <!-- filter -->
-  <!--  <div>-->
-  <%#= render "tender_filter" %>
-  <!--  </div>-->
-  <div class="text-slate-800 text-lg px-4 py-3 bg-gradient-to-r from-orange-100 to-orange-300 rounded-lg mt-8 mx-4 text-center">
-    Get Ahead of the Competition with 1,00,000+ Active Tenders and GeM Portal Historical Data. - Updated Daily! <br/>⭐
-    We collect, compile, and upload thousands of opportunities, so you don't have to.⭐
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
   </div>
 </div>
 
-<!-- p2 trending tenders -->
-<!--  <div class="bg-red-800 h-7 overflow-hidden">-->
-<!--    <p class="moving-text text-gray-100">Trending Tenders for Independent Entrepreneurs, Businesses, Industries, Schools, Colleges, Institutions, Universities, NGOs, Traders, Suppliers, Professionals &  Government Organizations</p>-->
-<!--  </div>-->
-
-<div>
-  <marquee class="bg-red-800 h-8 mb-[-6px]" direction="right">
-    <p class="text-gray-100">Trending Tenders for Independent Entrepreneurs, Businesses, Industries, Schools, Colleges,
-      Institutions, Universities, NGOs, Traders, Suppliers, Professionals & Government Organizations</p></marquee>
-  <marquee class="bg-red-800 h-8">
-    <p class="text-gray-100">Trending Tenders for Independent Entrepreneurs, Businesses, Industries, Schools, Colleges,
-      Institutions, Universities, NGOs, Traders, Suppliers, Professionals & Government Organizations</p></marquee>
-
+<!-- Announcement Banner -->
+<div class="bg-gradient-to-r from-red-600 to-red-700 text-white py-3 overflow-hidden">
+  <div class="marquee-container">
+    <div class="marquee-content">
+      <span class="text-sm font-medium">
+        🎯 Trending Tenders for Independent Entrepreneurs, Businesses, Industries, Schools, Colleges, Institutions, Universities, NGOs, Traders, Suppliers, Professionals & Government Organizations
+      </span>
+    </div>
+  </div>
 </div>
-<div>
-  <%#= render "tenders/shared/diwali_offer" %>
+
+<style>
+  .marquee-container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  
+  .marquee-content {
+    display: inline-block;
+    animation: marquee 30s linear infinite;
+  }
+  
+  @keyframes marquee {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .marquee-content:hover {
+    animation-play-state: paused;
+  }
+</style>
+
+<!-- Add RFQ Infobar -->
+<div class="bg-gray-50 py-4">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <%= render 'tenders/shared/rfq_infobar' %>
+  </div>
 </div>
 
 <div class="md:grid md:grid-cols-3 pt-12 px-12 mx-auto max-w-7xl">
   <div class="md:col-span-2">
 
-    <!-- <h4 class="text-lg font-bold flex justify-center pb-4 ml7"><span class="text-wrapper"><span class="letters">Trending Tenders of the Day (<%= DateTime.now.strftime("%d/%m/%Y") %>)</span></span></h4> -->
-    <h4 class="mx-auto mb-6 font-bold text-red-800 rounded-lg tlt text-lg font- flex justify-center ml7 w-fit px-4" style="">
-      <ul class="texts">
-        <li data-out-effect="fadeOut" data-out-shuffle="true">Trending Tenders of the Day
-          (<%= DateTime.now.strftime("%d/%m/%Y") %>)
-        </li>
-        <!-- <li data-in-effect="fadeIn">Trending Tenders of the Day (<%= DateTime.now.strftime("%d/%m/%Y %H:%M") %>)</li> -->
-      </ul>
-    </h4>
+    <!-- Trending Tenders Section -->
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 mb-12">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">
+          Trending Tenders of the Day
+        </h2>
+        <p class="text-gray-600">
+          <%= DateTime.now.strftime("%B %d, %Y") %> • Updated in real-time
+        </p>
+      </div>
 
-    <div class="md:grid md:grid-cols-3 flex flex-col items-center space-y-1">
-      <% @todays_tender.each do |keyword| %>
-        <div class="h-full p-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <% @todays_tender.each do |keyword| %>
           <a
             href="<%= keyword == 'More' ? trending_tenders_path : keyword_tender_path(keyword: keyword.gsub(' ', '-')) %>"
-            class="w-full md:h-full inline-flex items-center rounded-lg bg-orange-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-orange-800 focus:outline-none focus:ring-4 focus:ring-orange-300 dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800"
+            class="group flex items-center justify-between p-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg"
           >
-            <%= keyword.humanize %>
-            <svg
-              aria-hidden="true"
-              class="ml-2 -mr-1 h-4 w-4"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              ></path>
+            <span class="font-medium"><%= keyword.humanize %></span>
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
             </svg>
           </a>
-        </div>
-      <% end %>
-    </div>
-    <!--    arrow-->
-    <svg class="w-10 mx-auto mt-6 text-orange-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"></path>
-    </svg>
+        <% end %>
+      </div>
 
-    <a class="btn-sm block w-fit mx-auto mt-6" href="<%= trending_tenders_path %>">View More Industry Specific
-      Tenders</a>
+      <div class="text-center">
+        <a href="<%= trending_tenders_path %>" class="inline-flex items-center px-6 py-3 border border-orange-300 text-base font-medium rounded-lg text-orange-600 bg-orange-50 hover:bg-orange-100 transition-colors">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+          View More Industry Specific Tenders
+        </a>
+      </div>
+    </div>
 
     <div class="flex justify-center mt-8">
       <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
@@ -159,96 +197,163 @@
         </a>
       </nav>
     </div>
-    <div class="px-12 mx-auto max-w-6xl mt-20" id="why_us">
-      <div class="flex justify-center items-center">
-        <img src="<%= image_path 'Asset_1.svg' %>" class="h-6 mr-3 sm:h-9" alt="Sigma Tenders Logo"/>
-        <h4 class="text-3xl font-bold">Why Choose Us</h4>
-      </div>
-      <div class="flex mt-8 justify-center">
-        <p>Focussed & Targeted </p>
-        <svg class="w-6 mx-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
-        </svg>
-        <p> Maximizing Your Tender Success</p>
+    <!-- Why Choose Us Section -->
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 mt-20" id="why_us">
+      <div class="text-center mb-8">
+        <div class="flex justify-center items-center mb-4">
+          <img src="<%= image_path 'Asset_1.svg' %>" class="h-8 mr-3" alt="Sigma Tenders Logo"/>
+          <h2 class="text-3xl font-bold text-gray-900">Why Choose SigmaTenders</h2>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-gray-600">
+          <span class="font-semibold">Focused & Targeted</span>
+          <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
+          </svg>
+          <span class="font-semibold">Maximizing Your Tender Success</span>
+        </div>
       </div>
 
-      <ul class="space-y-4 mt-6">
-        <li>
-          <div class="icon">
-            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+          <div class="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"></path>
             </svg>
           </div>
-          <p>Access to most of the Request for Proposal (RFP), Expression of Interest Proposals (EOI), Empanelment
-            notifications, Request for Quote (RFQ), Invitation to Bid (ITB), Purchase Order (PO), Service Contract
-            Notifications and other government contracts</p>
-        </li>
-        <li>
-          <div class="icon">
-            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <div>
+            <h3 class="font-semibold text-gray-900 mb-2">Comprehensive Access</h3>
+            <p class="text-gray-700 text-sm leading-relaxed">Access to RFPs, EOIs, Empanelment notifications, RFQs, ITBs, Purchase Orders, Service Contracts and other government contracts.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+          <div class="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"></path>
             </svg>
           </div>
-          <p>Business growth opportunities: we offer entrepreneurs the opportunity to grow their business by bidding on
-            and
-            winning contracts from various organizations.</p>
-        </li>
-        <li>
-          <div class="icon">
-            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <div>
+            <h3 class="font-semibold text-gray-900 mb-2">Business Growth</h3>
+            <p class="text-gray-700 text-sm leading-relaxed">Opportunities to grow your business by bidding on and winning contracts from various organizations.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+          <div class="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"></path>
             </svg>
           </div>
-
-          <p>Networking opportunities: we offer and facilitate entrepreneurs to network with other businesses and
-            government agencies, which can lead to new business partnerships and opportunities.</p>
-        </li>
-        <li>
-          <div class="icon">
-            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 8.25H9m6 3H9m3 6l-3-3h1.5a3 3 0 100-6M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
+          <div>
+            <h3 class="font-semibold text-gray-900 mb-2">Networking Opportunities</h3>
+            <p class="text-gray-700 text-sm leading-relaxed">Connect with other businesses and government agencies, leading to new partnerships and opportunities.</p>
           </div>
+        </div>
 
-          <p>Cost savings: sigmatenders.com saves entrepreneurs time and money by providing them with a streamlined
-            window
-            and various search options for finding matching tenders for bidding on contracts.</p>
-        </li>
-        <li>
-          <div class="icon">
-            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+          <div class="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
-          <p>Time to time and regular updates of the business ecosystem and government offers and initiatives for the
-            entrepreneurs.</p>
-        </li>
-      </ul>
+          <div>
+            <h3 class="font-semibold text-gray-900 mb-2">Time & Cost Savings</h3>
+            <p class="text-gray-700 text-sm leading-relaxed">Streamlined platform with advanced search options saves time and money in finding matching tender opportunities.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
-  <div class="md:col-span-1 space-y-2 md:pl-6">
-    <div class="text-gray-700 text-xl font-bold text-center mb-6">Find Tenders by Categories</div>
-    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_main_category_path %>">⭐
-      Tender
-      Categories</a>
+  <!-- Sidebar -->
+  <div class="md:col-span-1 md:pl-6">
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 sticky top-6">
+      <div class="text-center mb-6">
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Find Tenders by Categories</h3>
+        <p class="text-sm text-gray-600">Browse tenders by different classifications</p>
+      </div>
 
-    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_category_by_city_path %>">⭐
-      Tender by City</a>
-    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_category_by_state_path %>">⭐
-      Tender by State</a>
-    <!--      <a class="text-lg block hover:underline hover:underline-offset-2" href="<%#= tender_category_by_organization_path %>">⭐ </a>-->
-    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_category_by_sector_path %>">⭐
-      Tender by Sector</a>
-    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_by_organisation_path %>">⭐
-      Tender by Organisation</a>
-    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_by_products_path %>">⭐
-      Tender by Products</a>
-    <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-600 text-white px-4 py-2 rounded-md" href="<%= how_to_file_tender_path %>">⭐
-      How to file tender?</a>
+      <div class="space-y-3">
+        <a href="<%= tender_main_category_path %>" class="group flex items-center p-3 bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-orange-600 transition-all duration-200 transform hover:scale-105 shadow-sm hover:shadow-md">
+          <svg class="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+          </svg>
+          <span class="font-medium">Tender Categories</span>
+          <svg class="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </a>
 
-    <%= render "get_relevant_tenders_form" %>
+        <a href="<%= tender_category_by_city_path %>" class="group flex items-center p-3 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors">
+          <svg class="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="font-medium">Tender by City</span>
+          <svg class="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </a>
 
+        <a href="<%= tender_category_by_state_path %>" class="group flex items-center p-3 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors">
+          <svg class="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="font-medium">Tender by State</span>
+          <svg class="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </a>
+
+        <a href="<%= tender_category_by_sector_path %>" class="group flex items-center p-3 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors">
+          <svg class="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+          </svg>
+          <span class="font-medium">Tender by Sector</span>
+          <svg class="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </a>
+
+        <a href="<%= tender_by_organisation_path %>" class="group flex items-center p-3 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors">
+          <svg class="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z"></path>
+            <path fill-rule="evenodd" d="M3 8a2 2 0 012-2v9a2 2 0 104 0V6a2 2 0 012-2v9a2 2 0 104 0V6a2 2 0 012-2v9a2 2 0 104 0V8a2 2 0 10-4 0v7H3V8z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="font-medium">Tender by Organisation</span>
+          <svg class="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </a>
+
+        <a href="<%= tender_by_products_path %>" class="group flex items-center p-3 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors">
+          <svg class="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2L3 7v11a1 1 0 001 1h3v-8h6v8h3a1 1 0 001-1V7l-7-5z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="font-medium">Tender by Products</span>
+          <svg class="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </a>
+
+        <!-- Featured Link -->
+        <div class="pt-4 border-t border-gray-200">
+          <a href="<%= how_to_file_tender_path %>" class="group flex items-center p-4 bg-gradient-to-r from-orange-600 to-orange-700 text-white rounded-lg hover:from-orange-700 hover:to-orange-800 transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg">
+            <svg class="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="font-semibold">How to File Tender?</span>
+            <svg class="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Form Section -->
+      <div class="mt-6 pt-6 border-t border-gray-200">
+        <%= render "get_relevant_tenders_form" %>
+      </div>
+    </div>
   </div>
   <!--  <div class="mt-6">-->
   <!--    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfj0rlhPDSH5hlU-w3gXoOX259e3Vw-XVRbz6LO7a8EE6C8SA/viewform?embedded=true" width="600" height="1250" class="border-0 overflow-hidden relative" style="margin-left: -22px" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>-->
