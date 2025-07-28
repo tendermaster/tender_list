@@ -154,7 +154,7 @@
         <% @todays_tender.each do |keyword| %>
           <a
             href="<%= keyword == 'More' ? trending_tenders_path : keyword_tender_path(keyword: keyword.gsub(' ', '-')) %>"
-            class="group flex items-center justify-between p-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg"
+            class="group flex items-center justify-between p-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-200 transform hover:scale-102 shadow-md hover:shadow-lg"
           >
             <span class="font-medium"><%= keyword.humanize %></span>
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
@@ -274,7 +274,7 @@
       </div>
 
       <div class="space-y-3">
-        <a href="<%= tender_main_category_path %>" class="group flex items-center p-3 bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-orange-600 transition-all duration-200 transform hover:scale-105 shadow-sm hover:shadow-md">
+        <a href="<%= tender_main_category_path %>" class="group flex items-center p-3 bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-orange-600 transition-all duration-200 transform hover:scale-102 shadow-sm hover:shadow-md">
           <svg class="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
             <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
           </svg>
@@ -337,7 +337,7 @@
 
         <!-- Featured Link -->
         <div class="pt-4 border-t border-gray-200">
-          <a href="<%= how_to_file_tender_path %>" class="group flex items-center p-4 bg-gradient-to-r from-orange-600 to-orange-700 text-white rounded-lg hover:from-orange-700 hover:to-orange-800 transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg">
+          <a href="<%= how_to_file_tender_path %>" class="group flex items-center p-4 bg-gradient-to-r from-orange-600 to-orange-700 text-white rounded-lg hover:from-orange-700 hover:to-orange-800 transition-all duration-200 transform hover:scale-102 shadow-md hover:shadow-lg">
             <svg class="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
             </svg>
