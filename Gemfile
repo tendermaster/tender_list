@@ -99,7 +99,7 @@ gem 'money-rails', '~> 1.15'
 
 gem 'sitemap_generator', '~> 6.3'
 
-gem 'elasticsearch'
+# gem 'elasticsearch'
 gem 'searchkick'
 # gem "elasticsearch-model"
 # gem "elasticsearch-rails"
@@ -121,7 +121,6 @@ gem 'recaptcha'
 gem 'activeadmin'
 gem 'activerecord-session_store'
 gem 'ahoy_matey'
-gem 'elasticsearch-api', '~> 8.12'
 gem 'httparty'
 gem 'sidekiq-cron'
 gem 'solid_cache'
@@ -130,3 +129,7 @@ gem 'solid_cache'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'stackprof'
+
+# gem 'elasticsearch-api', '~> 8.19'
+gem "elasticsearch", '~> 8.19'
+gem 'elasticsearch-rails', '~> 8.0'

@@ -1,22 +1,25 @@
 FROM ruby:3.1.3
 
+# RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs yarn
+# RUN ln -s $(which yarn) /usr/local/bin/yarn && \
+#     ln -s $(which node) /usr/local/bin/node
 WORKDIR /app
 
-ARG UID=1000
-ARG GID=1000
-
+ARG UID=1004
+ARG GID=1004
+RUN uname -a
 RUN apt-get update && apt-get install -y apt-transport-https
 
 RUN bash -c "set -o pipefail && apt-get update \
   && apt-get install -y --no-install-recommends build-essential curl git libpq-dev tzdata \
-  && curl -sSL https://deb.nodesource.com/setup_18.x | bash - \
+  && curl -sSL https://deb.nodesource.com/setup_24.x | bash - \
   && curl -sSL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo 'deb https://dl.yarnpkg.com/debian/ stable main' | tee /etc/apt/sources.list.d/yarn.list \
   && apt-get update && apt-get install -y --no-install-recommends nodejs yarn \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
   && apt-get clean \
-  && groupadd -g \"${GID}\" ruby \
-  && useradd --create-home --no-log-init -u \"${UID}\" -g \"${GID}\" ruby \
+  && groupadd -g 1004 ruby \
+  && useradd --create-home --no-log-init -u 1004 -g 1004 ruby \
   && chown ruby:ruby -R /app"
 
 USER ruby
@@ -28,23 +31,31 @@ ENV RAILS_ENV="${RAILS_ENV}" \
     USER="ruby" \
     TZ="Asia/Kolkata"
 
-# RUN bash -c "sudo apt-get install -y "
 
-# ADD --chown=ruby:ruby Gemfile* ./
-# ADD --chown=ruby:ruby package*.json ./
+# --- Optimized Dependency Installation ---
 
-#COPY package*.json ./
-#COPY Gemfile* ./
-#
-#RUN bundle install
-#RUN npm install
+# 1. Copy Gemfile and Gemfile.lock
+COPY Gemfile Gemfile.lock ./
+# 2. Install gems. This layer is only rebuilt if Gemfile.lock changes.
+# RUN bundle install
 
-# RUN bundle exec rails assets:precompile
+# 3. Copy package.json and yarn.lock (or package-lock.json)
+COPY package.json yarn.lock ./
+# 4. Install node modules. This layer is only rebuilt if yarn.lock changes.
+# RUN npm install
 
-# COPY --chown=ruby:ruby package.json *yarn* ./
+# NOTE: We DO NOT copy the rest of the application code.
+# The `volumes` mount in docker-compose.yml will provide it at runtime.
 
+# Copy and set up the entrypoint script
+# COPY entrypoint.sh /usr/bin/
+# RUN chmod +x /usr/bin/entrypoint.sh
+# ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
-# RUN chmod +x ./bin/init
-#CMD ["rails", "s", "-b", "0.0.0.0"]
-ENTRYPOINT ["bash", "./bin/init"]
+# 7. DEFINE THE DEFAULT COMMAND
+# This is the command that will run when the container starts if not
+# overridden in docker-compose.yml.
+# It becomes the default argument to the ENTRYPOINT script.
+# CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD ["bash", "start.sh"]

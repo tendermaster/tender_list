@@ -143,15 +143,15 @@ GEM
     dotiw (5.3.3)
       activesupport
       i18n
-    elastic-transport (8.3.1)
+    elastic-transport (8.4.0)
       faraday (< 3)
       multi_json
-    elasticsearch (8.12.1)
-      base64
+    elasticsearch (8.19.1)
       elastic-transport (~> 8.3)
-      elasticsearch-api (= 8.12.1)
-    elasticsearch-api (8.12.1)
+      elasticsearch-api (= 8.19.1)
+    elasticsearch-api (8.19.1)
       multi_json
+    elasticsearch-rails (8.0.0)
     erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
@@ -456,8 +456,8 @@ DEPENDENCIES
   debug
   devise (~> 4.9)
   dotiw (~> 5.3)
-  elasticsearch
-  elasticsearch-api (~> 8.12)
+  elasticsearch (~> 8.19)
+  elasticsearch-rails (~> 8.0)
   httparty
   importmap-rails
   jbuilder
@@ -494,7 +494,7 @@ DEPENDENCIES
   webdrivers
 
 RUBY VERSION
-   ruby 3.2.2p53
+   ruby 3.1.3p185
 
 BUNDLED WITH
    2.3.26

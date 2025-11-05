@@ -1,6 +1,7 @@
 {
   "name": "tender_list",
   "dependencies": {
+    "concurrently": "^9.2.0",
     "flowbite": "^1.6.2",
     "jquery": "^3.6.3",
     "stimulus": "^3.2.2",
