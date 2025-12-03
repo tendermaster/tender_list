@@ -11,7 +11,7 @@ RUN uname -a
 RUN apt-get update && apt-get install -y apt-transport-https
 
 RUN bash -c "set -o pipefail && apt-get update \
-  && apt-get install -y --no-install-recommends build-essential curl git libpq-dev tzdata \
+  && apt-get install -y --no-install-recommends build-essential curl git libpq-dev tzdata iputils-ping \
   && curl -sSL https://deb.nodesource.com/setup_24.x | bash - \
   && curl -sSL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo 'deb https://dl.yarnpkg.com/debian/ stable main' | tee /etc/apt/sources.list.d/yarn.list \
