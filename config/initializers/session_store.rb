@@ -9,7 +9,7 @@ if Rails.env.production?
 end
 
 redis_port = 6379
-redis_db_sessions = 0
+redis_db_sessions = 3
 
 Rails.application.config.session_store :redis_store,
   servers: ["redis://:#{redis_password}@#{redis_host}:#{redis_port}/#{redis_db_sessions}/session"],
