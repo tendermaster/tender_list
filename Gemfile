@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.3'
+ruby '3.2.2'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.4'
@@ -108,6 +108,7 @@ gem 'meta-tags'
 gem 'sidekiq', '~> 7.0'
 
 gem 'redis', '~> 5.0'
+gem 'redis-session-store'
 
 gem 'devise', '~> 4.9'
 gem 'omniauth'
@@ -119,7 +120,7 @@ gem 'aws-sdk-s3', '~> 1'
 gem 'recaptcha'
 
 gem 'activeadmin'
-gem 'activerecord-session_store'
+
 gem 'ahoy_matey'
 gem 'httparty'
 gem 'sidekiq-cron'
