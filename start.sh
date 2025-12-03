@@ -1,6 +1,6 @@
 #!/bin/bash
-pwd
-echo "1" >> "f.log"
+#pwd
+#echo "1" >> "f.log"
 
 # 1. Clean up previous server process
 echo "Removing old server.pid"
