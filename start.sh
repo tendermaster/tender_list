@@ -11,7 +11,7 @@ echo "Checking bundle..."
 bundle check || bundle install --jobs 4 --retry 3
 
 bundle install
-pnpm install
+yarn install
 
 rails assets:clobber
 rails assets:precompile
