@@ -1,12 +1,6 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 // import "@hotwired/turbo-rails";
 // import "controllers";
-// = require ahoy
-
-// ahoy.configure({
-//   visitsUrl: "/ah/visits",
-//   eventsUrl: "/ah/events",
-// })
 
 $("#filter-search").on("click", () => {
   console.log("search");
@@ -90,12 +84,12 @@ $('#main-search-btn').on('click', (e) => {
   const query = $('#main-search').val()
   const userEmail = $('#user-email').text().trim()
   if (query.length) {
-    ahoy.track("user_search", {
-      query: query,
-      url: window.location.href,
-      time: new Date().toString(),
-      email: userEmail.length > 0 ? userEmail : null
-    });
+    // ahoy.track("user_search", {
+    //   query: query,
+    //   url: window.location.href,
+    //   time: new Date().toString(),
+    //   email: userEmail.length > 0 ? userEmail : null
+    // });
   }
 })
 
@@ -103,12 +97,12 @@ $('#nav-search-btn').on('click', (e) => {
   const query = $('#search-navbar').val()
   const userEmail = $('#user-email').text().trim()
   if (query.length) {
-    ahoy.track("user_search_nav", {
-      query: query,
-      url: window.location.href,
-      time: new Date().toString(),
-      email: userEmail.length > 0 ? userEmail : null
-    });
+    // ahoy.track("user_search_nav", {
+    //   query: query,
+    //   url: window.location.href,
+    //   time: new Date().toString(),
+    //   email: userEmail.length > 0 ? userEmail : null
+    // });
   }
 })
 
