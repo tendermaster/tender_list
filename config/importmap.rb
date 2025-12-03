@@ -11,4 +11,4 @@ pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
 pin_all_from "app/javascript/controllers", under: "controllers"
 # pin "flowbite" # @1.6.2
 # pin "@popperjs/core", to: "@popperjs--core.js" # @2.11.6
-pin "ahoy", to: "ahoy.js"
+# pin "ahoy", to: "ahoy.js"
