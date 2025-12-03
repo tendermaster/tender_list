@@ -14,7 +14,7 @@ RUN bash -c "set -o pipefail && apt update \
   && apt install -y --no-install-recommends build-essential curl git libpq-dev tzdata \
   && curl -sSL https://deb.nodesource.com/setup_24.x | bash - \
   && apt update && apt install -y --no-install-recommends nodejs \
-  && npm install -g corepack
+  && npm install -g corepack \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
   && apt clean \
   && groupadd -g 1004 ruby \
