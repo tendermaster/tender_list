@@ -190,6 +190,31 @@ rails generate migration add_tenderType_to_tenders tender_category:string tender
 [] wrong duplicate password css
 [] reset link
 
+[x] fix search date
+[x] make eproc faster
+[ ] remove blank tender result
+[x] ssl
+[] no edit page
+[] css
+http://ubuntu-vm.test:3000/users/confirmation
+[] add gem keyword
+[] bookmark tender
+
+longterm can be postponed,
+[] add page num in gem scrape
+
+[] razorpay
+pricing
+refund policy
+cancellation policy
+[] add bookmark
+[] redirect after otp
+[x] fix search from db (audit)
+
+```shell
+rails g model bookmark user:references tender:references
+```
+
 -- 2
 
 

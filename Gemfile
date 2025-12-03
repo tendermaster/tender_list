@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.3'
+ruby '3.4.7'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.4'
@@ -107,8 +107,8 @@ gem 'meta-tags'
 
 gem 'sidekiq', '~> 7.0'
 
-gem 'redis', '~> 5.0'
 gem 'redis-rails'
+gem 'redis', '~> 5.0'
 
 gem 'devise', '~> 4.9'
 gem 'omniauth'
