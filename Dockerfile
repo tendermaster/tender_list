@@ -1,6 +1,6 @@
 FROM ruby:3.4.7
 
-# RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs yarn
+# RUN apt update -qq && apt install -y build-essential libpq-dev nodejs yarn
 # RUN ln -s $(which yarn) /usr/local/bin/yarn && \
 #     ln -s $(which node) /usr/local/bin/node
 WORKDIR /app
@@ -8,16 +8,16 @@ WORKDIR /app
 ARG UID=1004
 ARG GID=1004
 RUN uname -a
-RUN apt-get update && apt-get install -y apt-transport-https
+RUN apt update && apt install -y apt-transport-https
 
-RUN bash -c "set -o pipefail && apt-get update \
-  && apt-get install -y --no-install-recommends build-essential curl git libpq-dev tzdata \
+RUN bash -c "set -o pipefail && apt update \
+  && apt install -y --no-install-recommends build-essential curl git libpq-dev tzdata \
   && curl -sSL https://deb.nodesource.com/setup_24.x | bash - \
   && curl -sSL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo 'deb https://dl.yarnpkg.com/debian/ stable main' | tee /etc/apt/sources.list.d/yarn.list \
-  && apt-get update && apt-get install -y --no-install-recommends nodejs yarn \
+  && apt update && apt install -y --no-install-recommends nodejs yarn \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
-  && apt-get clean \
+  && apt clean \
   && groupadd -g 1004 ruby \
   && useradd --create-home --no-log-init -u 1004 -g 1004 ruby \
   && chown ruby:ruby -R /app"
