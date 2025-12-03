@@ -12,7 +12,7 @@ redis_port = 6379
 redis_db_sessions = 0
 
 Rails.application.config.session_store :redis_store,
-  servers: ["redis://:#{redis_password}@#{redis_host}:#{redis_port}/#{redis_db_sessions}"],
+  servers: ["redis://:#{redis_password}@#{redis_host}:#{redis_port}/#{redis_db_sessions}/session"],
   expire_after: 90.days,
   key: '_sigmatenders_session',
   threadsafe: true,
