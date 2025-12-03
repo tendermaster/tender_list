@@ -108,7 +108,7 @@ gem 'meta-tags'
 gem 'sidekiq', '~> 7.0'
 
 gem 'redis', '~> 5.0'
-gem 'redis-session-store'
+gem 'redis-rails'
 
 gem 'devise', '~> 4.9'
 gem 'omniauth'
