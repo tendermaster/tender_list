@@ -121,7 +121,7 @@ gem 'recaptcha'
 
 gem 'activeadmin'
 
-gem 'ahoy_matey'
+
 gem 'httparty'
 gem 'sidekiq-cron'
 gem 'solid_cache'

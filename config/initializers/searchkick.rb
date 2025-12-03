@@ -18,7 +18,9 @@ begin
 rescue KeyError => e
   puts "Environment variable missing: #{e.message}"
   # Optionally, you can raise an error or exit the application here
-  raise e
+  if Rails.env.production?
+    raise e
+  end
 end
 
 ElasticClient = Elasticsearch::Client.new(
