@@ -127,6 +127,10 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    dotenv (3.2.0)
+    dotenv-rails (3.2.0)
+      dotenv (= 3.2.0)
+      railties (>= 6.1)
     dotiw (5.3.3)
       activesupport
       i18n
@@ -457,6 +461,7 @@ DEPENDENCIES
   dalli
   debug
   devise (~> 4.9)
+  dotenv-rails
   dotiw (~> 5.3)
   elasticsearch (~> 8.19)
   elasticsearch-rails (~> 8.0)
@@ -497,7 +502,7 @@ DEPENDENCIES
   webdrivers
 
 RUBY VERSION
-   ruby 3.2.2p53
+   ruby 3.2.9p265
 
 BUNDLED WITH
    2.3.26

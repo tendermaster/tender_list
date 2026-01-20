@@ -24,10 +24,19 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+#development:
+#  <<: *default
+#  host: 127.0.0.1
+#  database: tender_list_development
+
+# prod
 development:
   <<: *default
+  database: tender_list_production
+  username: postgres
+  password: <%= ENV["TENDER_LIST_DATABASE_PASSWORD"] %>
   host: 127.0.0.1
-  database: tender_list_development
+  port: 5432
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -88,7 +97,7 @@ production:
   database: tender_list_production
   username: postgres
   password: <%= ENV["TENDER_LIST_DATABASE_PASSWORD"] %>
-  host: <%= ENV["POSTGRES_HOST"] || postgres %>
+  host: <%= ENV["POSTGRES_HOST"] %>
   port: 5432
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
