@@ -384,139 +384,15 @@ class TendersController < ApplicationController
   #   long tail keywords
   #
   def self.elastic_pagy(query, page_number)
-    items_per_page = 5
-    if page_number.nil?
-      offset = 0
-    else
-      offset = (page_number.to_i - 1) * items_per_page
-    end
-    begin
-      # removed
-      # "after.short_blog^2",
-
-      results = ElasticClient.search(
-        index: 'cdc_pg_tenders.public.tenders',
-        body: {
-          query: {
-            function_score: {
-              query: {
-                simple_query_string: {
-                  query: query,
-                  "default_operator": 'and',
-                  "fields": ['after.tender_id', 'after.title^3', 'after.description^3', 'after.organisation',
-                             'after.slug_uuid', 'after.page_link', 'after.state^2']
-                }
-              },
-              functions: [
-                {
-                  script_score: {
-                    script: {
-                      source: '' "
-                      long now = #{Time.zone.now.to_i * 1_000_000}L;
-                      long expiryDate = doc['after.submission_close_date'].value;
-                        if (expiryDate > now) {
-                          return 200;
-                        } else {
-                          return 0.5;
-                        }
-              " ''
-                    }
-                  }
-                }
-              ],
-              score_mode: 'multiply' # Adjust to your needs (e.g., "sum" or "avg")
-            }
-          },
-          size: items_per_page,
-          from: offset
-        })
-
-      # results = ElasticClient.search(
-      #   index: 'cdc_pg_tenders.public.tenders',
-      #   body: {
-      #     query: {
-      #       simple_query_string: {
-      #         query: query,
-      #         "default_operator": 'and',
-      #         "fields": ['after.tender_id', 'after.title^3', 'after.description^3', 'after.organisation',
-      #                    'after.slug_uuid', 'after.page_link', 'after.state^2']
-      #       }
-      #     },
-      #     sort: [{
-      #              "after.submission_close_date": 'desc'
-      #            }],
-      #     size: items_per_page,
-      #     from: offset
-      #   }
-      # )
-    rescue Elastic::Transport::Transport::Errors::BadRequest => e
-      raise ActiveRecord::RecordNotFound
-    end
-    total = results['hits']['total']['value']
-
-    pagy = Pagy.new(count: total, page: page_number, items: 5)
-    db_records = results['hits']['hits'].map do |item|
-      item['_source']['after']['id']
-    end
-    results = Tender.find(db_records)
-    [pagy, results]
+    TenderSearch.weighted_search(query, page_number, per_page: 5)
   end
 
   def self.similar_tenders(query, exclude_id)
     return [] if query.nil?
 
-    query = query.squish
-    p "searching: #{query}"
-    results = ElasticClient.search(
-      index: 'cdc_pg_tenders.public.tenders',
-      body: {
-        "query": {
-          "function_score": {
-            "query": {
-              "bool": {
-                "must": {
-                  "more_like_this": {
-                    "fields": [
-                      'after.title',
-                      'after.description',
-                      'after.short_blog'
-                    ],
-                    "like": query,
-                    "min_term_freq": 1,
-                    "max_query_terms": 25
-                  }
-                },
-                "must_not": [
-                  {
-                    "term": {
-                      "db_id": {
-                        "value": exclude_id
-                      }
-                    }
-                  }
-                ]
-              }
-            },
-            "min_score": 1
-          }
-        },
-        "size": 10,
-        "sort": [
-          {
-            "after.submission_close_date": {
-              "order": 'desc'
-            }
-          }
-        ]
-      })
-    db_records = results['hits']['hits'].map do |item|
-      item['_source']['after']['id']
-    end
-    begin
-      Tender.find(db_records)
-    rescue StandardError
-      []
-    end
+    # Backward compatible signature: create a temp tender object from the query string
+    source_tender = Tender.new(title: query, description: query)
+    TenderSearch.similar_tenders(source_tender, exclude_id, limit: 10)
   end
 
   private

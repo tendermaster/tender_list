@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_12_03_114959) do
+ActiveRecord::Schema[7.0].define(version: 2026_01_20_202252) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_textsearch"
   enable_extension "plpgsql"
 
   create_table "active_admin_comments", force: :cascade do |t|
@@ -175,16 +176,20 @@ ActiveRecord::Schema[7.0].define(version: 2025_12_03_114959) do
     t.datetime "updated_at_auto", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["bid_result_status"], name: "index_tenders_on_bid_result_status"
     t.index ["created_at"], name: "index_tenders_on_created_at"
+    t.index ["description"], name: "idx_tenders_description_bm25", using: :bm25
     t.index ["emd"], name: "index_tenders_on_emd"
     t.index ["is_visible"], name: "index_tenders_on_is_visible"
     t.index ["meta_data"], name: "index_tenders_on_meta_data"
+    t.index ["organisation"], name: "idx_tenders_organisation_bm25", using: :bm25
     t.index ["slug_uuid"], name: "index_tenders_on_slug_uuid", unique: true
+    t.index ["state"], name: "idx_tenders_state_bm25", using: :bm25
     t.index ["submission_close_date"], name: "index_tenders_on_submission_close_date"
     t.index ["tender_id"], name: "index_tenders_on_tender_id"
     t.index ["tender_reference_number"], name: "index_tenders_on_tender_reference_number"
     t.index ["tender_source"], name: "index_tenders_on_tender_source"
     t.index ["tender_text_vector"], name: "tender_text_vector_idx", using: :gin
     t.index ["tender_value"], name: "index_tenders_on_tender_value"
+    t.index ["title"], name: "idx_tenders_title_bm25", using: :bm25
     t.index ["updated_at_auto"], name: "index_tenders_on_updated_at_auto"
   end
 

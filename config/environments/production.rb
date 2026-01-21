@@ -124,8 +124,13 @@ Rails.application.configure do
   # https://stackoverflow.com/questions/70662382/couldnt-deploy-rails-tailwind-on-heroku
   config.assets.css_compressor = nil
 
-  # https://github.com/rails/solid_cache
-  # https://guides.rubyonrails.org/caching_with_rails.html
-  #
-  config.cache_store = :solid_cache_store
+  # Use Redis for caching in production.
+  # https://api.rubyonrails.org/v8.1/classes/ActiveSupport/Cache/RedisCacheStore.html
+  config.cache_store = :redis_cache_store, {
+    url: ENV.fetch("REDIS_URL") do
+      host = ENV.fetch("REDIS_HOST", "localhost")
+      password = ENV["REDIS_PASSWORD"].present? ? ":#{ENV["REDIS_PASSWORD"]}@" : ""
+      "redis://#{password}#{host}:6379/2"
+    end
+  }
 end

@@ -1,2 +1,5 @@
 [tools]
 ruby = "3.2.9"
+
+[settings]
+ruby.ruby_build_opts = "--with-openssl-dir=/home/linuxbrew/.linuxbrew/etc/openssl@3"

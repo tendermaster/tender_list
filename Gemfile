@@ -100,7 +100,7 @@ gem 'money-rails', '~> 1.15'
 gem 'sitemap_generator', '~> 6.3'
 
 # gem 'elasticsearch'
-gem 'searchkick'
+# gem 'searchkick'  # Removed - now using pg_textsearch
 # gem "elasticsearch-model"
 # gem "elasticsearch-rails"
 gem 'meta-tags'
@@ -108,7 +108,7 @@ gem 'meta-tags'
 gem 'sidekiq', '~> 7.0'
 
 gem 'redis-rails'
-gem 'redis', '~> 5.0'
+gem "redis", "~> 5.4"
 
 gem 'devise', '~> 4.9'
 gem 'omniauth'
@@ -131,8 +131,11 @@ gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'stackprof'
 
+# Elasticsearch - Removed: now using pg_textsearch
 # gem 'elasticsearch-api', '~> 8.19'
-gem "elasticsearch", '~> 8.19'
-gem 'elasticsearch-rails', '~> 8.0'
+# gem "elasticsearch", '~> 8.19'
+# gem 'elasticsearch-rails', '~> 8.0'
 
 gem 'dotenv-rails', groups: [:development, :test]
+
+

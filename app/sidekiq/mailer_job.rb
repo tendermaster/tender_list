@@ -24,23 +24,11 @@ class MailerJob
           # ensure results are present
           query_string = QueriesController.get_query_string(query)
 
-          tender_count = Tender.where([
-                                        "tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
-  and (submission_close_date > now())
-  and (is_visible = true)
-  and (created_at > ?)
-",
-                                        query_string,
-                                        query.last_sent.utc
-                                      ]).count
+          # Count new tenders since last_sent using BM25
+          tender_count = TenderSearch.count_matching(query_string, since: query.last_sent)
 
-          total_tender_count = Tender.where([
-                                              "tenders.tender_text_vector @@ websearch_to_tsquery('english', ?)
-  and (submission_close_date > now())
-  and (is_visible = true)
-",
-                                              query_string
-                                            ]).count
+          # Count total open tenders using BM25
+          total_tender_count = TenderSearch.count_matching(query_string)
 
           p "tender count: #{tender_count}, total: #{total_tender_count}, after: #{query.last_sent.utc}, search_term: #{query_string}"
           if tender_count > 0

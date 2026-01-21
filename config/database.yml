@@ -32,7 +32,7 @@ default: &default
 # prod
 development:
   <<: *default
-  database: tender_list_production
+  database: tender_list_development
   username: postgres
   password: <%= ENV["TENDER_LIST_DATABASE_PASSWORD"] %>
   host: 127.0.0.1
