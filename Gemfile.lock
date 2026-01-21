@@ -238,7 +238,7 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
-    nio4r (2.5.8)
+    nio4r (2.7.5)
     nokogiri (1.16.5-x86_64-linux)
       racc (~> 1.4)
     oauth2 (2.0.9)
@@ -457,6 +457,7 @@ DEPENDENCIES
   meta-tags
   mini_racer
   money-rails (~> 1.15)
+  nio4r (>= 2.7.0)
   omniauth
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
@@ -489,4 +490,4 @@ RUBY VERSION
    ruby 3.2.9p265
 
 BUNDLED WITH
-   2.3.26
+   2.4.19
