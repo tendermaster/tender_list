@@ -160,24 +160,22 @@ module TenderSearch
 
   # Compute BM25 ranking ONCE and store as snapshot
   #
-  # OPTIMIZATION STRATEGY: "Union-of-Unions" with Aggregation (KNN-Style)
+  # OPTIMIZATION STRATEGY: "Global KNN Aggregation"
   #
-  # Problem:
-  #   Scanning 10M rows with OR conditions is slow.
+  # Process:
+  #   1. Fetch Top N (limit * 5) best matches for EACH field globally using KNN Index Scans.
+  #      This bypasses the 10M row scan by asking the index for the best results directly.
+  #   2. Aggregate (MIN) scores per ID to merge matches across different fields.
+  #   3. Weight the distances (Lower is Better) using COALESCE(..., 10000) for non-matches.
+  #   4. Final Sort: Active Status first, then Weighted Distance.
   #
-  # Solution:
-  #   1. Fetch Top N candidates for each field (Title, Desc, Org) via fast Index Scans.
-  #      We split into Active and Inactive branches to ensure we prioritize finding Active records.
-  #   2. Aggregate the scores (MIN) for each ID.
-  #   3. Calculate weighted score using COALESCE(..., 10000) (since Lower/Negative is Better).
-  #   4. Sort by Active Status first, then Weighted Score.
-  #
-  # Result: ~300ms execution time.
+  # Result: ~360ms for 10M rows.
   def compute_ranking_snapshot(query, limit:)
     sanitized_query = ActiveRecord::Base.connection.quote(query)
 
-    # Scale sub-query limits.
-    sub_limit = (limit * 0.5).ceil
+    # We fetch a larger pool of candidates (5x the requested limit) to ensure
+    # that Active tenders aren't "starved" out by better-matching Inactive ones.
+    sub_limit = [limit * 5, 1000].max
 
     sql = <<-SQL
       WITH q AS (
@@ -188,57 +186,31 @@ module TenderSearch
           to_bm25query(#{sanitized_query}, 'idx_tenders_state_bm25') AS qs
       ),
       candidates_raw AS (
-        -- 1. TITLE (Active)
         (
           SELECT id, (title <@> q.qt) as t_dist, NULL::float as d_dist, NULL::float as o_dist, NULL::float as s_dist
           FROM tenders t, q
-          WHERE t.is_visible = true AND t.submission_close_date > NOW()
-          ORDER BY t.title <@> q.qt ASC
-          LIMIT #{limit}
-        )
-        UNION ALL
-        -- 2. DESCRIPTION (Active)
-        (
-          SELECT id, NULL::float, (description <@> q.qd), NULL::float, NULL::float
-          FROM tenders t, q
-          WHERE t.is_visible = true AND t.submission_close_date > NOW()
-          ORDER BY t.description <@> q.qd ASC
-          LIMIT #{limit}
-        )
-        UNION ALL
-        -- 3. ORGANISATION (Active)
-        (
-          SELECT id, NULL::float, NULL::float, (organisation <@> q.qo), NULL::float
-          FROM tenders t, q
-          WHERE t.is_visible = true AND t.submission_close_date > NOW()
-          ORDER BY t.organisation <@> q.qo ASC
-          LIMIT #{limit}
-        )
-        UNION ALL
-        -- 4. STATE (Active)
-        (
-          SELECT id, NULL::float, NULL::float, NULL::float, (state <@> q.qs)
-          FROM tenders t, q
-          WHERE t.is_visible = true AND t.submission_close_date > NOW()
-          ORDER BY t.state <@> q.qs ASC
-          LIMIT #{limit}
-        )
-        UNION ALL
-        -- 5. INACTIVE BACKFILL (Title)
-        (
-          SELECT id, (title <@> q.qt), NULL::float, NULL::float, NULL::float
-          FROM tenders t, q
-          WHERE t.is_visible = true AND t.submission_close_date <= NOW()
           ORDER BY t.title <@> q.qt ASC
           LIMIT #{sub_limit}
         )
         UNION ALL
-        -- 6. INACTIVE BACKFILL (Description)
         (
           SELECT id, NULL::float, (description <@> q.qd), NULL::float, NULL::float
           FROM tenders t, q
-          WHERE t.is_visible = true AND t.submission_close_date <= NOW()
           ORDER BY t.description <@> q.qd ASC
+          LIMIT #{sub_limit}
+        )
+        UNION ALL
+        (
+          SELECT id, NULL::float, NULL::float, (organisation <@> q.qo), NULL::float
+          FROM tenders t, q
+          ORDER BY t.organisation <@> q.qo ASC
+          LIMIT #{sub_limit}
+        )
+        UNION ALL
+        (
+          SELECT id, NULL::float, NULL::float, NULL::float, (state <@> q.qs)
+          FROM tenders t, q
+          ORDER BY t.state <@> q.qs ASC
           LIMIT #{sub_limit}
         )
       ),
@@ -278,13 +250,12 @@ module TenderSearch
   end
 
   # Compute MLT ranking
-  # OPTIMIZATION: "Union-of-Unions" with Aggregation (KNN-Style) for MLT
-  # Only checks Title and Description.
+  # OPTIMIZATION: "Global KNN Aggregation" for MLT
   def compute_mlt_ranking(query_text, exclude_id, limit:)
     sanitized_query = ActiveRecord::Base.connection.quote(query_text)
     
-    # Candidate limits
-    c_limit = 200
+    # We fetch enough candidates to find good matches
+    sub_limit = [limit * 10, 500].max
 
     sql = <<-SQL
       WITH q AS (
@@ -293,40 +264,20 @@ module TenderSearch
           to_bm25query(#{sanitized_query}, 'idx_tenders_description_bm25') AS qd
       ),
       candidates_raw AS (
-        -- 1. TITLE (Active)
         (
           SELECT id, (title <@> q.qt) as t_dist, NULL::float as d_dist
           FROM tenders t, q
-          WHERE t.id <> #{exclude_id.to_i} AND t.is_visible = true AND t.submission_close_date > NOW()
+          WHERE t.id <> #{exclude_id.to_i}
           ORDER BY t.title <@> q.qt ASC
-          LIMIT #{c_limit}
+          LIMIT #{sub_limit}
         )
         UNION ALL
-        -- 2. DESCRIPTION (Active)
         (
           SELECT id, NULL::float, (description <@> q.qd)
           FROM tenders t, q
-          WHERE t.id <> #{exclude_id.to_i} AND t.is_visible = true AND t.submission_close_date > NOW()
+          WHERE t.id <> #{exclude_id.to_i}
           ORDER BY t.description <@> q.qd ASC
-          LIMIT #{c_limit}
-        )
-        UNION ALL
-        -- 3. TITLE (Inactive Backfill)
-        (
-          SELECT id, (title <@> q.qt), NULL::float
-          FROM tenders t, q
-          WHERE t.id <> #{exclude_id.to_i} AND t.is_visible = true AND t.submission_close_date <= NOW()
-          ORDER BY t.title <@> q.qt ASC
-          LIMIT #{c_limit}
-        )
-        UNION ALL
-        -- 4. DESCRIPTION (Inactive Backfill)
-        (
-          SELECT id, NULL::float, (description <@> q.qd)
-          FROM tenders t, q
-          WHERE t.id <> #{exclude_id.to_i} AND t.is_visible = true AND t.submission_close_date <= NOW()
-          ORDER BY t.description <@> q.qd ASC
-          LIMIT #{c_limit}
+          LIMIT #{sub_limit}
         )
       ),
       candidates_scored AS (
