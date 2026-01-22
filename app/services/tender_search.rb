@@ -101,15 +101,34 @@ module TenderSearch
           to_bm25query(#{sanitized_query}, 'idx_tenders_title_bm25') AS qt,
           to_bm25query(#{sanitized_query}, 'idx_tenders_description_bm25') AS qd
       )
-      SELECT COUNT(*)
-      FROM tenders t, q
-      WHERE t.is_visible = true
-        AND t.submission_close_date > NOW()
-        #{since_clause}
-        AND (
-          t.title <@> q.qt IS NOT NULL
-          OR t.description <@> q.qd IS NOT NULL
-        )
+      SELECT COUNT(DISTINCT id)
+      FROM (
+        -- 1. ACTIVE TENDERS
+        SELECT t.id
+        FROM tenders t, q
+        WHERE t.is_visible = true
+          AND t.submission_close_date > NOW()
+          #{since_clause}
+          AND (
+               t.title <@> q.qt IS NOT NULL
+            OR t.description <@> q.qd IS NOT NULL
+          )
+        UNION ALL
+        -- 2. INACTIVE TENDERS (Split for Index Usage)
+        SELECT t.id
+        FROM tenders t, q
+        WHERE t.is_visible = true
+          AND t.submission_close_date <= NOW()
+          #{since_clause}
+          AND t.title <@> q.qt IS NOT NULL
+        UNION ALL
+        SELECT t.id
+        FROM tenders t, q
+        WHERE t.is_visible = true
+          AND t.submission_close_date <= NOW()
+          #{since_clause}
+          AND t.description <@> q.qd IS NOT NULL
+      ) AS matches
     SQL
 
     ActiveRecord::Base.connection.execute(sql).first['count'].to_i
