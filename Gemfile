@@ -108,7 +108,7 @@ gem 'sitemap_generator', '~> 6.3'
 # gem "elasticsearch-rails"
 gem 'meta-tags'
 
-gem 'sidekiq', '~> 7.3'
+gem 'sidekiq', '~> 8.1'
 
 gem 'redis-rails'
 gem "redis", "~> 5.4"
