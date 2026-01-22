@@ -29,8 +29,13 @@ module TenderSearch
 
     return [Pagy.new(count: 0, page: 1, items: per_page), []] if query.blank?
 
-    # Get or create snapshot
-    snapshot = get_or_create_snapshot(query)
+    # Dynamic Limit: If user requests page 1000, we need at least 5000 results.
+    # We scale the snapshot size only when necessary to keep standard searches fast.
+    needed_limit = page * per_page
+    effective_limit = [needed_limit, MAX_SNAPSHOT_SIZE].max
+
+    # Get or create snapshot with the required limit
+    snapshot = get_or_create_snapshot(query, limit: effective_limit)
 
     # Calculate position range
     from_pos = ((page - 1) * per_page) + 1
@@ -140,11 +145,12 @@ module TenderSearch
   # Snapshot Management
   # ─────────────────────────────────────────────────────────────────────────────
 
-  def get_or_create_snapshot(query)
-    cache_key = "search:#{Digest::MD5.hexdigest(query)}"
+  def get_or_create_snapshot(query, limit: MAX_SNAPSHOT_SIZE)
+    # Include limit in cache key to separate "shallow" (fast) vs "deep" (slow) snapshots
+    cache_key = "search:#{Digest::MD5.hexdigest(query)}:#{limit}"
 
     Rails.cache.fetch(cache_key, expires_in: SNAPSHOT_TTL) do
-      compute_ranking_snapshot(query)
+      compute_ranking_snapshot(query, limit: limit)
     end
   end
 
@@ -169,15 +175,19 @@ module TenderSearch
   #      - Branch 2: INACTIVE TENDERS (submission_close_date <= NOW())
   #        - Split into 4 UNION parts: Title, Description, Organisation, State.
   #        - This forces Postgres to use `idx_tenders_title_bm25` etc. for each part.
-  #        - We LIMIT each part to 2000 to keep the candidate pool small (~10k max).
+  #        - We LIMIT each part to a subset (limit * 0.5) to keep the candidate pool small.
   #   3. SCORE & SORT:
   #      - We take the distinct list of candidate IDs.
-  #      - We calculate the full weighted score ONLY for these ~10k rows.
+  #      - We calculate the full weighted score ONLY for these rows.
   #      - We sort by Active Status first, then Score.
   #
-  # Result: Execution time drops from ~400s to ~2s.
-  def compute_ranking_snapshot(query)
+  # Result: Execution time drops from ~400s to ~2s (for standard limits).
+  def compute_ranking_snapshot(query, limit:)
     sanitized_query = ActiveRecord::Base.connection.quote(query)
+
+    # Scale sub-query limits proportionally.
+    # Base ratio: 500 sub-limit for 1000 total limit (0.5).
+    sub_limit = (limit * 0.5).ceil
 
     sql = <<-SQL
       WITH q AS (
@@ -200,7 +210,7 @@ module TenderSearch
               OR t.organisation <@> q.qo IS NOT NULL
               OR t.state <@> q.qs IS NOT NULL
             )
-          LIMIT #{MAX_SNAPSHOT_SIZE}
+          LIMIT #{limit}
         )
         UNION
         -- 2. INACTIVE TENDERS (Force Index Scans by splitting fields)
@@ -208,28 +218,28 @@ module TenderSearch
           SELECT t.id FROM tenders t, q
           WHERE t.is_visible = true AND t.submission_close_date <= NOW()
             AND t.title <@> q.qt IS NOT NULL
-          LIMIT 500
+          LIMIT #{sub_limit}
         )
         UNION
         (
           SELECT t.id FROM tenders t, q
           WHERE t.is_visible = true AND t.submission_close_date <= NOW()
             AND t.description <@> q.qd IS NOT NULL
-          LIMIT 500
+          LIMIT #{sub_limit}
         )
         UNION
         (
           SELECT t.id FROM tenders t, q
           WHERE t.is_visible = true AND t.submission_close_date <= NOW()
             AND t.organisation <@> q.qo IS NOT NULL
-          LIMIT 500
+          LIMIT #{sub_limit}
         )
         UNION
         (
           SELECT t.id FROM tenders t, q
           WHERE t.is_visible = true AND t.submission_close_date <= NOW()
             AND t.state <@> q.qs IS NOT NULL
-          LIMIT 500
+          LIMIT #{sub_limit}
         )
       )
       -- 3. SCORE & SORT ONLY CANDIDATES
@@ -247,7 +257,7 @@ module TenderSearch
         (CASE WHEN t.submission_close_date > NOW() THEN 0 ELSE 1 END) ASC, -- Active First
         score DESC,
         t.id ASC
-      LIMIT #{MAX_SNAPSHOT_SIZE}
+      LIMIT #{limit}
     SQL
 
     results = ActiveRecord::Base.connection.execute(sql)
