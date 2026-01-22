@@ -268,14 +268,52 @@ module TenderSearch
   end
 
   # Compute MLT ranking
+  # OPTIMIZATION: Union-of-Unions (Candidate Fetching)
   def compute_mlt_ranking(query_text, exclude_id, limit:)
     sanitized_query = ActiveRecord::Base.connection.quote(query_text)
+    
+    # Fetch enough candidates to find good matches
+    candidate_limit = 200
 
     sql = <<-SQL
       WITH q AS (
         SELECT
           to_bm25query(#{sanitized_query}, 'idx_tenders_title_bm25') AS qt,
           to_bm25query(#{sanitized_query}, 'idx_tenders_description_bm25') AS qd
+      ),
+      candidates AS (
+        -- 1. ACTIVE TENDERS (Fast via Date Index)
+        (
+          SELECT t.id
+          FROM tenders t, q
+          WHERE t.id <> #{exclude_id.to_i}
+            AND t.is_visible = true
+            AND t.submission_close_date > NOW()
+            AND (
+              t.title <@> q.qt IS NOT NULL
+              OR t.description <@> q.qd IS NOT NULL
+            )
+          LIMIT #{candidate_limit}
+        )
+        UNION
+        -- 2. INACTIVE TENDERS (Split for Index Usage)
+        (
+          SELECT t.id FROM tenders t, q
+          WHERE t.id <> #{exclude_id.to_i}
+            AND t.is_visible = true 
+            AND t.submission_close_date <= NOW()
+            AND t.title <@> q.qt IS NOT NULL
+          LIMIT #{candidate_limit}
+        )
+        UNION
+        (
+          SELECT t.id FROM tenders t, q
+          WHERE t.id <> #{exclude_id.to_i}
+            AND t.is_visible = true 
+            AND t.submission_close_date <= NOW()
+            AND t.description <@> q.qd IS NOT NULL
+          LIMIT #{candidate_limit}
+        )
       ),
       scored AS (
         SELECT
@@ -285,12 +323,7 @@ module TenderSearch
           + #{WEIGHTS[:description]} * COALESCE(t.description <@> q.qd, 0)
           ) AS score
         FROM tenders t, q
-        WHERE t.id <> #{exclude_id.to_i}
-          AND t.is_visible = true
-          AND (
-            t.title <@> q.qt IS NOT NULL
-            OR t.description <@> q.qd IS NOT NULL
-          )
+        WHERE t.id IN (SELECT id FROM candidates)
       )
       SELECT id
       FROM scored
