@@ -130,8 +130,14 @@ module TenderSearch
   end
 
   # Compute BM25 ranking ONCE and store as snapshot
+  # Optimization: Active tenders first, then Inactive (Union Strategy)
   def compute_ranking_snapshot(query)
     sanitized_query = ActiveRecord::Base.connection.quote(query)
+
+    # We fetch a portion of actives and inactives to fill the snapshot.
+    # Assuming user rarely goes past page 100, we limit total items.
+    active_limit = MAX_SNAPSHOT_SIZE
+    inactive_limit = MAX_SNAPSHOT_SIZE
 
     sql = <<-SQL
       WITH q AS (
@@ -140,8 +146,8 @@ module TenderSearch
           to_bm25query(#{sanitized_query}, 'idx_tenders_description_bm25') AS qd,
           to_bm25query(#{sanitized_query}, 'idx_tenders_organisation_bm25') AS qo,
           to_bm25query(#{sanitized_query}, 'idx_tenders_state_bm25') AS qs
-      ),
-      scored AS (
+      )
+      (
         SELECT
           t.id,
           (
@@ -149,28 +155,48 @@ module TenderSearch
             + #{WEIGHTS[:description]} * COALESCE(t.description <@> q.qd, 0)
             + #{WEIGHTS[:organisation]} * COALESCE(t.organisation <@> q.qo, 0)
             + #{WEIGHTS[:state]} * COALESCE(t.state <@> q.qs, 0)
-          ) AS score,
-          CASE
-            WHEN t.submission_close_date > NOW() AT TIME ZONE 'Asia/Kolkata' THEN 0
-            ELSE 1
-          END AS expired_penalty
+          ) AS score
         FROM tenders t, q
         WHERE t.is_visible = true
+          AND t.submission_close_date > NOW()
           AND (
             t.title <@> q.qt IS NOT NULL
             OR t.description <@> q.qd IS NOT NULL
             OR t.organisation <@> q.qo IS NOT NULL
             OR t.state <@> q.qs IS NOT NULL
           )
+        ORDER BY score DESC, id ASC
+        LIMIT #{active_limit}
       )
-      SELECT id
-      FROM scored
-      ORDER BY expired_penalty ASC, score ASC, id ASC
-      LIMIT #{MAX_SNAPSHOT_SIZE}
+      UNION ALL
+      (
+        SELECT
+          t.id,
+          (
+              #{WEIGHTS[:title]} * COALESCE(t.title <@> q.qt, 0)
+            + #{WEIGHTS[:description]} * COALESCE(t.description <@> q.qd, 0)
+            + #{WEIGHTS[:organisation]} * COALESCE(t.organisation <@> q.qo, 0)
+            + #{WEIGHTS[:state]} * COALESCE(t.state <@> q.qs, 0)
+          ) AS score
+        FROM tenders t, q
+        WHERE t.is_visible = true
+          AND t.submission_close_date <= NOW()
+          AND (
+            t.title <@> q.qt IS NOT NULL
+            OR t.description <@> q.qd IS NOT NULL
+            OR t.organisation <@> q.qo IS NOT NULL
+            OR t.state <@> q.qs IS NOT NULL
+          )
+        ORDER BY score DESC, id ASC
+        LIMIT #{inactive_limit}
+      )
     SQL
 
     results = ActiveRecord::Base.connection.execute(sql)
     ids = results.map { |r| r['id'] }
+
+    # Truncate if we exceeded max snapshot size (though unlikely with double limit)
+    ids = ids.first(MAX_SNAPSHOT_SIZE)
 
     # Return snapshot with IDs and total count
     { ids: ids, total: ids.size }
