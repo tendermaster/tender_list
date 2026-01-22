@@ -109,7 +109,7 @@ gem 'sitemap_generator', '~> 6.3'
 gem 'meta-tags'
 
 gem 'sidekiq', '~> 7.2'
-gem 'connection_pool', '>= 3.1.0' # Required for Sidekiq 7.x scheduler compatibility
+gem 'connection_pool', '~> 2.5' # 3.0.x has API incompatibility with Sidekiq scheduler
 
 gem 'redis-rails'
 gem "redis", "~> 5.4"
