@@ -12,7 +12,7 @@ module TenderSearch
   }.freeze
 
   SNAPSHOT_TTL = 120.seconds  # 2 minutes
-  MAX_SNAPSHOT_SIZE = 1000    # Max ranked results to cache
+  MAX_SNAPSHOT_SIZE = 200     # Max ranked results to cache (Default: Pages 1-40)
 
   # ─────────────────────────────────────────────────────────────────────────────
   # PHASE 1: Search with Snapshot
@@ -29,9 +29,13 @@ module TenderSearch
 
     return [Pagy.new(count: 0, page: 1, items: per_page), []] if query.blank?
 
-    # Dynamic Limit: If user requests page 1000, we need at least 5000 results.
-    # We scale the snapshot size only when necessary to keep standard searches fast.
-    needed_limit = page * per_page
+    # Dynamic Limit with Cache Bucketing
+    # We round up the requirement to the nearest 200 to prevent generating
+    # a new snapshot for every single page increment.
+    # Page 1-40  -> Limit 200
+    # Page 41-80 -> Limit 400
+    raw_limit = page * per_page
+    needed_limit = (raw_limit / 200.0).ceil * 200
     effective_limit = [needed_limit, MAX_SNAPSHOT_SIZE].max
 
     # Get or create snapshot with the required limit
