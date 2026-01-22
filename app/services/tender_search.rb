@@ -12,7 +12,7 @@ module TenderSearch
   }.freeze
 
   SNAPSHOT_TTL = 120.seconds  # 2 minutes
-  MAX_SNAPSHOT_SIZE = 5000    # Max ranked results to cache
+  MAX_SNAPSHOT_SIZE = 1000    # Max ranked results to cache
 
   # ─────────────────────────────────────────────────────────────────────────────
   # PHASE 1: Search with Snapshot
@@ -208,28 +208,28 @@ module TenderSearch
           SELECT t.id FROM tenders t, q
           WHERE t.is_visible = true AND t.submission_close_date <= NOW()
             AND t.title <@> q.qt IS NOT NULL
-          LIMIT 2000
+          LIMIT 500
         )
         UNION
         (
           SELECT t.id FROM tenders t, q
           WHERE t.is_visible = true AND t.submission_close_date <= NOW()
             AND t.description <@> q.qd IS NOT NULL
-          LIMIT 2000
+          LIMIT 500
         )
         UNION
         (
           SELECT t.id FROM tenders t, q
           WHERE t.is_visible = true AND t.submission_close_date <= NOW()
             AND t.organisation <@> q.qo IS NOT NULL
-          LIMIT 2000
+          LIMIT 500
         )
         UNION
         (
           SELECT t.id FROM tenders t, q
           WHERE t.is_visible = true AND t.submission_close_date <= NOW()
             AND t.state <@> q.qs IS NOT NULL
-          LIMIT 2000
+          LIMIT 500
         )
       )
       -- 3. SCORE & SORT ONLY CANDIDATES
