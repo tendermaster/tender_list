@@ -274,12 +274,13 @@ module TenderSearch
   end
 
   # Compute MLT ranking
-  # OPTIMIZATION: Union-of-Unions (Candidate Fetching)
+  # OPTIMIZATION: "Union-of-Unions" with Aggregation (KNN-Style) for MLT
+  # Only checks Title and Description.
   def compute_mlt_ranking(query_text, exclude_id, limit:)
     sanitized_query = ActiveRecord::Base.connection.quote(query_text)
     
-    # Fetch enough candidates to find good matches
-    candidate_limit = 200
+    # Candidate limits
+    c_limit = 200
 
     sql = <<-SQL
       WITH q AS (
@@ -287,53 +288,64 @@ module TenderSearch
           to_bm25query(#{sanitized_query}, 'idx_tenders_title_bm25') AS qt,
           to_bm25query(#{sanitized_query}, 'idx_tenders_description_bm25') AS qd
       ),
-      candidates AS (
-        -- 1. ACTIVE TENDERS (Fast via Date Index)
+      candidates_raw AS (
+        -- 1. TITLE (Active)
         (
-          SELECT t.id
+          SELECT id, (title <@> q.qt) as t_dist, NULL::float as d_dist
           FROM tenders t, q
-          WHERE t.id <> #{exclude_id.to_i}
-            AND t.is_visible = true
-            AND t.submission_close_date > NOW()
-            AND (
-              t.title <@> q.qt IS NOT NULL
-              OR t.description <@> q.qd IS NOT NULL
-            )
-          LIMIT #{candidate_limit}
+          WHERE t.id <> #{exclude_id.to_i} AND t.is_visible = true AND t.submission_close_date > NOW()
+          ORDER BY t.title <@> q.qt ASC
+          LIMIT #{c_limit}
         )
-        UNION
-        -- 2. INACTIVE TENDERS (Split for Index Usage)
+        UNION ALL
+        -- 2. DESCRIPTION (Active)
         (
-          SELECT t.id FROM tenders t, q
-          WHERE t.id <> #{exclude_id.to_i}
-            AND t.is_visible = true 
-            AND t.submission_close_date <= NOW()
-            AND t.title <@> q.qt IS NOT NULL
-          LIMIT #{candidate_limit}
+          SELECT id, NULL::float, (description <@> q.qd)
+          FROM tenders t, q
+          WHERE t.id <> #{exclude_id.to_i} AND t.is_visible = true AND t.submission_close_date > NOW()
+          ORDER BY t.description <@> q.qd ASC
+          LIMIT #{c_limit}
         )
-        UNION
+        UNION ALL
+        -- 3. TITLE (Inactive Backfill)
         (
-          SELECT t.id FROM tenders t, q
-          WHERE t.id <> #{exclude_id.to_i}
-            AND t.is_visible = true 
-            AND t.submission_close_date <= NOW()
-            AND t.description <@> q.qd IS NOT NULL
-          LIMIT #{candidate_limit}
+          SELECT id, (title <@> q.qt), NULL::float
+          FROM tenders t, q
+          WHERE t.id <> #{exclude_id.to_i} AND t.is_visible = true AND t.submission_close_date <= NOW()
+          ORDER BY t.title <@> q.qt ASC
+          LIMIT #{c_limit}
+        )
+        UNION ALL
+        -- 4. DESCRIPTION (Inactive Backfill)
+        (
+          SELECT id, NULL::float, (description <@> q.qd)
+          FROM tenders t, q
+          WHERE t.id <> #{exclude_id.to_i} AND t.is_visible = true AND t.submission_close_date <= NOW()
+          ORDER BY t.description <@> q.qd ASC
+          LIMIT #{c_limit}
         )
       ),
-      scored AS (
+      candidates_scored AS (
         SELECT
-          t.id,
-          (
-            #{WEIGHTS[:title]} * COALESCE(t.title <@> q.qt, 0)
-          + #{WEIGHTS[:description]} * COALESCE(t.description <@> q.qd, 0)
-          ) AS score
-        FROM tenders t, q
-        WHERE t.id IN (SELECT id FROM candidates)
+          id,
+          MIN(t_dist) as t_dist,
+          MIN(d_dist) as d_dist
+        FROM candidates_raw
+        GROUP BY id
       )
-      SELECT id
-      FROM scored
-      ORDER BY score ASC, id ASC
+      SELECT
+        t.id,
+        (
+            #{WEIGHTS[:title]} * COALESCE(c.t_dist, 10000)
+          + #{WEIGHTS[:description]} * COALESCE(c.d_dist, 10000)
+        ) AS weighted_score
+      FROM tenders t
+      JOIN candidates_scored c ON t.id = c.id
+      WHERE t.is_visible = true
+      ORDER BY
+        (CASE WHEN t.submission_close_date > NOW() THEN 0 ELSE 1 END) ASC,
+        weighted_score ASC,
+        t.id ASC
       LIMIT #{limit.to_i}
     SQL
 
