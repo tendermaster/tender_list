@@ -156,37 +156,23 @@ module TenderSearch
 
   # Compute BM25 ranking ONCE and store as snapshot
   #
-  # OPTIMIZATION STRATEGY: "Union-of-Unions" (Candidate Fetching)
+  # OPTIMIZATION STRATEGY: "Union-of-Unions" with Aggregation (KNN-Style)
   #
   # Problem:
-  #   The `tenders` table has 10M+ rows. A simple OR condition in the WHERE clause
-  #   (title matches OR description matches) combined with `submission_close_date <= NOW()`
-  #   causes the Postgres Query Planner to default to a Sequential Scan, taking 400s+.
+  #   Scanning 10M rows with OR conditions is slow.
   #
   # Solution:
-  #   We force the usage of specific BM25 indexes by splitting the "Inactive" search
-  #   into 4 separate sub-queries (one per field).
+  #   1. Fetch Top N candidates for each field (Title, Desc, Org) via fast Index Scans.
+  #      We split into Active and Inactive branches to ensure we prioritize finding Active records.
+  #   2. Aggregate the scores (MIN) for each ID.
+  #   3. Calculate weighted score using COALESCE(..., 10000) (since Lower/Negative is Better).
+  #   4. Sort by Active Status first, then Weighted Score.
   #
-  # Process:
-  #   1. Define BM25 query terms in a CTE `q`.
-  #   2. FETCH CANDIDATES (ID only):
-  #      - Branch 1: ACTIVE TENDERS (submission_close_date > NOW())
-  #        - Fast because the date filter is highly selective (~20k rows vs 10M).
-  #      - Branch 2: INACTIVE TENDERS (submission_close_date <= NOW())
-  #        - Split into 4 UNION parts: Title, Description, Organisation, State.
-  #        - This forces Postgres to use `idx_tenders_title_bm25` etc. for each part.
-  #        - We LIMIT each part to a subset (limit * 0.5) to keep the candidate pool small.
-  #   3. SCORE & SORT:
-  #      - We take the distinct list of candidate IDs.
-  #      - We calculate the full weighted score ONLY for these rows.
-  #      - We sort by Active Status first, then Score.
-  #
-  # Result: Execution time drops from ~400s to ~2s (for standard limits).
+  # Result: ~300ms execution time.
   def compute_ranking_snapshot(query, limit:)
     sanitized_query = ActiveRecord::Base.connection.quote(query)
 
-    # Scale sub-query limits proportionally.
-    # Base ratio: 500 sub-limit for 1000 total limit (0.5).
+    # Scale sub-query limits.
     sub_limit = (limit * 0.5).ceil
 
     sql = <<-SQL
@@ -197,65 +183,85 @@ module TenderSearch
           to_bm25query(#{sanitized_query}, 'idx_tenders_organisation_bm25') AS qo,
           to_bm25query(#{sanitized_query}, 'idx_tenders_state_bm25') AS qs
       ),
-      candidates AS (
-        -- 1. ACTIVE TENDERS (Fast via Date Index + Post-Filter)
+      candidates_raw AS (
+        -- 1. TITLE (Active)
         (
-          SELECT t.id
+          SELECT id, (title <@> q.qt) as t_dist, NULL::float as d_dist, NULL::float as o_dist, NULL::float as s_dist
           FROM tenders t, q
-          WHERE t.is_visible = true
-            AND t.submission_close_date > NOW()
-            AND (
-                 t.title <@> q.qt IS NOT NULL
-              OR t.description <@> q.qd IS NOT NULL
-              OR t.organisation <@> q.qo IS NOT NULL
-              OR t.state <@> q.qs IS NOT NULL
-            )
+          WHERE t.is_visible = true AND t.submission_close_date > NOW()
+          ORDER BY t.title <@> q.qt ASC
           LIMIT #{limit}
         )
-        UNION
-        -- 2. INACTIVE TENDERS (Force Index Scans by splitting fields)
+        UNION ALL
+        -- 2. DESCRIPTION (Active)
         (
-          SELECT t.id FROM tenders t, q
+          SELECT id, NULL::float, (description <@> q.qd), NULL::float, NULL::float
+          FROM tenders t, q
+          WHERE t.is_visible = true AND t.submission_close_date > NOW()
+          ORDER BY t.description <@> q.qd ASC
+          LIMIT #{limit}
+        )
+        UNION ALL
+        -- 3. ORGANISATION (Active)
+        (
+          SELECT id, NULL::float, NULL::float, (organisation <@> q.qo), NULL::float
+          FROM tenders t, q
+          WHERE t.is_visible = true AND t.submission_close_date > NOW()
+          ORDER BY t.organisation <@> q.qo ASC
+          LIMIT #{limit}
+        )
+        UNION ALL
+        -- 4. STATE (Active)
+        (
+          SELECT id, NULL::float, NULL::float, NULL::float, (state <@> q.qs)
+          FROM tenders t, q
+          WHERE t.is_visible = true AND t.submission_close_date > NOW()
+          ORDER BY t.state <@> q.qs ASC
+          LIMIT #{limit}
+        )
+        UNION ALL
+        -- 5. INACTIVE BACKFILL (Title)
+        (
+          SELECT id, (title <@> q.qt), NULL::float, NULL::float, NULL::float
+          FROM tenders t, q
           WHERE t.is_visible = true AND t.submission_close_date <= NOW()
-            AND t.title <@> q.qt IS NOT NULL
+          ORDER BY t.title <@> q.qt ASC
           LIMIT #{sub_limit}
         )
-        UNION
+        UNION ALL
+        -- 6. INACTIVE BACKFILL (Description)
         (
-          SELECT t.id FROM tenders t, q
+          SELECT id, NULL::float, (description <@> q.qd), NULL::float, NULL::float
+          FROM tenders t, q
           WHERE t.is_visible = true AND t.submission_close_date <= NOW()
-            AND t.description <@> q.qd IS NOT NULL
+          ORDER BY t.description <@> q.qd ASC
           LIMIT #{sub_limit}
         )
-        UNION
-        (
-          SELECT t.id FROM tenders t, q
-          WHERE t.is_visible = true AND t.submission_close_date <= NOW()
-            AND t.organisation <@> q.qo IS NOT NULL
-          LIMIT #{sub_limit}
-        )
-        UNION
-        (
-          SELECT t.id FROM tenders t, q
-          WHERE t.is_visible = true AND t.submission_close_date <= NOW()
-            AND t.state <@> q.qs IS NOT NULL
-          LIMIT #{sub_limit}
-        )
+      ),
+      candidates_scored AS (
+        SELECT
+          id,
+          MIN(t_dist) as t_dist,
+          MIN(d_dist) as d_dist,
+          MIN(o_dist) as o_dist,
+          MIN(s_dist) as s_dist
+        FROM candidates_raw
+        GROUP BY id
       )
-      -- 3. SCORE & SORT ONLY CANDIDATES
       SELECT
         t.id,
         (
-            #{WEIGHTS[:title]} * COALESCE(t.title <@> q.qt, 0)
-          + #{WEIGHTS[:description]} * COALESCE(t.description <@> q.qd, 0)
-          + #{WEIGHTS[:organisation]} * COALESCE(t.organisation <@> q.qo, 0)
-          + #{WEIGHTS[:state]} * COALESCE(t.state <@> q.qs, 0)
-        ) AS score
-      FROM tenders t, q
-      WHERE t.id IN (SELECT id FROM candidates)
+            #{WEIGHTS[:title]} * COALESCE(c.t_dist, 10000)
+          + #{WEIGHTS[:description]} * COALESCE(c.d_dist, 10000)
+          + #{WEIGHTS[:organisation]} * COALESCE(c.o_dist, 10000)
+          + #{WEIGHTS[:state]} * COALESCE(c.s_dist, 10000)
+        ) AS weighted_score
+      FROM tenders t
+      JOIN candidates_scored c ON t.id = c.id
+      WHERE t.is_visible = true
       ORDER BY
-        (CASE WHEN t.submission_close_date > NOW() THEN 0 ELSE 1 END) ASC, -- Active First
-        score DESC,
+        (CASE WHEN t.submission_close_date > NOW() THEN 0 ELSE 1 END) ASC,
+        weighted_score ASC,
         t.id ASC
       LIMIT #{limit}
     SQL
