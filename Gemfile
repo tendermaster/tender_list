@@ -135,10 +135,8 @@ gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'stackprof'
 
-# Elasticsearch - Removed: now using pg_textsearch
-# gem 'elasticsearch-api', '~> 8.19'
-# gem "elasticsearch", '~> 8.19'
-# gem 'elasticsearch-rails', '~> 8.0'
+# Elasticsearch (supporting ES 9.x)
+gem 'elasticsearch', '~> 9.0'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
