@@ -26,13 +26,15 @@ module TenderSearch
 
     return [Pagy.new(count: 0, page: 1, items: per_page), []] if query.blank?
 
-    effective_limit = CACHE_TIERS.find { |max_page, _| page <= max_page }&.last || 500
+    effective_limit = CACHE_TIERS.find { |max_page, _| page <= max_page }&.last || 10000
     snapshot = get_or_create_snapshot(query, limit: effective_limit)
 
     from_pos = ((page - 1) * per_page) + 1
     page_ids = snapshot[:ids].slice((from_pos - 1), per_page) || []
 
-    total = [snapshot[:total], effective_limit].min
+    # Show full page count (up to 2000 pages = 10000 results at 5/page)
+    max_results = MAX_PAGE * per_page
+    total = [snapshot[:total], max_results].min
     pagy = Pagy.new(count: total, page: page, items: per_page)
     records = fetch_tenders_in_order(page_ids)
 
