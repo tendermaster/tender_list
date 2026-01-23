@@ -6,9 +6,6 @@ module TenderSearch
   SNAPSHOT_TTL = 120.seconds  # 2 minutes
   MAX_SNAPSHOT_SIZE = 200     # Max ranked results to cache
 
-  # Active tender boost (10x score boost for active tenders)
-  ACTIVE_BOOST = 1000.0
-
   # ─────────────────────────────────────────────────────────────────────────────
   # PHASE 1: Search with Snapshot
   # ─────────────────────────────────────────────────────────────────────────────
@@ -100,59 +97,75 @@ module TenderSearch
   end
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # ParadeDB BM25 Search - SINGLE QUERY with Boosting
+  # ParadeDB BM25 Search - Pure TopN + Ruby Sort
   # ─────────────────────────────────────────────────────────────────────────────
   #
-  # OPTIMIZATION: Single query with massive boost for active tenders.
-  # This allows ParadeDB to use TopNScanExecState (sub-100ms) instead of
-  # breaking optimization with UNION ALL.
+  # ParadeDB TopN ONLY works when ORDER BY uses indexed fields directly.
+  # Expressions like (submission_close_date > NOW()) break TopN.
   #
   # Strategy:
-  #   - Use pdb.score(id) for BM25 relevance
-  #   - Add massive constant boost (1000) for active tenders
-  #   - Final score = BM25 + (is_active ? 1000 : 0)
-  #   - ORDER BY final_score DESC puts active first
+  #   1. Query with pure ORDER BY pdb.score(id) DESC → TopN optimized
+  #   2. Fetch 2x results to have enough active+inactive candidates
+  #   3. Sort in Ruby to put active first (instant on 400 rows)
   #
   def compute_ranking_snapshot(query, limit:)
     sanitized = ActiveRecord::Base.connection.quote(query)
+    fetch_limit = limit * 2  # Fetch extra for active/inactive balancing
 
-    # Single query - ParadeDB can optimize this with TopN
+    # Pure TopN query - no expressions in ORDER BY
     sql = <<-SQL
-      SELECT id
+      SELECT id, pdb.score(id) AS score, submission_close_date
       FROM tenders
       WHERE is_visible = true
         AND search_content ||| #{sanitized}
-      ORDER BY
-        (pdb.score(id) + CASE WHEN is_active = true THEN #{ACTIVE_BOOST} ELSE 0 END) DESC,
-        id ASC
-      LIMIT #{limit}
+      ORDER BY score DESC, id ASC
+      LIMIT #{fetch_limit}
     SQL
 
     results = ActiveRecord::Base.connection.execute(sql)
-    ids = results.map { |r| r['id'] }
+    now = Time.current
 
+    # Sort in Ruby: active first, then by score (descending)
+    sorted = results.to_a.sort_by do |r|
+      close_date = r['submission_close_date']
+      is_active = close_date.present? && Time.parse(close_date.to_s) > now rescue false
+      [
+        is_active ? 0 : 1,           # Active first
+        -(r['score'].to_f),          # Higher score first
+        r['id'].to_i                 # Tiebreaker
+      ]
+    end
+
+    ids = sorted.take(limit).map { |r| r['id'] }
     { ids: ids, total: ids.size }
   end
 
-  # MLT using single ParadeDB query with boost
+  # MLT using pure TopN + Ruby sort
   def compute_mlt_ranking(query_text, exclude_id, limit:)
     sanitized = ActiveRecord::Base.connection.quote(query_text)
     excluded = exclude_id.to_i
+    fetch_limit = limit * 3
 
     sql = <<-SQL
-      SELECT id
+      SELECT id, pdb.score(id) AS score, submission_close_date
       FROM tenders
       WHERE is_visible = true
         AND id <> #{excluded}
         AND search_content ||| #{sanitized}
-      ORDER BY
-        (pdb.score(id) + CASE WHEN is_active = true THEN #{ACTIVE_BOOST} ELSE 0 END) DESC,
-        id ASC
-      LIMIT #{limit.to_i}
+      ORDER BY score DESC, id ASC
+      LIMIT #{fetch_limit}
     SQL
 
     results = ActiveRecord::Base.connection.execute(sql)
-    results.map { |r| r['id'] }
+    now = Time.current
+
+    sorted = results.to_a.sort_by do |r|
+      close_date = r['submission_close_date']
+      is_active = close_date.present? && Time.parse(close_date.to_s) > now rescue false
+      [is_active ? 0 : 1, -(r['score'].to_f), r['id'].to_i]
+    end
+
+    sorted.take(limit).map { |r| r['id'] }
   end
 
   # ─────────────────────────────────────────────────────────────────────────────
