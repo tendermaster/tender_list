@@ -4,28 +4,38 @@ module TenderSearch
   extend self
 
   SNAPSHOT_TTL = 120.seconds  # 2 minutes
-  MAX_SNAPSHOT_SIZE = 200     # Max ranked results to cache
+  MAX_PAGE = 100              # Cap pagination at page 100
+  
+  # Tiered cache limits for performance
+  # Pages 1-40:  200 results (~300ms)
+  # Pages 41-100: 500 results (~500ms)
+  CACHE_TIERS = {
+    40 => 200,   # Pages 1-40
+    100 => 500   # Pages 41-100
+  }.freeze
 
   # ─────────────────────────────────────────────────────────────────────────────
   # PHASE 1: Search with Snapshot
   # ─────────────────────────────────────────────────────────────────────────────
 
   def weighted_search(query, page = 1, per_page: 5)
-    page = [page.to_i, 1].max
+    page = [[page.to_i, 1].max, MAX_PAGE].min  # Clamp to 1..100
     query = query.to_s.squish
 
     return [Pagy.new(count: 0, page: 1, items: per_page), []] if query.blank?
 
+    # Determine cache tier based on page
     raw_limit = page * per_page
-    needed_limit = (raw_limit / 200.0).ceil * 200
-    effective_limit = [needed_limit, MAX_SNAPSHOT_SIZE].max
+    effective_limit = CACHE_TIERS.find { |max_page, _| page <= max_page }&.last || 500
 
     snapshot = get_or_create_snapshot(query, limit: effective_limit)
 
     from_pos = ((page - 1) * per_page) + 1
     page_ids = snapshot[:ids].slice((from_pos - 1), per_page) || []
 
-    pagy = Pagy.new(count: snapshot[:total], page: page, items: per_page)
+    # Use effective_limit as total (capped results)
+    total = [snapshot[:total], effective_limit].min
+    pagy = Pagy.new(count: total, page: page, items: per_page)
     records = fetch_tenders_in_order(page_ids)
 
     [pagy, records]
