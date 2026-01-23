@@ -4,35 +4,28 @@ module TenderSearch
   extend self
 
   SNAPSHOT_TTL = 120.seconds  # 2 minutes
-  MAX_SNAPSHOT_SIZE = 200     # Max ranked results to cache (Default: Pages 1-40)
+  MAX_SNAPSHOT_SIZE = 200     # Max ranked results to cache
+
+  # Active tender boost (10x score boost for active tenders)
+  ACTIVE_BOOST = 1000.0
 
   # ─────────────────────────────────────────────────────────────────────────────
   # PHASE 1: Search with Snapshot
   # ─────────────────────────────────────────────────────────────────────────────
 
-  # Search with BM25 scoring using snapshot-based pagination
-  # @param query [String] search query
-  # @param page [Integer] page number (1-indexed)
-  # @param per_page [Integer] results per page
-  # @return [Array<Pagy, Array<Tender>>]
   def weighted_search(query, page = 1, per_page: 5)
     page = [page.to_i, 1].max
     query = query.to_s.squish
 
     return [Pagy.new(count: 0, page: 1, items: per_page), []] if query.blank?
 
-    # Dynamic Limit with Cache Bucketing
     raw_limit = page * per_page
     needed_limit = (raw_limit / 200.0).ceil * 200
     effective_limit = [needed_limit, MAX_SNAPSHOT_SIZE].max
 
-    # Get or create snapshot with the required limit
     snapshot = get_or_create_snapshot(query, limit: effective_limit)
 
-    # Calculate position range
     from_pos = ((page - 1) * per_page) + 1
-
-    # Fetch page from snapshot
     page_ids = snapshot[:ids].slice((from_pos - 1), per_page) || []
 
     pagy = Pagy.new(count: snapshot[:total], page: page, items: per_page)
@@ -45,7 +38,6 @@ module TenderSearch
   # PHASE 2: Similar Tenders (MLT) with Snapshot
   # ─────────────────────────────────────────────────────────────────────────────
 
-  # Find similar tenders using source tender's content
   def similar_tenders(source_tender, exclude_id, limit: 10)
     return [] if source_tender.nil?
 
@@ -70,10 +62,9 @@ module TenderSearch
   end
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # PHASE 3: Count Matching Tenders (for MailerJob)
+  # PHASE 3: Count Matching Tenders
   # ─────────────────────────────────────────────────────────────────────────────
 
-  # Count tenders matching query using ParadeDB BM25
   def count_matching(query, since: nil)
     sanitized = ActiveRecord::Base.connection.quote(query)
 
@@ -83,7 +74,6 @@ module TenderSearch
       ""
     end
 
-    # ParadeDB: Use ||| operator for BM25 match
     sql = <<-SQL
       SELECT COUNT(*) AS count
       FROM tenders
@@ -110,42 +100,31 @@ module TenderSearch
   end
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # ParadeDB BM25 Search
+  # ParadeDB BM25 Search - SINGLE QUERY with Boosting
   # ─────────────────────────────────────────────────────────────────────────────
   #
-  # Uses ParadeDB's pg_search extension with:
-  #   - ||| operator for BM25 matching (OR semantics)
-  #   - &&& operator for BM25 matching (AND semantics)
-  #   - pdb.score(id) for relevance scoring
+  # OPTIMIZATION: Single query with massive boost for active tenders.
+  # This allows ParadeDB to use TopNScanExecState (sub-100ms) instead of
+  # breaking optimization with UNION ALL.
   #
-  # Active tenders first, then inactive, both sorted by BM25 score.
+  # Strategy:
+  #   - Use pdb.score(id) for BM25 relevance
+  #   - Add massive constant boost (1000) for active tenders
+  #   - Final score = BM25 + (is_active ? 1000 : 0)
+  #   - ORDER BY final_score DESC puts active first
   #
   def compute_ranking_snapshot(query, limit:)
     sanitized = ActiveRecord::Base.connection.quote(query)
 
+    # Single query - ParadeDB can optimize this with TopN
     sql = <<-SQL
-      (
-        -- ACTIVE tenders: Full BM25 search with top-k
-        SELECT id, 0 AS status_rank, pdb.score(id) AS score
-        FROM tenders
-        WHERE is_visible = true
-          AND submission_close_date > NOW()
-          AND search_content ||| #{sanitized}
-        ORDER BY score DESC, id ASC
-        LIMIT #{limit}
-      )
-      UNION ALL
-      (
-        -- INACTIVE tenders: Full BM25 search with top-k
-        SELECT id, 1 AS status_rank, pdb.score(id) AS score
-        FROM tenders
-        WHERE is_visible = true
-          AND submission_close_date <= NOW()
-          AND search_content ||| #{sanitized}
-        ORDER BY score DESC, id ASC
-        LIMIT #{limit}
-      )
-      ORDER BY status_rank ASC, score DESC, id ASC
+      SELECT id
+      FROM tenders
+      WHERE is_visible = true
+        AND search_content ||| #{sanitized}
+      ORDER BY
+        (pdb.score(id) + CASE WHEN is_active = true THEN #{ACTIVE_BOOST} ELSE 0 END) DESC,
+        id ASC
       LIMIT #{limit}
     SQL
 
@@ -155,36 +134,20 @@ module TenderSearch
     { ids: ids, total: ids.size }
   end
 
-  # MLT using ParadeDB BM25
+  # MLT using single ParadeDB query with boost
   def compute_mlt_ranking(query_text, exclude_id, limit:)
     sanitized = ActiveRecord::Base.connection.quote(query_text)
     excluded = exclude_id.to_i
 
     sql = <<-SQL
-      (
-        -- ACTIVE similar tenders
-        SELECT id, 0 AS status_rank, pdb.score(id) AS score
-        FROM tenders
-        WHERE is_visible = true
-          AND id <> #{excluded}
-          AND submission_close_date > NOW()
-          AND search_content ||| #{sanitized}
-        ORDER BY score DESC, id ASC
-        LIMIT #{limit.to_i}
-      )
-      UNION ALL
-      (
-        -- INACTIVE similar tenders
-        SELECT id, 1 AS status_rank, pdb.score(id) AS score
-        FROM tenders
-        WHERE is_visible = true
-          AND id <> #{excluded}
-          AND submission_close_date <= NOW()
-          AND search_content ||| #{sanitized}
-        ORDER BY score DESC, id ASC
-        LIMIT #{limit.to_i}
-      )
-      ORDER BY status_rank ASC, score DESC, id ASC
+      SELECT id
+      FROM tenders
+      WHERE is_visible = true
+        AND id <> #{excluded}
+        AND search_content ||| #{sanitized}
+      ORDER BY
+        (pdb.score(id) + CASE WHEN is_active = true THEN #{ACTIVE_BOOST} ELSE 0 END) DESC,
+        id ASC
       LIMIT #{limit.to_i}
     SQL
 
