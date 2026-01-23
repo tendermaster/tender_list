@@ -97,75 +97,57 @@ module TenderSearch
   end
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # ParadeDB BM25 Search - Pure TopN + Ruby Sort
+  # ParadeDB BM25 Search - Subquery Approach
   # ─────────────────────────────────────────────────────────────────────────────
   #
-  # ParadeDB TopN ONLY works when ORDER BY uses indexed fields directly.
-  # Expressions like (submission_close_date > NOW()) break TopN.
-  #
   # Strategy:
-  #   1. Query with pure ORDER BY pdb.score(id) DESC → TopN optimized
-  #   2. Fetch 2x results to have enough active+inactive candidates
-  #   3. Sort in Ruby to put active first (instant on 400 rows)
+  #   1. Inner query: Pure TopN on pdb.score() (ParadeDB optimized, ~280ms)
+  #   2. Outer query: Re-sort by active first (instant on ~400 rows)
   #
   def compute_ranking_snapshot(query, limit:)
     sanitized = ActiveRecord::Base.connection.quote(query)
     fetch_limit = limit * 2  # Fetch extra for active/inactive balancing
 
-    # Pure TopN query - no expressions in ORDER BY
     sql = <<-SQL
-      SELECT id, pdb.score(id) AS score, submission_close_date
-      FROM tenders
-      WHERE is_visible = true
-        AND search_content ||| #{sanitized}
-      ORDER BY score DESC, id ASC
-      LIMIT #{fetch_limit}
+      SELECT id FROM (
+        SELECT id, pdb.score(id) AS score, submission_close_date
+        FROM tenders
+        WHERE is_visible = true
+          AND search_content ||| #{sanitized}
+        ORDER BY score DESC, id ASC
+        LIMIT #{fetch_limit}
+      ) t
+      ORDER BY (submission_close_date > NOW()) DESC, score DESC, id ASC
+      LIMIT #{limit}
     SQL
 
     results = ActiveRecord::Base.connection.execute(sql)
-    now = Time.current
-
-    # Sort in Ruby: active first, then by score (descending)
-    sorted = results.to_a.sort_by do |r|
-      close_date = r['submission_close_date']
-      is_active = close_date.present? && Time.parse(close_date.to_s) > now rescue false
-      [
-        is_active ? 0 : 1,           # Active first
-        -(r['score'].to_f),          # Higher score first
-        r['id'].to_i                 # Tiebreaker
-      ]
-    end
-
-    ids = sorted.take(limit).map { |r| r['id'] }
+    ids = results.map { |r| r['id'] }
     { ids: ids, total: ids.size }
   end
 
-  # MLT using pure TopN + Ruby sort
+  # MLT using subquery approach
   def compute_mlt_ranking(query_text, exclude_id, limit:)
     sanitized = ActiveRecord::Base.connection.quote(query_text)
     excluded = exclude_id.to_i
     fetch_limit = limit * 3
 
     sql = <<-SQL
-      SELECT id, pdb.score(id) AS score, submission_close_date
-      FROM tenders
-      WHERE is_visible = true
-        AND id <> #{excluded}
-        AND search_content ||| #{sanitized}
-      ORDER BY score DESC, id ASC
-      LIMIT #{fetch_limit}
+      SELECT id FROM (
+        SELECT id, pdb.score(id) AS score, submission_close_date
+        FROM tenders
+        WHERE is_visible = true
+          AND id <> #{excluded}
+          AND search_content ||| #{sanitized}
+        ORDER BY score DESC, id ASC
+        LIMIT #{fetch_limit}
+      ) t
+      ORDER BY (submission_close_date > NOW()) DESC, score DESC, id ASC
+      LIMIT #{limit.to_i}
     SQL
 
     results = ActiveRecord::Base.connection.execute(sql)
-    now = Time.current
-
-    sorted = results.to_a.sort_by do |r|
-      close_date = r['submission_close_date']
-      is_active = close_date.present? && Time.parse(close_date.to_s) > now rescue false
-      [is_active ? 0 : 1, -(r['score'].to_f), r['id'].to_i]
-    end
-
-    sorted.take(limit).map { |r| r['id'] }
+    results.map { |r| r['id'] }
   end
 
   # ─────────────────────────────────────────────────────────────────────────────
