@@ -2,7 +2,10 @@
 
 class ReplaceUpdatedAtWithAutoTenders < ActiveRecord::Migration[7.0]
   def up
-    # 1. Add updated_at_auto with automatic trigger (keep existing updated_at)
+    # Remove if exists (for re-running migration)
+    remove_column :tenders, :updated_at_auto if column_exists?(:tenders, :updated_at_auto)
+
+    # 1. Add updated_at_auto with automatic trigger
     add_column :tenders, :updated_at_auto, :timestamptz, default: -> { 'NOW()' }, null: false
 
     # 2. Add index for Logstash polling
