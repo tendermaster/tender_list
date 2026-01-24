@@ -79,6 +79,7 @@ Rails.application.routes.draw do
   post '/checklist-download' => "tenders#checklist_download", as: :checklist_download
 
   # /search?q=a
+  get '/search/autocomplete', controller: :tenders, action: :autocomplete
   get '/search', controller: :tenders, action: :search
   get '/tender/:slug_uuid', controller: :tenders, action: :tender_show, as: :tender_show
   post '/tender/:slug_uuid/like', controller: :tenders, action: :tender_like

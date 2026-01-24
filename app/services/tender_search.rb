@@ -16,6 +16,26 @@ module TenderSearch
     2000 => 10000  # Pages 501-2000
   }.freeze
 
+  AUTOCOMPLETE_TTL = 30.seconds  # Short TTL for autocomplete cache
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Autocomplete Suggestions
+  # ─────────────────────────────────────────────────────────────────────────────
+
+  def autocomplete(query, limit: 8)
+    query = query.to_s.strip
+    return [] if query.blank? || query.length < 2
+
+    cache_key = "autocomplete:#{Digest::MD5.hexdigest(query)}:#{limit}"
+
+    Rails.cache.fetch(cache_key, expires_in: AUTOCOMPLETE_TTL) do
+      compute_autocomplete(query, limit: limit)
+    end
+  rescue StandardError => e
+    Rails.logger.error("TenderSearch.autocomplete failed: #{e.message}")
+    []
+  end
+
   # ─────────────────────────────────────────────────────────────────────────────
   # PHASE 1: Search with Snapshot
   # ─────────────────────────────────────────────────────────────────────────────
@@ -216,6 +236,51 @@ module TenderSearch
   # ─────────────────────────────────────────────────────────────────────────────
   # Utilities
   # ─────────────────────────────────────────────────────────────────────────────
+
+  def compute_autocomplete(query, limit:)
+    now_ms = (Time.current.to_f * 1000).to_i
+
+    body = {
+      query: {
+        function_score: {
+          query: {
+            bool: {
+              must: [
+                {
+                  multi_match: {
+                    query: query,
+                    type: 'phrase_prefix',
+                    fields: ['title^3', 'organisation^2', 'state']
+                  }
+                }
+              ],
+              filter: [
+                { term: { is_visible: true } }
+              ]
+            }
+          },
+          # Active tenders get boosted to top
+          script_score: {
+            script: {
+              source: "if (doc['submission_close_date'].value.millis > params.now) { return _score + 10000; } else { return _score; }",
+              params: { now: now_ms }
+            }
+          },
+          boost_mode: 'replace'
+        }
+      },
+      size: limit,
+      _source: ['id', 'title', 'organisation', 'state', 'slug_uuid', 'submission_close_date']
+    }
+
+    results = ElasticClient.search(index: ES_INDEX, body: body)
+    results['hits']['hits'].map do |hit|
+      source = hit['_source']
+      source['is_active'] = source['submission_close_date'].present? && 
+                            Time.parse(source['submission_close_date']) > Time.current
+      source
+    end
+  end
 
   def fetch_tenders_in_order(ids)
     return [] if ids.blank?

@@ -44,6 +44,13 @@ class TendersController < ApplicationController
 
   end
 
+  # GET /search/autocomplete?q=...
+  def autocomplete
+    query = params[:q].to_s.strip
+    results = TenderSearch.autocomplete(query)
+    render json: results
+  end
+
   def tender_show
     @tender_data = Tender.find_by({ slug_uuid: params['slug_uuid'] })
     # p @tender_data

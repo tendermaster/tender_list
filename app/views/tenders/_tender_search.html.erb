@@ -32,6 +32,7 @@
       class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-orange-500 focus:ring-orange-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-orange-500 dark:focus:ring-orange-500"
       placeholder="Search Tender..."
       value="<%= query %>"
+      autocomplete="off"
       required
       />
     <button
@@ -41,6 +42,8 @@
     >
       Search
     </button>
+    <!-- Autocomplete dropdown -->
+    <div id="autocomplete-results" class="absolute left-0 right-0 top-full z-50 mt-1 max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-600 dark:bg-gray-800 hidden"></div>
   </div>
 </form>
 <div class="flex justify-center">
