@@ -20,7 +20,7 @@ if Rails.env.development?
   begin
     info = ElasticClient.info
     Rails.logger.info "Elasticsearch connected: #{info['version']['number']}"
-  rescue Faraday::ConnectionFailed => e
+  rescue StandardError => e
     Rails.logger.warn "Elasticsearch not available: #{e.message}"
   end
 end
