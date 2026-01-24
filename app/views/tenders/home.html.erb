@@ -10,211 +10,138 @@
 </div>
 <% end %>
 
-<!--    content -->
-<div class=" flex flex-col items-center pt-14 object-cover bg-no-repeat bg-bottom py-4" style="background-image: url(<%= image_path 'bg.jpg' %>);">
-    <div class="container">
-        <h1 class="text-center text-4xl text-gray-100">Discovering the best Tenders for your business needs</h1>
-    </div>
-    <!--    search-->
-    <div class="flex justify-center mt-12 sm:w-96 mx-auto">
-      <%= render "tenders/tender_search", query: "" %>
+<!-- Hero Section -->
+<div class="relative bg-navy-900 pt-24 pb-32 overflow-hidden">
+    <!-- Decorative background elements -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none opacity-20">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-orange-500 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600 rounded-full blur-[120px]"></div>
     </div>
 
-    <!-- filter -->
-    <!--  <div>-->
-    <%#= render "tender_filter" %>
-    <!--  </div>-->
-    <div class="text-slate-800 text-lg px-4 py-3 bg-gradient-to-r from-orange-100 to-orange-300 rounded-lg mt-8 mx-4 text-center">
-        Get Ahead of the Competition with 1,00,000+ Active Tenders and GeM Portal Historical Data. - Updated Daily! <br />⭐
-        We collect, compile, and upload thousands of opportunities, so you don't have to.⭐
+    <div class="relative container-home text-center">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+            Discover the Best Tenders <br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">
+                for Your Business Needs
+            </span>
+        </h1>
+        <p class="mt-6 text-lg text-gray-400 max-w-2xl mx-auto">
+            Access 100,000+ active tenders and historical data. Updated daily to keep you ahead of the competition.
+        </p>
+        
+        <!-- Search -->
+        <div class="mt-12 max-w-3xl mx-auto">
+            <%= render "tenders/tender_search", query: "", theme: :dark %>
+        </div>
+
+        <!-- Trust Badge / Quick Info -->
+        <div class="mt-10 flex flex-wrap justify-center gap-4 text-sm font-medium text-gray-300">
+            <div class="flex items-center bg-white/5 px-4 py-2 rounded-full border border-white/10 glass">
+                <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span> 10,000+ New Tenders Weekly
+            </div>
+            <div class="flex items-center bg-white/5 px-4 py-2 rounded-full border border-white/10 glass">
+                <span class="w-2 h-2 bg-orange-500 rounded-full mr-2"></span> Daily Updates
+            </div>
+        </div>
     </div>
-</div>
-
-<!-- p2 trending tenders -->
-<!--  <div class="bg-red-800 h-7 overflow-hidden">-->
-<!--    <p class="moving-text text-gray-100">Trending Tenders for Independent Entrepreneurs, Businesses, Industries, Schools, Colleges, Institutions, Universities, NGOs, Traders, Suppliers, Professionals &  Government Organizations</p>-->
-<!--  </div>-->
-
-<div>
-    <marquee class="bg-red-800 h-8 mb-[-6px]" direction="right">
-        <p class="text-gray-100">Trending Tenders for Independent Entrepreneurs, Businesses, Industries, Schools, Colleges,
-            Institutions, Universities, NGOs, Traders, Suppliers, Professionals & Government Organizations</p>
-    </marquee>
-    <marquee class="bg-red-800 h-8">
-        <p class="text-gray-100">Trending Tenders for Independent Entrepreneurs, Businesses, Industries, Schools, Colleges,
-            Institutions, Universities, NGOs, Traders, Suppliers, Professionals & Government Organizations</p>
-    </marquee>
-
 </div>
 <div>
     <%#= render "tenders/shared/diwali_offer" %>
 </div>
 
-<div class="md:grid md:grid-cols-3 pt-12 px-12 mx-auto max-w-7xl">
-    <div class="md:col-span-2">
-
-        <!-- <h4 class="text-lg font-bold flex justify-center pb-4 ml7"><span class="text-wrapper"><span class="letters">Trending Tenders of the Day (<%= DateTime.now.strftime("%d/%m/%Y") %>)</span></span></h4> -->
-        <h4 class="mx-auto mb-6 font-bold text-red-800 rounded-lg tlt text-lg font- flex justify-center ml7 w-fit px-4" style="">
-            <ul class="texts">
-                <li data-out-effect="fadeOut" data-out-shuffle="true">Trending Tenders of the Day
-                    (<%= DateTime.now.strftime("%d/%m/%Y") %>)
-                </li>
-                <!-- <li data-in-effect="fadeIn">Trending Tenders of the Day (<%= DateTime.now.strftime("%d/%m/%Y %H:%M") %>)</li> -->
-            </ul>
-        </h4>
-
-        <div class="md:grid md:grid-cols-3 flex flex-col items-center space-y-1">
-            <% @todays_tender.each do |keyword| %>
-            <div class="h-full p-2">
-                <a href="<%= keyword == 'More' ? trending_tenders_path : keyword_tender_path(keyword: keyword.gsub(' ', '-')) %>" class="w-full md:h-full inline-flex items-center rounded-lg bg-orange-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-orange-800 focus:outline-none focus:ring-4 focus:ring-orange-300 dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">
-                    <%= keyword.humanize %>
-                    <svg aria-hidden="true" class="ml-2 -mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                    </svg>
-                </a>
+<!-- Trending Tenders Section -->
+<section class="py-24 bg-gray-50 dark:bg-gray-900/50">
+    <div class="container-home">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Trending Tenders</h2>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">Popular categories updated as of <%= Date.today.strftime("%B %d, %Y") %></p>
             </div>
+            <a href="<%= trending_tenders_path %>" class="mt-4 md:mt-0 text-orange-600 font-semibold hover:text-orange-700 inline-flex items-center group">
+                View all industries
+                <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <% @todays_tender.take(8).each_with_index do |keyword, index| %>
+                <% 
+                    icons = [
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>', # Construction
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>', # Security
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>', # Tech
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>', # Timing
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>', # Manpower
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>', # Energy
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h2a2 2 0 00-2 2"></path>', # Logistics
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>' # Legal
+                    ]
+                %>
+                <a href="<%= keyword == 'More' ? trending_tenders_path : keyword_tender_path(keyword: keyword.gsub(' ', '-')) %>" 
+                   class="group flex flex-col p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-900/50 transition-all duration-300">
+                    <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 group-hover:bg-orange-600 group-hover:text-white transition-colors duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <%= icons[index % icons.length].html_safe %>
+                        </svg>
+                    </div>
+                    <h3 class="mt-4 font-bold text-gray-900 dark:text-white leading-tight">
+                        <%= keyword.humanize %>
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 flex items-center group-hover:text-orange-600 transition-colors">
+                        Learn more 
+                        <svg class="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </p>
+                </a>
             <% end %>
         </div>
-        <!--    arrow-->
-        <svg class="w-10 mx-auto mt-6 text-orange-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"></path>
-        </svg>
-
-        <a class="btn-sm block w-fit mx-auto mt-6" href="<%= trending_tenders_path %>">View More Industry Specific
-            Tenders</a>
-
-        <div class="flex justify-center mt-8">
-            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                <a href="<%= trending_tenders_path %>" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                    <span class="sr-only">Previous</span>
-                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                        <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
-                    </svg>
-                </a>
-                <a href="<%= trending_tenders_path %>" aria-current="page" class="relative z-10 inline-flex items-center bg-orange-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">1</a>
-                <a href="<%= trending_tenders_path %>" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">2</a>
-                <a href="<%= trending_tenders_path %>" class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">3</a>
-                <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">...</span>
-                <a href="<%= trending_tenders_path %>" class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">8</a>
-                <a href="<%= trending_tenders_path %>" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">9</a>
-                <a href="<%= trending_tenders_path %>" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">10</a>
-                <a href="<%= trending_tenders_path %>" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                    <span class="sr-only">Next</span>
-                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                        <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                    </svg>
-                </a>
-            </nav>
-        </div>
-        <div class="px-12 mx-auto max-w-6xl mt-20" id="why_us">
-            <div class="flex justify-center items-center">
-                <img src="<%= image_path 'Asset_1.svg' %>" class="h-6 mr-3 sm:h-9" alt="Sigma Tenders Logo" />
-                <h4 class="text-3xl font-bold">Why Choose Us</h4>
-            </div>
-            <div class="flex mt-8 justify-center">
-                <p>Focussed & Targeted </p>
-                <svg class="w-6 mx-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
-                </svg>
-                <p> Maximizing Your Tender Success</p>
-            </div>
-
-            <ul class="space-y-4 mt-6">
-                <li>
-                    <div class="icon">
-                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"></path>
-                        </svg>
-                    </div>
-                    <p>Access to most of the Request for Proposal (RFP), Expression of Interest Proposals (EOI), Empanelment
-                        notifications, Request for Quote (RFQ), Invitation to Bid (ITB), Purchase Order (PO), Service Contract
-                        Notifications and other government contracts</p>
-                </li>
-                <li>
-                    <div class="icon">
-                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"></path>
-                        </svg>
-                    </div>
-                    <p>Business growth opportunities: we offer entrepreneurs the opportunity to grow their business by bidding on
-                        and
-                        winning contracts from various organizations.</p>
-                </li>
-                <li>
-                    <div class="icon">
-                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"></path>
-                        </svg>
-                    </div>
-
-                    <p>Networking opportunities: we offer and facilitate entrepreneurs to network with other businesses and
-                        government agencies, which can lead to new business partnerships and opportunities.</p>
-                </li>
-                <li>
-                    <div class="icon">
-                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 8.25H9m6 3H9m3 6l-3-3h1.5a3 3 0 100-6M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-
-                    <p>Cost savings: sigmatenders.com saves entrepreneurs time and money by providing them with a streamlined
-                        window
-                        and various search options for finding matching tenders for bidding on contracts.</p>
-                </li>
-                <li>
-                    <div class="icon">
-                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <p>Time to time and regular updates of the business ecosystem and government offers and initiatives for the
-                        entrepreneurs.</p>
-                </li>
-            </ul>
+    </div>
+</section>
+<!-- Why Choose Us Section -->
+<section class="py-24 bg-white dark:bg-gray-900" id="why-us">
+    <div class="container-home">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Why Choose Sigma Tenders?</h2>
+            <p class="mt-4 text-gray-600 dark:text-gray-400">
+                We empower entrepreneurs and organizations by simplifying the complex world of government contracts and tenders.
+            </p>
         </div>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Focused & Targeted -->
+            <div class="p-8 rounded-3xl bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30">
+                <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Targeted Opportunities</h3>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Access RFP, EOI, Empanelment notifications, ITB, and Service Contracts specifically curated for your industry.
+                </p>
+            </div>
+
+            <!-- Business Growth -->
+            <div class="p-8 rounded-3xl bg-orange-50 dark:bg-orange-900/10 border border-orange-100 dark:border-orange-900/30">
+                <div class="w-12 h-12 bg-orange-600 rounded-xl flex items-center justify-center text-white mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Accelerate Growth</h3>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    We help businesses grow by identifying high-win-probability contracts that match their specific strengths.
+                </p>
+            </div>
+
+            <!-- Cost & Time Savings -->
+            <div class="p-8 rounded-3xl bg-green-50 dark:bg-green-900/10 border border-green-100 dark:border-green-900/30">
+                <div class="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center text-white mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Efficiency First</h3>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Save countless hours with our streamlined search and notification engine, freeing you to focus on your bids.
+                </p>
+            </div>
+        </div>
     </div>
-    <div class="md:col-span-1 space-y-2 md:pl-6">
-        <div class="text-gray-700 text-xl font-bold text-center mb-6">Find Tenders by Categories</div>
-        <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_main_category_path %>">⭐
-            Tender
-            Categories</a>
-
-        <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_category_by_city_path %>">⭐
-            Tender by City</a>
-        <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_category_by_state_path %>">⭐
-            Tender by State</a>
-        <!--      <a class="text-lg block hover:underline hover:underline-offset-2" href="<%#= tender_category_by_organization_path %>">⭐ </a>-->
-        <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_category_by_sector_path %>">⭐
-            Tender by Sector</a>
-        <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_by_organisation_path %>">⭐
-            Tender by Organisation</a>
-        <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-300 rounded-md py-1 px-3" href="<%= tender_by_products_path %>">⭐
-            Tender by Products</a>
-        <a class="text-lg block hover:underline hover:underline-offset-2 bg-orange-600 text-white px-4 py-2 rounded-md" href="<%= how_to_file_tender_path %>">⭐
-            How to file tender?</a>
-
-        <%= render "get_relevant_tenders_form" %>
-
-    </div>
-    <!--  <div class="mt-6">-->
-    <!--    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfj0rlhPDSH5hlU-w3gXoOX259e3Vw-XVRbz6LO7a8EE6C8SA/viewform?embedded=true" width="600" height="1250" class="border-0 overflow-hidden relative" style="margin-left: -22px" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>-->
-    <!--  </div>-->
-    <!--  <div class="flex items-center w-full col-span-2 justify-center mt-8">-->
-    <!--    <a href="https://docs.google.com/forms/d/1sk835o7uoufAuJyMvAg7g60fzNoG2qeFZmuBXgf_xIo/viewform" target="_blank" class="inline-block underline underline-offset-2 px-3 py-4 text-white bg-orange-400 rounded-lg">Contact-->
-    <!--      Us</a>-->
-    <!--    <p class="text-green-600 mx-6 text-xl">Avail the Free Offer Now</p>-->
-    <!--    <div class="mx-4">-->
-    <!--      <svg class="w-10 text-orange-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">-->
-    <!--        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>-->
-    <!--      </svg>-->
-    <!--    </div>-->
-    <!--    <a href="https://docs.google.com/forms/d/e/1FAIpQLSc2lhMglZhxl7xI_TL6V4PYLwRGqcOVnRGTpCOtk5hokEsGNA/viewform" target="_blank" class="inline-block underline underline-offset-2 px-3 py-4 text-white bg-orange-400 rounded-lg">Free-->
-    <!--      Trial Subscribers</a>-->
-    <!--  </div>-->
-
-
-</div>
+</section>
 
 <div class="flex flex-col items-center w-full py-16 mt-8" style="background-image: url('<%= image_path "bg-2.png" %>');background-repeat: no-repeat;background-size: 100% 100%;">
     <div class="backdrop-blur-lg bg-white/30">
@@ -222,363 +149,104 @@
     </div>
 </div>
 
-<div>
-    <div class="py-12 container">
+<!-- Categories Overhaul -->
+<section class="py-24 bg-gray-50 dark:bg-gray-900/50">
+    <div class="container-home">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Most Searched Categories</h2>
+            <p class="mt-4 text-gray-600 dark:text-gray-400">Find opportunities tailored to your specific industry or region.</p>
+        </div>
 
-        <!--    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">-->
-        <!--    </div>-->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Categories Grid -->
+            <% 
+                extra_categories = [
+                    { name: 'Construction & Infrastructure', query: 'Construction and Infrastructure', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
+                    { name: 'Manpower Supply', query: 'Manpower supply', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
+                    { name: 'Website & Software', query: 'Website Development', icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
+                    { name: 'NGO Services', query: 'Ngo Services', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+                    { name: 'Manufacturing', query: 'Manufacturing', icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4' },
+                    { name: 'Legal & Audit', query: 'Legal Services', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' }
+                ]
+            %>
 
-        <h1 class="text-4xl font-bold text-center mb-8 text-orange-500">Most Searched Tender Categories</h1>
+            <% extra_categories.each do |cat| %>
+                <div class="p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-orange-500 shadow-sm hover:shadow-lg transition-all group">
+                    <div class="flex items-start justify-between">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= cat[:icon] %>"></path></svg>
+                        </div>
+                        <a href="https://whatsapp.com/channel/..." class="text-green-600 hover:text-green-700 tooltip" title="Join WhatsApp Channel">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.445 0 .081 5.363.079 11.969c0 2.112.552 4.175 1.6 6.037L0 24l6.197-1.625a11.838 11.838 0 005.851 1.545h.005c6.605 0 11.97-5.363 11.972-11.969a11.82 11.82 0 00-3.413-8.452"/></svg>
+                        </a>
+                    </div>
+                    <h3 class="mt-4 font-bold text-gray-900 dark:text-white"><%= cat[:name] %></h3>
+                    <div class="mt-4 flex items-center justify-between">
+                        <a href="/search?q=<%= cat[:query] %>" class="text-sm font-semibold text-orange-600 hover:text-orange-700">Search Tenders</a>
+                        <a href="/#download-checklist" class="text-xs text-gray-500 hover:text-gray-700 flex items-center">
+                            Download Toolkit
+                            <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            <% end %>
+        </div>
 
-        <!--    <table class="table-fixed sm:table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-t-lg overflow-hidden">-->
-        <!--      <thead>-->
-        <!--      <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">-->
-        <!--        <th class="px-4 py-2">Category</th>-->
-        <!--        <th class="px-4 py-2">Search Link</th>-->
-        <!--        <th class="px-4 py-2">Download Button</th>-->
-        <!--        <th class="px-4 py-2">WhatsApp Channel</th>-->
-        <!--      </tr>-->
-        <!--      </thead>-->
-        <!--      <tbody>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">Construction & Infrastructure</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/search?q=Construction+and+Infrastructure" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - Construction Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">Manpower Supply</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/tenders/Manpower-supply-tenders" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - Manpower Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">Website & Software Development</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/search?q=Website+Development" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - Software & Web Dev Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">Skill Development & Training</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/search?q=Skill+Development+and+Training" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - Skill Development Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">NGO Services</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/search?q=Ngo+Services" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - NGO Services Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">Legal & Secretarial</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/search?q=Legal+Services" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - Legal Services Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">Manufacturing & Production</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/search?q=Manufacturing" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - Manufacturing Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">Electrical Supply</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/search?q=Electricals+supply" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - Electrical Supply Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">Garden Maintenance & Horticulture</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/search?q=Garden+maintenance+and+horticulture" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - Horticulture Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">Vehicles, Logistics & Transportation</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/search?q=vehicle+hire" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - Transportation Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">Catering Services</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/search?q=Catering+services" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - Catering Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">Audit Firm</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/search?q=AUDIT+FIRM" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - Audit Firm Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-        <!--      <tr class="border-b">-->
-        <!--        <td class="px-4 py-2">Security Services</td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="https://sigmatenders.com/tenders/Security-Services-tenders" class="text-blue-500 hover:text-blue-700">Search</a>-->
-        <!--        </td>-->
-        <!--        <td class="px-4 py-2">-->
-        <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-        <!--            Now - Security Services Toolkit</a></td>-->
-        <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-        <!--      </tr>-->
-
-        <!--      </tbody>-->
-        <!--    </table>-->
-
-        <table class="table-fixed sm:table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-t-lg overflow-hidden">
-            <thead>
-                <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <th class="px-4 py-2">Category</th>
-                    <th class="px-4 py-2">Search Link</th>
-                    <th class="px-4 py-2">Download Button</th>
-                    <th class="px-4 py-2">WhatsApp Channel</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="border-b">
-                    <td class="px-4 py-2">Construction & Infrastructure</td>
-                    <td class="px-4 py-2">
-                        <a href="https://sigmatenders.com/search?q=Construction+and+Infrastructure" class="text-blue-500 hover:text-blue-700">Search</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
-                            Now - Construction Toolkit</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="https://whatsapp.com/channel/0029Vabjzrx42Dck1E0Mhp32" class="text-green-500 hover:text-green-700">Join
-                            WhatsApp Channel</a>
-                    </td>
-                </tr>
-                <tr class="border-b">
-                    <td class="px-4 py-2">Manpower Supply</td>
-                    <td class="px-4 py-2">
-                        <a href="https://sigmatenders.com/tenders/Manpower-supply-tenders" class="text-blue-500 hover:text-blue-700">Search</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
-                            Now - Manpower Toolkit</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="https://whatsapp.com/channel/0029VacF6luB4hdaNjBFyu2F" class="text-green-500 hover:text-green-700">Join
-                            WhatsApp Channel</a>
-                    </td>
-                </tr>
-                <tr class="border-b">
-                    <td class="px-4 py-2">Website & Software Development</td>
-                    <td class="px-4 py-2">
-                        <a href="https://sigmatenders.com/search?q=Website+Development" class="text-blue-500 hover:text-blue-700">Search</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
-                            Now - Software & Web Dev Toolkit</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="https://whatsapp.com/channel/0029VagOEKGB4hdRuvnhjr0J" class="text-green-500 hover:text-green-700">Join
-                            WhatsApp Channel</a>
-                    </td>
-                </tr>
-                <tr class="border-b">
-                    <td class="px-4 py-2">Skill Development & Training</td>
-                    <td class="px-4 py-2">
-                        <a href="https://sigmatenders.com/search?q=Skill+Development+and+Training" class="text-blue-500 hover:text-blue-700">Search</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
-                            Now - Skill Development Toolkit</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="https://whatsapp.com/channel/0029VagPRNOA2pLGgVWi4y0g" class="text-green-500 hover:text-green-700">Join
-                            WhatsApp Channel</a>
-                    </td>
-                </tr>
-                <tr class="border-b">
-                    <td class="px-4 py-2">NGO Services</td>
-                    <td class="px-4 py-2">
-                        <a href="https://sigmatenders.com/search?q=Ngo+Services" class="text-blue-500 hover:text-blue-700">Search</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
-                            Now - NGO Services Toolkit</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="https://whatsapp.com/channel/0029VabvWIx9RZATaGpPLC1O" class="text-green-500 hover:text-green-700">Join
-                            WhatsApp Channel</a>
-                    </td>
-                </tr>
-                <tr class="border-b">
-                    <td class="px-4 py-2">Legal & Secretarial</td>
-                    <td class="px-4 py-2">
-                        <a href="https://sigmatenders.com/search?q=Legal+Services" class="text-blue-500 hover:text-blue-700">Search</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
-                            Now - Legal Services Toolkit</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="https://whatsapp.com/channel/0029VafrOlXJENy3yqRnjz2f" class="text-green-500 hover:text-green-700">Join
-                            WhatsApp Channel</a>
-                    </td>
-                </tr>
-                <tr class="border-b">
-                    <td class="px-4 py-2">Manufacturing & Production</td>
-                    <td class="px-4 py-2">
-                        <a href="https://sigmatenders.com/search?q=Manufacturing" class="text-blue-500 hover:text-blue-700">Search</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
-                            Now - Manufacturing Toolkit</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="https://whatsapp.com/channel/0029Vabew8fKGGGO64RL6X2f" class="text-green-500 hover:text-green-700">Join
-                            WhatsApp Channel</a>
-                    </td>
-                </tr>
-                <tr class="border-b">
-                    <td class="px-4 py-2">Electrical Supply</td>
-                    <td class="px-4 py-2">
-                        <a href="https://sigmatenders.com/search?q=Electricals+supply" class="text-blue-500 hover:text-blue-700">Search</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
-                            Now - Electrical Supply Toolkit</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="https://whatsapp.com/channel/0029Vafo0R1DjiOVDEMLvX0m" class="text-green-500 hover:text-green-700">Join
-                            WhatsApp Channel</a>
-                    </td>
-                </tr>
-                <tr class="border-b">
-                    <td class="px-4 py-2">Garden Maintenance & Horticulture</td>
-                    <td class="px-4 py-2">
-                        <a href="https://sigmatenders.com/search?q=Garden+maintenance+and+horticulture" class="text-blue-500 hover:text-blue-700">Search</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
-                            Now - Horticulture Toolkit</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="https://whatsapp.com/channel/0029VabFBwPICVfojc4IWp2P" class="text-green-500 hover:text-green-700">Join
-                            WhatsApp Channel</a>
-                    </td>
-                </tr>
-                <tr class="border-b">
-                    <td class="px-4 py-2">Vehicles, Logistics & Transportation</td>
-                    <td class="px-4 py-2">
-                        <a href="https://sigmatenders.com/search?q=vehicle+hire" class="text-blue-500 hover:text-blue-700">Search</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
-                            Now - Transportation Toolkit</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="https://whatsapp.com/channel/0029VabYH1y5EjxtCfzB7r26" class="text-green-500 hover:text-green-700">Join
-                            WhatsApp Channel</a>
-                    </td>
-                </tr>
-                <tr class="border-b">
-                    <td class="px-4 py-2">Catering Services</td>
-                    <td class="px-4 py-2">
-                        <a href="https://sigmatenders.com/search?q=Catering+services" class="text-blue-500 hover:text-blue-700">Search</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
-                            Now - Catering Toolkit</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="https://whatsapp.com/channel/0029VabmLqL3LdQRgzc9yI2W" class="text-green-500 hover:text-green-700">Join
-                            WhatsApp Channel</a>
-                    </td>
-                </tr>
-                <tr class="border-b">
-                    <td class="px-4 py-2">Audit Firm</td>
-                    <td class="px-4 py-2">
-                        <a href="https://sigmatenders.com/search?q=AUDIT+FIRM" class="text-blue-500 hover:text-blue-700">Search</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download
-                            Now - Audit Firm Toolkit</a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <a href="https://whatsapp.com/channel/0029VabvLLmLI8Ye1Gr5pH39" class="text-green-500 hover:text-green-700">Join
-                            WhatsApp Channel</a>
-                    </td>
-                </tr>
-                <!--      <tr class="border-b">-->
-                <!--        <td class="px-4 py-2">Security Services</td>-->
-                <!--        <td class="px-4 py-2">-->
-                <!--          <a href="https://sigmatenders.com/tenders/Security-Services-tenders" class="text-blue-500 hover:text-blue-700">Search</a>-->
-                <!--        </td>-->
-                <!--        <td class="px-4 py-2">-->
-                <!--          <a href="/#download-checklist" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download-->
-                <!--            Now - Security Services Toolkit</a></td>-->
-                <!--        <td class="px-4 py-2"><a href="#" class="text-green-500 hover:text-green-700">Join WhatsApp Channel</a></td>-->
-                <!--      </tr>-->
-
-            </tbody>
-        </table>
-
+        <!-- Dashboard / Quick Links -->
+        <div class="mt-24 p-1 rounded-[2.5rem] bg-gradient-to-r from-orange-400 via-pink-500 to-indigo-600">
+            <div class="bg-white dark:bg-gray-900 rounded-[2.4rem] p-10 md:p-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                    <div class="lg:col-span-1">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Explore Tools</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Everything you need to navigate the tender ecosystem.</p>
+                    </div>
+                    <div class="lg:col-span-3 grid grid-cols-2 sm:grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Discovery</h4>
+                            <ul class="space-y-3">
+                                <li><a href="<%= tender_main_category_path %>" class="text-gray-700 dark:text-gray-300 hover:text-orange-600 transition-colors">By Category</a></li>
+                                <li><a href="<%= tender_category_by_city_path %>" class="text-gray-700 dark:text-gray-300 hover:text-orange-600 transition-colors">By City</a></li>
+                                <li><a href="<%= tender_category_by_state_path %>" class="text-gray-700 dark:text-gray-300 hover:text-orange-600 transition-colors">By State</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Advanced</h4>
+                            <ul class="space-y-3">
+                                <li><a href="<%= tender_category_by_sector_path %>" class="text-gray-700 dark:text-gray-300 hover:text-orange-600 transition-colors">By Sector</a></li>
+                                <li><a href="<%= tender_by_organisation_path %>" class="text-gray-700 dark:text-gray-300 hover:text-orange-600 transition-colors">By Organisation</a></li>
+                                <li><a href="<%= tender_by_products_path %>" class="text-gray-700 dark:text-gray-300 hover:text-orange-600 transition-colors">By Products</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Resources</h4>
+                            <ul class="space-y-3">
+                                <li><a href="<%= how_to_file_tender_path %>" class="text-gray-700 dark:text-gray-300 font-bold hover:text-orange-600 transition-colors">How to file?</a></li>
+                                <li><a href="https://sigmatenders.com/pricing" class="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-sm font-bold inline-block mt-2">View Pricing</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
-<!--    p2-->
-<div class="container prose">
-    <a href="https://sigmatenders.com/pricing" target="_blank" class="bg-green-400 px-2 py-3  text-gray-50 rounded-md underline-offset-2 hover:underline-offset-4">Paid
-        Subscription & Email Notification Services</a>
-</div>
-
-<!--    p2-->
-<div class="container prose">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe5kcwaWpsRDn_1M9nOP-dp-_sLqgwDIjR4B8_SL61W3Il4ag/viewform" target="_blank" class="btn-primary underline-offset-2 hover:underline-offset-4">Business
-        Connectivity Inquiry Form</a>
-</div>
+<!-- Final CTA Section -->
+<section class="py-24 bg-navy-900 overflow-hidden relative">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-orange-500 rounded-full blur-[100px]"></div>
+    </div>
+    <div class="container-home relative text-center">
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-8">Ready to win your next contract?</h2>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe5kcwaWpsRDn_1M9nOP-dp-_sLqgwDIjR4B8_SL61W3Il4ag/viewform" class="w-full sm:w-auto px-10 py-5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-2xl transition-all shadow-2xl shadow-orange-900/40">
+                Inquiry Form
+            </a>
+            <a href="https://sigmatenders.com/pricing" class="w-full sm:w-auto px-10 py-5 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl border border-white/20 glass transition-all">
+                Paid Subscriptions
+            </a>
+        </div>
+    </div>
+</section>
 
 <%= render 'layouts/footer' %>

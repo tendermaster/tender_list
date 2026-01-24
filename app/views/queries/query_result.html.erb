@@ -1,7 +1,7 @@
 <%= render 'layouts/navbar' %>
 
 
-<div class="mx-8 my-12 lg:pt-2 xl:px-36">
+<div class="container-home py-12 mb-12">
   <!-- search bar -->
 
   <!--  <form class="" action="<%#= search_path %>">-->
@@ -113,10 +113,9 @@
     <% end %>
 
   </div>
+
+  <!-- pagination -->
+  <%= render 'layouts/pagy' %>
 </div>
-
-<!-- pagination -->
-
-<%= render 'layouts/pagy' %>
 
 <%= render 'layouts/footer' %>
