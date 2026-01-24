@@ -63,39 +63,28 @@
             </a>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <% @todays_tender.take(8).each_with_index do |keyword, index| %>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <% @todays_tender.take(40).each_with_index do |keyword, index| %>
                 <% 
-                    icons = [
-                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>', # Construction
-                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>', # Security
-                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>', # Tech
-                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>', # Timing
-                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>', # Manpower
-                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>', # Energy
-                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h2a2 2 0 00-2 2"></path>', # Logistics
-                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>' # Legal
-                    ]
+                    icon_names = ['building-2', 'shield-check', 'code-2', 'zap', 'users', 'truck', 'book-open', 'landmark', 'factory', 'briefcase']
                 %>
                 <a href="<%= keyword == 'More' ? trending_tenders_path : keyword_tender_path(keyword: keyword.gsub(' ', '-')) %>" 
-                   class="group flex flex-col p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-900/50 transition-all duration-300">
-                    <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 group-hover:bg-orange-600 group-hover:text-white transition-colors duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <%= icons[index % icons.length].html_safe %>
-                        </svg>
+                   class="group flex items-center p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-200">
+                    <div class="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-lg bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                        <i data-lucide="<%= icon_names[index % icon_names.length] %>" class="w-4 h-4"></i>
                     </div>
-                    <h3 class="mt-4 font-bold text-gray-900 dark:text-white leading-tight">
-                        <%= keyword.humanize %>
-                    </h3>
-                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 flex items-center group-hover:text-orange-600 transition-colors">
-                        Learn more 
-                        <svg class="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </p>
+                    <div class="ml-3 min-w-0">
+                        <h3 class="font-bold text-gray-900 dark:text-white leading-tight text-xs truncate">
+                            <%= keyword.humanize %>
+                        </h3>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-3 h-3 ml-auto text-gray-300 group-hover:text-orange-600 group-hover:translate-x-0.5 transition-all"></i>
                 </a>
             <% end %>
         </div>
     </div>
 </section>
+
 <!-- Why Choose Us Section -->
 <section class="py-24 bg-white dark:bg-gray-900" id="why-us">
     <div class="container-home">
@@ -110,7 +99,7 @@
             <!-- Focused & Targeted -->
             <div class="p-8 rounded-3xl bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30">
                 <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white mb-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    <i data-lucide="target" class="w-6 h-6"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Targeted Opportunities</h3>
                 <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -121,7 +110,7 @@
             <!-- Business Growth -->
             <div class="p-8 rounded-3xl bg-orange-50 dark:bg-orange-900/10 border border-orange-100 dark:border-orange-900/30">
                 <div class="w-12 h-12 bg-orange-600 rounded-xl flex items-center justify-center text-white mb-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    <i data-lucide="trending-up" class="w-6 h-6"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Accelerate Growth</h3>
                 <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -132,7 +121,7 @@
             <!-- Cost & Time Savings -->
             <div class="p-8 rounded-3xl bg-green-50 dark:bg-green-900/10 border border-green-100 dark:border-green-900/30">
                 <div class="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center text-white mb-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <i data-lucide="clock" class="w-6 h-6"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Efficiency First</h3>
                 <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -143,8 +132,8 @@
     </div>
 </section>
 
-<div class="flex flex-col items-center w-full py-16 mt-8" style="background-image: url('<%= image_path "bg-2.png" %>');background-repeat: no-repeat;background-size: 100% 100%;">
-    <div class="backdrop-blur-lg bg-white/30">
+<div class="flex flex-col items-center w-full py-16" style="background-image: url('<%= image_path "bg-2.png" %>');background-repeat: no-repeat;background-size: 100% 100%;">
+    <div class="backdrop-blur-lg bg-white/30 p-8 rounded-3xl">
         <%= render "tenders/shared/cheklist_download" %>
     </div>
 </div>
@@ -157,16 +146,30 @@
             <p class="mt-4 text-gray-600 dark:text-gray-400">Find opportunities tailored to your specific industry or region.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Categories Grid -->
             <% 
                 extra_categories = [
-                    { name: 'Construction & Infrastructure', query: 'Construction and Infrastructure', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
-                    { name: 'Manpower Supply', query: 'Manpower supply', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
-                    { name: 'Website & Software', query: 'Website Development', icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
-                    { name: 'NGO Services', query: 'Ngo Services', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
-                    { name: 'Manufacturing', query: 'Manufacturing', icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4' },
-                    { name: 'Legal & Audit', query: 'Legal Services', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' }
+                    { name: 'Construction & Infrastructure', query: 'Construction and Infrastructure', wa: '0029Vabjzrx42Dck1E0Mhp32', icon: 'building-2' },
+                    { name: 'Manpower Supply', query: 'Manpower supply', wa: '0029VacF6luB4hdaNjBFyu2F', icon: 'users' },
+                    { name: 'Website & Software', query: 'Website Development', wa: '0029VagOEKGB4hdRuvnhjr0J', icon: 'monitor' },
+                    { name: 'Skill Dev & Training', query: 'Skill Development and Training', wa: '0029VagPRNOA2pLGgVWi4y0g', icon: 'graduation-cap' },
+                    { name: 'NGO Services', query: 'Ngo Services', wa: '0029VabvWIx9RZATaGpPLC1O', icon: 'heart' },
+                    { name: 'Legal & Secretarial', query: 'Legal Services', wa: '0029VafrOlXJENy3yqRnjz2f', icon: 'scale' },
+                    { name: 'Manufacturing', query: 'Manufacturing', wa: '0029Vabew8fKGGGO64RL6X2f', icon: 'factory' },
+                    { name: 'Electrical Supply', query: 'Electricals+supply', wa: '0029Vafo0R1DjiOVDEMLvX0m', icon: 'zap' },
+                    { name: 'Horticulture', query: 'Garden+maintenance+and+horticulture', wa: '0029VabFBwPICVfojc4IWp2P', icon: 'leaf' },
+                    { name: 'Logistics & Transport', query: 'vehicle+hire', wa: '0029VabYH1y5EjxtCfzB7r26', icon: 'truck' },
+                    { name: 'Catering Services', query: 'Catering+services', wa: '0029VabmLqL3LdQRgzc9yI2W', icon: 'utensils' },
+                    { name: 'Audit Firm', query: 'AUDIT+FIRM', wa: '0029VabvLLmLI8Ye1Gr5pH39', icon: 'file-text' },
+                    { name: 'Healthcare & Medical', query: 'Hospital', icon: 'plus-square' },
+                    { name: 'Solar Energy', query: 'Solar', icon: 'sun' },
+                    { name: 'Printing & Stationary', query: 'Printing', icon: 'printer' },
+                    { name: 'Cleaning & Sanitation', query: 'Cleaning', icon: 'droplets' },
+                    { name: 'Agriculture', query: 'Agriculture', icon: 'sprout' },
+                    { name: 'Security & Guarding', query: 'Security', icon: 'shield' },
+                    { name: 'Water Pipe Works', query: 'Water Pipe', icon: 'waves' },
+                    { name: 'Minerals & Mining', query: 'Mining', icon: 'mountain' }
                 ]
             %>
 
@@ -174,18 +177,20 @@
                 <div class="p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-orange-500 shadow-sm hover:shadow-lg transition-all group">
                     <div class="flex items-start justify-between">
                         <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= cat[:icon] %>"></path></svg>
+                            <i data-lucide="<%= cat[:icon] || 'package' %>" class="w-5 h-5"></i>
                         </div>
-                        <a href="https://whatsapp.com/channel/..." class="text-green-600 hover:text-green-700 tooltip" title="Join WhatsApp Channel">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.445 0 .081 5.363.079 11.969c0 2.112.552 4.175 1.6 6.037L0 24l6.197-1.625a11.838 11.838 0 005.851 1.545h.005c6.605 0 11.97-5.363 11.972-11.969a11.82 11.82 0 00-3.413-8.452"/></svg>
-                        </a>
+                        <% if cat[:wa] %>
+                            <a href="https://whatsapp.com/channel/<%= cat[:wa] %>" target="_blank" class="flex px-3 py-1 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-full text-[10px] font-bold items-center hover:bg-green-600 hover:text-white transition-colors">
+                                <i data-lucide="message-circle" class="w-3 h-3 mr-1"></i>
+                                Join
+                            </a>
+                        <% end %>
                     </div>
                     <h3 class="mt-4 font-bold text-gray-900 dark:text-white"><%= cat[:name] %></h3>
                     <div class="mt-4 flex items-center justify-between">
-                        <a href="/search?q=<%= cat[:query] %>" class="text-sm font-semibold text-orange-600 hover:text-orange-700">Search Tenders</a>
-                        <a href="/#download-checklist" class="text-xs text-gray-500 hover:text-gray-700 flex items-center">
-                            Download Toolkit
-                            <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                        <a href="/search?q=<%= cat[:query] %>" class="text-xs font-semibold text-orange-600 hover:text-orange-700">Search Tenders</a>
+                        <a href="/#download-checklist" class="text-[10px] text-gray-400 hover:text-gray-600 flex items-center underline">
+                            Toolkit
                         </a>
                     </div>
                 </div>
