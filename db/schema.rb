@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_20_202252) do
+ActiveRecord::Schema[7.0].define(version: 2026_01_23_173214) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_textsearch"
   enable_extension "plpgsql"
@@ -173,7 +173,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_20_202252) do
     t.text "bid_result"
     t.text "bid_result_status"
     t.datetime "bid_result_updated_at", default: -> { "CURRENT_TIMESTAMP" }
-    t.datetime "updated_at_auto", default: -> { "CURRENT_TIMESTAMP" }
+    t.timestamptz "updated_at_auto", default: -> { "now()" }, null: false
     t.index ["bid_result_status"], name: "index_tenders_on_bid_result_status"
     t.index ["created_at"], name: "index_tenders_on_created_at"
     t.index ["description"], name: "idx_tenders_description_bm25", using: :bm25
@@ -190,6 +190,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_20_202252) do
     t.index ["tender_text_vector"], name: "tender_text_vector_idx", using: :gin
     t.index ["tender_value"], name: "index_tenders_on_tender_value"
     t.index ["title"], name: "idx_tenders_title_bm25", using: :bm25
+    t.index ["updated_at_auto", "id"], name: "idx_tenders_sync"
     t.index ["updated_at_auto"], name: "index_tenders_on_updated_at_auto"
   end
 
