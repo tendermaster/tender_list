@@ -150,7 +150,7 @@ module TenderSearch
                 {
                   multi_match: {
                     query: query,
-                    fields: ['title^3', 'description^2', 'organisation^1.5', 'state'],
+                    fields: ['title^3', 'tender_id^2', 'description^2', 'organisation^1.5', 'page_link', 'state'],
                     type: 'best_fields'
                   }
                 }
@@ -250,7 +250,7 @@ module TenderSearch
                   multi_match: {
                     query: query,
                     type: 'phrase_prefix',
-                    fields: ['title^3', 'organisation^2', 'state']
+                    fields: ['title^3', 'tender_id^2', 'organisation^1.5', 'description', 'state']
                   }
                 }
               ],
