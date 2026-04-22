@@ -10,6 +10,22 @@
 
 <%= render 'layouts/navbar' %>
 
+<%
+  days_left = time_left(@tender_data.submission_close_date)
+  tender_status =
+    if days_left.nil?
+      { label: "Date unavailable", class: "bg-gray-100 text-gray-700 border-gray-200" }
+    elsif days_left.negative?
+      { label: "Expired", class: "bg-red-100 text-red-700 border-red-200" }
+    elsif days_left <= 3
+      { label: "Closing soon", class: "bg-orange-100 text-orange-700 border-orange-200" }
+    else
+      { label: "Open", class: "bg-green-100 text-green-700 border-green-200" }
+    end
+
+  gem_registration_url = "https://docs.google.com/forms/d/e/1FAIpQLSfoumNDmVqcOrxh8Uu5p6ENOfS8-lOcIrCKvAgUV1WtUusNog/viewform?usp=header"
+%>
+
 <div class="text-gray-800 lg:pt-2 xl:px-36">
   <!--header-->
 
@@ -79,10 +95,9 @@
                   <% else %>
                     <div><%= @tender_data.title&.titleize %></div>
                   <% end %>
-                <% else %>
-                  <p class="blur-md select-none">AAAAAAAAAA</p>
-                  <%= render 'plan_to_view_tender' %>
-                <% end %>
+	                <% else %>
+	                  <%= render 'plan_to_view_tender', label: 'Unlock tender title' %>
+	                <% end %>
               </td>
             </tr>
             <tr
@@ -129,10 +144,9 @@
               <td class="py-4 px-6 flex">
                 <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
                   <%= @tender_data.tender_id %>
-                <% else %>
-                  <p class="blur-md select-none">AAAAAAAAAA</p>
-                  <%= render 'plan_to_view_tender' %>
-                <% end %>
+	                <% else %>
+	                  <%= render 'plan_to_view_tender', label: 'Unlock tender ID' %>
+	                <% end %>
               </td>
             </tr>
             <tr
@@ -147,10 +161,9 @@
               <td class="py-4 px-6 flex">
                 <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
                   <%= @tender_json['TenderReferenceNumber'] || @tender_data.tender_reference_number %>
-                <% else %>
-                  <p class="blur-md select-none">AAAAAAAAAA</p>
-                  <%= render 'plan_to_view_tender' %>
-                <% end %>
+	                <% else %>
+	                  <%= render 'plan_to_view_tender', label: 'Unlock reference number' %>
+	                <% end %>
               </td>
             </tr>
             <tr
@@ -218,12 +231,19 @@
                 Link
               </th>
               <td class="py-4 px-6 flex">
-                <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
-                  <a class="underline underline-offset-2 hover:text-blue-600 force-word-break" target="_blank" rel="nofollow noopener noreferrer" href="<%= @tender_data.page_link %>"><%= @tender_data.page_link %></a>
-                <% else %>
-                  <p class="blur-md select-none">AAAAAAAAAA</p>
-                  <%= render 'plan_to_view_tender' %>
-                <% end %>
+	                <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
+	                  <div class="min-w-0">
+	                    <a class="inline-flex items-center rounded-md bg-blue-50 px-3 py-2 font-semibold text-blue-700 hover:bg-blue-100" target="_blank" rel="nofollow noopener noreferrer" href="<%= @tender_data.page_link %>">
+	                      View Original Tender Notice
+	                      <svg class="ml-2 h-4 w-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
+	                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H18m0 0v4.5M18 6l-7.5 7.5M6 18h10.5A1.5 1.5 0 0 0 18 16.5v-3M6 18A1.5 1.5 0 0 1 4.5 16.5v-9A1.5 1.5 0 0 1 6 6h3" />
+	                      </svg>
+	                    </a>
+	                    <p class="mt-2 text-xs text-gray-500 force-word-break"><%= @tender_data.page_link %></p>
+	                  </div>
+	                <% else %>
+	                  <%= render 'plan_to_view_tender', label: 'Unlock original tender link' %>
+	                <% end %>
               </td>
             </tr>
             <tr
@@ -246,39 +266,38 @@
               >
                 End Date
               </th>
-              <td class="py-4 px-6 <%= (time_left(@tender_data.submission_close_date) || -1) >= 0 ? "bg-green-200" : 'bg-red-200' %>">
-                <div class="md:flex md:items-center">
-                  <p><%= @tender_data.submission_close_date.strftime("%d/%m/%Y") %>
-                    ( <%= time_left_text(@tender_data.submission_close_date) %> )
-                  </p>
+              <td class="py-4 px-6 <%= days_left.nil? ? 'bg-gray-50' : days_left >= 0 ? 'bg-green-50' : 'bg-red-50' %>">
+                <div class="md:flex md:items-center md:justify-between gap-4">
+                  <div>
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span class="inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold <%= tender_status[:class] %>"><%= tender_status[:label] %></span>
+                      <span class="font-medium text-gray-900"><%= @tender_data.submission_close_date&.strftime("%d/%m/%Y") || '-' %></span>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-600"><%= time_left_text(@tender_data.submission_close_date) %></p>
+                  </div>
                   <a class="btn-sm inline-block mt-2 md:mt-0 md:ml-10" href="<%= root_path %>">Search Similar
                     tenders?</a>
                 </div>
               </td>
             </tr>
-            <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-            >
-              <th
-                scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
-              >
-                Join for More <br> Relevant Opportunities
-              </th>
-              <td class="py-4 px-6">
-                <div class="md:flex md:items-center mr-8">
-                  <a class="px-3 py-2 bg-green-500 rounded-full text-white" href="https://whatsapp.com/channel/0029Vab3ADv7YSd4FZmQpj02" target="_blank" rel="noopener noreferrer">Whatsapp
-                    Channel</a>
-                </div>
-
-                <div class="md:flex md:items-center mt-4">
-                  <a class="px-3 py-2 bg-green-500 rounded-full text-white" href="https://wa.me/918882301033" target="_blank" rel="noopener noreferrer">Whatsapp
-                    Support</a>
-                </div>
-              </td>
-            </tr>
             </tbody>
           </table>
+
+          <div class="mt-6 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+            <div class="md:flex md:items-start md:justify-between gap-6">
+              <div>
+                <h4 class="text-base font-semibold text-gray-900">Tender Support</h4>
+                <p class="mt-1 text-sm text-gray-600">Get help with filing, GeM registration, documents, or relevant tender alerts.</p>
+              </div>
+              <div class="mt-4 grid gap-2 sm:grid-cols-2 md:mt-0">
+                <a href="<%= get_callback_path %>" class="rounded-md bg-orange-600 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-orange-700">Request filing assistance</a>
+                <a href="<%= gem_registration_url %>" target="_blank" rel="noopener noreferrer" class="rounded-md border border-orange-200 bg-orange-50 px-3 py-2 text-center text-sm font-semibold text-orange-700 hover:bg-orange-100">GeM Registration</a>
+                <a href="<%= how_to_file_tender_path %>" class="rounded-md border border-gray-200 px-3 py-2 text-center text-sm font-semibold text-gray-700 hover:bg-gray-50">How to file this tender?</a>
+                <a href="https://wa.me/918882301033" target="_blank" rel="noopener noreferrer" class="rounded-md border border-green-200 bg-green-50 px-3 py-2 text-center text-sm font-semibold text-green-700 hover:bg-green-100">WhatsApp Support</a>
+                <a href="https://whatsapp.com/channel/0029Vab3ADv7YSd4FZmQpj02" target="_blank" rel="noopener noreferrer" class="rounded-md border border-green-200 px-3 py-2 text-center text-sm font-semibold text-green-700 hover:bg-green-50 sm:col-span-2">Join WhatsApp Channel</a>
+              </div>
+            </div>
+          </div>
 
           <div>
             <!--            tender results-->
@@ -297,12 +316,11 @@
                       <%# no perm needed to only view title %>
                       <% if User.can_fully_view_tender(current_user, tender.submission_close_date) || !is_tender_id?(tender.title) %>
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><%= tender.title&.capitalize %></h5>
-                      <% else %>
-                        <div class="flex">
-                          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white blur-md select-none">AAAAAAAAAA</h5>
-                          <%= render 'plan_to_view_tender' %>
-                        </div>
-                      <% end %>
+	                      <% else %>
+	                        <div class="flex">
+	                          <%= render 'plan_to_view_tender', label: 'Unlock tender title' %>
+	                        </div>
+	                      <% end %>
                     </a>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                       <%= tender.description&.capitalize %>
@@ -320,13 +338,7 @@
             </div>
           </div>
 
-          <!--Attachments-->
-          <div class="mt-6">
-            <a href="<%= how_to_file_tender_path %>" class="link block">How to file this tender?</a>
-            <a href="<%= get_callback_path %>" class="link block mt-4">Request filing assistance</a>
-          </div>
-
-        </div>
+	        </div>
 
         <div class="col-span-4 mt-10 lg:mt-0">
           <%= render "get_relevant_tenders_form" %>
