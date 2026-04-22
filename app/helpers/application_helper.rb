@@ -2,18 +2,19 @@ module ApplicationHelper
   include Pagy::Frontend
 
   def time_left(time)
-    # time.is_a?(ActiveSupport::TimeWithZone) ? "#{distance_of_time_in_words(Date.today, time, true, highest_measure_only: true)} left" : '-'
-    duration = ((time - Time.zone.now) / 1.day).floor
-    duration if time.is_a?(ActiveSupport::TimeWithZone)
-    # time.is_a?(ActiveSupport::TimeWithZone) and duration >= 0 ? "#{duration} days left" : "Expired #{duration*-1} days ago"
-    #   result.submission_close_date.is_a?(ActiveSupport::TimeWithZone) ? "#{distance_of_time_in_words(Date.today,result.submission_close_date, true, highest_measure_only: true)} left" : '-'
+    return nil unless time.respond_to?(:to_time)
+
+    ((time.to_time.in_time_zone - Time.zone.now) / 1.day).floor
   end
 
   def time_left_text(submission_close_date)
-    if time_left(submission_close_date) >= 0
-      "#{time_left(submission_close_date)} days left"
+    days_left = time_left(submission_close_date)
+    return '-' if days_left.nil?
+
+    if days_left >= 0
+      "#{days_left} days left"
     else
-      "Expired #{time_left(submission_close_date).abs} days ago"
+      "Expired #{days_left.abs} days ago"
     end
   end
 
