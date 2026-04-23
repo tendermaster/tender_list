@@ -98,6 +98,12 @@ Rails.application.routes.draw do
 
   get '/api/download_file', controller: :api, action: :download_file_get
   post '/api/download_file', controller: :api, action: :download_file, as: :download_file
+
+  namespace :api do
+    namespace :v1 do
+      get '/search', to: 'search#index'
+    end
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   #   admin
