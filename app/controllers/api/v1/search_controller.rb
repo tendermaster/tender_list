@@ -34,6 +34,19 @@ module Api
         }
       end
 
+      def debug_ip
+        render json: {
+          remote_ip: request.remote_ip,
+          ip: request.ip,
+          remote_addr: request.env['REMOTE_ADDR'],
+          cf_connecting_ip: request.headers['CF-Connecting-IP'],
+          x_forwarded_for: request.headers['X-Forwarded-For'],
+          x_real_ip: request.headers['X-Real-IP'],
+          forwarded: request.headers['Forwarded'],
+          user_agent: request.user_agent
+        }
+      end
+
       private
 
       def serialize_tender(tender)
