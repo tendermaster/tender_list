@@ -2,7 +2,7 @@
 
 <footer class="w-full dark:bg-gray-900 border-t bg-footerBg text-footerLink ">
   <!--  <div class=" w-full h-1 bg-gradient-to-b from-orange-500"></div>-->
-  <div class="grid grid-cols-2 gap-8 py-8 px-6 md:grid-cols-4 ">
+  <div class="grid grid-cols-2 gap-8 py-8 px-6 md:grid-cols-5 ">
     <div>
       <h2
         class="mb-6 text-sm font-semibold uppercase"
@@ -113,6 +113,27 @@
         <!--        <li class="mb-4">-->
         <!--          <a href="#" class="hover:underline">MacOS</a>-->
         <!--        </li>-->
+      </ul>
+    </div>
+    <div class="col-span-2 md:col-span-1">
+      <h2
+        class="mb-6 text-sm font-semibold uppercase"
+      >
+        Execution Support Partner
+      </h2>
+      <p class="mb-4 text-sm leading-6">
+        GetSaarthi helps organisations and professionals connect around tenders, grants, schemes, compliance, proposal support, and opportunity execution.
+      </p>
+      <ul class="">
+        <li class="mb-4">
+          <a href="<%= getsaarthi_website_url(medium: 'footer', campaign: 'execution_support') %>" target="_blank" rel="noopener noreferrer" class="hover:underline">Visit GetSaarthi</a>
+        </li>
+        <li class="mb-4">
+          <a href="<%= getsaarthi_professional_form_url(medium: 'footer', campaign: 'professional_intake') %>" target="_blank" rel="noopener noreferrer" class="hover:underline">Join as Professional</a>
+        </li>
+        <li class="mb-4">
+          <a href="<%= getsaarthi_opportunity_matching_url(medium: 'footer', campaign: 'opportunity_matching') %>" target="_blank" rel="noopener noreferrer" class="hover:underline">Opportunity Matching</a>
+        </li>
       </ul>
     </div>
   </div>

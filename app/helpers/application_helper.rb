@@ -192,6 +192,18 @@ module ApplicationHelper
     TZInfo::Timezone.get('Asia/Kolkata').now.strftime('%d-%b-%Y %I:%M %p')
   end
 
+  def getsaarthi_website_url(campaign: 'execution_support', medium: 'services_page')
+    "https://www.getsaarthi.com/?utm_source=sigmatenders&utm_medium=#{medium}&utm_campaign=#{campaign}"
+  end
+
+  def getsaarthi_professional_form_url(campaign: 'professional_intake', medium: 'services_page')
+    "https://docs.google.com/forms/d/e/1FAIpQLSf-27kAmf_uTbeLZvo4aKxO9Hx7YZ36XTSx34MklQxuleul0Q/viewform?utm_source=sigmatenders&utm_medium=#{medium}&utm_campaign=#{campaign}"
+  end
+
+  def getsaarthi_opportunity_matching_url(campaign: 'opportunity_matching', medium: 'services_page')
+    "https://docs.google.com/forms/d/e/1FAIpQLSe4Ear3-hna3NB3asDGePE1JnMC1hHIlYBtO58MNMlkLX69PQ/viewform?utm_source=sigmatenders&utm_medium=#{medium}&utm_campaign=#{campaign}"
+  end
+
   # class CheckListOptions
   #   def initialize
   #     @data = [{

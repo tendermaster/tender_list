@@ -1,21 +1,97 @@
 <%= render 'layouts/navbar' %>
 
-<div class="mx-8 my-12 lg:pt-2 xl:px-36">
-<ul class="mt-12">
-  <li class="text-center text-lg text-orange-600">With the increasing digitization of government procurement processes and the need for transparency and efficiency, the demand for online tender portals has increased. significant scope for profit & growth to both service providers and the entrepreneurs too in finding various business opportunities. We offer following services to our valued clients:</li>
-  <br>
-  <li class="list-disc">B2B (Business-to-Business) Services: Providing services to businesses to help them participate in tender processes and manage the bidding process effectively.</li>
-  <li class="list-disc">B2G (Business-to-Government) Services: Providing services to government organizations to manage the tender process, including the publishing of tender notices, and receiving bids.</li>
-  <li class="list-disc">Subscription-based Model: Offering paid subscriptions to independent entrepreneurs, businesses, industries, schools, colleges, Institutions, universities, NGOs, traders, suppliers, professionals, and government organizations to access the tender portal and its features.</li>
-  <li class="list-disc">Base line surveys/ Market research and Data Analytics: Using data analytics to provide valuable insights to businesses and government organizations on tender processes and trends.</li>
-  <li class="list-disc">Business set up and professional support services for meeting various compliances</li>
-  <li class="list-disc">Digital signature certificates (DSC) solutions</li>
-  <li class="list-disc">Networking with business houses for contracts and subcontracts</li>
-</ul>
-  <a href="https://docs.google.com/forms/d/1sk835o7uoufAuJyMvAg7g60fzNoG2qeFZmuBXgf_xIo/viewform" target="_blank" class="inline-block mt-8 underline underline-offset-2 px-3 py-4 text-white bg-orange-400 rounded-lg">Contact Us</a>
+<div class="bg-gray-50">
+  <section class="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
+    <div class="mx-auto max-w-6xl px-6 py-14 lg:px-8">
+      <p class="text-sm font-semibold uppercase text-orange-100">SigmaTenders Services</p>
+      <h1 class="mt-3 max-w-3xl text-3xl font-bold leading-tight md:text-5xl">Tender discovery, procurement support, and execution readiness</h1>
+      <p class="mt-5 max-w-4xl text-base leading-7 text-orange-50 md:text-lg">
+        SigmaTenders helps organisations discover procurement opportunities and navigate tender participation with practical business, compliance, data, and professional-support services.
+      </p>
+    </div>
+  </section>
 
+  <main class="mx-auto max-w-6xl px-6 py-12 lg:px-8">
+    <section class="rounded-lg border border-orange-200 bg-white p-6 shadow-sm md:p-8" aria-labelledby="getsaarthi-services-cta">
+      <div class="grid gap-6 lg:grid-cols-[1.6fr_1fr] lg:items-center">
+        <div>
+          <p class="text-sm font-semibold uppercase text-orange-600">Execution support via GetSaarthi</p>
+          <h2 id="getsaarthi-services-cta" class="mt-2 text-2xl font-bold text-gray-900">Need help acting on tenders and opportunities?</h2>
+          <p class="mt-4 text-base leading-7 text-gray-700">
+            Discovering a tender is only the first step. Through GetSaarthi, organisations can connect with professionals for documentation, proposal preparation, compliance readiness, digital execution, and opportunity-matching support.
+          </p>
+        </div>
+        <div class="flex flex-col gap-3">
+          <a href="<%= getsaarthi_opportunity_matching_url %>" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center rounded-lg bg-orange-600 px-5 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-orange-200">
+            Get Opportunity Matching Support
+          </a>
+          <a href="<%= getsaarthi_professional_form_url %>" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center rounded-lg border border-orange-300 bg-white px-5 py-3 text-center text-sm font-semibold text-orange-700 hover:bg-orange-50 focus:outline-none focus:ring-4 focus:ring-orange-100">
+            Join as a Professional
+          </a>
+          <a href="<%= getsaarthi_website_url %>" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center rounded-lg px-5 py-3 text-center text-sm font-semibold text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200">
+            Explore GetSaarthi
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-12" aria-labelledby="core-services">
+      <div class="max-w-3xl">
+        <h2 id="core-services" class="text-2xl font-bold text-gray-900">Services for tender discovery and participation</h2>
+        <p class="mt-3 text-gray-700">
+          With government procurement becoming increasingly digital, SigmaTenders supports entrepreneurs, organisations, institutions, NGOs, traders, suppliers, and professionals in finding opportunities and preparing for participation.
+        </p>
+      </div>
+
+      <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <article class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900">B2B Services</h3>
+          <p class="mt-3 text-sm leading-6 text-gray-600">Support for businesses participating in tender processes and managing bidding workflows effectively.</p>
+        </article>
+        <article class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900">B2G Services</h3>
+          <p class="mt-3 text-sm leading-6 text-gray-600">Procurement-process support for government organisations, including tender notice publishing and bid management.</p>
+        </article>
+        <article class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900">Subscription Access</h3>
+          <p class="mt-3 text-sm leading-6 text-gray-600">Paid access for businesses, institutions, NGOs, professionals, suppliers, and government organisations using SigmaTenders features.</p>
+        </article>
+        <article class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900">Market Research and Analytics</h3>
+          <p class="mt-3 text-sm leading-6 text-gray-600">Tender-process trends, baseline survey support, and data insights for procurement and business planning.</p>
+        </article>
+        <article class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900">Compliance and DSC Support</h3>
+          <p class="mt-3 text-sm leading-6 text-gray-600">Business setup, compliance support, and Digital Signature Certificate solutions for tender participation.</p>
+        </article>
+        <article class="rounded-lg border border-orange-200 bg-orange-50 p-6 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900">Execution & Advisory Support via GetSaarthi</h3>
+          <p class="mt-3 text-sm leading-6 text-gray-700">
+            Need support for tender documentation, proposal preparation, compliance, digital delivery, or opportunity matching? GetSaarthi connects organisations with professionals and advisory workflows to move from discovery to execution.
+          </p>
+          <div class="mt-5 flex flex-col gap-3">
+            <a href="<%= getsaarthi_opportunity_matching_url %>" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-orange-200">
+              Request Opportunity Matching
+            </a>
+            <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold">
+              <a href="<%= getsaarthi_professional_form_url %>" target="_blank" rel="noopener noreferrer" class="text-orange-700 hover:text-orange-800 hover:underline">Join as Professional</a>
+              <a href="<%= getsaarthi_website_url %>" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-gray-900 hover:underline">Explore GetSaarthi</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="mt-12 rounded-lg border border-gray-200 bg-white p-6 shadow-sm md:flex md:items-center md:justify-between md:gap-8" aria-label="Contact SigmaTenders">
+      <div>
+        <h2 class="text-xl font-bold text-gray-900">Need SigmaTenders service support?</h2>
+        <p class="mt-2 text-sm leading-6 text-gray-600">Send your requirement to the SigmaTenders team for procurement discovery and business-support assistance.</p>
+      </div>
+      <a href="https://docs.google.com/forms/d/1sk835o7uoufAuJyMvAg7g60fzNoG2qeFZmuBXgf_xIo/viewform" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex w-full justify-center rounded-lg bg-gray-900 px-5 py-3 text-sm font-semibold text-white hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-200 md:mt-0 md:w-auto">
+        Contact Us
+      </a>
+    </section>
+  </main>
 </div>
-
-
 
 <%= render 'layouts/footer' %>

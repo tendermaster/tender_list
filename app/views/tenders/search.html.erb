@@ -123,6 +123,13 @@
       <% end %>
     </div>
     <div class="col-span-4 mt-10 lg:mt-0">
+      <div class="mb-6 rounded-lg border border-orange-200 bg-orange-50 p-5">
+        <h3 class="text-base font-semibold text-gray-900">Need support responding to this opportunity?</h3>
+        <p class="mt-2 text-sm leading-6 text-gray-700">Get matched through GetSaarthi for documentation, proposal preparation, compliance readiness, and execution support.</p>
+        <a href="<%= getsaarthi_opportunity_matching_url(medium: 'search_results', campaign: 'opportunity_matching') %>" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex w-full justify-center rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-orange-200">
+          Get Opportunity Matching Support
+        </a>
+      </div>
       <%= render "tenders/get_relevant_tenders_form" %>
     </div>
   </div>
