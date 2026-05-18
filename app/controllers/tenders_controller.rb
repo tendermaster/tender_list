@@ -58,8 +58,13 @@ class TendersController < ApplicationController
       # redirect_to(controller: :home, action: :not_found)
       redirect_to root_path
     else
-      @tender_json = JSON.parse(@tender_data.full_data)
-      @bid_result = JSON.parse(@tender_data.bid_result) if @tender_data.bid_result.present?
+      cache_version = @tender_data.try(:updated_at_auto)&.to_i || @tender_data.updated_at.to_i
+      @tender_json = Rails.cache.fetch("tender:#{@tender_data.id}:full_data:#{cache_version}", expires_in: 12.hours) do
+        JSON.parse(@tender_data.full_data)
+      end
+      @bid_result = Rails.cache.fetch("tender:#{@tender_data.id}:bid_result:#{cache_version}", expires_in: 12.hours) do
+        JSON.parse(@tender_data.bid_result)
+      end if @tender_data.bid_result.present?
     end
   end
 

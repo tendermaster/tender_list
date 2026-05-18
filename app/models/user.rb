@@ -33,9 +33,11 @@ class User < ApplicationRecord
   end
 
   def self.active_subscription_end_date(user)
-    user_subscription = user.subscriptions.where('end_date > now()').order(end_date: :desc).limit(1)
-    if user_subscription.present?
-      end_date = user_subscription[0].end_date
+    return '-' unless user
+
+    active_subscription = user.active_subscription
+    if active_subscription.present?
+      end_date = active_subscription.end_date
       time_left = (end_date - Time.zone.now) / 1.days
       "#{end_date.strftime('%d/%m/%Y')} (#{time_left.to_i} #{'day'.pluralize(time_left.to_i)} left)"
     else
@@ -46,13 +48,7 @@ class User < ApplicationRecord
   def self.active_plan(user)
     return nil unless user
 
-    user_subscription = user.subscriptions.where('end_date > now()').order(end_date: :desc).limit(1)
-    if user_subscription.present?
-      sub = user_subscription[0]
-      sub.plan_name
-    else
-      'DEMO'
-    end
+    user.active_plan
   end
 
   def self.can_fully_view_tender(user, submission_close_date=nil)
@@ -69,6 +65,14 @@ class User < ApplicationRecord
     else
       false
     end
+  end
+
+  def active_subscription
+    @active_subscription ||= subscriptions.where('end_date > now()').order(end_date: :desc).first
+  end
+
+  def active_plan
+    active_subscription&.plan_name || 'DEMO'
   end
 
   def self.redeem_coupon(user, code)

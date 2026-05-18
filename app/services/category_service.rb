@@ -1,4 +1,7 @@
+require 'digest/md5'
+
 module CategoryService
+  KEYWORD_PRESENT_TTL = 24.hours
 
   # TODO: rebuild cache before expiry, at night
   # run at 2am every day
@@ -15,13 +18,15 @@ module CategoryService
   end
 
   def self.keyword_present?(search_string)
-    begin
-      @pagy, @records = TendersController.elastic_pagy(search_string, 1)
-      if @records.present?
-        return search_string
+    cache_key = "category_keyword_present:#{Digest::MD5.hexdigest(search_string.to_s.squish)}"
+
+    Rails.cache.fetch(cache_key, expires_in: KEYWORD_PRESENT_TTL) do
+      begin
+        @pagy, @records = TendersController.elastic_pagy(search_string, 1)
+        @records.present? ? search_string : nil
+      rescue
+        nil
       end
-    rescue
-      nil
     end
   end
 
@@ -59,7 +64,7 @@ module CategoryService
       p "cache miss key:#{name}, rebuild: #{options[:rebuild]}"
       keywords = File.read("app/files/categories/#{keywords}") if options[:type] == 'file'
       active_keywords = get_active_categories_list(keywords)
-      Rails.cache.write(name, active_keywords, expire_in: 48.hours)
+      Rails.cache.write(name, active_keywords, expires_in: 48.hours)
       active_keywords
     else
       p "cache hit key:#{name}"

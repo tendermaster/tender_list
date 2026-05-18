@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
+require 'digest/md5'
+
 module TenderSearch
   extend self
 
   SNAPSHOT_TTL = 120.seconds  # 2 minutes
+  HYDRATED_RECORDS_TTL = 60.seconds
+  COUNT_TTL = 30.minutes
   MAX_PAGE = 2000             # Support deep pagination (ES handles this well)
   ES_INDEX = 'tenders'
   
@@ -93,25 +97,30 @@ module TenderSearch
   # ─────────────────────────────────────────────────────────────────────────────
 
   def count_matching(query, since: nil)
-    body = {
-      query: {
-        bool: {
-          must: [
-            { multi_match: { query: query, fields: ['title', 'description'] } }
-          ],
-          filter: [
-            { term: { is_visible: true } }
-          ]
+    since_key = since ? since.utc.to_i : 'all'
+    cache_key = "search_count:#{Digest::MD5.hexdigest(query.to_s.squish)}:#{since_key}"
+
+    Rails.cache.fetch(cache_key, expires_in: COUNT_TTL) do
+      body = {
+        query: {
+          bool: {
+            must: [
+              { multi_match: { query: query, fields: ['title', 'description'] } }
+            ],
+            filter: [
+              { term: { is_visible: true } }
+            ]
+          }
         }
       }
-    }
 
-    if since
-      body[:query][:bool][:filter] << { range: { updated_at_auto: { gte: since.utc.iso8601 } } }
+      if since
+        body[:query][:bool][:filter] << { range: { updated_at_auto: { gte: since.utc.iso8601 } } }
+      end
+
+      result = ElasticClient.count(index: ES_INDEX, body: body)
+      result['count'].to_i
     end
-
-    result = ElasticClient.count(index: ES_INDEX, body: body)
-    result['count'].to_i
   rescue StandardError => e
     Rails.logger.error("TenderSearch.count_matching failed: #{e.message}")
     0
@@ -285,6 +294,10 @@ module TenderSearch
   def fetch_tenders_in_order(ids)
     return [] if ids.blank?
 
-    Tender.where(id: ids).index_by(&:id).values_at(*ids).compact
+    cache_key = "tenders:hydrated:#{Digest::MD5.hexdigest(ids.join(','))}"
+
+    Rails.cache.fetch(cache_key, expires_in: HYDRATED_RECORDS_TTL) do
+      Tender.where(id: ids).index_by(&:id).values_at(*ids).compact
+    end
   end
 end
