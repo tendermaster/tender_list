@@ -1,4 +1,5 @@
 require_relative "boot"
+require_relative "../lib/api_search_cors"
 
 require "rails/all"
 
@@ -42,5 +43,6 @@ module TenderList
 
     config.active_job.queue_adapter = :sidekiq
     config.generators.scaffold_controller = :scaffold_controller
+    config.middleware.insert_before 0, ApiSearchCors
   end
 end

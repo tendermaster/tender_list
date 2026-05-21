@@ -45,6 +45,30 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
     assert_nil result["full_data"]
   end
 
+  test "allows cross-origin search requests from any site" do
+    pagy = Pagy.new(count: 0, page: 1, items: 10)
+
+    TenderSearch.stub(:weighted_search, [pagy, []]) do
+      get "/api/v1/search", params: { q: "roads" }, headers: { "Origin" => "https://example-client.test" }
+    end
+
+    assert_response :success
+    assert_equal "*", response.headers["Access-Control-Allow-Origin"]
+    assert_includes response.headers["Access-Control-Allow-Methods"], "GET"
+  end
+
+  test "handles cors preflight for search" do
+    options "/api/v1/search", headers: {
+      "Origin" => "https://example-client.test",
+      "Access-Control-Request-Method" => "GET"
+    }
+
+    assert_response :no_content
+    assert_equal "*", response.headers["Access-Control-Allow-Origin"]
+    assert_includes response.headers["Access-Control-Allow-Methods"], "OPTIONS"
+    assert_includes response.headers["Access-Control-Allow-Headers"], "Authorization"
+  end
+
   test "rejects blank query" do
     get "/api/v1/search", params: { q: "   " }
 
