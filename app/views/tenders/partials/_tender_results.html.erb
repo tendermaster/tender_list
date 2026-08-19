@@ -1,5 +1,5 @@
 <div class="mt-8">
-  <div class="rounded-lg border border-emerald-200 bg-emerald-50/50 p-6 shadow-sm">
+  <div class="rounded-lg border border-emerald-200 bg-emerald-50/40 p-6 shadow-sm">
     <div class="flex items-center gap-2 mb-4">
       <span class="inline-flex rounded-full bg-emerald-100 p-1 text-emerald-700">
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -11,26 +11,40 @@
       </h3>
     </div>
 
-    <% if @bid_result['winner_name'].present? || @bid_result.dig('contractFullData', 'sellerOrgName').present? %>
-      <div class="mb-6 rounded-md bg-white p-4 border border-emerald-200 shadow-xs">
-        <span class="text-xs font-semibold uppercase text-emerald-800 tracking-wider">Awarded Contractor / Winner</span>
-        <p class="text-lg font-bold text-gray-900 mt-1">
-          <%= @bid_result['winner_name'] || @bid_result.dig('contractFullData', 'sellerOrgName') %>
-        </p>
-        <% if @bid_result['contract_amount'].present? || @bid_result.dig('contractFullData', 'contractAmount').present? %>
-          <p class="text-sm font-semibold text-emerald-700 mt-1">
-            Contract Value: <%= @bid_result['contract_amount'] || @bid_result.dig('contractFullData', 'contractAmount') %>
-          </p>
+    <% 
+      winner = @bid_result['winner_name'] || @bid_result['awarded_to']
+      if winner.blank? && @bid_result.dig('contractFullData', 'sellerOrgName').present?
+        raw_seller = @bid_result.dig('contractFullData', 'sellerOrgName').to_s.strip
+        winner = raw_seller if raw_seller.length < 80
+      end
+
+      amount = @bid_result['contract_amount'] || @bid_result['award_value'] || @bid_result.dig('contractFullData', 'contractAmount')
+      status = @bid_result.dig('bid_data', 'BidStatus') || @bid_result.dig('contractFullData', 'contractStatus')&.lines&.first&.strip
+    %>
+
+    <% if winner.present? || amount.present? %>
+      <div class="mb-6 rounded-md bg-white p-4 border border-emerald-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
+        <% if winner.present? %>
+          <div>
+            <span class="text-xs font-semibold uppercase text-emerald-800 tracking-wider block">Awarded Contractor / Winner</span>
+            <p class="text-lg font-bold text-gray-900 mt-1"><%= winner %></p>
+          </div>
+        <% end %>
+        <% if amount.present? %>
+          <div class="text-right">
+            <span class="text-xs font-semibold uppercase text-gray-500 tracking-wider block">Contract Value</span>
+            <p class="text-lg font-bold text-emerald-700 mt-1"><%= amount %></p>
+          </div>
         <% end %>
       </div>
     <% end %>
 
     <% if @bid_result['bid_data'].present? %>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm bg-white p-4 rounded-md border border-gray-200">
-        <% if @bid_result['bid_data']['BidStatus'].present? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm bg-white p-4 rounded-md border border-gray-200 mb-6">
+        <% if status.present? %>
           <div>
             <span class="font-medium text-gray-500">Tender Status: </span>
-            <span class="font-semibold text-gray-900"><%= @bid_result['bid_data']['BidStatus'] %></span>
+            <span class="font-semibold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded text-xs"><%= status %></span>
           </div>
         <% end %>
         <% if @bid_result['bid_data']['BidAdditionalReq'].present? %>
@@ -39,9 +53,9 @@
             <span class="text-gray-900"><%= @bid_result['bid_data']['BidAdditionalReq'] %></span>
           </div>
         <% end %>
-        <% if @bid_result['bid_data']['Name'].present? %>
+        <% if @bid_result['bid_data']['Name'].present? && !@bid_result['bid_data']['Name'].include?('***') %>
           <div>
-            <span class="font-medium text-gray-500">Buyer: </span>
+            <span class="font-medium text-gray-500">Buyer Name: </span>
             <span class="text-gray-900"><%= @bid_result['bid_data']['Name'] %></span>
           </div>
         <% end %>
@@ -57,141 +71,34 @@
             <span class="text-gray-900"><%= @bid_result['bid_data']['Department'] %></span>
           </div>
         <% end %>
+        <% if @bid_result['bid_data']['Organisation'].present? %>
+          <div>
+            <span class="font-medium text-gray-500">Organisation: </span>
+            <span class="text-gray-900"><%= @bid_result['bid_data']['Organisation'] %></span>
+          </div>
+        <% end %>
       </div>
     <% end %>
 
-    <% if @bid_result['tech_eval'].present? %>
-      <div>
-        <div class="text-xl font-bold mt-8">
-          Technical Evaluation
-        </div>
-        <div class="mt-4">
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <% @bid_result['tech_eval'].each_with_index do |row, idx| %>
-                <% if idx === 0 %>
-                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <% if @bid_result['tech_eval'].present? && @bid_result['tech_eval'].is_a?(Array) && @bid_result['tech_eval'].any? %>
+      <div class="mb-6">
+        <h4 class="text-base font-bold text-gray-900 mb-3">Technical Evaluation Results</h4>
+        <div class="relative overflow-x-auto shadow-xs rounded-lg border border-gray-200 bg-white">
+          <table class="w-full text-sm text-left text-gray-600">
+            <% @bid_result['tech_eval'].each_with_index do |row, idx| %>
+              <% if idx == 0 %>
+                <thead class="text-xs uppercase bg-gray-100 text-gray-700">
                   <tr>
                     <% row.each do |td| %>
-                      <th scope="col" class="px-6 py-3">
-                        <%= td %>
-                      </th>
+                      <th scope="col" class="px-4 py-3"><%= td %></th>
                     <% end %>
                   </tr>
-                  </thead>
-                  <tbody>
-                <% else %>
-                  <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                    <% row.each do |td| %>
-                      <td class="px-6 py-4">
-                        <%= td %>
-                      </td>
-                    <% end %>
-                  </tr>
-                <% end %>
-                </tbody>
-              <% end %>
-            </table>
-          </div>
-        </div>
-      </div>
-    <% end %>
-
-    <!--    Fin eval-->
-    <% if @bid_result['fin_eval'].present? %>
-      <div>
-        <div class="text-xl font-bold mt-8">
-          Financial Evaluation
-        </div>
-        <div class="mt-4">
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <% @bid_result['fin_eval'].each_with_index do |row, idx| %>
-                <% if idx === 0 %>
-                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                    <% row.each do |td| %>
-                      <th scope="col" class="px-6 py-3">
-                        <%= td %>
-                      </th>
-                    <% end %>
-                  </tr>
-                  </thead>
-                  <tbody>
-                <% else %>
-                  <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                    <% row.each do |td| %>
-                      <td class="px-6 py-4">
-                        <%= td %>
-                      </td>
-                    <% end %>
-                  </tr>
-                <% end %>
-                </tbody>
-              <% end %>
-            </table>
-          </div>
-        </div>
-      </div>
-    <% end %>
-
-    <% if @bid_result['contractFullData'].present? %>
-      <!--   contract-->
-      <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-2">Contract Details</h2>
-
-        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
-          <!--        <div class="sm:col-span-1">-->
-          <!--          <dt class="text-sm font-medium text-gray-500">Contract ID:</dt>-->
-          <!--          <dd class="mt-1 text-sm text-gray-900"></dd>-->
-          <!--        </div>-->
-          <div class="sm:col-span-1">
-            <dt class="text-sm font-medium text-gray-500">Contract Status:</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= @bid_result['contractFullData']['contractStatus'] %></dd>
-          </div>
-          <div class="sm:col-span-1">
-            <dt class="text-sm font-medium text-gray-500">Seller:</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= @bid_result['contractFullData']['sellerOrgName'] %></dd>
-          </div>
-          <div class="sm:col-span-1">
-            <dt class="text-sm font-medium text-gray-500">Buyer Designation:</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= @bid_result['contractFullData']['buyerDesignation'] %></dd>
-          </div>
-          <div class="sm:col-span-1">
-            <dt class="text-sm font-medium text-gray-500">Buying Mode:</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= @bid_result['contractFullData']['buyingMode'] %></dd>
-          </div>
-          <div class="sm:col-span-1">
-            <dt class="text-sm font-medium text-gray-500">Contract Date:</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= Time.parse(
-                                                         @bid_result['contractFullData']['contractDate']).in_time_zone('Asia/Kolkata') %></dd>
-          </div>
-          <div class="sm:col-span-1">
-            <dt class="text-sm font-medium text-gray-500">Contract Amount:</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= @bid_result['contractFullData']['contractAmount'] %></dd>
-          </div>
-        </dl>
-
-        <div class="mt-4 overflow-x-auto">
-          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <% @bid_result['contractFullData']['contractTable'].each_with_index do |row, idx| %>
-              <% if idx === 0 %>
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <% row.each do |td| %>
-                    <th scope="col" class="px-6 py-3">
-                      <%= td %>
-                    </th>
-                  <% end %>
-                </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-gray-100">
               <% else %>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <tr class="hover:bg-gray-50">
                   <% row.each do |td| %>
-                    <td class="px-6 py-4">
-                      <%= td %>
-                    </td>
+                    <td class="px-4 py-3"><%= td %></td>
                   <% end %>
                 </tr>
               <% end %>
@@ -199,8 +106,71 @@
             </tbody>
           </table>
         </div>
-
       </div>
+    <% end %>
+
+    <% if @bid_result['fin_eval'].present? && @bid_result['fin_eval'].is_a?(Array) && @bid_result['fin_eval'].any? %>
+      <div class="mb-6">
+        <h4 class="text-base font-bold text-gray-900 mb-3">Financial Evaluation Results</h4>
+        <div class="relative overflow-x-auto shadow-xs rounded-lg border border-gray-200 bg-white">
+          <table class="w-full text-sm text-left text-gray-600">
+            <% @bid_result['fin_eval'].each_with_index do |row, idx| %>
+              <% if idx == 0 %>
+                <thead class="text-xs uppercase bg-gray-100 text-gray-700">
+                  <tr>
+                    <% row.each do |td| %>
+                      <th scope="col" class="px-4 py-3"><%= td %></th>
+                    <% end %>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+              <% else %>
+                <tr class="hover:bg-gray-50">
+                  <% row.each do |td| %>
+                    <td class="px-4 py-3"><%= td %></td>
+                  <% end %>
+                </tr>
+              <% end %>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @bid_result.dig('contractFullData', 'contractTable').present? %>
+      <% 
+        raw_table = @bid_result.dig('contractFullData', 'contractTable')
+        header_row = raw_table.first
+        data_rows = raw_table.drop(1).reject { |r| r == header_row || r.all?(&:blank?) }
+      %>
+      <% if data_rows.any? %>
+        <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-xs mb-4">
+          <h4 class="text-base font-bold text-gray-900 mb-3">Ordered Items & Contract Pricing</h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-600">
+              <thead class="text-xs uppercase bg-gray-100 text-gray-700">
+                <tr>
+                  <% (header_row || []).each do |th| %>
+                    <th scope="col" class="px-4 py-3"><%= th %></th>
+                  <% end %>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+                <% data_rows.each do |row| %>
+                  <tr class="hover:bg-gray-50">
+                    <% row.each_with_index do |cell, c_idx| %>
+                      <td class="px-4 py-3 <%= c_idx == row.length - 1 ? 'font-semibold text-emerald-800' : '' %>">
+                        <%= cell %>
+                      </td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% end %>
     <% end %>
 
   </div>
