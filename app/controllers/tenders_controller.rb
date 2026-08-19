@@ -60,8 +60,9 @@ class TendersController < ApplicationController
     else
       cache_version = @tender_data.try(:updated_at_auto)&.to_i || @tender_data.updated_at.to_i
       @tender_json = Rails.cache.fetch("tender:#{@tender_data.id}:full_data:#{cache_version}", expires_in: 12.hours) do
-        JSON.parse(@tender_data.full_data)
-      end
+        JSON.parse(@tender_data.full_data) rescue {}
+      end if @tender_data.full_data.present?
+      @tender_json ||= {}
       @bid_result = Rails.cache.fetch("tender:#{@tender_data.id}:bid_result:#{cache_version}", expires_in: 12.hours) do
         @tender_data.parsed_bid_result
       end if @tender_data.has_bid_result?

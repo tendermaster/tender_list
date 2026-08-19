@@ -160,7 +160,7 @@
               </th>
               <td class="py-4 px-6 flex">
                 <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
-                  <%= @tender_json['TenderReferenceNumber'] || @tender_data.tender_reference_number %>
+                  <%= @tender_json&.dig('TenderReferenceNumber') || @tender_data.tender_reference_number || '-' %>
 	                <% else %>
 	                  <%= render 'plan_to_view_tender', label: 'Unlock reference number' %>
 	                <% end %>
