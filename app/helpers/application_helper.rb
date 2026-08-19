@@ -19,23 +19,21 @@ module ApplicationHelper
   end
 
   def currency_format(amt)
-    amt_len = amt.to_s.length
-    if amt_len < 6
-      amt
-    elsif amt_len in 6..7
-      amt_rounded = (amt.to_f / 10 ** 5).round(2)
-      if amt_rounded.to_s.split('.')[-1] == '0'
-        "#{amt_rounded.to_i} Lakh"
-      else
-        "#{amt_rounded} Lakh"
-      end
+    return '-' if amt.blank?
+    amt_str = amt.to_s.strip
+    return '-' if amt_str.blank? || amt_str == '-'
+    
+    num = amt_str.gsub(/[^\d.]/, '').to_f
+    return amt_str if num.zero? && !amt_str.match?(/\A0+(\.0+)?\z/)
+
+    if num < 100_000
+      amt_str
+    elsif num < 10_000_000
+      amt_rounded = (num / 100_000.0).round(2)
+      "#{amt_rounded.to_s.sub(/\.0$/, '')} Lakh"
     else
-      amt_rounded = (amt.to_f / 10 ** 7).round(2)
-      if amt_rounded.to_s.split('.')[-1] == '0'
-        "#{amt_rounded.to_i} Crore"
-      else
-        "#{amt_rounded} Crore"
-      end
+      amt_rounded = (num / 10_000_000.0).round(2)
+      "#{amt_rounded.to_s.sub(/\.0$/, '')} Crore"
     end
   end
 
@@ -43,22 +41,24 @@ module ApplicationHelper
     JSON.pretty_generate({
                            '@context': 'https://schema.org',
                            '@type': 'FAQPage',
-                           'mainEntity': data.map do |ques|
+                           'mainEntity': (data || []).map do |ques|
                              {
                                '@type': 'Question',
                                'name': ques[:name],
                                'acceptedAnswer': {
                                  '@type': 'Answer',
                                  'text': ques[:ans]
-                               }
-                             }
-                           end
-                         })
+                                }
+                              }
+                            end
+                          })
   end
 
   def is_tender_id?(string)
-    if (string.length <= 40 && string.scan('/').length >= 3) ||
-      (string.strip.scan(' ').empty? && string.scan('/').length >= 2 && string.length <= 30)
+    return false if string.blank?
+    str = string.to_s.strip
+    if (str.length <= 40 && str.scan('/').length >= 3) ||
+      (str.scan(' ').empty? && str.scan('/').length >= 2 && str.length <= 30)
       true
     else
       false
