@@ -30,11 +30,17 @@ class Tender < ApplicationRecord
   end
 
   def parsed_bid_result
+    # 1. Prioritize unified modern meta_data['bid_result']
+    if parsed_meta_data['bid_result'].present?
+      return parsed_meta_data['bid_result']
+    end
+
+    # 2. Fall back to legacy tenders.bid_result column
     return nil if bid_result.blank?
     bid_result.is_a?(Hash) ? bid_result : (JSON.parse(bid_result) rescue nil)
   end
 
   def has_bid_result?
-    parsed_bid_result.present?
+    parsed_meta_data['has_bid_result'] == true || parsed_bid_result.present?
   end
 end
