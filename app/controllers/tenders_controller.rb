@@ -18,25 +18,21 @@ class TendersController < ApplicationController
 
   def search
     set_public_cache(browser_ttl: 15.minutes, cdn_ttl: 2.hours)
-    return redirect_to '/' if params['q'].nil? && params['keyword'].nil?
+    raw_query = params[:q] || params[:keyword]&.tr('-', ' ')
+    return redirect_to root_path if raw_query.blank?
 
-    @query = params['q'] || params['keyword'].gsub('-', ' ')
-    @min_value = params['min_value'].to_i
-    @max_value = params['max_value'].to_i
-
-    @max_value = 10 ** 10 if @max_value == 0
+    @query = raw_query.to_s.strip
+    @query_label = @query
+    @min_value = params[:min_value].to_i
+    @max_value = params[:max_value].to_i
+    @max_value = 10**10 if @max_value <= 0
 
     SearchQueryLoggerJob.perform_later(@query) if current_user.present?
-    # p params
-    # collection = TendersController.search_tender(@query, @min_value, @max_value)
-    @query_label = @query
+
     custom_query = CustomQuery.custom_query?(@query)
-    if custom_query
-      @query = custom_query
-    end
+    @query = custom_query if custom_query.present?
 
     @pagy, @records = TendersController.elastic_pagy(@query, params[:page])
-
   end
 
   def search_query
