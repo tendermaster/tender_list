@@ -301,8 +301,11 @@
           </div>
 
           <div>
-            <!--            tender results-->
-            <% if @bid_result.present? %>
+            <!-- Corrigenda and Amendments -->
+            <%= render 'tenders/partials/corrigendums' %>
+
+            <!-- Tender Bid Results & Awards -->
+            <% if @bid_result.present? || @tender_data.has_bid_result? %>
               <%= render 'tenders/partials/tender_results' %>
             <% end %>
           </div>

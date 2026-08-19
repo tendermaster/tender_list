@@ -1,47 +1,64 @@
-<%#= render 'tenders/partials/tender_results' %>
-
 <div class="mt-8">
-  <%#= @bid_result %>
+  <div class="rounded-lg border border-emerald-200 bg-emerald-50/50 p-6 shadow-sm">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="inline-flex rounded-full bg-emerald-100 p-1 text-emerald-700">
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </span>
+      <h3 class="text-xl font-bold text-emerald-900">
+        Award of Contract & Bid Results
+      </h3>
+    </div>
 
-  <div class="">
-    <div class="text-2xl font-bold my-4">
-      Tender Result
-    </div>
-    <div class="">
-      <span class="font-medium text-gray-500">Tender Status: </span>
-      <span class="text-gray-900"><%= @bid_result['bid_data']['BidStatus'] %></span>
-    </div>
-    <div class="">
-      <span class="font-medium text-gray-500">Additional Information: </span>
-      <span class="text-gray-900"><%= @bid_result['bid_data']['BidAdditionalReq'] %></span>
-    </div>
-    <div class="font-bold underline-offset-4 underline mt-4 mb-2">
-      Buyer Details
-    </div>
-    <div class="">
-      <span class="font-bold">Name: </span>
-      <span><%= @bid_result['bid_data']['Name'] %></span>
-    </div>
-    <div class="">
-      <span class="font-bold">Address: </span>
-      <span><%= @bid_result['bid_data']['Address'] %></span>
-    </div>
-    <div class="">
-      <span class="font-bold">Ministry: </span>
-      <span><%= @bid_result['bid_data']['Ministry'] %></span>
-    </div>
-    <div class="">
-      <span class="font-bold">Department: </span>
-      <span><%= @bid_result['bid_data']['Department'] %></span>
-    </div>
-    <div class="">
-      <span class="font-bold">Organisation: </span>
-      <span><%= @bid_result['bid_data']['Organisation'] %></span>
-    </div>
-    <div class="">
-      <span class="font-bold">Office Address: </span>
-      <span><%= @bid_result['bid_data']['Office'] %></span>
-    </div>
+    <% if @bid_result['winner_name'].present? || @bid_result.dig('contractFullData', 'sellerOrgName').present? %>
+      <div class="mb-6 rounded-md bg-white p-4 border border-emerald-200 shadow-xs">
+        <span class="text-xs font-semibold uppercase text-emerald-800 tracking-wider">Awarded Contractor / Winner</span>
+        <p class="text-lg font-bold text-gray-900 mt-1">
+          <%= @bid_result['winner_name'] || @bid_result.dig('contractFullData', 'sellerOrgName') %>
+        </p>
+        <% if @bid_result['contract_amount'].present? || @bid_result.dig('contractFullData', 'contractAmount').present? %>
+          <p class="text-sm font-semibold text-emerald-700 mt-1">
+            Contract Value: <%= @bid_result['contract_amount'] || @bid_result.dig('contractFullData', 'contractAmount') %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @bid_result['bid_data'].present? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm bg-white p-4 rounded-md border border-gray-200">
+        <% if @bid_result['bid_data']['BidStatus'].present? %>
+          <div>
+            <span class="font-medium text-gray-500">Tender Status: </span>
+            <span class="font-semibold text-gray-900"><%= @bid_result['bid_data']['BidStatus'] %></span>
+          </div>
+        <% end %>
+        <% if @bid_result['bid_data']['BidAdditionalReq'].present? %>
+          <div>
+            <span class="font-medium text-gray-500">Additional Information: </span>
+            <span class="text-gray-900"><%= @bid_result['bid_data']['BidAdditionalReq'] %></span>
+          </div>
+        <% end %>
+        <% if @bid_result['bid_data']['Name'].present? %>
+          <div>
+            <span class="font-medium text-gray-500">Buyer: </span>
+            <span class="text-gray-900"><%= @bid_result['bid_data']['Name'] %></span>
+          </div>
+        <% end %>
+        <% if @bid_result['bid_data']['Ministry'].present? %>
+          <div>
+            <span class="font-medium text-gray-500">Ministry: </span>
+            <span class="text-gray-900"><%= @bid_result['bid_data']['Ministry'] %></span>
+          </div>
+        <% end %>
+        <% if @bid_result['bid_data']['Department'].present? %>
+          <div>
+            <span class="font-medium text-gray-500">Department: </span>
+            <span class="text-gray-900"><%= @bid_result['bid_data']['Department'] %></span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
 
     <% if @bid_result['tech_eval'].present? %>
       <div>
