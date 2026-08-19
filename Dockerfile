@@ -48,14 +48,14 @@ COPY --chown=ruby:ruby package.json yarn.lock ./
 RUN --mount=type=cache,id=yarn-cache,target=/home/ruby/.cache/yarn,uid=1004,gid=1004 \
     yarn install
 
-# NOTE: We DO NOT copy the rest of the application code.
-# The `volumes` mount in docker-compose.yml will provide it at runtime.
+# 5. Copy application code
+COPY --chown=ruby:ruby . ./
 
-# Copy and set up the entrypoint script
-# COPY entrypoint.sh /usr/bin/
-# RUN chmod +x /usr/bin/entrypoint.sh
-# ENTRYPOINT ["entrypoint.sh"]
-EXPOSE 3000
+# 6. Precompile assets with BuildKit persistent cache mount for incremental builds
+RUN --mount=type=cache,id=assets-cache,target=/app/tmp/cache,uid=1004,gid=1004 \
+    --mount=type=cache,id=bnd-cache,target=/usr/local/bundle/cache,uid=1004,gid=1004 \
+    --mount=type=cache,id=yarn-cache,target=/home/ruby/.cache/yarn,uid=1004,gid=1004 \
+    SECRET_KEY_BASE=dummy SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=production bundle exec rails assets:precompile
 
 # 7. DEFINE THE DEFAULT COMMAND
 # This is the command that will run when the container starts if not

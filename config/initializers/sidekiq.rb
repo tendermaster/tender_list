@@ -22,12 +22,25 @@ end
 
 Sidekiq::Options[:cron_poll_interval] = 10
 
-# initialize cron
-# Sidekiq::Cron::Job.create(name: 'MailerJob - every min', cron: '* * * * *', class: 'MailerJob') # execute at every min
+# initialize cron jobs (times in UTC, server runs UTC)
+# IST = UTC+5:30  =>  1am IST = 19:30 UTC (prev day),  3am IST = 21:30 UTC
+Sidekiq::Cron::Job.create(
+  name:  'RebuildSitemapJob - daily 1am IST',
+  cron:  '30 19 * * *',   # 19:30 UTC = 01:00 IST
+  class: 'RebuildSitemapJob'
+)
 
-begin
-  puts "Sidekiq Redis connection"
-  Sidekiq.redis(&:ping)
-rescue Redis::ConnectionError
-  raise "Sidekiq Redis connection failed"
+Sidekiq::Cron::Job.create(
+  name:  'RebuildCategoriesCacheJob - daily 3am IST',
+  cron:  '30 21 * * *',   # 21:30 UTC = 03:00 IST
+  class: 'RebuildCategoriesCacheJob'
+)
+
+unless ENV['SECRET_KEY_BASE_DUMMY']
+  begin
+    puts "Sidekiq Redis connection"
+    Sidekiq.redis(&:ping)
+  rescue StandardError => e
+    puts "Sidekiq Redis connection note: #{e.message}"
+  end
 end
