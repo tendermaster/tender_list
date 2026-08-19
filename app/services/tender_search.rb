@@ -149,8 +149,6 @@ module TenderSearch
   # Active tenders (submission_close_date > now) get +10000 score boost.
   #
   def compute_ranking_snapshot(query, limit:)
-    now_ms = (Time.current.to_f * 1000).to_i
-
     body = {
       query: {
         function_score: {
@@ -170,13 +168,14 @@ module TenderSearch
               ]
             }
           },
-          script_score: {
-            script: {
-              source: "if (doc['submission_close_date'].value.millis > params.now) { return _score + 10000; } else { return _score; }",
-              params: { now: now_ms }
+          functions: [
+            {
+              filter: { range: { submission_close_date: { gt: 'now' } } },
+              weight: 10000
             }
-          },
-          boost_mode: 'replace'
+          ],
+          score_mode: 'sum',
+          boost_mode: 'sum'
         }
       },
       size: limit,
@@ -197,8 +196,6 @@ module TenderSearch
 
   # MLT using Elasticsearch more_like_this
   def compute_mlt_ranking(query_text, exclude_id, limit:)
-    now_ms = (Time.current.to_f * 1000).to_i
-
     body = {
       query: {
         function_score: {
@@ -222,13 +219,14 @@ module TenderSearch
               ]
             }
           },
-          script_score: {
-            script: {
-              source: "if (doc['submission_close_date'].value.millis > params.now) { return _score + 10000; } else { return _score; }",
-              params: { now: now_ms }
+          functions: [
+            {
+              filter: { range: { submission_close_date: { gt: 'now' } } },
+              weight: 10000
             }
-          },
-          boost_mode: 'replace'
+          ],
+          score_mode: 'sum',
+          boost_mode: 'sum'
         }
       },
       size: limit,
@@ -248,8 +246,6 @@ module TenderSearch
   # ─────────────────────────────────────────────────────────────────────────────
 
   def compute_autocomplete(query, limit:)
-    now_ms = (Time.current.to_f * 1000).to_i
-
     body = {
       query: {
         function_score: {
@@ -269,14 +265,14 @@ module TenderSearch
               ]
             }
           },
-          # Active tenders get boosted to top
-          script_score: {
-            script: {
-              source: "if (doc['submission_close_date'].value.millis > params.now) { return _score + 10000; } else { return _score; }",
-              params: { now: now_ms }
+          functions: [
+            {
+              filter: { range: { submission_close_date: { gt: 'now' } } },
+              weight: 10000
             }
-          },
-          boost_mode: 'replace'
+          ],
+          score_mode: 'sum',
+          boost_mode: 'sum'
         }
       },
       size: limit,
