@@ -5,23 +5,22 @@ require 'digest/md5'
 module TenderSearch
   extend self
 
-  SNAPSHOT_TTL = 120.seconds  # 2 minutes
-  HYDRATED_RECORDS_TTL = 60.seconds
-  COUNT_TTL = 30.minutes
+  SNAPSHOT_TTL = 30.minutes   # 30 minutes for search ranking snapshot
+  HYDRATED_RECORDS_TTL = 15.minutes
+  COUNT_TTL = 1.hour
   MLT_TTL = 12.hours          # 12 hours for similar tenders
   MAX_PAGE = 2000             # Support deep pagination (ES handles this well)
   ES_INDEX = 'tenders'
   
   # Tiered cache limits for performance
-  # Elasticsearch is fast, so we can support more pages
   CACHE_TIERS = {
     40 => 200,     # Pages 1-40
     200 => 1000,   # Pages 41-200
     500 => 2500,   # Pages 201-500
-    2000 => 10000  # Pages 501-2000
+    2000 => 5000   # Pages 501-2000
   }.freeze
 
-  AUTOCOMPLETE_TTL = 30.seconds  # Short TTL for autocomplete cache
+  AUTOCOMPLETE_TTL = 10.minutes  # 10 minutes for autocomplete cache
 
   # ─────────────────────────────────────────────────────────────────────────────
   # Autocomplete Suggestions
