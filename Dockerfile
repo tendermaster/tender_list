@@ -1,8 +1,6 @@
+# syntax=docker/dockerfile:1
 FROM ruby:3.2.9
 
-# RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs yarn
-# RUN ln -s $(which yarn) /usr/local/bin/yarn && \
-#     ln -s $(which node) /usr/local/bin/node
 WORKDIR /app
 
 ARG UID=1004
@@ -21,7 +19,8 @@ RUN bash -c "set -o pipefail && apt-get update \
   && apt-get clean \
   && groupadd -g 1004 ruby \
   && useradd --create-home --no-log-init -u 1004 -g 1004 ruby \
-  && chown ruby:ruby -R /app"
+  && mkdir -p /usr/local/bundle \
+  && chown ruby:ruby -R /app /usr/local/bundle"
 
 USER ruby
 
@@ -33,17 +32,21 @@ ENV RAILS_ENV="${RAILS_ENV}" \
   TZ="Asia/Kolkata"
 
 
-# --- Optimized Dependency Installation ---
+# --- Optimized Dependency Installation with BuildKit Cache ---
 
 # 1. Copy Gemfile and Gemfile.lock
-COPY Gemfile Gemfile.lock ./
-# 2. Install gems. This layer is only rebuilt if Gemfile.lock changes.
-# RUN bundle install
+COPY --chown=ruby:ruby Gemfile Gemfile.lock ./
 
-# 3. Copy package.json and yarn.lock (or package-lock.json)
-COPY package.json yarn.lock ./
-# 4. Install node modules. This layer is only rebuilt if yarn.lock changes.
-# RUN npm install
+# 2. Install gems with BuildKit cache mount
+RUN --mount=type=cache,id=bnd-cache,target=/usr/local/bundle/cache,uid=1004,gid=1004 \
+    bundle install --jobs 4 --retry 3
+
+# 3. Copy package.json and yarn.lock
+COPY --chown=ruby:ruby package.json yarn.lock ./
+
+# 4. Install node modules with BuildKit cache mount
+RUN --mount=type=cache,id=yarn-cache,target=/home/ruby/.cache/yarn,uid=1004,gid=1004 \
+    yarn install
 
 # NOTE: We DO NOT copy the rest of the application code.
 # The `volumes` mount in docker-compose.yml will provide it at runtime.

@@ -6,37 +6,20 @@
 echo "Removing old server.pid"
 rm -f tmp/pids/server.pid
 
-# 2. Ensure all gems are installed
-echo "Checking bundle..."
+# 2. Ensure bundle is satisfied
 bundle check || bundle install --jobs 4 --retry 3
 
-bundle install
-yarn install
-
-rails assets:clobber
-rails assets:precompile
-
-# 3. Prepare the database
-# This creates the DB if it doesn't exist and runs migrations.
-echo "Preparing database..."
-# bundle exec rails db:prepare
-# 2. Check for the ROLE environment variable, default to 'web' if not set
-echo $ROLE
-echo "Container role is: $ROLE"
-
-# 3. Conditionally prepare the database
-if [ "$ROLE" = "web" ]; then
-  echo "Running as web service. Preparing database..."
-  bundle exec rails db:prepare
-else
-  echo "Running as worker service. Skipping database preparation."
+# 3. Precompile assets only if explicitly requested or if public/assets is missing
+if [ "$PRECOMPILE_ASSETS" = "true" ] || [ ! -d "public/assets" ]; then
+  echo "Precompiling assets..."
+  bundle exec rails assets:precompile
 fi
 
-# 4. Execute the main command passed from docker-compose
-# This will be `rails s` for the web service and `sidekiq` for the worker service.
-# echo "Executing command: $@"
-
-# last line
-# exec "$@"
-# rails s -b 0.0.0.0
-npx concurrently 'rails s -b 0.0.0.0' 'bundle exec sidekiq'
+# 3. Execute web server or worker based on ROLE
+if [ "$ROLE" = "worker" ]; then
+  echo "Starting Sidekiq worker..."
+  exec bundle exec sidekiq
+else
+  echo "Starting Rails web server..."
+  exec bundle exec rails s -b 0.0.0.0
+fi
