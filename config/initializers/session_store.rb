@@ -2,7 +2,7 @@ redis_host = ENV.fetch('REDIS_HOST', '127.0.0.1')
 redis_password = ENV['REDIS_PASSWORD']
 
 redis_port = 6379
-redis_db_sessions = 0
+redis_db_sessions = 1
 
 redis_url = if redis_password.present?
               "redis://:#{redis_password}@#{redis_host}:#{redis_port}/#{redis_db_sessions}/session"
@@ -12,7 +12,7 @@ redis_url = if redis_password.present?
 
 Rails.application.config.session_store :redis_store,
   servers: [redis_url],
-  expire_after: 365.days,
+  expire_after: 60.days,
   key: '_sigmatenders_session',
   threadsafe: true,
   secure: Rails.env.production?
