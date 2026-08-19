@@ -89,8 +89,9 @@
               <% if result&.submission_open_date %>
                 <div>Start Date: <%= result.submission_open_date.in_time_zone("Asia/Kolkata")&.to_formatted_s(:long) %></div>
               <% end %>
-              <% if [result&.state, result&.location&.fetch('ctv')]&.uniq.join(', ').capitalize.strip.present? %>
-                <div>Place: <%= [result&.state, result&.location&.fetch('ctv')]&.uniq.join(', ').capitalize %></div>
+              <% place_text = [result&.state, result&.location&.dig('ctv')].compact.map(&:to_s).map(&:strip).reject(&:blank?).uniq.join(', ').capitalize %>
+              <% if place_text.present? %>
+                <div>Place: <%= place_text %></div>
               <% end %>
             </div>
             <a
