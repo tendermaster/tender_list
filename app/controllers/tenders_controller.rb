@@ -25,7 +25,7 @@ class TendersController < ApplicationController
 
     @max_value = 10 ** 10 if @max_value == 0
 
-    SearchQueryLoggerJob.perform_later(@query)
+    SearchQueryLoggerJob.perform_later(@query) if current_user.present?
     # p params
     # collection = TendersController.search_tender(@query, @min_value, @max_value)
     @query_label = @query
