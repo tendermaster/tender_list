@@ -12,14 +12,15 @@
     </div>
 
     <% 
-      winner = @bid_result['winner_name'] || @bid_result['awarded_to']
+      @bid_result ||= @tender_data&.parsed_bid_result || {}
+      winner = @bid_result['winner_name'] || @bid_result['awarded_to'] || @bid_result.dig('winner', 'name')
       if winner.blank? && @bid_result.dig('contractFullData', 'sellerOrgName').present?
         raw_seller = @bid_result.dig('contractFullData', 'sellerOrgName').to_s.strip
         winner = raw_seller if raw_seller.length < 80
       end
 
-      amount = @bid_result['contract_amount'] || @bid_result['award_value'] || @bid_result.dig('contractFullData', 'contractAmount')
-      status = @bid_result.dig('bid_data', 'BidStatus') || @bid_result.dig('contractFullData', 'contractStatus')&.lines&.first&.strip
+      amount = @bid_result['contract_amount'] || @bid_result['award_value'] || @bid_result.dig('contractFullData', 'contractAmount') || @bid_result.dig('winner', 'awarded_value')
+      status = @bid_result['status'] || @bid_result.dig('bid_data', 'BidStatus') || @bid_result.dig('contractFullData', 'contractStatus')&.lines&.first&.strip
     %>
 
     <% if winner.present? || amount.present? %>
