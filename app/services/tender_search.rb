@@ -8,6 +8,7 @@ module TenderSearch
   SNAPSHOT_TTL = 120.seconds  # 2 minutes
   HYDRATED_RECORDS_TTL = 60.seconds
   COUNT_TTL = 30.minutes
+  MLT_TTL = 12.hours          # 12 hours for similar tenders
   MAX_PAGE = 2000             # Support deep pagination (ES handles this well)
   ES_INDEX = 'tenders'
   
@@ -82,7 +83,7 @@ module TenderSearch
 
     cache_key = "mlt:#{exclude_id}:#{Digest::MD5.hexdigest(query_text.squish)}"
 
-    ids = Rails.cache.fetch(cache_key, expires_in: SNAPSHOT_TTL) do
+    ids = Rails.cache.fetch(cache_key, expires_in: MLT_TTL) do
       compute_mlt_ranking(query_text.squish, exclude_id, limit: limit)
     end
 

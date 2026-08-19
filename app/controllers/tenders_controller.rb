@@ -65,6 +65,11 @@ class TendersController < ApplicationController
       @bid_result = Rails.cache.fetch("tender:#{@tender_data.id}:bid_result:#{cache_version}", expires_in: 12.hours) do
         JSON.parse(@tender_data.bid_result)
       end if @tender_data.bid_result.present?
+
+      @similar_tenders = Rails.cache.fetch("tender:#{@tender_data.id}:similar_records:#{cache_version}", expires_in: 12.hours) do
+        query_text = is_tender_id?(@tender_data.title) ? @tender_data.description : @tender_data.title
+        TendersController.similar_tenders(query_text, @tender_data.id)
+      end
     end
   end
 
