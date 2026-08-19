@@ -8,9 +8,6 @@ class ApplicationController < ActionController::Base
   private
 
   def after_sign_in_path_for(resource)
-    # https://stackoverflow.com/questions/15944159/devise-redirect-back-to-the-original-location-after-sign-in-or-sign-up
-    # https://github.com/heartcombo/devise/wiki/How-To:-redirect-to-a-specific-page-on-successful-sign-in
-    #
     stored_location_for(resource) || queries_path
   end
 
@@ -18,4 +15,11 @@ class ApplicationController < ActionController::Base
     render 'home/page_404', status: 404
   end
 
+  def set_public_cache(browser_ttl: 15.minutes, cdn_ttl: 2.hours)
+    if current_user.nil?
+      expires_in browser_ttl, public: true, 's-maxage': cdn_ttl
+    else
+      response.headers['Cache-Control'] = 'no-cache, no-store, private, max-age=0'
+    end
+  end
 end

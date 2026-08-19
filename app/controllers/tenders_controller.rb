@@ -17,6 +17,7 @@ class TendersController < ApplicationController
   end
 
   def search
+    set_public_cache(browser_ttl: 15.minutes, cdn_ttl: 2.hours)
     return redirect_to '/' if params['q'].nil? && params['keyword'].nil?
 
     @query = params['q'] || params['keyword'].gsub('-', ' ')
@@ -50,6 +51,7 @@ class TendersController < ApplicationController
   end
 
   def tender_show
+    set_public_cache(browser_ttl: 30.minutes, cdn_ttl: 12.hours)
     @tender_data = Tender.find_by({ slug_uuid: params['slug_uuid'] })
     # p @tender_data
     if @tender_data.nil?
