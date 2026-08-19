@@ -275,7 +275,7 @@
                     </div>
                     <p class="mt-1 text-sm text-gray-600"><%= time_left_text(@tender_data.submission_close_date) %></p>
                   </div>
-                  <a class="btn-sm inline-block mt-2 md:mt-0 md:ml-10" href="<%= root_path %>">Search Similar
+                  <a class="btn-sm inline-block mt-2 md:mt-0 md:ml-10" href="#similar-tenders">Search Similar
                     tenders?</a>
                 </div>
               </td>
@@ -310,7 +310,7 @@
             <% end %>
           </div>
 
-          <div class="similar-tenders">
+          <div id="similar-tenders" class="similar-tenders scroll-mt-6">
             <div class="text-lg font-bold my-8">Similar Tenders</div>
             <div class="flex justify-center">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
