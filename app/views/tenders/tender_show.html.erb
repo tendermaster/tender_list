@@ -255,7 +255,7 @@
               >
                 Start Date
               </th>
-              <td class="py-4 px-6"><%= @tender_data.submission_open_date&.in_time_zone("Asia/Kolkata").to_formatted_s(:long) %></td>
+              <td class="py-4 px-6"><%= @tender_data.submission_open_date&.in_time_zone("Asia/Kolkata")&.to_formatted_s(:long) || '-' %></td>
             </tr>
             <tr
               class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
