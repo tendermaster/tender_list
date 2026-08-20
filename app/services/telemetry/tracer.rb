@@ -11,7 +11,7 @@ module Telemetry
       def in_span(name, attributes = {})
         if enabled? && defined?(OpenTelemetry)
           tracer = OpenTelemetry.tracer_provider.tracer('sigmatenders')
-          tracer.in_span(name, attributes: stringify_attributes(attributes)) do |span|
+          tracer.in_span(name, attributes: sanitize_attributes(attributes)) do |span|
             yield span if block_given?
           end
         else
@@ -39,8 +39,21 @@ module Telemetry
 
       private
 
-      def stringify_attributes(attrs)
-        attrs.transform_keys(&:to_s).transform_values(&:to_s)
+      # Sanitizes attributes to comply with OpenTelemetry Specification
+      # Allows String, Numeric, Boolean, and Arrays of primitives
+      def sanitize_attributes(attrs)
+        attrs.each_with_object({}) do |(k, v), acc|
+          acc[k.to_s] = case v
+                        when String, Integer, Float, TrueClass, FalseClass
+                          v
+                        when Symbol
+                          v.to_s
+                        when Array
+                          v.map { |elem| elem.is_a?(Symbol) ? elem.to_s : elem }
+                        else
+                          v.to_s
+                        end
+        end
       end
     end
   end

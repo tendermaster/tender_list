@@ -9,6 +9,8 @@ ElasticClient = Elasticsearch::Client.new(
   hosts: [ENV.fetch('ELASTICSEARCH_HOST', 'http://localhost:9200')],
   user: ENV.fetch('ELASTICSEARCH_USER', nil),
   password: ENV.fetch('ELASTICSEARCH_PASSWORD', nil),
+  opentelemetry: ENV['OTEL_ENABLED'] == 'true',
+  opentelemetry_tracer_provider: (OpenTelemetry.tracer_provider if defined?(OpenTelemetry)),
   transport_options: {
     request: { timeout: 6, open_timeout: 3 }
   },

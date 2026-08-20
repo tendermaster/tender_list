@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # OpenTelemetry Instrumentation Bootstrap
-# Toggle via OTEL_ENABLED="true" in environment or docker-compose.yml
+# Enabled via OTEL_ENABLED="true" in .env / docker-compose.yml
+# Native Elasticsearch OpenTelemetry is configured directly in config/initializers/elasticsearch.rb
 
 if ENV['OTEL_ENABLED'] == 'true'
   begin

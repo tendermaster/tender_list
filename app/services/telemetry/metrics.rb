@@ -10,7 +10,7 @@ module Telemetry
         Telemetry::Tracer.in_span('telemetry.search_metric', {
           'search.query' => query.to_s,
           'search.hits' => hits.to_i,
-          'search.cache_hit' => cache_hit ? 'true' : 'false',
+          'search.cache_hit' => !!cache_hit,
           'search.duration_ms' => duration_ms.to_f.round(2)
         })
       end
@@ -22,7 +22,7 @@ module Telemetry
         Telemetry::Tracer.in_span('telemetry.cache_event', {
           'cache.operation' => operation.to_s,
           'cache.key_prefix' => key.to_s.split(':').first,
-          'cache.hit' => hit ? 'true' : 'false'
+          'cache.hit' => !!hit
         })
       end
     end

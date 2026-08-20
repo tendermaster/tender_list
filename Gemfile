@@ -101,11 +101,6 @@ gem 'pagy', '~> 6.0'
 gem 'money-rails', '~> 1.15'
 
 gem 'sitemap_generator', '~> 6.3'
-
-# gem 'elasticsearch'
-# gem 'searchkick'  # Removed - now using pg_textsearch
-# gem "elasticsearch-model"
-# gem "elasticsearch-rails"
 gem 'meta-tags'
 
 gem 'sidekiq', '~> 7.2'
