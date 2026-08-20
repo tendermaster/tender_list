@@ -19,28 +19,20 @@ class Tender < ApplicationRecord
     end
   end
 
+  def documents
+    parsed_meta_data['documents'] || []
+  end
+
   def corrigendums
     parsed_meta_data['corrigendums'] || []
   end
 
   def has_corrigendum?
-    corrigendums.any?
-  end
-
-  def documents
-    parsed_meta_data['documents'] || []
+    parsed_meta_data['has_corrigendum'] == true || corrigendums.any?
   end
 
   def parsed_bid_result
-    @parsed_bid_result ||= begin
-      # 1. Prioritize unified modern meta_data['bid_result']
-      if parsed_meta_data['bid_result'].present?
-        parsed_meta_data['bid_result']
-      # 2. Fall back to legacy tenders.bid_result column
-      elsif bid_result.present?
-        bid_result.is_a?(Hash) ? bid_result : (JSON.parse(bid_result) rescue nil)
-      end
-    end
+    @parsed_bid_result ||= parsed_meta_data['bid_result']
   end
 
   def has_bid_result?
