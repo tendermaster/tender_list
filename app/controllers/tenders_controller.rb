@@ -31,7 +31,10 @@ class TendersController < ApplicationController
     custom_query = CustomQuery.custom_query?(@query)
     @query = custom_query if custom_query.present?
 
-    @pagy, @records = TendersController.elastic_pagy(@query, params[:page])
+    @pagy, @records, cache_hit = TendersController.elastic_pagy(@query, params[:page])
+
+    response.headers['X-Cache'] = cache_hit ? 'HIT' : 'MISS'
+    response.headers['X-Hits'] = @pagy.count.to_s
 
     if @records.present?
       set_public_cache(browser_ttl: 15.minutes, cdn_ttl: 2.hours)
@@ -58,8 +61,12 @@ class TendersController < ApplicationController
       # redirect_to(controller: :home, action: :not_found)
       redirect_to root_path
     else
-      set_public_cache(browser_ttl: 30.minutes, cdn_ttl: 12.hours)
       cache_version = @tender_data.try(:updated_at_auto)&.to_i || @tender_data.updated_at.to_i
+      tender_cache_key = "tender:#{@tender_data.id}:similar_records:#{cache_version}"
+      is_cached = Rails.cache.exist?(tender_cache_key)
+      response.headers['X-Cache'] = is_cached ? 'HIT' : 'MISS'
+
+      set_public_cache(browser_ttl: 30.minutes, cdn_ttl: 12.hours)
       @tender_json = Rails.cache.fetch("tender:#{@tender_data.id}:full_data:#{cache_version}", expires_in: 12.hours) do
         JSON.parse(@tender_data.full_data) rescue {}
       end if @tender_data.full_data.present?

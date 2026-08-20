@@ -48,7 +48,7 @@ module TenderSearch
     page = [[page.to_i, 1].max, MAX_PAGE].min
     query = query.to_s.squish
 
-    return [Pagy.new(count: 0, page: 1, items: per_page), []] if query.blank?
+    return [Pagy.new(count: 0, page: 1, items: per_page), [], false] if query.blank?
 
     effective_limit = CACHE_TIERS.find { |max_page, _| page <= max_page }&.last || 10000
     snapshot = get_or_create_snapshot(query, limit: effective_limit)
@@ -62,7 +62,7 @@ module TenderSearch
     pagy = Pagy.new(count: total, page: page, items: per_page)
     records = fetch_tenders_in_order(page_ids)
 
-    [pagy, records]
+    [pagy, records, snapshot[:cache_hit]]
   end
 
   # ─────────────────────────────────────────────────────────────────────────────
@@ -136,11 +136,11 @@ module TenderSearch
     cache_key = "search:#{Digest::MD5.hexdigest(query)}:#{limit}"
 
     cached = Rails.cache.read(cache_key)
-    return cached if cached.is_a?(Hash) && cached[:ids].present?
+    return cached.merge(cache_hit: true) if cached.is_a?(Hash) && cached[:ids].present?
 
     snapshot = compute_ranking_snapshot(query, limit: limit)
     Rails.cache.write(cache_key, snapshot, expires_in: SNAPSHOT_TTL) if snapshot[:ids].present?
-    snapshot
+    snapshot.merge(cache_hit: false)
   end
 
   # ─────────────────────────────────────────────────────────────────────────────
