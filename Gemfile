@@ -140,4 +140,14 @@ gem 'elasticsearch', '~> 9.0'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
+# OpenTelemetry Tracing & Observability
+gem 'opentelemetry-sdk'
+gem 'opentelemetry-exporter-otlp'
+gem 'opentelemetry-instrumentation-rails'
+gem 'opentelemetry-instrumentation-pg'
+gem 'opentelemetry-instrumentation-redis'
+gem 'opentelemetry-instrumentation-sidekiq'
+gem 'opentelemetry-instrumentation-faraday'
+gem 'opentelemetry-instrumentation-net_http'
+
 
