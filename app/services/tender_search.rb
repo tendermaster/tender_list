@@ -30,10 +30,12 @@ module TenderSearch
     query = query.to_s.strip
     return [] if query.blank? || query.length < 2
 
-    cache_key = "autocomplete:#{Digest::MD5.hexdigest(query)}:#{limit}"
+    Telemetry::Tracer.in_span('tender_search.autocomplete', { 'search.query' => query, 'search.limit' => limit }) do
+      cache_key = "autocomplete:#{Digest::MD5.hexdigest(query)}:#{limit}"
 
-    Rails.cache.fetch(cache_key, expires_in: AUTOCOMPLETE_TTL) do
-      compute_autocomplete(query, limit: limit)
+      Rails.cache.fetch(cache_key, expires_in: AUTOCOMPLETE_TTL) do
+        compute_autocomplete(query, limit: limit)
+      end
     end
   rescue StandardError => e
     Rails.logger.error("TenderSearch.autocomplete failed: #{e.message}")
@@ -50,19 +52,21 @@ module TenderSearch
 
     return [Pagy.new(count: 0, page: 1, items: per_page), [], false] if query.blank?
 
-    effective_limit = CACHE_TIERS.find { |max_page, _| page <= max_page }&.last || 10000
-    snapshot = get_or_create_snapshot(query, limit: effective_limit)
+    Telemetry::Tracer.in_span('tender_search.weighted_search', { 'search.query' => query, 'search.page' => page, 'search.per_page' => per_page }) do
+      effective_limit = CACHE_TIERS.find { |max_page, _| page <= max_page }&.last || 10000
+      snapshot = get_or_create_snapshot(query, limit: effective_limit)
 
-    from_pos = ((page - 1) * per_page) + 1
-    page_ids = snapshot[:ids].slice((from_pos - 1), per_page) || []
+      from_pos = ((page - 1) * per_page) + 1
+      page_ids = snapshot[:ids].slice((from_pos - 1), per_page) || []
 
-    # Show full page count (up to 2000 pages = 10000 results at 5/page)
-    max_results = MAX_PAGE * per_page
-    total = [snapshot[:total], max_results].min
-    pagy = Pagy.new(count: total, page: page, items: per_page)
-    records = fetch_tenders_in_order(page_ids)
+      # Show full page count (up to 2000 pages = 10000 results at 5/page)
+      max_results = MAX_PAGE * per_page
+      total = [snapshot[:total], max_results].min
+      pagy = Pagy.new(count: total, page: page, items: per_page)
+      records = fetch_tenders_in_order(page_ids)
 
-    [pagy, records, snapshot[:cache_hit]]
+      [pagy, records, snapshot[:cache_hit]]
+    end
   end
 
   # ─────────────────────────────────────────────────────────────────────────────
@@ -80,13 +84,15 @@ module TenderSearch
 
     return [] if query_text.blank?
 
-    cache_key = "mlt:#{exclude_id}:#{Digest::MD5.hexdigest(query_text.squish)}"
+    Telemetry::Tracer.in_span('tender_search.similar_tenders', { 'tender.id' => exclude_id, 'mlt.limit' => limit }) do
+      cache_key = "mlt:#{exclude_id}:#{Digest::MD5.hexdigest(query_text.squish)}"
 
-    ids = Rails.cache.fetch(cache_key, expires_in: MLT_TTL) do
-      compute_mlt_ranking(query_text.squish, exclude_id, limit: limit)
+      ids = Rails.cache.fetch(cache_key, expires_in: MLT_TTL) do
+        compute_mlt_ranking(query_text.squish, exclude_id, limit: limit)
+      end
+
+      fetch_tenders_in_order(ids)
     end
-
-    fetch_tenders_in_order(ids)
   rescue StandardError => e
     Rails.logger.error("TenderSearch.similar_tenders failed: #{e.message}")
     []
@@ -136,8 +142,12 @@ module TenderSearch
     cache_key = "search:#{Digest::MD5.hexdigest(query)}:#{limit}"
 
     cached = Rails.cache.read(cache_key)
-    return cached.merge(cache_hit: true) if cached.is_a?(Hash) && cached[:ids].present?
+    if cached.is_a?(Hash) && cached[:ids].present?
+      Telemetry::Metrics.record_cache_event(operation: 'search_snapshot', key: cache_key, hit: true)
+      return cached.merge(cache_hit: true)
+    end
 
+    Telemetry::Metrics.record_cache_event(operation: 'search_snapshot', key: cache_key, hit: false)
     snapshot = compute_ranking_snapshot(query, limit: limit)
     Rails.cache.write(cache_key, snapshot, expires_in: SNAPSHOT_TTL) if snapshot[:ids].present?
     snapshot.merge(cache_hit: false)
@@ -151,46 +161,48 @@ module TenderSearch
   # Active tenders (submission_close_date > now) get +10000 score boost.
   #
   def compute_ranking_snapshot(query, limit:)
-    body = {
-      query: {
-        function_score: {
-          query: {
-            bool: {
-              must: [
-                {
-                  multi_match: {
-                    query: query,
-                    fields: ['title^3', 'tender_id^2', 'description^2', 'organisation^1.5', 'page_link', 'state'],
-                    type: 'best_fields'
+    Telemetry::Tracer.in_span('tender_search.compute_ranking_snapshot', { 'search.query' => query, 'search.limit' => limit }) do
+      body = {
+        query: {
+          function_score: {
+            query: {
+              bool: {
+                must: [
+                  {
+                    multi_match: {
+                      query: query,
+                      fields: ['title^3', 'tender_id^2', 'description^2', 'organisation^1.5', 'page_link', 'state'],
+                      type: 'best_fields'
+                    }
                   }
-                }
-              ],
-              filter: [
-                { term: { is_visible: true } }
-              ]
-            }
-          },
-          functions: [
-            {
-              filter: { range: { submission_close_date: { gt: 'now' } } },
-              weight: 10000
-            }
-          ],
-          score_mode: 'sum',
-          boost_mode: 'sum'
-        }
-      },
-      size: limit,
-      _source: false,
-      fields: ['id']
-    }
+                ],
+                filter: [
+                  { term: { is_visible: true } }
+                ]
+              }
+            },
+            functions: [
+              {
+                filter: { range: { submission_close_date: { gt: 'now' } } },
+                weight: 10000
+              }
+            ],
+            score_mode: 'sum',
+            boost_mode: 'sum'
+          }
+        },
+        size: limit,
+        _source: false,
+        fields: ['id']
+      }
 
-    results = ElasticClient.search(index: ES_INDEX, body: body)
-    
-    ids = results['hits']['hits'].map { |hit| hit['fields']['id'].first }
-    total = results['hits']['total']['value']
+      results = ElasticClient.search(index: ES_INDEX, body: body)
+      
+      ids = results['hits']['hits'].map { |hit| hit['fields']['id'].first }
+      total = results['hits']['total']['value']
 
-    { ids: ids, total: total }
+      { ids: ids, total: total }
+    end
   rescue StandardError => e
     Rails.logger.error("TenderSearch.compute_ranking_snapshot failed: #{e.message}")
     { ids: [], total: 0 }
@@ -293,10 +305,12 @@ module TenderSearch
   def fetch_tenders_in_order(ids)
     return [] if ids.blank?
 
-    cache_key = "tenders:hydrated:#{Digest::MD5.hexdigest(ids.join(','))}"
+    Telemetry::Tracer.in_span('tender_search.fetch_tenders_in_order', { 'records.count' => ids.size }) do
+      cache_key = "tenders:hydrated:#{Digest::MD5.hexdigest(ids.join(','))}"
 
-    Rails.cache.fetch(cache_key, expires_in: HYDRATED_RECORDS_TTL) do
-      Tender.where(id: ids).index_by(&:id).values_at(*ids).compact
+      Rails.cache.fetch(cache_key, expires_in: HYDRATED_RECORDS_TTL) do
+        Tender.where(id: ids).index_by(&:id).values_at(*ids).compact
+      end
     end
   end
 end

@@ -2,7 +2,9 @@ class RebuildCategoriesCacheJob
   include Sidekiq::Job
 
   def perform(*args)
-    CategoryService.rebuild_categories_cache
+    Telemetry::Tracer.in_span('cron.rebuild_categories_cache') do
+      CategoryService.rebuild_categories_cache
+    end
   end
 
 end

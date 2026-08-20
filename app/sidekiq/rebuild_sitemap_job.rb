@@ -2,12 +2,13 @@ class RebuildSitemapJob
   include Sidekiq::Job
 
   def perform(*args)
-    # Do something
-    success = system 'bundle exec rake sitemap:refresh'
-    if success
-      p 'Sitemap created successfully'
-    else
-      p 'Sitemap could not be created'
+    Telemetry::Tracer.in_span('cron.rebuild_sitemap') do
+      success = system 'bundle exec rake sitemap:refresh'
+      if success
+        Rails.logger.info 'Sitemap created successfully'
+      else
+        Rails.logger.error 'Sitemap could not be created'
+      end
     end
     nil
   end

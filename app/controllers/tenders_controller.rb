@@ -36,6 +36,19 @@ class TendersController < ApplicationController
     response.headers['X-Cache'] = cache_hit ? 'HIT' : 'MISS'
     response.headers['X-Hits'] = @pagy.count.to_s
 
+    # Enrich active OpenTelemetry trace span with search metadata
+    if defined?(OpenTelemetry::Trace)
+      current_span = OpenTelemetry::Trace.current_span
+      if current_span&.recording?
+        current_span.add_attributes({
+          'search.query' => @query,
+          'search.cache_hit' => !!cache_hit,
+          'search.hits' => @pagy.count,
+          'search.page' => params[:page].to_i
+        })
+      end
+    end
+
     if @records.present?
       set_public_cache(browser_ttl: 15.minutes, cdn_ttl: 2.hours)
     else
