@@ -1,9 +1,14 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
+  helper_method :site_base_url
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from Pagy::OverflowError, with: :record_not_found
   # TODO: fix csrf for api
   # protect_from_forgery with: :null_session
+
+  def site_base_url
+    Rails.application.config.try(:site_url).presence || request.base_url || 'https://sigmatenders.com'
+  end
 
   private
 

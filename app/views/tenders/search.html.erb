@@ -1,8 +1,31 @@
 <%
+  is_keyword_page = params[:keyword].present?
+  canonical_url = if is_keyword_page
+    "#{site_base_url}/tenders/#{params[:keyword]}-tenders"
+  else
+    "#{site_base_url}/search?q=#{CGI.escape(@query_label.to_s)}"
+  end
+
+  meta_title = "#{@pagy.count} #{@query_label} in India - #{Date.today.year}".titleize
+  meta_desc = "Find the latest #{@query_label} tenders in India. Access tender documents, BOQs, and online bidding details on Sigma Tenders."
+  
   set_meta_tags(
-    title: "#{@pagy.count} #{@query} in India - #{Date.today.year}".titleize,
-    description: "#{@query} tenders in India.",
-    keywords: "#{@query}, tenders, #{@query} tenders in India, #{@query} tenders"
+    title: meta_title,
+    description: meta_desc,
+    keywords: "#{@query_label}, tenders, #{@query_label} tenders in India, #{@query_label} e-tenders",
+    canonical: canonical_url,
+    og: {
+      title: meta_title,
+      description: meta_desc,
+      url: canonical_url,
+      type: "website",
+      site_name: "Sigma Tenders"
+    },
+    twitter: {
+      card: "summary",
+      title: meta_title,
+      description: meta_desc
+    }
   )
 %>
 

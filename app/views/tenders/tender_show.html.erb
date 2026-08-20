@@ -1,12 +1,47 @@
-<% title "#{@tender_data.title&.titleize}" %>
-<% description "sigmatenders.com is a tender portal specifically designed for independent entrepreneurs/ Business houses/ industries and  non-government organizations (NGOs) to get Realtime notifications of potential opportunities for their enterprise" %>
-<% keywords "sigma tenders, ngo service tenders, #{@tender_data.title.capitalize}, #{@tender_data.organisation} organization"&.titleize %>
-<% set_meta_tags og: {
-  title: @tender_data.title&.titleize,
-  type: "website",
-  url: "#{Rails.application.config.site_url}/tender/#{@tender_data.slug_uuid}",
-} %>
-<% set_meta_tags image_src: url_for('/apple-touch-icon.png') %>
+<%
+  canonical_url = "#{site_base_url}/tender/#{@tender_data.slug_uuid}"
+  formatted_title = @tender_data.title.to_s.titleize
+  formatted_desc = "#{formatted_title.truncate(140)}. Organisation: #{@tender_data.organisation}. Location: #{@tender_data.state || 'India'}. Closing Date: #{@tender_data.submission_close_date&.strftime('%d-%b-%Y') || 'N/A'}."
+  
+  set_meta_tags(
+    title: formatted_title,
+    description: formatted_desc,
+    keywords: "sigma tenders, #{@tender_data.title.to_s.downcase}, #{@tender_data.organisation.to_s.downcase} tenders, #{@tender_data.state.to_s.downcase} tenders, india e-tenders",
+    canonical: canonical_url,
+    og: {
+      title: formatted_title,
+      type: "website",
+      url: canonical_url,
+      description: formatted_desc,
+      site_name: "Sigma Tenders"
+    },
+    twitter: {
+      card: "summary",
+      title: formatted_title,
+      description: formatted_desc
+    }
+  )
+%>
+
+<script type="application/ld+json">
+<%= raw({
+  "@context" => "https://schema.org",
+  "@type" => "GovernmentService",
+  "name" => formatted_title,
+  "description" => @tender_data.description.presence || @tender_data.title,
+  "serviceType" => "Tender",
+  "provider" => {
+    "@type" => "GovernmentOrganization",
+    "name" => @tender_data.organisation.presence || "Government Department"
+  },
+  "areaServed" => {
+    "@type" => "AdministrativeArea",
+    "name" => @tender_data.state.presence || "India"
+  },
+  "validThrough" => @tender_data.submission_close_date&.iso8601,
+  "url" => canonical_url
+}.compact.to_json) %>
+</script>
 
 <%= render 'layouts/navbar' %>
 
