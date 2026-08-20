@@ -14,10 +14,10 @@ module TenderSearch
   
   # Tiered cache limits for performance
   CACHE_TIERS = {
-    40 => 200,     # Pages 1-40
-    200 => 1000,   # Pages 41-200
-    500 => 2500,   # Pages 201-500
-    2000 => 5000   # Pages 501-2000
+    40  => 200,    # Pages 1-40:    fetch 200 ids
+    200 => 1000,   # Pages 41-200:  fetch 1000 ids
+    500 => 2500,   # Pages 201-500: fetch 2500 ids
+    2000 => 5000   # Pages 501-2000: fetch 5000 ids
   }.freeze
 
   AUTOCOMPLETE_TTL = 10.minutes  # 10 minutes for autocomplete cache
@@ -135,9 +135,12 @@ module TenderSearch
   def get_or_create_snapshot(query, limit:)
     cache_key = "search:#{Digest::MD5.hexdigest(query)}:#{limit}"
 
-    Rails.cache.fetch(cache_key, expires_in: SNAPSHOT_TTL) do
-      compute_ranking_snapshot(query, limit: limit)
-    end
+    cached = Rails.cache.read(cache_key)
+    return cached if cached.is_a?(Hash) && cached[:ids].present?
+
+    snapshot = compute_ranking_snapshot(query, limit: limit)
+    Rails.cache.write(cache_key, snapshot, expires_in: SNAPSHOT_TTL) if snapshot[:ids].present?
+    snapshot
   end
 
   # ─────────────────────────────────────────────────────────────────────────────

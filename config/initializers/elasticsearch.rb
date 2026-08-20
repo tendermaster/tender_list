@@ -10,8 +10,9 @@ ElasticClient = Elasticsearch::Client.new(
   user: ENV.fetch('ELASTICSEARCH_USER', nil),
   password: ENV.fetch('ELASTICSEARCH_PASSWORD', nil),
   transport_options: {
-    request: { timeout: 30 }
+    request: { timeout: 6, open_timeout: 3 }
   },
+  retry_on_failure: false,      # don't compound timeout by retrying
   log: Rails.env.development?
 )
 

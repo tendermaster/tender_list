@@ -28,11 +28,20 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 # Workers are forked web server processes. If using threads and workers together
 # the concurrency of the application would be max `threads` * `workers`.
 # Workers do not work on JRuby or Windows (both of which do not support
-# processes).
+# processes)
 #
 workers ENV.fetch("WEB_CONCURRENCY") { 2 }
 
 preload_app!
 
+# Recycle workers that grow beyond 700MB RSS to prevent unbounded memory bloat
+# from long-running bot traffic. The master process will fork a fresh worker.
+on_worker_boot do
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.establish_connection
+  end
+end
+
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
+

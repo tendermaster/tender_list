@@ -17,7 +17,6 @@ class TendersController < ApplicationController
   end
 
   def search
-    set_public_cache(browser_ttl: 15.minutes, cdn_ttl: 2.hours)
     raw_query = params[:q] || params[:keyword]&.tr('-', ' ')
     return redirect_to root_path if raw_query.blank?
 
@@ -33,6 +32,12 @@ class TendersController < ApplicationController
     @query = custom_query if custom_query.present?
 
     @pagy, @records = TendersController.elastic_pagy(@query, params[:page])
+
+    if @records.present?
+      set_public_cache(browser_ttl: 15.minutes, cdn_ttl: 2.hours)
+    else
+      set_public_cache(browser_ttl: 1.minute, cdn_ttl: 1.minute)
+    end
   end
 
   def search_query
@@ -47,13 +52,13 @@ class TendersController < ApplicationController
   end
 
   def tender_show
-    set_public_cache(browser_ttl: 30.minutes, cdn_ttl: 12.hours)
     @tender_data = Tender.find_by({ slug_uuid: params['slug_uuid'] })
     # p @tender_data
     if @tender_data.nil?
       # redirect_to(controller: :home, action: :not_found)
       redirect_to root_path
     else
+      set_public_cache(browser_ttl: 30.minutes, cdn_ttl: 12.hours)
       cache_version = @tender_data.try(:updated_at_auto)&.to_i || @tender_data.updated_at.to_i
       @tender_json = Rails.cache.fetch("tender:#{@tender_data.id}:full_data:#{cache_version}", expires_in: 12.hours) do
         JSON.parse(@tender_data.full_data) rescue {}
