@@ -44,39 +44,45 @@
       </div>
     <% end %>
 
-    <% if @bid_result['bid_data'].present? %>
+    <% if status.present? || @bid_result['organisation'].present? || @bid_result['bid_data'].present? %>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm bg-white p-4 rounded-md border border-gray-200 mb-6">
         <% if status.present? %>
           <div>
             <span class="font-medium text-gray-500">Tender Status: </span>
-            <span class="font-semibold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded text-xs"><%= status %></span>
+            <span class="font-semibold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded text-xs capitalize"><%= status %></span>
           </div>
         <% end %>
-        <% if @bid_result['bid_data']['BidAdditionalReq'].present? %>
+        <% if @bid_result['organisation'].present? %>
+          <div>
+            <span class="font-medium text-gray-500">Authority / Source: </span>
+            <span class="text-gray-900"><%= @bid_result['organisation'] %></span>
+          </div>
+        <% end %>
+        <% if @bid_result.dig('bid_data', 'BidAdditionalReq').present? %>
           <div>
             <span class="font-medium text-gray-500">Additional Information: </span>
             <span class="text-gray-900"><%= @bid_result['bid_data']['BidAdditionalReq'] %></span>
           </div>
         <% end %>
-        <% if @bid_result['bid_data']['Name'].present? && !@bid_result['bid_data']['Name'].include?('***') %>
+        <% if @bid_result.dig('bid_data', 'Name').present? && !@bid_result['bid_data']['Name'].include?('***') %>
           <div>
             <span class="font-medium text-gray-500">Buyer Name: </span>
             <span class="text-gray-900"><%= @bid_result['bid_data']['Name'] %></span>
           </div>
         <% end %>
-        <% if @bid_result['bid_data']['Ministry'].present? %>
+        <% if @bid_result.dig('bid_data', 'Ministry').present? %>
           <div>
             <span class="font-medium text-gray-500">Ministry: </span>
             <span class="text-gray-900"><%= @bid_result['bid_data']['Ministry'] %></span>
           </div>
         <% end %>
-        <% if @bid_result['bid_data']['Department'].present? %>
+        <% if @bid_result.dig('bid_data', 'Department').present? %>
           <div>
             <span class="font-medium text-gray-500">Department: </span>
             <span class="text-gray-900"><%= @bid_result['bid_data']['Department'] %></span>
           </div>
         <% end %>
-        <% if @bid_result['bid_data']['Organisation'].present? %>
+        <% if @bid_result.dig('bid_data', 'Organisation').present? %>
           <div>
             <span class="font-medium text-gray-500">Organisation: </span>
             <span class="text-gray-900"><%= @bid_result['bid_data']['Organisation'] %></span>
