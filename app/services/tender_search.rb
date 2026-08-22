@@ -173,7 +173,7 @@ module TenderSearch
                   {
                     multi_match: {
                       query: query,
-                      fields: ['title^3', 'tender_id^2', 'description^2', 'organisation^1.5', 'page_link', 'state'],
+                      fields: ['title^3', 'description^2', 'organisation^1.5', 'tender_id.keyword^2', 'page_link', 'state'],
                       type: 'best_fields'
                     }
                   }
