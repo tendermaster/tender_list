@@ -35,6 +35,16 @@ class TendersController < ApplicationController
 
     @pagy, @records, cache_hit = TendersController.elastic_pagy(@query, params[:page])
 
+    if @records.blank?
+      @fallback_tenders = Rails.cache.fetch('search:fallback_active_tenders', expires_in: 30.minutes) do
+        Tender.where("submission_close_date > ?", Time.current)
+              .where(is_visible: true)
+              .order(id: :desc)
+              .limit(5)
+              .to_a
+      end
+    end
+
     response.headers['X-Cache'] = cache_hit ? 'HIT' : 'MISS'
     response.headers['X-Hits'] = @pagy.count.to_s
 
