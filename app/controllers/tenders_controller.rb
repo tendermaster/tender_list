@@ -3,6 +3,8 @@ class TendersController < ApplicationController
   before_action :authenticate_user!, only: [:bookmark_tender, :bookmarks]
   include ApplicationHelper
 
+  rescue_from TenderSearch::SearchUnavailableError, with: :handle_search_unavailable
+
   def home
     # root
     @todays_tender = Rails.cache.fetch('home/todays_tender')
@@ -436,14 +438,23 @@ class TendersController < ApplicationController
 
   private
 
-  #
-  # # Use callbacks to share common setup or constraints between actions.
-  # def set_tender
-  #   @tender = Tender.find(params[:id])
-  # end
-  #
-  # # Only allow a list of trusted parameters through.
-  # def tender_params
-  #   params.require(:tender).permit(:tender_id, :title, :description, :organisation, :state, :tender_value, :submission_open_date, :submission_close_date, :attachments_id, :search_data)
-  # end
+  def handle_search_unavailable(exception)
+    response.headers['Retry-After'] = '30'
+    response.headers['X-Search-Status'] = 'DEGRADED_503'
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+
+    # Enrich active OpenTelemetry trace span with 503 error status
+    if defined?(OpenTelemetry::Trace)
+      current_span = OpenTelemetry::Trace.current_span
+      if current_span&.recording?
+        current_span.status = OpenTelemetry::Trace::Status.error("Search backend unavailable: #{exception.message}")
+        current_span.add_attributes({ 'search.status' => '503_service_unavailable' })
+      end
+    end
+
+    respond_to do |format|
+      format.html { render 'home/page_503', status: :service_unavailable }
+      format.json { render json: { error: 'Search service temporarily unavailable', retry_after: 30 }, status: :service_unavailable }
+    end
+  end
 end

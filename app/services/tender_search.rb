@@ -5,6 +5,8 @@ require 'digest/md5'
 module TenderSearch
   extend self
 
+  class SearchUnavailableError < StandardError; end
+
   SNAPSHOT_TTL = 30.minutes   # 30 minutes for search ranking snapshot
   HYDRATED_RECORDS_TTL = 15.minutes
   COUNT_TTL = 1.hour
@@ -205,7 +207,7 @@ module TenderSearch
     end
   rescue StandardError => e
     Rails.logger.error("TenderSearch.compute_ranking_snapshot failed: #{e.message}")
-    { ids: [], total: 0 }
+    raise SearchUnavailableError, "Search service temporarily unavailable: #{e.message}"
   end
 
   # MLT using Elasticsearch more_like_this
