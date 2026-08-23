@@ -147,6 +147,9 @@ module TenderSearch
     if cached.is_a?(Hash) && cached[:ids].present?
       Telemetry::Metrics.record_cache_event(operation: 'search_snapshot', key: cache_key, hit: true)
       return cached.merge(cache_hit: true)
+    elsif cached.present?
+      # Self-healing: Purge any invalid/empty cache entry created by mistake
+      Rails.cache.delete(cache_key)
     end
 
     Telemetry::Metrics.record_cache_event(operation: 'search_snapshot', key: cache_key, hit: false)
@@ -164,20 +167,34 @@ module TenderSearch
   #
   def compute_ranking_snapshot(query, limit:)
     Telemetry::Tracer.in_span('tender_search.compute_ranking_snapshot', { 'search.query' => query, 'search.limit' => limit }) do
+      # Sanitize empty parentheses from query strings
+      clean_query = query.to_s.gsub(/\(\s*\)/, '').gsub(/-\(\s*\)/, '').squish
+
+      # Determine if query uses Lucene boolean syntax (pipes, negations, or grouping)
+      search_clause = if clean_query.match?(/[|()]|(?:\s-\w+)/)
+        {
+          simple_query_string: {
+            query: clean_query,
+            fields: ['title^3', 'organisation^1.5', 'state', 'tender_id.keyword^2'],
+            default_operator: 'or'
+          }
+        }
+      else
+        {
+          multi_match: {
+            query: clean_query,
+            fields: ['title^3', 'description^2', 'organisation^1.5', 'tender_id.keyword^2', 'page_link', 'state'],
+            type: 'best_fields'
+          }
+        }
+      end
+
       body = {
         query: {
           function_score: {
             query: {
               bool: {
-                must: [
-                  {
-                    multi_match: {
-                      query: query,
-                      fields: ['title^3', 'description^2', 'organisation^1.5', 'tender_id.keyword^2', 'page_link', 'state'],
-                      type: 'best_fields'
-                    }
-                  }
-                ],
+                must: [search_clause],
                 filter: [
                   { term: { is_visible: true } }
                 ]
@@ -212,6 +229,7 @@ module TenderSearch
 
   # MLT using Elasticsearch more_like_this
   def compute_mlt_ranking(query_text, exclude_id, limit:)
+    clean_text = query_text.to_s.squish.slice(0, 400)
     body = {
       query: {
         function_score: {
@@ -220,10 +238,10 @@ module TenderSearch
               must: [
                 {
                   more_like_this: {
-                    fields: ['title', 'description', 'short_blog'],
-                    like: query_text,
+                    fields: ['title^3', 'short_blog', 'organisation^1.5'],
+                    like: clean_text,
                     min_term_freq: 1,
-                    max_query_terms: 25
+                    max_query_terms: 12
                   }
                 }
               ],

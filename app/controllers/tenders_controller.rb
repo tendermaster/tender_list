@@ -3,7 +3,17 @@ class TendersController < ApplicationController
   before_action :authenticate_user!, only: [:bookmark_tender, :bookmarks]
   include ApplicationHelper
 
-  rescue_from TenderSearch::SearchUnavailableError, with: :handle_search_unavailable
+  rescue_from TenderSearch::SearchUnavailableError,
+              Elastic::Transport::Transport::Errors::ServiceUnavailable,
+              Elastic::Transport::Transport::Errors::BadRequest,
+              Elastic::Transport::Transport::Error,
+              Faraday::ConnectionFailed,
+              Faraday::TimeoutError,
+              Errno::ECONNREFUSED,
+              Net::ReadTimeout,
+              Net::OpenTimeout,
+              SocketError,
+              with: :handle_search_unavailable
 
   def home
     # root
@@ -30,8 +40,11 @@ class TendersController < ApplicationController
 
     SearchQueryLoggerJob.perform_later(@query) if current_user.present?
 
-    custom_query = CustomQuery.custom_query?(@query)
-    @query = custom_query if custom_query.present?
+    saved_query = Query.find_by_keyword_or_name(@query)
+    if saved_query.present?
+      @query = saved_query.to_search_query
+      @query_label = saved_query.name
+    end
 
     @pagy, @records, cache_hit = TendersController.elastic_pagy(@query, params[:page])
 
@@ -101,8 +114,7 @@ class TendersController < ApplicationController
       end if @tender_data.has_bid_result?
 
       @similar_tenders = Rails.cache.fetch("tender:#{@tender_data.id}:similar_records:#{cache_version}", expires_in: 12.hours) do
-        query_text = is_tender_id?(@tender_data.title) ? @tender_data.description : @tender_data.title
-        TendersController.similar_tenders(query_text, @tender_data.id)
+        TenderSearch.similar_tenders(@tender_data, @tender_data.id, limit: 10)
       end
     end
   end
@@ -436,14 +448,6 @@ class TendersController < ApplicationController
   #
   def self.elastic_pagy(query, page_number)
     TenderSearch.weighted_search(query, page_number, per_page: 5)
-  end
-
-  def self.similar_tenders(query, exclude_id)
-    return [] if query.nil?
-
-    # Backward compatible signature: create a temp tender object from the query string
-    source_tender = Tender.new(title: query, description: query)
-    TenderSearch.similar_tenders(source_tender, exclude_id, limit: 10)
   end
 
   private

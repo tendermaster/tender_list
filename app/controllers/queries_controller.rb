@@ -11,7 +11,7 @@ class QueriesController < ApplicationController
   def query_result
     @query_id = params['query_id'].to_i
     @saved_query = current_user.query.find(@query_id)
-    @query_string = QueriesController.get_query_string(@saved_query)
+    @query_string = @saved_query.to_search_query
     pp @query_string
 
     @min_value = params['min_value'].to_i
@@ -26,13 +26,6 @@ class QueriesController < ApplicationController
     @query = @query_string
     @query_label = @saved_query.name.presence || @query_string
     render 'tenders/search'
-  end
-
-  def self.get_query_string(saved_query)
-    include_query = saved_query.include_keyword.split(',').map { |e| "(#{e.squish})" }.join(' | ')
-    exclude_query = saved_query.exclude_keyword.split(',').map { |e| "-(#{e.squish.gsub(' ', '\\ ')})" }.join(' ')
-    query_string = "#{include_query} #{exclude_query}"
-    query_string
   end
 
   # GET /queries/1 or /queries/1.json

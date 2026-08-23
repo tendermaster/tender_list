@@ -22,7 +22,7 @@ class MailerJob
           (updates == 'WEEKLY' && days_from_last_sent >= 7) ||
           (updates == 'MONTHLY' && days_from_last_sent >= 30)
           # ensure results are present
-          query_string = QueriesController.get_query_string(query)
+          query_string = query.to_search_query
 
           # Count new tenders since last_sent using BM25
           tender_count = TenderSearch.count_matching(query_string, since: query.last_sent)

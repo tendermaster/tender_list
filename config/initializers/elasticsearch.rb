@@ -12,7 +12,7 @@ ElasticClient = Elasticsearch::Client.new(
   opentelemetry: ENV['OTEL_ENABLED'] == 'true',
   opentelemetry_tracer_provider: (OpenTelemetry.tracer_provider if defined?(OpenTelemetry)),
   transport_options: {
-    request: { timeout: 6, open_timeout: 3 }
+    request: { timeout: 15, open_timeout: 5 }
   },
   retry_on_failure: false,      # don't compound timeout by retrying
   log: Rails.env.development?
