@@ -21,26 +21,100 @@
       description: formatted_desc
     }
   )
+  is_expired = @tender_data.submission_close_date.present? && @tender_data.submission_close_date < Time.current
+
+  demand_schema = {
+    "@type" => "Demand",
+    "@id" => "#{canonical_url}#demand",
+    "name" => formatted_title,
+    "description" => @tender_data.description.presence || formatted_desc,
+    "businessFunction" => "http://purl.org/goodrelations/v1#Buy",
+    "identifier" => @tender_data.tender_reference_number.presence || @tender_data.tender_id,
+    "seller" => {
+      "@type" => "GovernmentOrganization",
+      "name" => @tender_data.organisation.presence || "Government Department"
+    },
+    "areaServed" => {
+      "@type" => "AdministrativeArea",
+      "name" => @tender_data.state.presence || "India"
+    },
+    "validFrom" => @tender_data.submission_open_date&.iso8601,
+    "validThrough" => @tender_data.submission_close_date&.iso8601,
+    "availability" => is_expired ? "https://schema.org/Discontinued" : "https://schema.org/InStock",
+    "url" => canonical_url
+  }
+
+  if @tender_data.tender_value.present? && @tender_data.tender_value.to_i > 0
+    demand_schema["priceSpecification"] = {
+      "@type" => "PriceSpecification",
+      "price" => @tender_data.tender_value.to_s,
+      "priceCurrency" => "INR",
+      "validThrough" => @tender_data.submission_close_date&.iso8601
+    }.compact
+  end
+
+  government_service_schema = {
+    "@type" => "GovernmentService",
+    "@id" => "#{canonical_url}#service",
+    "name" => formatted_title,
+    "description" => @tender_data.description.presence || formatted_desc,
+    "serviceType" => "Public Tender & E-Procurement",
+    "provider" => {
+      "@type" => "GovernmentOrganization",
+      "name" => @tender_data.organisation.presence || "Government Department"
+    },
+    "serviceOperator" => {
+      "@type" => "GovernmentOrganization",
+      "name" => @tender_data.organisation.presence || "Government Department"
+    },
+    "areaServed" => {
+      "@type" => "AdministrativeArea",
+      "name" => @tender_data.state.presence || "India"
+    },
+    "validThrough" => @tender_data.submission_close_date&.iso8601,
+    "url" => canonical_url
+  }
+
+  state_name = @tender_data.state.presence || "National"
+  state_url = @tender_data.state.present? ? "#{site_base_url}/tenders-by-state/#{@tender_data.state.parameterize}" : "#{site_base_url}/search?q=india"
+
+  breadcrumb_schema = {
+    "@type" => "BreadcrumbList",
+    "@id" => "#{canonical_url}#breadcrumb",
+    "itemListElement" => [
+      {
+        "@type" => "ListItem",
+        "position" => 1,
+        "name" => "Home",
+        "item" => site_base_url
+      },
+      {
+        "@type" => "ListItem",
+        "position" => 2,
+        "name" => "#{state_name} Tenders",
+        "item" => state_url
+      },
+      {
+        "@type" => "ListItem",
+        "position" => 3,
+        "name" => formatted_title.truncate(45),
+        "item" => canonical_url
+      }
+    ]
+  }
+
+  json_ld_graph = {
+    "@context" => "https://schema.org",
+    "@graph" => [
+      demand_schema.compact,
+      government_service_schema.compact,
+      breadcrumb_schema
+    ]
+  }
 %>
 
 <script type="application/ld+json">
-<%= raw({
-  "@context" => "https://schema.org",
-  "@type" => "GovernmentService",
-  "name" => formatted_title,
-  "description" => @tender_data.description.presence || @tender_data.title,
-  "serviceType" => "Tender",
-  "provider" => {
-    "@type" => "GovernmentOrganization",
-    "name" => @tender_data.organisation.presence || "Government Department"
-  },
-  "areaServed" => {
-    "@type" => "AdministrativeArea",
-    "name" => @tender_data.state.presence || "India"
-  },
-  "validThrough" => @tender_data.submission_close_date&.iso8601,
-  "url" => canonical_url
-}.compact.to_json) %>
+<%= raw(json_ld_graph.to_json) %>
 </script>
 
 <%= render 'layouts/navbar' %>
