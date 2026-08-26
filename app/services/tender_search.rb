@@ -238,9 +238,10 @@ module TenderSearch
               must: [
                 {
                   more_like_this: {
-                    fields: ['title^3', 'short_blog', 'organisation^1.5'],
+                    fields: ['title', 'description', 'organisation'],
                     like: clean_text,
                     min_term_freq: 1,
+                    min_doc_freq: 1,
                     max_query_terms: 12
                   }
                 }
