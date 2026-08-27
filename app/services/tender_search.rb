@@ -7,7 +7,7 @@ module TenderSearch
 
   class SearchUnavailableError < StandardError; end
 
-  SNAPSHOT_TTL = 30.minutes   # 30 minutes for search ranking snapshot
+  SNAPSHOT_TTL = 3.hours      # 3 hours for search ranking snapshot (absorbs bot traffic)
   HYDRATED_RECORDS_TTL = 15.minutes
   COUNT_TTL = 1.hour
   MLT_TTL = 12.hours          # 12 hours for similar tenders
@@ -233,7 +233,7 @@ module TenderSearch
             },
             functions: [
               {
-                filter: { range: { submission_close_date: { gt: 'now' } } },
+                filter: { range: { submission_close_date: { gt: 'now/m' } } },
                 weight: 10000
               }
             ],
@@ -289,7 +289,7 @@ module TenderSearch
           },
           functions: [
             {
-              filter: { range: { submission_close_date: { gt: 'now' } } },
+              filter: { range: { submission_close_date: { gt: 'now/m' } } },
               weight: 10000
             }
           ],
@@ -337,7 +337,7 @@ module TenderSearch
           },
           functions: [
             {
-              filter: { range: { submission_close_date: { gt: 'now' } } },
+              filter: { range: { submission_close_date: { gt: 'now/m' } } },
               weight: 10000
             }
           ],
