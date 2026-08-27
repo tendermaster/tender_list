@@ -22,12 +22,14 @@ module Telemetry
         raise e
       end
 
-      # Record an exception to the current active span
+      # Record an exception to the current active span and Sentry
       def record_exception(exception)
+        Sentry.capture_exception(exception) if defined?(Sentry)
+
         return unless enabled? && defined?(OpenTelemetry)
 
         span = OpenTelemetry::Trace.current_span
-        return unless span.recording?
+        return unless span&.recording?
 
         span.record_exception(exception)
         span.status = OpenTelemetry::Trace::Status.error(exception.message)

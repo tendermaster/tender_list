@@ -40,6 +40,7 @@ module TenderSearch
       end
     end
   rescue StandardError => e
+    Telemetry::Tracer.record_exception(e)
     Rails.logger.error("TenderSearch.autocomplete failed: #{e.message}")
     []
   end
@@ -89,13 +90,20 @@ module TenderSearch
     Telemetry::Tracer.in_span('tender_search.similar_tenders', { 'tender.id' => exclude_id, 'mlt.limit' => limit }) do
       cache_key = "mlt:#{exclude_id}:#{Digest::MD5.hexdigest(query_text.squish)}"
 
-      ids = Rails.cache.fetch(cache_key, expires_in: MLT_TTL) do
-        compute_mlt_ranking(query_text.squish, exclude_id, limit: limit)
+      cached_ids = Rails.cache.read(cache_key)
+      if cached_ids.is_a?(Array) && cached_ids.present?
+        return fetch_tenders_in_order(cached_ids)
+      end
+
+      ids = compute_mlt_ranking(query_text.squish, exclude_id, limit: limit)
+      if ids.present?
+        Rails.cache.write(cache_key, ids, expires_in: MLT_TTL)
       end
 
       fetch_tenders_in_order(ids)
     end
   rescue StandardError => e
+    Telemetry::Tracer.record_exception(e)
     Rails.logger.error("TenderSearch.similar_tenders failed: #{e.message}")
     []
   end
@@ -130,6 +138,7 @@ module TenderSearch
       result['count'].to_i
     end
   rescue StandardError => e
+    Telemetry::Tracer.record_exception(e)
     Rails.logger.error("TenderSearch.count_matching failed: #{e.message}")
     0
   end
@@ -141,20 +150,42 @@ module TenderSearch
   # ─────────────────────────────────────────────────────────────────────────────
 
   def get_or_create_snapshot(query, limit:)
-    cache_key = "search:#{Digest::MD5.hexdigest(query)}:#{limit}"
+    query_hash = Digest::MD5.hexdigest(query)
+    target_cache_key = "search:#{query_hash}:#{limit}"
 
-    cached = Rails.cache.read(cache_key)
+    # 1. Exact tier match
+    cached = Rails.cache.read(target_cache_key)
     if cached.is_a?(Hash) && cached[:ids].present?
-      Telemetry::Metrics.record_cache_event(operation: 'search_snapshot', key: cache_key, hit: true)
+      Telemetry::Metrics.record_cache_event(operation: 'search_snapshot', key: target_cache_key, hit: true)
       return cached.merge(cache_hit: true)
     elsif cached.present?
-      # Self-healing: Purge any invalid/empty cache entry created by mistake
-      Rails.cache.delete(cache_key)
+      Rails.cache.delete(target_cache_key)
     end
 
-    Telemetry::Metrics.record_cache_event(operation: 'search_snapshot', key: cache_key, hit: false)
+    # 2. Superset cache reuse: Check if a higher tier is already cached
+    higher_tiers = CACHE_TIERS.values.select { |tier_limit| tier_limit > limit }.sort
+    higher_tiers.each do |tier_limit|
+      superset_key = "search:#{query_hash}:#{tier_limit}"
+      superset_cached = Rails.cache.read(superset_key)
+      if superset_cached.is_a?(Hash) && superset_cached[:ids].present? && superset_cached[:ids].size >= limit
+        Telemetry::Metrics.record_cache_event(operation: 'search_snapshot_superset', key: superset_key, hit: true)
+        sliced_snapshot = {
+          ids: superset_cached[:ids].first(limit),
+          total: superset_cached[:total],
+          cache_hit: true
+        }
+        Rails.cache.write(target_cache_key, sliced_snapshot.except(:cache_hit), expires_in: SNAPSHOT_TTL)
+        return sliced_snapshot
+      end
+    end
+
+    # 3. Compute from Elasticsearch
+    Telemetry::Metrics.record_cache_event(operation: 'search_snapshot', key: target_cache_key, hit: false)
     snapshot = compute_ranking_snapshot(query, limit: limit)
-    Rails.cache.write(cache_key, snapshot, expires_in: SNAPSHOT_TTL) if snapshot[:ids].present?
+
+    # Deep pagination queries (limit >= 2500) get 2-hour TTL to absorb crawler spikes
+    ttl = limit >= 2500 ? 2.hours : SNAPSHOT_TTL
+    Rails.cache.write(target_cache_key, snapshot, expires_in: ttl) if snapshot[:ids].present?
     snapshot.merge(cache_hit: false)
   end
 
@@ -211,6 +242,7 @@ module TenderSearch
           }
         },
         size: limit,
+        track_total_hits: 10000,
         _source: false,
         fields: ['id']
       }
@@ -223,6 +255,7 @@ module TenderSearch
       { ids: ids, total: total }
     end
   rescue StandardError => e
+    Telemetry::Tracer.record_exception(e)
     Rails.logger.error("TenderSearch.compute_ranking_snapshot failed: #{e.message}")
     raise SearchUnavailableError, "Search service temporarily unavailable: #{e.message}"
   end
@@ -272,6 +305,7 @@ module TenderSearch
     results = ElasticClient.search(index: ES_INDEX, body: body)
     results['hits']['hits'].map { |hit| hit['fields']['id'].first }
   rescue StandardError => e
+    Telemetry::Tracer.record_exception(e)
     Rails.logger.error("TenderSearch.compute_mlt_ranking failed: #{e.message}")
     []
   end
@@ -291,7 +325,8 @@ module TenderSearch
                   multi_match: {
                     query: query,
                     type: 'phrase_prefix',
-                    fields: ['title^3', 'tender_id^2', 'organisation^1.5', 'description', 'state']
+                    fields: ['title^3', 'tender_id^2', 'organisation^1.5', 'state'],
+                    max_expansions: 10
                   }
                 }
               ],
