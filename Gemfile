@@ -127,6 +127,8 @@ gem 'stackprof'
 
 # Elasticsearch (supporting ES 9.x)
 gem 'elasticsearch', '~> 9.0'
+# Keep-alive connections to Elasticsearch (Faraday's default reconnects per request)
+gem 'faraday-net_http_persistent', '~> 2.3'
 
 # Markdown blog (content/blog/*.md), GitHub-flavoured
 gem 'commonmarker', '~> 2.0'
