@@ -66,7 +66,9 @@ SitemapGenerator::Sitemap.create(create_index: true, max_sitemap_links: 35_000) 
   # add default value
   #
   # add all tender show path
-  Tender.where('is_visible = true').find_each do |tender|
+  # Only load the columns used here: SELECT * dragged the full 21GB table
+  # (full_data JSON included) through memory every night.
+  Tender.where('is_visible = true').select(:id, :slug_uuid, :updated_at_auto).find_each do |tender|
     add tender_show_path(slug_uuid: tender.slug_uuid), lastmod: tender.updated_at_auto # , changefreq: 'weekly'
     # decreasing impression
     # add tender_show_path(slug_uuid: tender.slug_uuid), changefreq: 'weekly'
