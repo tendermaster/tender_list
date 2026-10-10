@@ -25,7 +25,9 @@ Sidekiq::Options[:cron_poll_interval] = 10
 # initialize cron jobs. Each cron names its timezone explicitly: without it
 # sidekiq-cron uses the container's local TZ (Asia/Kolkata), which shifted every
 # job by 5.5h when the times were written as UTC.
-unless ENV['SECRET_KEY_BASE_DUMMY']
+# SKIP_SIDEKIQ_CRON: staging shares production Redis and must not rewrite the
+# cron schedule.
+unless ENV['SECRET_KEY_BASE_DUMMY'] || ENV['SKIP_SIDEKIQ_CRON']
   begin
     Sidekiq::Cron::Job.create(
       name:  'RebuildSitemapJob - daily 1am IST',

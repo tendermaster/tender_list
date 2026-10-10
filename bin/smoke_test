@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# Smoke test key pages. Compare two deployments, or check one.
+#
+#   bin/smoke_test http://127.0.0.1:3000 http://127.0.0.1:3001   # prod vs staging
+#   bin/smoke_test https://sigmatenders.com                       # one target
+#
+# Fails on: status mismatch (or unexpected status in single mode), a Rails
+# error page, a changed <title>, or a page whose size differs by >40%.
+set -uo pipefail
+
+A="${1:?usage: bin/smoke_test BASE_URL [COMPARE_URL]}"
+B="${2:-}"
+HOST="${SMOKE_HOST:-sigmatenders.com}"
+TENDER="${SMOKE_TENDER:-1nHWDUyLyGTUZkYxbnwXvN}"
+POST="$(ls "$(dirname "$0")/../content/blog/"*.md 2>/dev/null | head -1 | xargs -r basename -s .md)"
+
+# path|expected status (single mode)
+PATHS=(
+  "/|200" "/search?q=road+construction|200" "/search/autocomplete?q=road|200"
+  "/tenders/Civil-construction-tenders|200" "/tender/$TENDER|200" "/tender/doesnotexist000|302"
+  "/trending-tenders|200" "/categories|200" "/categories/tender-by-city|200"
+  "/categories/tender-by-state|200" "/categories/tender-by-sector|200"
+  "/categories/tender-by-organisation|200" "/categories/tender-by-products|200"
+  "/get-relevant-tenders|200" "/blog|200" "/blog/$POST|200" "/blog/no-such-post|404"
+  "/blog/about|301" "/blog/how-to-file-tenders|301" "/how-to-file-tenders|200"
+  "/about|200" "/pricing|200" "/faq|200" "/get-callback|200" "/services|200"
+  "/privacy-policy|200" "/terms-and-conditions|200" "/disclaimer|200"
+  "/cancellation-and-refund-policy|200" "/partner-with-us|200"
+  "/users/sign_in|200" "/users/sign_up|200" "/admin/login|200" "/admin|302" "/sidekiq|302"
+)
+
+SEP=$'\x1f'  # field separator: titles contain "|"
+fetch() { # base path -> status SEP bytes SEP title SEP error
+  local out status body title err
+  body="$(curl -sS -m 60 -H "Host: $HOST" -H 'X-Forwarded-Proto: https' -o - -w '\n__STATUS__%{http_code}' "$1$2" 2>/dev/null)"
+  status="${body##*__STATUS__}"; body="${body%__STATUS__*}"
+  title="$(printf '%s' "$body" | grep -o -m1 '<title>[^<]*</title>' | sed -E 's#</?title>##g')"
+  err=""; printf '%s' "$body" | grep -qE "We're sorry, but something went wrong|Action Controller: Exception caught" && err="ERRORPAGE"
+  printf '%s%s%s%s%s%s%s' "$status" "$SEP" "${#body}" "$SEP" "$title" "$SEP" "$err"
+}
+
+fail=0
+printf '%-44s %s\n' "PATH" "RESULT"
+for entry in "${PATHS[@]}"; do
+  path="${entry%|*}"; want="${entry##*|}"
+  IFS="$SEP" read -r sa ba ta ea <<<"$(fetch "$A" "$path")"
+  problems=()
+  if [[ -z "$B" ]]; then
+    [[ "$sa" == "$want" ]] || problems+=("status $sa, want $want")
+    [[ -z "$ea" ]] || problems+=("rails error page")
+  else
+    IFS="$SEP" read -r sb bb tb eb <<<"$(fetch "$B" "$path")"
+    [[ "$sa" == "$sb" ]] || problems+=("status $sa vs $sb")
+    [[ -z "$eb" ]] || problems+=("rails error page on B")
+    [[ "$ta" == "$tb" ]] || problems+=("title differs")
+    if (( ba > 2000 && bb > 0 )); then
+      diff=$(( (ba > bb ? ba - bb : bb - ba) * 100 / ba ))
+      (( diff <= 40 )) || problems+=("size ${ba} vs ${bb} (${diff}%)")
+    fi
+  fi
+  if ((${#problems[@]})); then
+    fail=1; printf '%-44s FAIL: %s\n' "$path" "$(IFS='; '; echo "${problems[*]}")"
+  else
+    printf '%-44s ok (%s)\n' "$path" "$sa"
+  fi
+done
+exit $fail
