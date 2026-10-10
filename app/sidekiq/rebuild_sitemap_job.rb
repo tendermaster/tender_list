@@ -3,7 +3,9 @@ class RebuildSitemapJob
 
   def perform(*args)
     Telemetry::Tracer.in_span('cron.rebuild_sitemap') do
-      success = system 'bundle exec rake sitemap:refresh'
+      # Google and Bing retired their sitemap ping endpoints (the ping 404s);
+      # search engines pick the sitemap up from robots.txt / Search Console.
+      success = system 'bundle exec rake sitemap:refresh:no_ping'
       if success
         Rails.logger.info 'Sitemap created successfully'
       else
