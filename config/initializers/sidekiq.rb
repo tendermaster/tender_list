@@ -22,31 +22,32 @@ end
 
 Sidekiq::Options[:cron_poll_interval] = 10
 
-# initialize cron jobs (times in UTC, server runs UTC)
-# IST = UTC+5:30  =>  1am IST = 19:30 UTC (prev day),  3am IST = 21:30 UTC
+# initialize cron jobs. Each cron names its timezone explicitly: without it
+# sidekiq-cron uses the container's local TZ (Asia/Kolkata), which shifted every
+# job by 5.5h when the times were written as UTC.
 unless ENV['SECRET_KEY_BASE_DUMMY']
   begin
     Sidekiq::Cron::Job.create(
       name:  'RebuildSitemapJob - daily 1am IST',
-      cron:  '30 19 * * *',   # 19:30 UTC = 01:00 IST
+      cron:  '0 1 * * * Asia/Kolkata',
       class: 'RebuildSitemapJob'
     )
 
     Sidekiq::Cron::Job.create(
       name:  'RebuildCategoriesCacheJob - daily 3am IST',
-      cron:  '30 21 * * *',   # 21:30 UTC = 03:00 IST
+      cron:  '0 3 * * * Asia/Kolkata',
       class: 'RebuildCategoriesCacheJob'
     )
 
     Sidekiq::Cron::Job.create(
       name:  'ExpungeEsDeletesJob - weekly Sun 2am IST',
-      cron:  '30 20 * * 6',   # Sat 20:30 UTC = Sun 02:00 IST
+      cron:  '0 2 * * 0 Asia/Kolkata',
       class: 'ExpungeEsDeletesJob'
     )
 
     Sidekiq::Cron::Job.create(
       name:  'InfraHealthCheckJob - daily 6am IST',
-      cron:  '30 0 * * *',    # 00:30 UTC = 06:00 IST
+      cron:  '0 6 * * * Asia/Kolkata',
       class: 'InfraHealthCheckJob'
     )
 
