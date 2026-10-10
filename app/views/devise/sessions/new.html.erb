@@ -5,7 +5,7 @@
   <%= render 'layouts/flash' %>
 
   <div class="mt-8">
-    <%= button_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, method: :post, form_class: 'text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2', class: '' %>
+    <%= button_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, method: :post, form_class: 'text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-hidden focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2', class: '' %>
   </div>
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -22,7 +22,7 @@
     <div class="">
       <% if devise_mapping.rememberable? %>
         <div class="field flex items-center">
-          <%= f.check_box :remember_me, { checked: true, class: 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 mr-4' } %>
+          <%= f.check_box :remember_me, { checked: true, class: 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 mr-4' } %>
           <%= f.label :remember_me %>
         </div>
       <% end %>

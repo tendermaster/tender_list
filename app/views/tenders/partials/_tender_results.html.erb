@@ -1,5 +1,5 @@
 <div class="mt-8">
-  <div class="rounded-lg border border-emerald-200 bg-emerald-50/40 p-6 shadow-sm">
+  <div class="rounded-lg border border-emerald-200 bg-emerald-50/40 p-6 shadow-xs">
     <div class="flex items-center gap-2 mb-4">
       <span class="inline-flex rounded-full bg-emerald-100 p-1 text-emerald-700">
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -49,7 +49,7 @@
         <% if status.present? %>
           <div>
             <span class="font-medium text-gray-500">Tender Status: </span>
-            <span class="font-semibold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded text-xs capitalize"><%= status %></span>
+            <span class="font-semibold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-sm text-xs capitalize"><%= status %></span>
           </div>
         <% end %>
         <% if @bid_result['organisation'].present? %>

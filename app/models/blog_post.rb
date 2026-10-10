@@ -110,9 +110,12 @@ class BlogPost
   private
 
   def plain_text
-    @plain_text ||= ActionController::Base.helpers.strip_tags(
-      Commonmarker.to_html(BlogShortcodes.extract(body).markdown.gsub(BlogShortcodes::TOKEN_PATTERN, ''), options: MARKDOWN_OPTIONS)
-    ).squish
+    @plain_text ||= begin
+      html = Commonmarker.to_html(BlogShortcodes.extract(body).markdown.gsub(BlogShortcodes::TOKEN_PATTERN, ''), options: MARKDOWN_OPTIONS)
+      # Join text nodes with spaces. strip_tags (HTML5 sanitizer since Rails
+      # 7.1) runs adjacent elements together and undercounts words.
+      Nokogiri::HTML5.fragment(html).xpath('.//text()').map(&:text).join(' ').squish
+    end
   end
 
   def to_date(value)

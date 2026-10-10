@@ -36,7 +36,7 @@
     </nav>
 
     <header class="mb-8">
-      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight"><%= post.title %></h1>
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight sm:leading-10"><%= post.title %></h1>
       <p class="mt-4 text-sm text-gray-500">
         <time datetime="<%= post.pub_date.iso8601 %>"><%= post.pub_date.strftime('%-d %B %Y') %></time>
         <% if post.updated_date %> · Updated <time datetime="<%= post.updated_date.iso8601 %>"><%= post.updated_date.strftime('%-d %B %Y') %></time><% end %>

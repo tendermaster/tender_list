@@ -198,7 +198,7 @@
           <div class="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
             <% portals.each do |portal| %>
               <div class="p-5 sm:flex sm:gap-6">
-                <p class="font-semibold text-gray-900 sm:w-56 sm:flex-shrink-0 mb-1 sm:mb-0"><%= portal[:name] %></p>
+                <p class="font-semibold text-gray-900 sm:w-56 sm:shrink-0 mb-1 sm:mb-0"><%= portal[:name] %></p>
                 <p class="text-sm text-gray-600 leading-relaxed"><%= portal[:text] %></p>
               </div>
             <% end %>
@@ -212,7 +212,7 @@
             <% steps.each_with_index do |step, i| %>
               <li id="step-<%= step[:id] %>" class="bg-white rounded-lg border border-gray-200 overflow-hidden">
                 <div class="flex">
-                  <div class="flex-shrink-0 w-14 sm:w-16 bg-orange-500 flex items-start justify-center pt-5">
+                  <div class="shrink-0 w-14 sm:w-16 bg-orange-500 flex items-start justify-center pt-5">
                     <span class="text-xl font-bold text-white"><%= i + 1 %></span>
                   </div>
                   <div class="flex-1 p-5 sm:p-6">
@@ -233,7 +233,7 @@
           <ul class="bg-white rounded-lg border border-gray-200 p-5 grid sm:grid-cols-2 gap-x-6 gap-y-3">
             <% documents.each do |doc| %>
               <li class="flex items-start text-sm text-gray-700">
-                <svg class="w-5 h-5 text-green-600 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <svg class="w-5 h-5 text-green-600 mr-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
                 <span><%= doc %></span>
               </li>
             <% end %>
@@ -246,7 +246,7 @@
           <ul class="bg-white rounded-lg border border-gray-200 p-5 space-y-3">
             <% mistakes.each do |mistake| %>
               <li class="flex items-start text-sm text-gray-700">
-                <svg class="w-5 h-5 text-red-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                <svg class="w-5 h-5 text-red-500 mr-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
                 <span><%= mistake %></span>
               </li>
             <% end %>
@@ -261,7 +261,7 @@
               <details class="group p-5">
                 <summary class="flex justify-between items-center cursor-pointer font-semibold text-gray-900">
                   <%= faq[:name] %>
-                  <svg class="w-5 h-5 text-gray-500 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                  <svg class="w-5 h-5 text-gray-500 shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </summary>
                 <p class="mt-3 text-gray-700 leading-relaxed"><%= faq[:ans] %></p>
               </details>

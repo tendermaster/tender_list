@@ -85,7 +85,7 @@ end
 # gem 'sorbet-rails'
 # gem 'mongoid'
 
-gem 'tailwindcss-rails', '~> 2.0'
+gem 'tailwindcss-rails', '~> 4.6'
 
 gem 'dotiw', '~> 5.3'
 
