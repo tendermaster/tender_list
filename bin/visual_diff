@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# Screenshot key pages on two local deployments and compare them pixel by pixel.
+#
+#   bin/visual_diff https://sigmatenders.com http://127.0.0.1:3001 [outdir]
+#
+# A is the reference, B the candidate. Each must serve its own /assets (staging
+# sets RAILS_SERVE_STATIC_FILES since there's no Caddy in front of it).
+#
+# Runs Playwright's Chromium in a throwaway container (third-party requests are
+# blocked so ads/analytics don't add noise), then compares with Pillow in a
+# second container. Prints the share of differing pixels per page/viewport and
+# writes A, B and diff PNGs to outdir.
+#   docker build -t visual-diff-py:1 - <<< $'FROM python:3.12-slim\nRUN pip install --no-cache-dir pillow==11.3.0'
+set -uo pipefail
+
+BASE_A="${1:?usage: bin/visual_diff BASE_URL_A BASE_URL_B [OUTDIR]}"
+BASE_B="${2:?usage: bin/visual_diff BASE_URL_A BASE_URL_B [OUTDIR]}"
+OUT="${3:-$(mktemp -d)}"
+PLAYWRIGHT_IMAGE="mcr.microsoft.com/playwright/python:v1.62.0-noble"
+TENDER="${SMOKE_TENDER:-1nHWDUyLyGTUZkYxbnwXvN}"
+POST="$(ls "$(dirname "$0")/../content/blog/"*.md 2>/dev/null | head -1 | xargs -r basename -s .md)"
+PAGES="home=/;category=/tenders/Civil-construction-tenders;tender=/tender/$TENDER;search=/search?q=road+construction;categories=/categories;trending=/trending-tenders;blog=/blog;post=/blog/$POST;guide=/how-to-file-tenders;pricing=/pricing;about=/about;faq=/faq;signin=/users/sign_in;signup=/users/sign_up"
+mkdir -p "$OUT"
+
+docker run --rm --network host --ipc=host -v "$OUT:/out" \
+  -e BASE_A="$BASE_A" -e BASE_B="$BASE_B" -e PAGES="$PAGES" \
+  "$PLAYWRIGHT_IMAGE" bash -c 'pip install -q playwright==1.62.0 >/dev/null 2>&1; python - <<"PY"
+import os
+from urllib.parse import urlsplit
+from playwright.sync_api import sync_playwright
+
+pages = [p.split("=", 1) for p in os.environ["PAGES"].split(";")]
+
+def only_host(own):
+    # Block third-party requests (ads, analytics) so they add no noise.
+    def handler(route):
+        if urlsplit(route.request.url).netloc == own:
+            route.continue_()
+        else:
+            route.abort()
+    return handler
+viewports = {"desktop": (1366, 900), "mobile": (390, 844)}
+with sync_playwright() as pw:
+    browser = pw.chromium.launch()
+    for label, base in (("A", os.environ["BASE_A"]), ("B", os.environ["BASE_B"])):
+        own = urlsplit(base).netloc
+        for vname, (w, h) in viewports.items():
+            ctx = browser.new_context(viewport={"width": w, "height": h}, device_scale_factor=1)
+            ctx.route("**/*", only_host(own))
+            page = ctx.new_page()
+            for name, path in pages:
+                try:
+                    page.goto(f"{base}{path}", wait_until="load", timeout=60000)
+                    page.wait_for_timeout(500)
+                    page.screenshot(path=f"/out/{name}-{vname}-{label}.png", full_page=True)
+                except Exception as e:
+                    print(f"FAILED {label} {vname} {path}: {e}")
+            ctx.close()
+    browser.close()
+PY'
+
+docker run --rm -i -v "$OUT:/out" visual-diff-py:1 python - <<'PY'
+import glob, os
+from PIL import Image, ImageChops
+for a_path in sorted(glob.glob('/out/*-A.png')):
+    b_path = a_path[:-6] + '-B.png'
+    name = os.path.basename(a_path)[:-6]
+    if not os.path.exists(b_path):
+        print(f'{name:28s} missing B'); continue
+    a, b = Image.open(a_path).convert('RGB'), Image.open(b_path).convert('RGB')
+    height_note = '' if a.size == b.size else f'  (height {a.size[1]} vs {b.size[1]})'
+    w, h = max(a.width, b.width), max(a.height, b.height)
+    pad = lambda im: (lambda c: (c.paste(im), c)[1])(Image.new('RGB', (w, h), 'white'))
+    a, b = pad(a), pad(b)
+    diff = ImageChops.difference(a, b).convert('L').point(lambda v: 255 if v > 24 else 0)
+    changed = sum(diff.histogram()[255:]) / (w * h) * 100
+    faded = Image.blend(a, Image.new('RGB', a.size, 'white'), 0.6)
+    faded.paste(Image.new('RGB', a.size, (220, 30, 30)), mask=diff)
+    faded.save(f'/out/{name}-diff.png')
+    print(f'{name:28s} {changed:6.2f}% pixels differ{height_note}')
+PY
+echo "screenshots: $OUT"
