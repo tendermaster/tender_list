@@ -2,12 +2,10 @@
   "name": "tender_list",
   "dependencies": {
     "concurrently": "^9.2.0",
-    "flowbite": "^1.6.2",
+    "flowbite": "4.0.2",
     "jquery": "^3.6.3",
     "stimulus": "^3.2.2",
-    "sweetalert2": "^11.11.0",
-    "tailwindcss": "^3.3.1",
-    "textillate": "^0.4.1"
+    "sweetalert2": "^11.11.0"
   },
   "description": "",
   "version": "1.0.0",
@@ -17,9 +15,6 @@
     "test": "test"
   },
   "scripts": {
-    "tw:watch": "npx tailwindcss -i app/assets/stylesheets/application.tailwind.css -o app/assets/builds/tailwind.css -c config/tailwind.config.js --minify -w",
-    "tw:watch2": "tailwindcss -i app/assets/stylesheets/application.tailwind.css -o app/assets/builds/tailwind.css -c config/tailwind.config.js --minify -w",
-    "tw:watch3": "npx tailwindcss -i app/assets/stylesheets/application.tailwind.css -o app/assets/builds/tailwind.css -c config/tailwind.config.js --minify -w",
     "dev": "bin/rails server -b 0.0.0.0 -p 3000 -e development",
     "start": "cross-env TENDER_LIST_DATABASE_PASSWORD=changeme  bin/rails server -b 0.0.0.0 -p 3000 -e production",
     "sidekiq": "bundle exec sidekiq"
@@ -28,9 +23,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@tailwindcss/aspect-ratio": "^0.4.2",
-    "@tailwindcss/forms": "^0.5.3",
-    "@tailwindcss/typography": "^0.5.9",
     "cross-env": "^7.0.3"
   }
 }

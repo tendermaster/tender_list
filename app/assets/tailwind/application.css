@@ -1,17 +1,165 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap')
-layer(base);
 @import 'tailwindcss';
 
 @plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/aspect-ratio';
 @plugin '@tailwindcss/typography';
 @plugin 'flowbite/plugin';
 
+
+/* ── Design tokens ─────────────────────────────────────────────────────── */
 @theme {
+  /* Self-hosted Inter (app/assets/stylesheets/inter-font.css) */
   --font-sans:
-    Raleway, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Inter var', Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
+  /* Site palette (sRGB): the exact colours the site has always rendered
+     (Flowbite's palette for orange/blue/green/red/…, Tailwind's for the rest).
+     v4's default OKLCH palette is brighter and lowers button-text contrast. */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-gray-950: #030712;
+
+  --color-orange-50: #fff8f1;
+  --color-orange-100: #feecdc;
+  --color-orange-200: #fcd9bd;
+  --color-orange-300: #fdba8c;
+  --color-orange-400: #ff8a4c;
+  --color-orange-500: #ff5a1f;
+  --color-orange-600: #d03801;
+  --color-orange-700: #b43403;
+  --color-orange-800: #8a2c0d;
+  --color-orange-900: #771d1d;
+  --color-orange-950: #431407;
+
+  --color-blue-50: #ebf5ff;
+  --color-blue-100: #e1effe;
+  --color-blue-200: #c3ddfd;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3f83f8;
+  --color-blue-600: #1c64f2;
+  --color-blue-700: #1a56db;
+  --color-blue-800: #1e429f;
+  --color-blue-900: #233876;
+  --color-blue-950: #172554;
+
+  --color-green-50: #f3faf7;
+  --color-green-100: #def7ec;
+  --color-green-200: #bcf0da;
+  --color-green-300: #84e1bc;
+  --color-green-400: #31c48d;
+  --color-green-500: #0e9f6e;
+  --color-green-600: #057a55;
+  --color-green-700: #046c4e;
+  --color-green-800: #03543f;
+  --color-green-900: #014737;
+  --color-green-950: #052e16;
+
+  --color-amber-50: #fffbeb;
+  --color-amber-100: #fef3c7;
+  --color-amber-200: #fde68a;
+  --color-amber-300: #fcd34d;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+  --color-amber-700: #b45309;
+  --color-amber-800: #92400e;
+  --color-amber-900: #78350f;
+  --color-amber-950: #451a03;
+
+  --color-red-50: #fdf2f2;
+  --color-red-100: #fde8e8;
+  --color-red-200: #fbd5d5;
+  --color-red-300: #fca5a5;
+  --color-red-400: #f98080;
+  --color-red-500: #f05252;
+  --color-red-600: #dc2626;
+  --color-red-700: #c81e1e;
+  --color-red-800: #9b1c1c;
+  --color-red-900: #7f1d1d;
+  --color-red-950: #450a0a;
+
+  --color-emerald-50: #ecfdf5;
+  --color-emerald-100: #d1fae5;
+  --color-emerald-200: #a7f3d0;
+  --color-emerald-300: #6ee7b7;
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #10b981;
+  --color-emerald-600: #059669;
+  --color-emerald-700: #047857;
+  --color-emerald-800: #065f46;
+  --color-emerald-900: #064e3b;
+  --color-emerald-950: #022c22;
+
+  --color-purple-50: #f6f5ff;
+  --color-purple-100: #f3e8ff;
+  --color-purple-200: #e9d5ff;
+  --color-purple-300: #d8b4fe;
+  --color-purple-400: #c084fc;
+  --color-purple-500: #9061f9;
+  --color-purple-600: #7e3af2;
+  --color-purple-700: #7e22ce;
+  --color-purple-800: #6b21a8;
+  --color-purple-900: #581c87;
+  --color-purple-950: #3b0764;
+
+  --color-yellow-50: #fdfdea;
+  --color-yellow-100: #fef9c3;
+  --color-yellow-200: #fce96a;
+  --color-yellow-300: #fde047;
+  --color-yellow-400: #facc15;
+  --color-yellow-500: #eab308;
+  --color-yellow-600: #ca8a04;
+  --color-yellow-700: #a16207;
+  --color-yellow-800: #723b13;
+  --color-yellow-900: #713f12;
+  --color-yellow-950: #422006;
+
+  --color-indigo-50: #eef2ff;
+  --color-indigo-100: #e0e7ff;
+  --color-indigo-200: #c7d2fe;
+  --color-indigo-300: #a5b4fc;
+  --color-indigo-400: #818cf8;
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #5850ec;
+  --color-indigo-700: #4338ca;
+  --color-indigo-800: #3730a3;
+  --color-indigo-900: #312e81;
+  --color-indigo-950: #1e1b4b;
+
+  --color-sky-50: #f0f9ff;
+  --color-sky-100: #e0f2fe;
+  --color-sky-200: #bae6fd;
+  --color-sky-300: #7dd3fc;
+  --color-sky-400: #38bdf8;
+  --color-sky-500: #0ea5e9;
+  --color-sky-600: #0284c7;
+  --color-sky-700: #0369a1;
+  --color-sky-800: #075985;
+  --color-sky-900: #0c4a6e;
+  --color-sky-950: #082f49;
+
+  --color-pink-50: #fdf2f8;
+  --color-pink-100: #fce7f3;
+  --color-pink-200: #fbcfe8;
+  --color-pink-300: #f9a8d4;
+  --color-pink-400: #f472b6;
+  --color-pink-500: #e74694;
+  --color-pink-600: #db2777;
+  --color-pink-700: #be185d;
+  --color-pink-800: #9d174d;
+  --color-pink-900: #831843;
+  --color-pink-950: #500724;
+
+  /* primary-* is Tailwind's classic orange (a lighter scale than orange-*) */
   --color-primary-50: #fff7ed;
   --color-primary-100: #ffedd5;
   --color-primary-200: #fed7aa;
@@ -24,24 +172,19 @@ layer(base);
   --color-primary-900: #7c2d12;
   --color-primary-950: #431407;
 
+  --color-navy-900: #0c1222;
   --color-footer-bg: #425b76;
   --color-footer-link: #cbd6e2;
   --color-footer-hover: #7fd1de;
   --color-logo-peach: #ead299;
 
-  /* Keep Tailwind v3's default ring colour (v4 uses currentColor) */
+  /* Focus rings without an explicit colour (focus:ring-2/4) use blue */
   --default-ring-color: var(--color-blue-500);
 }
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
+/* ── Base ──────────────────────────────────────────────────────────────── */
 @layer base {
+  /* Borders without a colour utility default to gray-200 */
   *,
   ::after,
   ::before,
@@ -50,20 +193,70 @@ layer(base);
     border-color: var(--color-gray-200, currentcolor);
   }
 
-  /* More v3 defaults that v4 changed: placeholder colour and pointer cursor
-     on buttons. */
   input::placeholder,
   textarea::placeholder {
     color: var(--color-gray-400);
   }
 
   button:not(:disabled),
-  [role="button"]:not(:disabled) {
+  [role='button']:not(:disabled) {
     cursor: pointer;
+  }
+
+  body {
+    @apply bg-white text-gray-900 antialiased dark:bg-gray-900;
+  }
+
+  footer {
+    bottom: 0;
+  }
+
+  footer a {
+    @apply hover:text-footer-hover;
   }
 }
 
+/* ── Utilities (usable with variants: md:btn-primary, hover:link, …) ───── */
+@utility container {
+  /* Extends Tailwind's container: narrower on md+, padded */
+  @apply mx-auto w-full px-6 pt-12 md:w-3/4;
+}
+
+@utility container-home {
+  @apply mx-auto max-w-7xl px-6 pb-12 sm:px-12;
+}
+
+@utility link {
+  @apply font-medium text-orange-600 hover:underline hover:underline-offset-2;
+}
+
+@utility btn-primary {
+  @apply inline-block cursor-pointer rounded-lg bg-orange-600 px-5 py-3 font-medium text-white;
+}
+
+@utility btn-secondary {
+  @apply inline-block rounded-lg bg-gray-100 px-5 py-3 font-medium;
+}
+
+@utility btn-sm {
+  @apply rounded-lg bg-orange-600 px-5 py-2 text-sm font-medium text-white hover:bg-orange-700 focus:ring-4 focus:ring-orange-300 focus:outline-hidden dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800;
+}
+
+@utility glass {
+  background: --alpha(var(--color-white) / 10%);
+  backdrop-filter: blur(12px);
+  border: 1px solid --alpha(var(--color-white) / 20%);
+}
+
+@utility force-word-break {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* ── Components ────────────────────────────────────────────────────────── */
 @layer components {
+  /* Pagination (pagy) */
   .pagy-nav,
   .pagy-nav-js {
     @apply flex space-x-2;
@@ -77,196 +270,89 @@ layer(base);
   .pagy-nav-js .page.active,
   .pagy-nav-js .page.prev.disabled,
   .pagy-nav-js .page.next.disabled {
-    @apply block rounded-md px-3 py-2 text-sm font-semibold border border-gray-300 bg-white leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white;
-    /*&:hover{*/
-    /*  @apply bg-gray-300;*/
-    /*}*/
-    /*&:active{*/
-    /*  @apply bg-gray-400 text-white;*/
-    /*}*/
+    @apply block rounded-md border border-gray-300 bg-white px-3 py-2 text-sm leading-tight font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white;
   }
 
   .pagy-nav .page.prev.disabled,
   .pagy-nav .page.next.disabled,
   .pagy-nav-js .page.prev.disabled,
-  .pagy-nav-js .page.next.disabled {
-    @apply text-gray-400 cursor-default;
-    /*&:hover {*/
-    /*  @apply text-gray-400 bg-gray-200;*/
-    /*}*/
-    /*&:active {*/
-    /*  @apply text-gray-400 bg-gray-200;*/
-    /*}*/
+  .pagy-nav-js .page.next.disabled,
+  .pagy-combo-nav-js .page.prev.disabled,
+  .pagy-combo-nav-js .page.next.disabled {
+    @apply cursor-default text-gray-400;
   }
 
   .pagy-nav .page.active,
   .pagy-nav-js .page.active {
     @apply cursor-default bg-orange-50 text-orange-600 hover:bg-orange-100 hover:text-orange-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white;
-    /*&:hover {*/
-    /*  @apply text-white bg-gray-400;*/
-    /*}*/
-    /*&:active {*/
-    /*  @apply bg-gray-400 text-white;*/
-    /*}*/
   }
 
   .pagy-combo-nav-js {
-    @apply flex max-w-max rounded-full px-3 py-1 text-sm text-gray-500 font-semibold bg-gray-200 shadow-md;
+    @apply flex max-w-max rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-500 shadow-md;
   }
 
   .pagy-combo-nav-js .pagy-combo-input {
-    @apply bg-white px-2 rounded-xs;
+    @apply rounded-xs bg-white px-2;
   }
 
-  .pagy-combo-nav-js .page.prev,
-  .pagy-combo-nav-js .page.next {
-    /*&:hover {*/
-    /*  @apply text-gray-800;*/
-    /*}*/
-    /*&:active {*/
-    /*  @apply text-gray-800;*/
-    /*}*/
+  /* Devise sign-in/sign-up forms */
+  .new_user {
+    /* pt-6: space-y doesn't count the hidden CSRF input that comes first */
+    @apply w-full space-y-6 px-14 pt-6 sm:max-w-lg;
   }
 
-  .pagy-combo-nav-js .page.prev.disabled,
-  .pagy-combo-nav-js .page.next.disabled {
-    @apply text-gray-400 cursor-default;
+  .new_user > label {
+    @apply mb-2 block text-sm font-medium text-gray-900 dark:text-white;
   }
-}
 
-/*
-
-@layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-orange-200;
+  .new_user > div[class^='field'] input {
+    @apply block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500;
   }
-}
 
-*/
+  .new_user > div[class^='field'] > input[type='checkbox'] {
+    @apply w-fit;
+  }
 
+  .new_user > .actions > input[type='submit'] {
+    @apply btn-primary;
+  }
 
-.link {
-  @apply font-medium text-orange-600 hover:underline hover:underline-offset-2
-}
+  /* Generic form fields */
+  .form-label {
+    @apply mb-2 block text-sm font-medium text-gray-900 dark:text-white;
+  }
 
-.btn-sm {
-  @apply text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-hidden dark:focus:ring-orange-800
-}
+  .form-text-input {
+    @apply block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500;
+  }
 
-.btn-primary {
-  @apply rounded-lg py-3 px-5 bg-orange-600 text-white inline-block font-medium cursor-pointer
-}
+  #relevant_tenders_form form label {
+    @apply mb-2 block text-sm font-medium text-gray-900 dark:text-white;
+  }
 
-.btn-secondary {
-  @apply rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium
-}
+  #relevant_tenders_form form input {
+    @apply block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-orange-500 focus:ring-orange-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-orange-500 dark:focus:ring-orange-500;
+  }
 
-footer a {
-  @apply hover:text-footer-hover
-}
+  /* Home: "why us" list */
+  #why_us li {
+    @apply items-center justify-center lg:grid lg:grid-cols-12;
+  }
 
-/* signup */
-.new_user>label {
-  @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white
-}
+  #why_us li .icon {
+    @apply mx-auto mb-6 w-20 rounded-full bg-orange-600 p-3 text-white lg:col-span-2;
+  }
 
-.new_user>div[class^="field"] input {
-  @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-}
+  #why_us li p {
+    @apply lg:col-span-10;
+  }
 
-.new_user>.actions>input[type=submit] {
-  /* v4 can't @apply custom classes; same rules as .btn-primary */
-  @apply rounded-lg py-3 px-5 bg-orange-600 text-white inline-block font-medium cursor-pointer
-}
+  .pricing-card {
+    @apply col-span-1 mt-4 flex w-full justify-center;
+  }
 
-.new_user {
-  /* pt-6: v4's space-y no longer adds a top margin after the hidden CSRF input */
-  @apply w-full px-14 sm:max-w-lg space-y-6 pt-6
-}
-
-.new_user>div[class^="field"]>input[type=checkbox] {
-  @apply w-fit
-}
-
-footer {
-  /*position: absolute;*/
-  bottom: 0;
-}
-
-.container {
-  @apply md:w-3/4 w-full px-6 mx-auto pt-12
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  @apply antialiased text-gray-900 bg-white dark:bg-gray-900;
-}
-
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.bg-navy-900 {
-  background-color: #0c1222;
-}
-
-.container-home {
-  @apply px-6 sm:px-12 mx-auto max-w-7xl pb-12
-}
-
-#why_us li {
-  @apply lg:grid lg:grid-cols-12 justify-center items-center
-}
-
-#why_us li .icon {
-  @apply w-20 mx-auto text-white bg-orange-600 rounded-full p-3 mb-6 lg:col-span-2
-}
-
-#why_us li p {
-  @apply lg:col-span-10
-}
-
-#relevant_tenders_form form label {
-  @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white
-}
-
-#relevant_tenders_form form input {
-  @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500
-}
-
-.force-word-break {
-  /* These are technically the same, but use both */
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-
-  -ms-word-break: break-all;
-  /* This is the dangerous one in WebKit, as it breaks things wherever */
-  word-break: break-all;
-  /* Instead use this non-standard one: */
-  word-break: break-word;
-
-  /* Adds a hyphen where the word breaks, if supported (No Blink) */
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-
-.pricing-card {
-  @apply mt-4 w-full col-span-1 flex justify-center
-}
-
-.form-label {
-  @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white
-}
-
-.form-text-input {
-  @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-}
-
-.grecaptcha-badge {
-  visibility: hidden !important;
+  /* Hide the floating reCAPTCHA badge */
+  .grecaptcha-badge {
+    visibility: hidden !important;
+  }
 }

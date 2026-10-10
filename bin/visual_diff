@@ -31,10 +31,13 @@ from playwright.sync_api import sync_playwright
 
 pages = [p.split("=", 1) for p in os.environ["PAGES"].split(";")]
 
+# Web fonts are allowed so pages render with their real typefaces.
+FONT_HOSTS = {"fonts.googleapis.com", "fonts.gstatic.com"}
+
 def only_host(own):
-    # Block third-party requests (ads, analytics) so they add no noise.
+    # Block other third-party requests (ads, analytics) so they add no noise.
     def handler(route):
-        if urlsplit(route.request.url).netloc == own:
+        if urlsplit(route.request.url).netloc in FONT_HOSTS | {own}:
             route.continue_()
         else:
             route.abort()

@@ -6,15 +6,12 @@ WORKDIR /app
 ARG UID=1004
 ARG GID=1004
 RUN uname -a
-RUN apt-get update && apt-get install -y apt-transport-https
+
+# bun installs the JS deps Tailwind's build needs (flowbite plugin); no Node/yarn.
+COPY --from=oven/bun:1.4.2-debian /usr/local/bin/bun /usr/local/bin/bun
 
 RUN bash -c "set -o pipefail && apt-get update \
-  && apt-get install -y --no-install-recommends build-essential curl git libpq-dev tzdata iputils-ping gnupg \
-  && curl -sSL https://deb.nodesource.com/setup_24.x | bash - \
-  && mkdir -p /etc/apt/keyrings \
-  && curl -sSL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /etc/apt/keyrings/yarn.gpg \
-  && echo 'deb [signed-by=/etc/apt/keyrings/yarn.gpg] https://dl.yarnpkg.com/debian/ stable main' | tee /etc/apt/sources.list.d/yarn.list \
-  && apt-get update && apt-get install -y --no-install-recommends nodejs yarn \
+  && apt-get install -y --no-install-recommends build-essential curl git libpq-dev tzdata iputils-ping \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
   && apt-get clean \
   && groupadd -g 1004 ruby \
@@ -41,12 +38,12 @@ COPY --chown=ruby:ruby Gemfile Gemfile.lock ./
 RUN --mount=type=cache,id=bnd-cache,target=/usr/local/bundle/cache,uid=1004,gid=1004 \
     bundle install --jobs 4 --retry 3
 
-# 3. Copy package.json and yarn.lock
-COPY --chown=ruby:ruby package.json yarn.lock ./
+# 3. Copy package.json and bun.lock
+COPY --chown=ruby:ruby package.json bun.lock ./
 
-# 4. Install node modules with BuildKit cache mount
-RUN --mount=type=cache,id=yarn-cache,target=/home/ruby/.cache/yarn,uid=1004,gid=1004 \
-    yarn install
+# 4. Install JS packages with BuildKit cache mount
+RUN --mount=type=cache,id=bun-cache,target=/home/ruby/.bun/install/cache,uid=1004,gid=1004 \
+    bun install --frozen-lockfile
 
 # 5. Copy application code
 COPY --chown=ruby:ruby . ./
@@ -54,7 +51,6 @@ COPY --chown=ruby:ruby . ./
 # 6. Precompile assets with BuildKit persistent cache mount for incremental builds
 RUN --mount=type=cache,id=assets-cache,target=/app/tmp/cache,uid=1004,gid=1004 \
     --mount=type=cache,id=bnd-cache,target=/usr/local/bundle/cache,uid=1004,gid=1004 \
-    --mount=type=cache,id=yarn-cache,target=/home/ruby/.cache/yarn,uid=1004,gid=1004 \
     SECRET_KEY_BASE=dummy SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=production bundle exec rails assets:precompile
 
 # 7. DEFINE THE DEFAULT COMMAND
