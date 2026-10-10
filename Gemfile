@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.9'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.0.4'
+gem 'rails', '~> 7.1.0'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -13,7 +13,7 @@ gem 'sprockets-rails'
 gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 6.4'
 
 # nio4r >= 2.7.0 required for GCC 14 compatibility (Debian Trixie)
 gem 'nio4r', '>= 2.7.0'
@@ -77,16 +77,12 @@ group :test do
   gem 'webdrivers'
 end
 
-group :production do
-  gem 'mini_racer'
-end
 
 # gem "ruby-lsp", "~> 0.3.7", :group => :development
 # gem 'sorbet', :group => :development
 # gem 'sorbet-runtime'
 # gem 'tapioca', require: false, :group => :development
 
-gem 'dalli'
 # gem 'sorbet-rails'
 # gem 'mongoid'
 
@@ -106,7 +102,6 @@ gem 'meta-tags'
 gem 'sidekiq', '~> 7.2'
 gem 'connection_pool', '~> 2.5' # 3.0.x has API incompatibility with Sidekiq scheduler
 
-gem 'redis-rails'
 gem "redis", "~> 5.4"
 
 gem 'devise', '~> 4.9'
@@ -123,7 +118,6 @@ gem 'activeadmin'
 
 gem 'httparty'
 gem 'sidekiq-cron'
-gem 'solid_cache'
 
 # Sentry tracking
 gem 'sentry-rails'
