@@ -20,7 +20,9 @@ Sidekiq.configure_client do |config|
   config.redis = { url: redis_url }
 end
 
-Sidekiq::Options[:cron_poll_interval] = 10
+Sidekiq::Cron.configure do |config|
+  config.cron_poll_interval = 10
+end
 
 # initialize cron jobs. Each cron names its timezone explicitly: without it
 # sidekiq-cron uses the container's local TZ (Asia/Kolkata), which shifted every
