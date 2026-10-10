@@ -1,6 +1,9 @@
 class TendersController < ApplicationController
   before_action :set_tender, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, only: [:bookmark_tender, :bookmarks]
+  # These forms render on session-less public pages, so there is no session to hold
+  # a CSRF token; both are anonymous lead forms guarded by reCAPTCHA instead.
+  skip_forgery_protection only: [:get_relevant_tenders_post, :checklist_download]
   include ApplicationHelper
 
   rescue_from TenderSearch::SearchUnavailableError,
@@ -113,7 +116,7 @@ class TendersController < ApplicationController
         @tender_data.parsed_bid_result
       end if @tender_data.has_bid_result?
 
-      @similar_tenders = Rails.cache.fetch("tender:#{@tender_data.id}:similar_records:#{cache_version}", expires_in: 12.hours) do
+      @similar_tenders = Rails.cache.fetch("tender:#{@tender_data.id}:similar_records:#{cache_version}", expires_in: 1.day) do
         TenderSearch.similar_tenders(@tender_data, @tender_data.id, limit: 10)
       end
     end

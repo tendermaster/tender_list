@@ -12,7 +12,7 @@ redis_url = if redis_password.present?
 
 Rails.application.config.session_store :redis_store,
   servers: [redis_url],
-  expire_after: 60.days,
+  expire_after: 14.days,
   key: '_sigmatenders_session',
   threadsafe: true,
   secure: Rails.env.production?

@@ -10,7 +10,7 @@ module TenderSearch
   SNAPSHOT_TTL = 3.hours      # 3 hours for search ranking snapshot (absorbs bot traffic)
   HYDRATED_RECORDS_TTL = 15.minutes
   COUNT_TTL = 1.hour
-  MLT_TTL = 12.hours          # 12 hours for similar tenders
+  MLT_TTL = 3.days            # similar tenders rarely change; MLT queries are expensive
   MAX_PAGE = 2000             # Support deep pagination (ES handles this well)
   ES_INDEX = 'tenders'
   
@@ -275,6 +275,9 @@ module TenderSearch
                     like: clean_text,
                     min_term_freq: 1,
                     min_doc_freq: 2,
+                    # ignore very common terms ("supply", "work", ...): they match
+                    # millions of docs and made this query take seconds
+                    max_doc_freq: 50_000,
                     max_query_terms: 10
                   }
                 }
@@ -299,7 +302,9 @@ module TenderSearch
       },
       size: limit,
       _source: false,
-      fields: ['id']
+      fields: ['id'],
+      track_total_hits: false,
+      timeout: '1s' # partial results are fine for a "similar tenders" widget
     }
 
     results = ElasticClient.search(index: ES_INDEX, body: body)

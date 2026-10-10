@@ -22,6 +22,9 @@ class ApplicationController < ActionController::Base
 
   def set_public_cache(browser_ttl: 15.minutes, cdn_ttl: 2.hours)
     if current_user.nil?
+      # Don't create a session (and Set-Cookie) for cookie-less visitors, mostly
+      # crawlers: it filled Redis with millions of sessions and stops CDN caching.
+      request.session_options[:skip] = true unless cookies.key?(Rails.application.config.session_options[:key])
       expires_in browser_ttl, public: true, 's-maxage': cdn_ttl
     else
       response.headers['Cache-Control'] = 'no-cache, no-store, private, max-age=0'
