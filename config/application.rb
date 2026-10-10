@@ -37,8 +37,10 @@ module TenderList
     # config.hosts << "ubuntu-vm.test"
     # config.hosts << "ngotenders.in"
     config.hosts << "sigmatenders.com"
+    config.hosts << "www.sigmatenders.com"
     config.hosts << "localhost"
-    # config.hosts << "dev.ngotenders.in"
+    config.hosts << "127.0.0.1"
+    config.hosts << "sigmatenders-rails"
     config.hosts << /.*\.ngrok-free\.app/
 
     config.active_job.queue_adapter = :sidekiq

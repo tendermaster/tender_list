@@ -15,6 +15,10 @@ if ENV['OTEL_ENABLED'] == 'true'
     require 'opentelemetry/instrumentation/faraday'
     require 'opentelemetry/instrumentation/net/http'
 
+    # Force protocol to http/protobuf for OTLP exporter compatibility
+    ENV['OTEL_EXPORTER_OTLP_PROTOCOL'] = 'http/protobuf'
+    ENV['OTEL_EXPORTER_OTLP_TRACES_PROTOCOL'] = 'http/protobuf'
+
     OpenTelemetry::SDK.configure do |c|
       c.service_name = ENV.fetch('OTEL_SERVICE_NAME', 'sigmatenders-rails')
       c.service_version = '1.0.0'

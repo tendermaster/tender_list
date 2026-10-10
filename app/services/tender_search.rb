@@ -271,11 +271,11 @@ module TenderSearch
               must: [
                 {
                   more_like_this: {
-                    fields: ['title', 'description', 'organisation'],
+                    fields: ['title', 'organisation'],
                     like: clean_text,
                     min_term_freq: 1,
-                    min_doc_freq: 1,
-                    max_query_terms: 12
+                    min_doc_freq: 2,
+                    max_query_terms: 10
                   }
                 }
               ],
@@ -358,6 +358,11 @@ module TenderSearch
     end
   end
 
+  CARD_COLUMNS = %i[
+    id slug_uuid title description short_blog emd tender_fee 
+    organisation submission_open_date submission_close_date state location meta_data
+  ].freeze
+
   def fetch_tenders_in_order(ids)
     return [] if ids.blank?
 
@@ -365,7 +370,7 @@ module TenderSearch
       cache_key = "tenders:hydrated:#{Digest::MD5.hexdigest(ids.join(','))}"
 
       Rails.cache.fetch(cache_key, expires_in: HYDRATED_RECORDS_TTL) do
-        Tender.where(id: ids).index_by(&:id).values_at(*ids).compact
+        Tender.select(CARD_COLUMNS).where(id: ids).index_by(&:id).values_at(*ids).compact
       end
     end
   end
