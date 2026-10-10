@@ -143,7 +143,45 @@ module TenderSearch
     0
   end
 
+  # Whether any visible tender matches, using the same matching as search.
+  # Stops at the first hit, so it costs milliseconds instead of a ranked search.
+  def any_match?(query)
+    body = {
+      query: {
+        bool: {
+          must: [search_clause_for(query)],
+          filter: [{ term: { is_visible: true } }]
+        }
+      }
+    }
+    ElasticClient.count(index: ES_INDEX, body: body, terminate_after: 1)['count'].to_i.positive?
+  end
+
   private
+
+  def search_clause_for(query)
+    # Sanitize empty parentheses from query strings
+    clean_query = query.to_s.gsub(/\(\s*\)/, '').gsub(/-\(\s*\)/, '').squish
+
+    # Determine if query uses Lucene boolean syntax (pipes, negations, or grouping)
+    if clean_query.match?(/[|()]|(?:\s-\w+)/)
+      {
+        simple_query_string: {
+          query: clean_query,
+          fields: ['title^3', 'organisation^1.5', 'state', 'tender_id.keyword^2'],
+          default_operator: 'or'
+        }
+      }
+    else
+      {
+        multi_match: {
+          query: clean_query,
+          fields: ['title^3', 'description^2', 'organisation^1.5', 'tender_id.keyword^2', 'page_link', 'state'],
+          type: 'best_fields'
+        }
+      }
+    end
+  end
 
   # ─────────────────────────────────────────────────────────────────────────────
   # Snapshot Management
@@ -198,27 +236,7 @@ module TenderSearch
   #
   def compute_ranking_snapshot(query, limit:)
     Telemetry::Tracer.in_span('tender_search.compute_ranking_snapshot', { 'search.query' => query, 'search.limit' => limit }) do
-      # Sanitize empty parentheses from query strings
-      clean_query = query.to_s.gsub(/\(\s*\)/, '').gsub(/-\(\s*\)/, '').squish
-
-      # Determine if query uses Lucene boolean syntax (pipes, negations, or grouping)
-      search_clause = if clean_query.match?(/[|()]|(?:\s-\w+)/)
-        {
-          simple_query_string: {
-            query: clean_query,
-            fields: ['title^3', 'organisation^1.5', 'state', 'tender_id.keyword^2'],
-            default_operator: 'or'
-          }
-        }
-      else
-        {
-          multi_match: {
-            query: clean_query,
-            fields: ['title^3', 'description^2', 'organisation^1.5', 'tender_id.keyword^2', 'page_link', 'state'],
-            type: 'best_fields'
-          }
-        }
-      end
+      search_clause = search_clause_for(query)
 
       body = {
         query: {

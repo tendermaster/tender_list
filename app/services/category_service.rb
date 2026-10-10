@@ -22,8 +22,8 @@ module CategoryService
 
     Rails.cache.fetch(cache_key, expires_in: KEYWORD_PRESENT_TTL) do
       begin
-        @pagy, @records = TendersController.elastic_pagy(search_string, 1)
-        @records.present? ? search_string : nil
+        # Runs for ~42k keywords nightly; a full ranked search here took 33h.
+        TenderSearch.any_match?(search_string) ? search_string : nil
       rescue
         nil
       end
