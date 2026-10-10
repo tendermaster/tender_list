@@ -553,6 +553,7 @@ DEPENDENCIES
   capybara
   commonmarker (~> 2.0)
   connection_pool (~> 2.5)
+  csv
   debug
   devise (~> 4.9)
   dotenv-rails
@@ -600,7 +601,7 @@ DEPENDENCIES
   webdrivers
 
 RUBY VERSION
-   ruby 3.2.9p265
+   ruby 3.4.10p104
 
 BUNDLED WITH
    2.4.19
