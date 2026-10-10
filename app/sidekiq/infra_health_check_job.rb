@@ -9,6 +9,15 @@ class InfraHealthCheckJob
   SESSIONS_DB = 1
   EVICTED_KEYS_CACHE_KEY = 'infra_health:evicted_keys'
   MAX_HOURS_WITHOUT_NEW_TENDERS = 24  # the pm2 scrapers once stopped for 43 days unnoticed
+  # tender_source values written by scrapers/v2 that should add tenders every
+  # day; one portal can break (AP's circuit breaker stayed open) while the
+  # others keep the overall check green.
+  DAILY_SOURCES = %w[
+    eprocure-cppp-cpppdata eprocure-cppp-mmpdata eprocure-cppp-gemdata
+    bihar-eproc2 telangana-eproc karnataka_kppp ap-eproc
+  ].freeze
+  MAX_HOURS_WITHOUT_SOURCE_TENDERS = 48
+  RECENT_ROWS = 50_000 # newest rows by id, scanned to find each source's latest
 
   def perform(*args)
     Telemetry::Tracer.in_span('cron.infra_health_check') do
@@ -31,11 +40,24 @@ class InfraHealthCheckJob
     return ['No tenders in the database'] if newest.nil?
 
     hours = ((Time.current - newest) / 1.hour).floor
-    return [] if hours < MAX_HOURS_WITHOUT_NEW_TENDERS
+    if hours >= MAX_HOURS_WITHOUT_NEW_TENDERS
+      return ["No new tenders for #{hours}h (last #{newest.utc.iso8601}): check the pm2 scraper-worker"]
+    end
 
-    ["No new tenders for #{hours}h (last #{newest.utc.iso8601}): check the pm2 scraper-worker"]
+    check_scraper_sources
   rescue StandardError => e
     ["Scraper freshness check failed: #{e.message}"]
+  end
+
+  def check_scraper_sources
+    max_id = Tender.maximum(:id)
+    latest = Tender.where(id: (max_id - RECENT_ROWS)..).where(tender_source: DAILY_SOURCES)
+                   .group(:tender_source).maximum(:created_at)
+    cutoff = MAX_HOURS_WITHOUT_SOURCE_TENDERS.hours.ago
+    stale = DAILY_SOURCES.reject { |source| latest[source]&.after?(cutoff) }
+    return [] if stale.empty?
+
+    ["No new tenders in #{MAX_HOURS_WITHOUT_SOURCE_TENDERS}h from #{stale.join(', ')}: check those scrapers' jobs in the pm2 scraper-worker"]
   end
 
   def check_redis
