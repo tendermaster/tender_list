@@ -11,10 +11,11 @@ class InfraHealthCheckJob
   MAX_HOURS_WITHOUT_NEW_TENDERS = 24  # the pm2 scrapers once stopped for 43 days unnoticed
   # tender_source values written by scrapers/v2 that should add tenders every
   # day; one portal can break (AP's circuit breaker stayed open) while the
-  # others keep the overall check green.
+  # others keep the overall check green. ap-eproc is left out while its jobs
+  # are disabled (the portal times out from this server).
   DAILY_SOURCES = %w[
     eprocure-cppp-cpppdata eprocure-cppp-mmpdata eprocure-cppp-gemdata
-    bihar-eproc2 telangana-eproc karnataka_kppp ap-eproc
+    bihar-eproc2 telangana-eproc karnataka_kppp
   ].freeze
   MAX_HOURS_WITHOUT_SOURCE_TENDERS = 48
   RECENT_ROWS = 50_000 # newest rows by id, scanned to find each source's latest
