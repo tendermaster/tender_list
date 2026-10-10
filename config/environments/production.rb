@@ -27,10 +27,6 @@ Rails.application.configure do
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
 
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
-  # TODO: set to false
-  config.assets.compile = false
-  # config.assets.compile = true
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "https://assets.ngotenders.in"
@@ -121,8 +117,6 @@ Rails.application.configure do
   config.site_name = 'SigmaTenders'
   config.site_url = 'https://sigmatenders.com'
 
-  # https://stackoverflow.com/questions/70662382/couldnt-deploy-rails-tailwind-on-heroku
-  config.assets.css_compressor = nil
 
   # Use Redis for caching in production.
   # https://api.rubyonrails.org/v8.1/classes/ActiveSupport/Cache/RedisCacheStore.html

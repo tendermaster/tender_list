@@ -13,6 +13,8 @@ class ApplicationController < ActionController::Base
   private
 
   def after_sign_in_path_for(resource)
+    return stored_location_for(resource) || madmin_root_path if resource.is_a?(AdminUser)
+
     stored_location_for(resource) || queries_path
   end
 

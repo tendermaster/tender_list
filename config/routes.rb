@@ -2,14 +2,17 @@ require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
-
   # ahoy
   # https://github.com/ankane/ahoy/blob/master/config/routes.rb
   # TODO: change url
 
   resources :coupons
-  devise_for :admin_users, ActiveAdmin::Devise.config
-  ActiveAdmin.routes(self)
+  # Admin: Madmin at /admin; admin users sign in at /admin/login (same URLs
+  # ActiveAdmin used). Signed-out visitors to /admin are redirected to login.
+  devise_for :admin_users, path: 'admin', path_names: { sign_in: 'login', sign_out: 'logout' }
+  authenticate :admin_user do
+    draw :madmin
+  end
   # /
   root controller: :tenders, action: :home
 

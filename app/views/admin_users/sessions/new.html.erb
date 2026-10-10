@@ -1,0 +1,23 @@
+<% set_meta_tags title: 'Admin login', noindex: true, nofollow: true %>
+
+<div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+  <div class="w-full max-w-sm bg-white rounded-lg border border-gray-200 p-8">
+    <h1 class="text-xl font-bold text-gray-900 mb-6">SigmaTenders admin</h1>
+    <%= render 'layouts/flash' %>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'space-y-4' }) do |f| %>
+      <div>
+        <%= f.label :email, class: 'block text-sm font-medium text-gray-700 mb-1' %>
+        <%= f.email_field :email, autofocus: true, autocomplete: 'email', required: true, class: 'w-full rounded-md border-gray-300' %>
+      </div>
+      <div>
+        <%= f.label :password, class: 'block text-sm font-medium text-gray-700 mb-1' %>
+        <%= f.password_field :password, autocomplete: 'current-password', required: true, class: 'w-full rounded-md border-gray-300' %>
+      </div>
+      <label class="flex items-center gap-2 text-sm text-gray-700">
+        <%= f.check_box :remember_me %> Remember me
+      </label>
+      <%= f.submit 'Log in', class: 'w-full rounded-md bg-orange-600 px-4 py-2 font-semibold text-white hover:bg-orange-700' %>
+    <% end %>
+  </div>
+</div>

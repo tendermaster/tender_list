@@ -6,8 +6,6 @@ ruby '3.4.10'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 8.0.0'
 
-# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem 'sprockets-rails'
 
 # Use pg as the database for Active Record
 gem 'pg', '~> 1.1'
@@ -17,6 +15,9 @@ gem 'puma', '~> 6.4'
 
 # nio4r >= 2.7.0 required for GCC 14 compatibility (Debian Trixie)
 gem 'nio4r', '>= 2.7.0'
+
+# Asset pipeline [https://github.com/rails/propshaft]
+gem 'propshaft'
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem 'importmap-rails'
@@ -45,8 +46,6 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
-# Use Sass to process CSS
-gem 'sassc-rails'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
@@ -113,8 +112,10 @@ gem 'aws-sdk-s3', '~> 1'
 
 gem 'recaptcha'
 
-gem 'activeadmin'
 
+
+# Admin at /admin (replaced ActiveAdmin)
+gem 'madmin', '~> 2.6'
 
 gem 'httparty'
 gem 'sidekiq-cron'
