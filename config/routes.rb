@@ -48,7 +48,9 @@ Rails.application.routes.draw do
   get '/disclaimer', controller: :home, action: :disclaimer, as: :disclaimer
 
   # blog
-  get '/blog/how-to-file-tenders', controller: :home, action: :how_to_file_tender, as: :how_to_file_tender
+  # Not under /blog: Caddy proxies /blog* to the Ghost blog. The old
+  # /blog/how-to-file-tenders URL is 301-redirected here in the Caddyfile.
+  get '/how-to-file-tenders', controller: :home, action: :how_to_file_tender, as: :how_to_file_tender
 
   # footer
   get '/privacy-policy', controller: :home, action: :privacy_policy

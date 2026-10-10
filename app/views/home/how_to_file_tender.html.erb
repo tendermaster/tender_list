@@ -1,253 +1,290 @@
+<%
+  # <title> is capped at 70 chars including the "Sigma Tenders | " prefix
+  page_title = 'How to File a Government Tender in India'
+  share_title = 'How to File a Government Tender in India: Step-by-Step e-Tender Guide'
+  page_desc  = 'Step-by-step guide to filing government e-tenders in India: Class 3 DSC, bidder registration on CPPP, state portals and GeM, EMD and MSE exemption, documents checklist, technical and financial bids, bid opening and award.'
+  canonical  = "#{site_base_url}#{how_to_file_tender_path}"
+
+  set_meta_tags(
+    title: page_title,
+    description: page_desc,
+    keywords: 'how to file tender, how to apply for government tender, e-tender process india, cppp bid submission, gem bidding, dsc for e-tender, emd exemption msme, tender documents checklist',
+    canonical: canonical,
+    og: { title: share_title, type: 'article', url: canonical, description: page_desc, site_name: 'Sigma Tenders' },
+    twitter: { card: 'summary', title: share_title, description: page_desc }
+  )
+
+  prerequisites = [
+    { title: 'Class 3 Digital Signature (DSC)', text: 'A Class 3 DSC with signing and encryption certificates on a USB token, issued in the name of the authorised signatory.' },
+    { title: 'Business registrations', text: 'PAN, GST registration, and your firm’s legal documents (incorporation certificate, partnership deed or proprietorship proof).' },
+    { title: 'Udyam (MSME) certificate', text: 'Optional but valuable: registered micro and small enterprises are usually exempt from EMD and tender fees.' },
+    { title: 'Experience & financials', text: 'Work orders or completion certificates for similar work, audited balance sheets / CA turnover certificate, and ITRs.' }
+  ]
+
+  portals = [
+    { name: 'CPPP (eprocure.gov.in)', text: 'Central Public Procurement Portal for central ministries, departments and many PSUs.' },
+    { name: 'State e-procurement portals', text: 'Each state runs its own portal (most on NIC’s GePNIC platform), e.g. Maharashtra, Bihar, Telangana, Karnataka (KPPP).' },
+    { name: 'GeM (gem.gov.in)', text: 'Government e-Marketplace for goods and services bought by government buyers, including bids and reverse auctions.' },
+    { name: 'Sector portals', text: 'Indian Railways (IREPS), defence (DefProc) and large PSUs such as Coal India, NTPC and IOCL run their own systems.' }
+  ]
+
+  steps = [
+    {
+      id: 'find',
+      title: 'Find a tender that fits your business',
+      body: 'Search by keyword, product, state, department or value and shortlist tenders whose scope, location and value match what you can deliver. Note the tender ID, the publishing portal and the bid submission deadline.',
+      tip: 'Start early: most portals close submissions at an exact time and do not accept late bids.'
+    },
+    {
+      id: 'documents',
+      title: 'Download and read the tender documents',
+      body: 'Download the Notice Inviting Tender (NIT), the full tender document and the BOQ (bill of quantities) from the official portal. Check the scope of work, eligibility criteria (turnover, experience, certifications), EMD and fee amounts, required forms, and key dates such as the pre-bid meeting and bid opening.',
+      tip: 'Check the portal for corrigenda (amendments) right up to the deadline; dates, specifications and BOQs often change.'
+    },
+    {
+      id: 'dsc',
+      title: 'Get a Class 3 Digital Signature Certificate',
+      body: 'e-Procurement portals need a Class 3 DSC to sign and encrypt your bid. Buy it from a licensed Certifying Authority; it comes on a USB token and is issued to the person who will sign bids for your firm. Install the token driver and the portal’s signing utility on the computer you will bid from.',
+      tip: 'A DSC is usually valid for 1–2 years. An expired certificate on the deadline day is one of the most common reasons bids fail.'
+    },
+    {
+      id: 'register',
+      title: 'Register as a bidder on the publishing portal',
+      body: 'Enrol your organisation on the portal that published the tender (CPPP, the state portal, GeM, IREPS and so on) and link your DSC to the account. Registration on one portal does not carry over to another.',
+      tip: 'GeM registration is separate and uses Aadhaar/PAN-based verification; many GeM bids are signed with Aadhaar e-sign instead of a DSC.'
+    },
+    {
+      id: 'prepare',
+      title: 'Prepare your technical bid',
+      body: 'Collect every document the tender asks for, fill in the prescribed forms and annexures on your letterhead, and scan them as clear PDFs within the portal’s file-size limits. Number and name files so the evaluator can match them to the checklist in the tender.',
+      tip: 'Use the tender’s own checklist as your index; a single missing affidavit or certificate can disqualify an otherwise winning bid.'
+    },
+    {
+      id: 'price',
+      title: 'Prepare your financial bid (BOQ)',
+      body: 'Fill your rates in the BOQ file downloaded from the portal. Most GePNIC portals use a protected spreadsheet: enter rates only in the allowed cells, do not rename the file or change its format, and recheck taxes and totals before uploading.',
+      tip: 'Price from your actual costs plus margin. Under L1 (lowest price) evaluation, the lowest technically qualified bid wins.'
+    },
+    {
+      id: 'emd',
+      title: 'Pay the tender fee and EMD (or claim exemption)',
+      body: 'Pay the tender fee and Earnest Money Deposit by the mode the tender allows: online payment through the portal, bank guarantee, FDR or demand draft. Many tenders accept a Bid Security Declaration instead of EMD. Udyam-registered micro and small enterprises are generally exempt from EMD and tender fees for the goods or services they are registered for; upload the Udyam certificate to claim it.',
+      tip: 'If you pay offline (BG, DD or FDR), submit the original instrument at the office and by the date given in the tender.'
+    },
+    {
+      id: 'submit',
+      title: 'Upload, sign and submit before the deadline',
+      body: 'Log in with your DSC, upload the technical documents and the financial BOQ in their respective covers, sign and encrypt them, and click final submit. Download and keep the bid submission receipt or acknowledgement: it is your proof that the bid was received.',
+      tip: 'Submit at least a day early. Portals slow down sharply in the last hours before popular deadlines.'
+    },
+    {
+      id: 'opening',
+      title: 'Track bid opening and evaluation',
+      body: 'Bids are opened online on the scheduled date. The technical cover is opened first; once technical evaluation is done, only the financial covers of qualified bidders are opened. You can follow the status and see the comparative chart (bidders and quoted prices) on the portal. On GeM, a reverse auction may follow among qualified sellers.',
+      tip: 'Respond quickly to any clarification or document request from the buyer during evaluation.'
+    },
+    {
+      id: 'award',
+      title: 'Receive the award and sign the contract',
+      body: 'If you are the successful bidder you will receive a Letter of Acceptance or work order. Submit the performance security (typically a percentage of the contract value) within the time allowed, sign the agreement, and start execution as per the contract. Your EMD is refunded or adjusted against the performance security.',
+      tip: 'Keep the completion certificate when the work is done; it becomes the experience proof for your next tender.'
+    }
+  ]
+
+  documents = [
+    'PAN card of the firm',
+    'GST registration certificate',
+    'Certificate of incorporation, partnership deed, or proprietorship proof',
+    'Udyam (MSME) registration, if claiming EMD/fee exemption or purchase preference',
+    'Audited balance sheets / CA-certified turnover for the years asked',
+    'Income tax returns for the last 3 years (or as specified)',
+    'Work orders and completion certificates for similar work',
+    'Power of attorney / board resolution for the authorised signatory',
+    'Undertakings and affidavits in the tender’s prescribed formats (e.g. non-blacklisting)',
+    'Technical documents: specifications, brochures, OEM authorisation, test reports, ISO or other certifications',
+    'EPF/ESIC and labour licence registrations for manpower and service contracts',
+    'Solvency certificate from your bank, where required'
+  ]
+
+  mistakes = [
+    'DSC expired or not linked to the portal account on the deadline day',
+    'Leaving submission to the last hour and hitting portal slowdowns',
+    'Editing the BOQ format, renaming the file, or quoting in the wrong cell',
+    'Missing a corrigendum that changed dates, specifications or the BOQ',
+    'Not meeting an eligibility criterion such as minimum turnover or similar-work value',
+    'Unsigned or unreadable scans, or files over the portal’s size limit',
+    'Forgetting to deliver an offline EMD instrument to the office on time'
+  ]
+
+  faqs = [
+    { name: 'Do I need a digital signature (DSC) to file a government tender?',
+      ans: 'Yes, for most e-procurement portals such as CPPP and state portals you need a Class 3 DSC with signing and encryption certificates. On GeM, many bids can be signed with Aadhaar-based e-sign instead.' },
+    { name: 'What is EMD in a tender?',
+      ans: 'EMD (Earnest Money Deposit) is a refundable security deposit that shows your bid is serious. It is usually a small percentage of the estimated tender value and is refunded to unsuccessful bidders after the tender is decided.' },
+    { name: 'Are MSMEs exempt from paying EMD?',
+      ans: 'Udyam-registered micro and small enterprises are generally exempt from paying EMD and tender fees for the goods or services they are registered for, under the Public Procurement Policy for MSEs. Always check the specific tender document, as some tenders state exceptions.' },
+    { name: 'What is the difference between a technical bid and a financial bid?',
+      ans: 'The technical bid proves you are eligible and capable (documents, experience, specifications). The financial bid contains your prices, usually in the BOQ. Financial bids are opened only for bidders who qualify technically.' },
+    { name: 'What does L1 mean in a tender?',
+      ans: 'L1 is the lowest-priced bid among technically qualified bidders. In most government tenders evaluated on price, the L1 bidder is awarded the contract.' },
+    { name: 'Can I edit or withdraw my bid after submitting it?',
+      ans: 'On most portals you can modify or withdraw a submitted bid before the bid submission end date. After the deadline, bids cannot be changed.' },
+    { name: 'How long does the tender process take?',
+      ans: 'It varies by tender. Submission windows are commonly one to four weeks, and evaluation can take from a few weeks to a few months depending on the department and the value of the contract.' }
+  ]
+%>
+
+<script type="application/ld+json">
+  <%= raw generate_faq(faqs) %>
+</script>
+
 <%= render 'layouts/navbar' %>
 
 <div class="bg-gray-50 min-h-screen">
-  <!-- Hero Section -->
+  <!-- Hero -->
   <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="text-center">
-        <h1 class="text-4xl font-bold mb-4">How to File a Tender</h1>
-        <p class="text-xl text-orange-100 max-w-3xl mx-auto leading-relaxed">
-          Discover how our tender portal can meet your business needs. Learn how to effectively navigate and utilize this platform to win more contracts.
-        </p>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <p class="text-sm font-semibold uppercase tracking-wide text-orange-100 mb-3">e-Tender guide</p>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">How to File a Government Tender in India</h1>
+      <p class="text-lg text-orange-100 max-w-3xl leading-relaxed">
+        A practical, step-by-step guide to bidding on government e-tenders: what you need before you start,
+        how to prepare and submit your bid, and what happens after.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-3">
+        <a href="<%= root_path %>" class="inline-flex justify-center items-center px-5 py-3 rounded-md bg-white text-orange-700 font-semibold hover:bg-orange-50">Find tenders to bid on</a>
+        <a href="<%= get_callback_path %>" class="inline-flex justify-center items-center px-5 py-3 rounded-md border border-white text-white font-semibold hover:bg-orange-700">Get bidding assistance</a>
       </div>
     </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    
-    <!-- Introduction -->
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8">
-      <div class="text-center">
-        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-          </svg>
-        </div>
-        <h2 class="text-2xl font-bold text-gray-900 mb-4">Complete Guide to Tender Filing</h2>
-        <p class="text-gray-600 leading-relaxed">
-          Follow our comprehensive 9-step process to successfully file and win tenders. Each step is designed to maximize your chances of success.
-        </p>
-      </div>
-    </div>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="lg:grid lg:grid-cols-4 lg:gap-8">
 
-    <!-- Steps -->
-    <div class="space-y-6">
-      
-      <!-- Step 1 -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="flex">
-          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
-            <span class="text-2xl font-bold text-white">1</span>
-          </div>
-          <div class="flex-1 p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-3">Register on the Tender Portal</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              Register/Signup on the tender portal <a href="<%= new_user_registration_path %>" class="text-orange-600 hover:text-orange-700 font-semibold underline">sigmatenders.com</a>. 
-              To access various advanced valuable features of the tender portal, you need to register yourself as a subscriber.
-            </p>
-            <div class="flex items-center text-sm text-gray-500">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-              </svg>
-              Quick registration process
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- Table of contents -->
+      <aside class="hidden lg:block lg:col-span-1">
+        <nav class="sticky top-24 text-sm">
+          <p class="font-semibold text-gray-900 mb-3">On this page</p>
+          <ul class="space-y-2 text-gray-600">
+            <li><a href="#before-you-start" class="hover:text-orange-700">Before you start</a></li>
+            <li><a href="#portals" class="hover:text-orange-700">Where tenders are published</a></li>
+            <li><a href="#steps" class="hover:text-orange-700">Step-by-step process</a></li>
+            <li><a href="#documents" class="hover:text-orange-700">Documents checklist</a></li>
+            <li><a href="#mistakes" class="hover:text-orange-700">Common mistakes</a></li>
+            <li><a href="#faq" class="hover:text-orange-700">FAQs</a></li>
+          </ul>
+        </nav>
+      </aside>
 
-      <!-- Step 2 -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="flex">
-          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
-            <span class="text-2xl font-bold text-white">2</span>
-          </div>
-          <div class="flex-1 p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-3">Search for Relevant Tenders</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              Once you have registered on the portal, you can search for relevant tenders based on your business needs/domain, turnover, capabilities, location, and other criteria.
-            </p>
-            <div class="flex items-center text-sm text-gray-500">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-              </svg>
-              Advanced search filters available
-            </div>
-          </div>
-        </div>
-      </div>
+      <main class="lg:col-span-3 space-y-12">
 
-      <!-- Step 3 -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="flex">
-          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
-            <span class="text-2xl font-bold text-white">3</span>
-          </div>
-          <div class="flex-1 p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-3">Analyze Tender Documents</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              Analyze the tender documents thoroughly and understand the scope of work, timelines, evaluation criteria, and terms and conditions. 
-              Ensure that you meet all the eligibility criteria and have the necessary resources to execute the project.
-            </p>
-            <div class="flex items-center text-sm text-gray-500">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V4H6z" clip-rule="evenodd"></path>
-              </svg>
-              Thorough document review required
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 4 -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="flex">
-          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
-            <span class="text-2xl font-bold text-white">4</span>
-          </div>
-          <div class="flex-1 p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-3">Visit Official Publisher Portal</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              Visit the official publisher of the tender as per the official link shown in the search result and locate the official tender link as per the tender ID/tender reference shown in the search result. 
-              Here again you need to register your company as a bidder, with a valid Class 3 tender DSC (Digital Signature Certificate).
-            </p>
-            <div class="bg-amber-50 border border-amber-200 rounded-md p-3 mb-4">
-              <div class="flex items-center">
-                <svg class="w-5 h-5 text-amber-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                </svg>
-                <span class="text-sm font-medium text-amber-800">Digital Signature Certificate required</span>
+        <!-- Before you start -->
+        <section id="before-you-start">
+          <h2 class="text-2xl font-bold text-gray-900 mb-2">Before you start</h2>
+          <p class="text-gray-600 mb-6">Have these ready before you pick a tender. Getting a DSC and registrations can take a few days.</p>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <% prerequisites.each do |item| %>
+              <div class="bg-white rounded-lg border border-gray-200 p-5">
+                <h3 class="font-semibold text-gray-900 mb-2"><%= item[:title] %></h3>
+                <p class="text-sm text-gray-600 leading-relaxed"><%= item[:text] %></p>
               </div>
-            </div>
+            <% end %>
           </div>
-        </div>
-      </div>
+        </section>
 
-      <!-- Step 5 -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="flex">
-          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
-            <span class="text-2xl font-bold text-white">5</span>
+        <!-- Portals -->
+        <section id="portals">
+          <h2 class="text-2xl font-bold text-gray-900 mb-2">Where government tenders are published</h2>
+          <p class="text-gray-600 mb-6">You always bid on the portal that published the tender. SigmaTenders brings tenders from these portals into one search and links to the official source.</p>
+          <div class="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
+            <% portals.each do |portal| %>
+              <div class="p-5 sm:flex sm:gap-6">
+                <p class="font-semibold text-gray-900 sm:w-56 sm:flex-shrink-0 mb-1 sm:mb-0"><%= portal[:name] %></p>
+                <p class="text-sm text-gray-600 leading-relaxed"><%= portal[:text] %></p>
+              </div>
+            <% end %>
           </div>
-          <div class="flex-1 p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-3">Prepare and Submit Your Bid</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              Prepare and submit the bid accordingly. This includes providing all the necessary documents and filling out the bid form. 
-              Ensure that you comply with all the terms and conditions mentioned in the tender documents.
-            </p>
-            <div class="flex items-center text-sm text-gray-500">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-              </svg>
-              Complete documentation required
-            </div>
-          </div>
-        </div>
-      </div>
+        </section>
 
-      <!-- Step 6 -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="flex">
-          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
-            <span class="text-2xl font-bold text-white">6</span>
-          </div>
-          <div class="flex-1 p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-3">Monitor the Tender Process</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              After submitting the bid, monitor the tender process regularly. This includes checking the portal for any updates or amendments to the tender documents and attending any pre-bid meetings or site visits.
-            </p>
-            <div class="flex items-center text-sm text-gray-500">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-              </svg>
-              Regular monitoring essential
-            </div>
-          </div>
-        </div>
-      </div>
+        <!-- Steps -->
+        <section id="steps">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Step-by-step: how to file a tender</h2>
+          <ol class="space-y-5">
+            <% steps.each_with_index do |step, i| %>
+              <li id="step-<%= step[:id] %>" class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <div class="flex">
+                  <div class="flex-shrink-0 w-14 sm:w-16 bg-orange-500 flex items-start justify-center pt-5">
+                    <span class="text-xl font-bold text-white"><%= i + 1 %></span>
+                  </div>
+                  <div class="flex-1 p-5 sm:p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2"><%= step[:title] %></h3>
+                    <p class="text-gray-700 leading-relaxed"><%= step[:body] %></p>
+                    <p class="mt-3 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-md px-3 py-2"><span class="font-semibold">Tip:</span> <%= step[:tip] %></p>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ol>
+        </section>
 
-      <!-- Step 7 -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="flex">
-          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
-            <span class="text-2xl font-bold text-white">7</span>
-          </div>
-          <div class="flex-1 p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-3">Participate in Bid Opening</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              On the day of the bid opening, participate in the process either in person or through a video conference. 
-              This will give you an idea of your competition and the bid price range.
-            </p>
-            <div class="flex items-center text-sm text-gray-500">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
-              </svg>
-              Attendance recommended
-            </div>
-          </div>
-        </div>
-      </div>
+        <!-- Documents -->
+        <section id="documents">
+          <h2 class="text-2xl font-bold text-gray-900 mb-2">Documents checklist</h2>
+          <p class="text-gray-600 mb-6">Commonly required documents. Each tender has its own list, so always follow the checklist in the tender document.</p>
+          <ul class="bg-white rounded-lg border border-gray-200 p-5 grid sm:grid-cols-2 gap-x-6 gap-y-3">
+            <% documents.each do |doc| %>
+              <li class="flex items-start text-sm text-gray-700">
+                <svg class="w-5 h-5 text-green-600 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span><%= doc %></span>
+              </li>
+            <% end %>
+          </ul>
+        </section>
 
-      <!-- Step 8 -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="flex">
-          <div class="flex-shrink-0 w-20 bg-orange-500 flex items-center justify-center">
-            <span class="text-2xl font-bold text-white">8</span>
-          </div>
-          <div class="flex-1 p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-3">Follow Up with Tendering Authority</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              After the bid opening, follow up with the tendering authority to know the status of your bid. 
-              If your bid is successful, you can proceed with the next steps as per the tender documents.
-            </p>
-            <div class="flex items-center text-sm text-gray-500">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" clip-rule="evenodd"></path>
-              </svg>
-              Proactive communication important
-            </div>
-          </div>
-        </div>
-      </div>
+        <!-- Mistakes -->
+        <section id="mistakes">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Common mistakes that get bids rejected</h2>
+          <ul class="bg-white rounded-lg border border-gray-200 p-5 space-y-3">
+            <% mistakes.each do |mistake| %>
+              <li class="flex items-start text-sm text-gray-700">
+                <svg class="w-5 h-5 text-red-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                <span><%= mistake %></span>
+              </li>
+            <% end %>
+          </ul>
+        </section>
 
-      <!-- Step 9 -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="flex">
-          <div class="flex-shrink-0 w-20 bg-green-500 flex items-center justify-center">
-            <span class="text-2xl font-bold text-white">9</span>
+        <!-- FAQ -->
+        <section id="faq">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Frequently asked questions</h2>
+          <div class="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
+            <% faqs.each do |faq| %>
+              <details class="group p-5">
+                <summary class="flex justify-between items-center cursor-pointer font-semibold text-gray-900">
+                  <%= faq[:name] %>
+                  <svg class="w-5 h-5 text-gray-500 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <p class="mt-3 text-gray-700 leading-relaxed"><%= faq[:ans] %></p>
+              </details>
+            <% end %>
           </div>
-          <div class="flex-1 p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-3">Get Professional Support</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              If you need support services, you may contact us for professional assistance throughout the tender process.
-            </p>
-            <a href="<%= get_callback_path %>" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 transition-colors">
-              <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
-              </svg>
-              Get Professional Assistance
-            </a>
+        </section>
+
+        <p class="text-xs text-gray-500">
+          This guide is general information. Procedures, fees and exemptions vary by portal and by tender; the tender document and the official portal are always the final authority.
+        </p>
+
+        <!-- CTA -->
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-8 text-center text-white">
+          <h2 class="text-2xl font-bold mb-3">Ready to find your next tender?</h2>
+          <p class="text-orange-100 mb-6 max-w-2xl mx-auto">Search live government tenders from central, state, GeM and PSU portals in one place, or let our team help you prepare and submit your bid.</p>
+          <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <a href="<%= root_path %>" class="inline-flex justify-center items-center px-6 py-3 rounded-md bg-white text-orange-700 font-semibold hover:bg-orange-50">Search tenders</a>
+            <a href="<%= get_callback_path %>" class="inline-flex justify-center items-center px-6 py-3 rounded-md border border-white text-white font-semibold hover:bg-orange-700">Request a callback</a>
           </div>
         </div>
-      </div>
+
+      </main>
     </div>
-
-    <!-- Call to Action -->
-    <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-8 mt-12 text-center text-white">
-      <h3 class="text-2xl font-bold mb-4">Ready to Start Filing Tenders?</h3>
-      <p class="text-orange-100 mb-6 max-w-2xl mx-auto">
-        Join thousands of successful businesses who use SigmaTenders to find and win government contracts.
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="<%= new_user_registration_path %>" class="inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-md text-orange-600 bg-white hover:bg-gray-50 transition-colors">
-          Start Free Trial
-        </a>
-        <a href="<%= pricing_path %>" class="inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-md text-white bg-transparent hover:bg-white hover:text-orange-600 transition-colors">
-          View Pricing Plans
-        </a>
-      </div>
-    </div>
-
   </div>
 </div>
 
