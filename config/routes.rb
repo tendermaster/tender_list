@@ -47,10 +47,17 @@ Rails.application.routes.draw do
   get '/cancellation-and-refund-policy', controller: :home, action: :refund_policy, as: :refund_policy
   get '/disclaimer', controller: :home, action: :disclaimer, as: :disclaimer
 
-  # blog
-  # Not under /blog: Caddy proxies /blog* to the Ghost blog. The old
-  # /blog/how-to-file-tenders URL is 301-redirected here in the Caddyfile.
   get '/how-to-file-tenders', controller: :home, action: :how_to_file_tender, as: :how_to_file_tender
+
+  # blog: Markdown posts in content/blog (replaced the Ghost blog)
+  # Old Ghost URLs that have a new home:
+  get '/blog/how-to-file-tenders', to: redirect('/how-to-file-tenders', status: 301)
+  get '/blog/about', to: redirect('/about', status: 301)
+  get '/blog/tag/*rest', to: redirect('/blog', status: 301), format: false
+  get '/blog/author/*rest', to: redirect('/blog', status: 301), format: false
+  get '/blog/rss', to: redirect('/blog', status: 301)
+  get '/blog', to: 'blog#index', as: :blog_index
+  get '/blog/:slug', to: 'blog#show', as: :blog_post, constraints: { slug: /[a-z0-9][a-z0-9-]*/ }
 
   # footer
   get '/privacy-policy', controller: :home, action: :privacy_policy

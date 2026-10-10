@@ -38,6 +38,11 @@ SitemapGenerator::Sitemap.create(create_index: true, max_sitemap_links: 35_000) 
   add how_to_file_tender_path
   add faq_path
 
+  add blog_index_path, changefreq: 'weekly'
+  BlogPost.all.each do |post|
+    add blog_post_path(post), lastmod: post.last_modified, changefreq: 'monthly'
+  end
+
   # add all result pages
   add tender_main_category_path, changefreq: 'weekly'
   add tender_category_by_city_path, changefreq: 'weekly'

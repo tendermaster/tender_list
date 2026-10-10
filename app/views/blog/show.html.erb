@@ -1,0 +1,56 @@
+<%
+  post = @post
+  canonical = "#{site_base_url}#{blog_post_path(post)}"
+  # <title> is capped at 70 chars including the "Sigma Tenders | " prefix
+  set_meta_tags(
+    title: (post.seo_title || post.title).truncate(54, separator: ' ', omission: ''),
+    description: post.summary,
+    keywords: post.tags.map(&:downcase).join(', ').presence,
+    canonical: canonical,
+    og: { title: post.title, type: 'article', url: canonical, description: post.summary, site_name: 'Sigma Tenders' },
+    article: { published_time: post.pub_date.iso8601, modified_time: post.last_modified.iso8601, tag: post.tags },
+    twitter: { card: 'summary', title: post.title, description: post.summary }
+  )
+  article_schema = {
+    '@context' => 'https://schema.org',
+    '@type' => 'BlogPosting',
+    'headline' => post.title.truncate(110),
+    'description' => post.summary,
+    'datePublished' => post.pub_date.iso8601,
+    'dateModified' => post.last_modified.iso8601,
+    'mainEntityOfPage' => { '@type' => 'WebPage', '@id' => canonical },
+    'author' => { '@type' => 'Organization', 'name' => 'SigmaTenders', 'url' => site_base_url },
+    'publisher' => { '@type' => 'Organization', 'name' => 'SigmaTenders', 'url' => site_base_url },
+    'keywords' => post.tags.join(', ')
+  }
+%>
+
+<script type="application/ld+json"><%= raw json_escape(article_schema.to_json) %></script>
+
+<%= render 'layouts/navbar' %>
+
+<div class="bg-gray-50 min-h-screen">
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <nav class="text-sm text-gray-500 mb-6" aria-label="Breadcrumb">
+      <a href="<%= blog_index_path %>" class="hover:text-orange-700">← All posts</a>
+    </nav>
+
+    <header class="mb-8">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight"><%= post.title %></h1>
+      <p class="mt-4 text-sm text-gray-500">
+        <time datetime="<%= post.pub_date.iso8601 %>"><%= post.pub_date.strftime('%-d %B %Y') %></time>
+        <% if post.updated_date %> · Updated <time datetime="<%= post.updated_date.iso8601 %>"><%= post.updated_date.strftime('%-d %B %Y') %></time><% end %>
+        · <%= post.reading_minutes %> min read
+        <% if post.tags.any? %> · <%= post.tags.join(', ') %><% end %>
+      </p>
+    </header>
+
+    <div class="prose max-w-none bg-white rounded-lg border border-gray-200 p-6 sm:p-10 prose-headings:scroll-mt-24 prose-a:text-orange-700 prose-table:block prose-table:overflow-x-auto">
+      <%= render_blog_body(post) %>
+    </div>
+
+    <%= render 'blog/shortcodes/cta' %>
+  </article>
+</div>
+
+<%= render 'layouts/footer' %>

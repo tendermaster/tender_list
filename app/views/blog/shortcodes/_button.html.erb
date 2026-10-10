@@ -1,0 +1,8 @@
+<%# {{ button href="https://..." label="Buy / Sell" }} %>
+<% url = blog_safe_href(local_assigns[:href]) %>
+<% if url %>
+  <div class="not-prose my-8 text-center">
+    <a href="<%= url %>" class="inline-flex items-center rounded-md bg-orange-600 px-6 py-3 font-semibold text-white hover:bg-orange-700"
+       <%= 'target="_blank" rel="noopener"'.html_safe if url.start_with?('http') %>><%= local_assigns[:label].presence || 'Learn more' %></a>
+  </div>
+<% end %>

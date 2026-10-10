@@ -1,0 +1,20 @@
+<%# {{ tenders query="mild steel" limit=5 }}: live matching tenders %>
+<% query = local_assigns[:query].to_s.strip %>
+<% tenders = blog_tenders(query, local_assigns[:limit] || 5) %>
+<% if tenders.any? %>
+  <div class="not-prose my-8 rounded-lg border border-gray-200 bg-white">
+    <p class="border-b border-gray-200 px-5 py-3 font-semibold text-gray-900">Latest <%= query %> tenders</p>
+    <ul class="divide-y divide-gray-200">
+      <% tenders.each do |tender| %>
+        <li class="px-5 py-3">
+          <a href="<%= tender_show_path(slug_uuid: tender.slug_uuid) %>" class="font-medium text-orange-700 hover:underline"><%= tender.title.to_s.truncate(140) %></a>
+          <p class="mt-1 text-xs text-gray-500">
+            <%= [tender.organisation.presence, tender.state.presence].compact.join(' · ') %>
+            <% if tender.submission_close_date %> · Closes <%= tender.submission_close_date.to_date.strftime('%-d %b %Y') %><% end %>
+          </p>
+        </li>
+      <% end %>
+    </ul>
+    <a href="<%= keyword_tender_path(keyword: query.gsub(' ', '-')) %>" class="block border-t border-gray-200 px-5 py-3 text-sm font-semibold text-orange-700 hover:bg-orange-50">See all <%= query %> tenders →</a>
+  </div>
+<% end %>

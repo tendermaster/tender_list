@@ -133,6 +133,9 @@ gem 'stackprof'
 # Elasticsearch (supporting ES 9.x)
 gem 'elasticsearch', '~> 9.0'
 
+# Markdown blog (content/blog/*.md), GitHub-flavoured
+gem 'commonmarker', '~> 2.0'
+
 gem 'dotenv-rails', groups: [:development, :test]
 
 # OpenTelemetry Tracing & Observability
