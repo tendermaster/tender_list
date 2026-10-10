@@ -8,10 +8,11 @@ class InfraHealthCheckJob
   MAX_ES_DELETED_RATIO = 0.25     # ExpungeEsDeletesJob should keep this low
   SESSIONS_DB = 1
   EVICTED_KEYS_CACHE_KEY = 'infra_health:evicted_keys'
+  MAX_HOURS_WITHOUT_NEW_TENDERS = 24  # the pm2 scrapers once stopped for 43 days unnoticed
 
   def perform(*args)
     Telemetry::Tracer.in_span('cron.infra_health_check') do
-      problems = check_redis + check_sidekiq + check_elasticsearch
+      problems = check_scrapers + check_redis + check_sidekiq + check_elasticsearch
       if problems.empty?
         Rails.logger.info('InfraHealthCheckJob: all checks passed')
       else
@@ -23,6 +24,19 @@ class InfraHealthCheckJob
   end
 
   private
+
+  def check_scrapers
+    # Newest row by primary key: created_at has no index on 5.6M rows.
+    newest = Tender.order(id: :desc).pick(:created_at)
+    return ['No tenders in the database'] if newest.nil?
+
+    hours = ((Time.current - newest) / 1.hour).floor
+    return [] if hours < MAX_HOURS_WITHOUT_NEW_TENDERS
+
+    ["No new tenders for #{hours}h (last #{newest.utc.iso8601}): check the pm2 scraper-worker"]
+  rescue StandardError => e
+    ["Scraper freshness check failed: #{e.message}"]
+  end
 
   def check_redis
     info = Sidekiq.redis { |r| r.call('INFO') }
