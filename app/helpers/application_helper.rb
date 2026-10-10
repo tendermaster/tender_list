@@ -1,6 +1,14 @@
 module ApplicationHelper
   include Pagy::Frontend
 
+  # recaptcha_tags emits the api.js <script> every time; pages with two forms
+  # (e.g. home) loaded it twice. Only the first widget on a page includes it.
+  def recaptcha_tags_once(**options)
+    include_script = !@recaptcha_script_rendered
+    @recaptcha_script_rendered = true
+    recaptcha_tags(**options, script: include_script)
+  end
+
   def time_left(time)
     return nil unless time.respond_to?(:to_time)
 

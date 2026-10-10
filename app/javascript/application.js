@@ -74,12 +74,6 @@ $('.state-filter input[type="checkbox"]').on('change', function () {
   $('.state-filter input[type="checkbox"]').not(this).prop('checked', false);
 });
 
-if ($('.tlt').length) {
-  setTimeout(() => {
-    $('.tlt').textillate({ in: { effect: 'bounceIn' } });
-  }, 2 * 1000);
-}
-
 $('#main-search-btn').on('click', (e) => {
   const query = $('#main-search').val()
   const userEmail = $('#user-email').text().trim()

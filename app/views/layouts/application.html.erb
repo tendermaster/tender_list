@@ -7,7 +7,6 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-  <%= stylesheet_link_tag "textillate/assets/animate", "data-turbo-track": "reload" %>
   <%#= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <!--    <link rel="stylesheet" href="https://cdn.simplecss.org/simple-v1.css">-->
   <%= render 'layouts/google' %>
@@ -15,15 +14,12 @@
   <!--    node_modules-->
   <%= javascript_include_tag "flowbite/dist/flowbite.min" %>
   <%= javascript_include_tag "jquery/dist/jquery.min" %>
-  <%= javascript_include_tag "textillate/jquery.textillate" %>
   <%= javascript_include_tag "sweetalert2/dist/sweetalert2.all.min.js" %>
 
   <link href="/opensearch.xml" rel="search" title="SigmaTenders Search" type="application/opensearchdescription+xml">
 
   <%# chatbot %>
   <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="1bfc6f0a-0b99-4990-8a9a-6463a364d55d";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
-
-  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body class="">
@@ -33,13 +29,5 @@
 <!--  <p class="alert"><%#= alert %></p>-->
   <%= yield %>
 </main>
-<script>
-  lucide.createIcons();
-  
-  // Re-run on Turbo load for seamless SPA transitions
-  document.addEventListener('turbo:load', () => {
-    lucide.createIcons();
-  });
-</script>
 </body>
 </html>
