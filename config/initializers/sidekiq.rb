@@ -38,6 +38,18 @@ unless ENV['SECRET_KEY_BASE_DUMMY']
       class: 'RebuildCategoriesCacheJob'
     )
 
+    Sidekiq::Cron::Job.create(
+      name:  'ExpungeEsDeletesJob - weekly Sun 2am IST',
+      cron:  '30 20 * * 6',   # Sat 20:30 UTC = Sun 02:00 IST
+      class: 'ExpungeEsDeletesJob'
+    )
+
+    Sidekiq::Cron::Job.create(
+      name:  'InfraHealthCheckJob - daily 6am IST',
+      cron:  '30 0 * * *',    # 00:30 UTC = 06:00 IST
+      class: 'InfraHealthCheckJob'
+    )
+
     puts "Sidekiq Redis connection"
     Sidekiq.redis(&:ping)
   rescue StandardError => e
