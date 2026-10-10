@@ -10,10 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_23_173214) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_10_190100) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_textsearch"
-  enable_extension "plpgsql"
+  enable_extension "pg_buffercache"
+  enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_prewarm"
+  enable_extension "pg_stat_statements"
+  enable_extension "pg_trgm"
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -107,15 +110,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_23_173214) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sessions", force: :cascade do |t|
-    t.string "session_id", null: false
-    t.text "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
-    t.index ["updated_at"], name: "index_sessions_on_updated_at"
-  end
-
   create_table "solid_cache_entries", force: :cascade do |t|
     t.binary "key", null: false
     t.binary "value", null: false
@@ -142,9 +136,9 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_23_173214) do
 
   create_table "tenders", force: :cascade do |t|
     t.string "tender_id"
-    t.string "title"
+    t.text "title"
     t.text "description"
-    t.string "organisation"
+    t.text "organisation"
     t.string "state"
     t.bigint "tender_value"
     t.bigint "tender_fee"
@@ -167,29 +161,25 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_23_173214) do
     t.string "tender_source"
     t.string "tender_reference_number"
     t.jsonb "location"
-    t.virtual "tender_text_vector", type: :tsvector, as: "to_tsvector('english'::regconfig, ((((((((((((((((((((((COALESCE(tender_id, ''::character varying))::text || ' '::text) || (COALESCE(title, ''::character varying))::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || (COALESCE(organisation, ''::character varying))::text) || ' '::text) || (COALESCE(state, ''::character varying))::text) || ' '::text) || (COALESCE(slug_uuid, ''::character varying))::text) || ' '::text) || (COALESCE(page_link, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text) || (COALESCE(tender_source, ''::character varying))::text) || ' '::text) || (COALESCE(tender_reference_number, ''::character varying))::text) || ' '::text))", stored: true
+    t.virtual "tender_text_vector", type: :tsvector, as: "to_tsvector('english'::regconfig, ((((((((((((((((((((((COALESCE(tender_id, ''::character varying))::text || ' '::text) || COALESCE(title, ''::text)) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || COALESCE(organisation, ''::text)) || ' '::text) || (COALESCE(state, ''::character varying))::text) || ' '::text) || (COALESCE(slug_uuid, ''::character varying))::text) || ' '::text) || (COALESCE(page_link, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text) || (COALESCE(tender_source, ''::character varying))::text) || ' '::text) || (COALESCE(tender_reference_number, ''::character varying))::text) || ' '::text))", stored: true
+    t.virtual "text_search_trigram", type: :text, as: "(((((((((((COALESCE(title, ''::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || COALESCE(organisation, ''::text)) || ' '::text) || (COALESCE(state, ''::character varying))::text) || ' '::text) || (COALESCE(tender_category, ''::character varying))::text) || ' '::text) || (COALESCE(tender_contract_type, ''::character varying))::text) || ' '::text)", stored: true
     t.text "short_blog"
     t.jsonb "meta_data"
-    t.text "bid_result"
     t.text "bid_result_status"
     t.datetime "bid_result_updated_at", default: -> { "CURRENT_TIMESTAMP" }
     t.timestamptz "updated_at_auto", default: -> { "now()" }, null: false
-    t.index ["bid_result_status"], name: "index_tenders_on_bid_result_status"
-    t.index ["created_at"], name: "index_tenders_on_created_at"
-    t.index ["description"], name: "idx_tenders_description_bm25", using: :bm25
-    t.index ["emd"], name: "index_tenders_on_emd"
+    t.index ["id"], name: "idx_tenders_has_bid_result", where: "((meta_data ->> 'has_bid_result'::text) = 'true'::text)"
+    t.index ["id"], name: "idx_tenders_has_corrigendum", where: "((meta_data ->> 'has_corrigendum'::text) = 'true'::text)"
     t.index ["is_visible"], name: "index_tenders_on_is_visible"
-    t.index ["meta_data"], name: "index_tenders_on_meta_data"
-    t.index ["organisation"], name: "idx_tenders_organisation_bm25", using: :bm25
     t.index ["slug_uuid"], name: "index_tenders_on_slug_uuid", unique: true
-    t.index ["state"], name: "idx_tenders_state_bm25", using: :bm25
+    t.index ["state", "submission_close_date"], name: "idx_tenders_state_close_date", order: { submission_close_date: :desc }
+    t.index ["state"], name: "index_tenders_on_state"
     t.index ["submission_close_date"], name: "index_tenders_on_submission_close_date"
     t.index ["tender_id"], name: "index_tenders_on_tender_id"
     t.index ["tender_reference_number"], name: "index_tenders_on_tender_reference_number"
+    t.index ["tender_source", "submission_close_date"], name: "idx_tenders_source_close_date", order: { submission_close_date: :desc }
+    t.index ["tender_source", "tender_id"], name: "index_tenders_on_tender_source_and_tender_id", unique: true
     t.index ["tender_source"], name: "index_tenders_on_tender_source"
-    t.index ["tender_text_vector"], name: "tender_text_vector_idx", using: :gin
-    t.index ["tender_value"], name: "index_tenders_on_tender_value"
-    t.index ["title"], name: "idx_tenders_title_bm25", using: :bm25
     t.index ["updated_at_auto", "id"], name: "idx_tenders_sync"
     t.index ["updated_at_auto"], name: "index_tenders_on_updated_at_auto"
   end
@@ -221,7 +211,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_23_173214) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "attachments", "tenders"
+  add_foreign_key "attachments", "tenders", on_delete: :cascade
   add_foreign_key "bookmarks", "tenders"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "queries", "users"
