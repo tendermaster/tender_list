@@ -20,7 +20,7 @@ module TenderList
     # config.active_job.queue_adapter = :sidekiq
 
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.2
+    config.load_defaults 8.0
 
     # https://stackoverflow.com/questions/6372626/using-active-record-generators-after-mongoid-installation
     config.generators do |g|
