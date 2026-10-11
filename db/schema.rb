@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_10_210000) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_11_090000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_buffercache"
   enable_extension "pg_catalog.plpgsql"
@@ -180,6 +180,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_10_210000) do
     t.index ["tender_source", "submission_close_date"], name: "idx_tenders_source_close_date", order: { submission_close_date: :desc }
     t.index ["tender_source", "tender_id"], name: "index_tenders_on_tender_source_and_tender_id", unique: true
     t.index ["tender_source"], name: "index_tenders_on_tender_source"
+    t.index ["title"], name: "index_tenders_on_title", using: :hash
     t.index ["updated_at_auto", "id"], name: "idx_tenders_sync"
     t.index ["updated_at_auto"], name: "index_tenders_on_updated_at_auto"
   end
@@ -207,7 +208,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_10_210000) do
     t.datetime "updated_at", null: false
     t.string "role", default: "USER"
     t.string "current_plan", default: "FREE"
+    t.string "google_uid"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["google_uid"], name: "index_users_on_google_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

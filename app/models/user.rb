@@ -20,15 +20,24 @@ class User < ApplicationRecord
     ['confirmation_sent_at', 'confirmation_token', 'confirmed_at', 'created_at', 'current_plan', 'current_sign_in_at', 'current_sign_in_ip', 'email', 'encrypted_password', 'failed_attempts', 'id', 'last_sign_in_at', 'last_sign_in_ip', 'locked_at', 'name', 'remember_created_at', 'reset_password_sent_at', 'reset_password_token', 'role', 'sign_in_count', 'unconfirmed_email', 'unlock_token', 'updated_at']
   end
 
-  def self.from_omniauth(access_token)
-    data = access_token.info
-    user = User.where(email: data['email']).first
+  # The user for a Google account, linking or creating one on first sign-in.
+  # Returns nil if Google hasn't verified the email address.
+  def self.from_google(uid:, email:, email_verified:, name: nil)
+    user = find_by(google_uid: uid)
+    return user if user
+    return nil unless email_verified && email.present?
 
-    # Uncomment the section below if you want users to be created if they don't exist
-    user ||= User.create(name: data['name'],
-                         email: data['email'],
-                         password: Devise.friendly_token[0, 20]
-    )
+    user = find_by(email: email.strip.downcase) || new(email: email, name: name.to_s, password: Devise.friendly_token)
+    user.google_uid = uid
+    user.name = name if user.name.blank? && name.present?
+    unless user.confirmed?
+      # Nobody proved they own this address when the account was made, so its
+      # password may have been set by someone else to take the account over
+      # once the real owner arrives. Google just proved who owns it.
+      user.password = Devise.friendly_token if user.persisted?
+      user.skip_confirmation!
+    end
+    user.save!
     user
   end
 
