@@ -20,7 +20,15 @@
   <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="1bfc6f0a-0b99-4990-8a9a-6463a364d55d";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 </head>
 
+<%# Google One Tap for logged-out visitors (google_sign_in_controller.js) %>
+<% if user_signed_in? || request.path.start_with?('/admin') %>
 <body class="">
+<% else %>
+<body class="" data-controller="google-sign-in"
+      data-google-sign-in-client-id-value="<%= ENV['GOOGLE_CLIENT_ID'] %>"
+      data-google-sign-in-url-value="<%= user_google_sign_in_path %>"
+      data-google-sign-in-return-here-value="<%= !request.path.start_with?('/users') %>">
+<% end %>
 
 <main class="">
 <!--  <p class="notice"><%#= notice %></p>-->

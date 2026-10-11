@@ -24,10 +24,12 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
-    # sessions: 'users/sessions'
-    # confirmation: 'users/confirmations'
+    sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
+  devise_scope :user do
+    post '/users/google_sign_in', to: 'users/google_sign_ins#create', as: :user_google_sign_in
+  end
   authenticate :admin_user, lambda { |u| u.present? } do
     mount Sidekiq::Web => '/sidekiq'
   end
