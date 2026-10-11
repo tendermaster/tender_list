@@ -249,7 +249,13 @@ class TendersController < ApplicationController
         source: 'homepage'
       )
 
-      CheckListDownloaderMailer.send_check_list(params[:email], report_data).deliver_later
+      if ActionMailer::Base.perform_deliveries
+        CheckListDownloaderMailer.send_check_list(params[:email], report_data).deliver_later
+      else
+        # Mail is off (MAIL_ENABLED): show the links instead of emailing them
+        @report_data = report_data
+        @full_message = "Your #{report_data[:label]} files are ready"
+      end
     else
       @full_message = 'Please recheck your email'
     end
