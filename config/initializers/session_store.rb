@@ -14,8 +14,13 @@ redis_url = if redis_password.present?
 # redis-rails / redis-store gems). "session_v2" keeps these keys apart from the
 # old redis-store "session:*" keys, which are in a different format and simply
 # expire.
+session_cache = if Rails.env.test?
+                  ActiveSupport::Cache::MemoryStore.new
+                else
+                  ActiveSupport::Cache::RedisCacheStore.new(url: redis_url, namespace: 'session_v2', expires_in: 14.days)
+                end
 Rails.application.config.session_store :cache_store,
-  cache: ActiveSupport::Cache::RedisCacheStore.new(url: redis_url, namespace: 'session_v2', expires_in: 14.days),
+  cache: session_cache,
   expire_after: 14.days,
   key: '_sigmatenders_session',
   secure: Rails.env.production?,

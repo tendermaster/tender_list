@@ -16,7 +16,7 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
     )
     pagy = Pagy.new(count: 1, page: 1, items: 10)
 
-    TenderSearch.stub(:weighted_search, [pagy, [tender]]) do
+    stub(TenderSearch, :weighted_search, [pagy, [tender]]) do
       get "/api/v1/search", params: { q: "road construction" }
     end
 
@@ -48,7 +48,7 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
   test "allows cross-origin search requests from any site" do
     pagy = Pagy.new(count: 0, page: 1, items: 10)
 
-    TenderSearch.stub(:weighted_search, [pagy, []]) do
+    stub(TenderSearch, :weighted_search, [pagy, []]) do
       get "/api/v1/search", params: { q: "roads" }, headers: { "Origin" => "https://example-client.test" }
     end
 
@@ -77,10 +77,10 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "caps requested pagination inputs" do
-    pagy = Pagy.new(count: 0, page: 100, items: 20)
+    pagy = Pagy.new(count: 2_000, page: 100, items: 20)
     captured_args = nil
 
-    TenderSearch.stub(:weighted_search, lambda { |query, page, per_page:|
+    stub(TenderSearch, :weighted_search, lambda { |query, page, per_page:|
       captured_args = [query, page, per_page]
       [pagy, []]
     }) do
@@ -92,10 +92,12 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "rate limits repeated requests from the same ip" do
-    Rails.cache.clear
+    # The throttle counts in Rails.cache, a null store in tests
+    cache_was = Rails.cache
+    Rails.cache = ActiveSupport::Cache::MemoryStore.new
     pagy = Pagy.new(count: 0, page: 1, items: 10)
 
-    TenderSearch.stub(:weighted_search, [pagy, []]) do
+    stub(TenderSearch, :weighted_search, [pagy, []]) do
       60.times do
         get "/api/v1/search", params: { q: "roads" }
         assert_response :success
@@ -107,6 +109,6 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
     assert_response :too_many_requests
     assert_equal "rate limit exceeded", JSON.parse(response.body)["error"]
   ensure
-    Rails.cache.clear
+    Rails.cache = cache_was
   end
 end
