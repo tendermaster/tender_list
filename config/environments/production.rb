@@ -108,6 +108,9 @@ Rails.application.configure do
   }
 
   config.action_mailer.delivery_method = :smtp
+  # SES is off: set MAIL_ENABLED=1 when it's back. While mail is off Devise
+  # lets users in without confirming their email (config/initializers/devise.rb).
+  config.action_mailer.perform_deliveries = ENV['MAIL_ENABLED'] == '1'
   config.action_mailer.raise_delivery_errors = true
   # https://guides.rubyonrails.org/configuring.html#configuring-action-mailer
   # config.action_mailer.default_options = {
