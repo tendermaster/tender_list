@@ -22,12 +22,14 @@ class ApplicationController < ActionController::Base
     render 'home/page_404', status: 404
   end
 
-  def set_public_cache(browser_ttl: 15.minutes, cdn_ttl: 2.hours)
+  def set_public_cache(cdn_ttl: 2.hours)
     if current_user.nil?
       # Don't create a session (and Set-Cookie) for cookie-less visitors, mostly
       # crawlers: it filled Redis with millions of sessions and stops CDN caching.
       request.session_options[:skip] = true unless cookies.key?(Rails.application.config.session_options[:key])
-      expires_in browser_ttl, public: true, 's-maxage': cdn_ttl
+      # max-age=0: a browser that kept this logged-out copy would keep showing
+      # it after the visitor signs in (Google One Tap signs in on any page)
+      expires_in 0, public: true, 's-maxage': cdn_ttl
     else
       response.headers['Cache-Control'] = 'no-cache, no-store, private, max-age=0'
     end

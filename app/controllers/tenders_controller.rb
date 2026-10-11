@@ -78,9 +78,9 @@ class TendersController < ApplicationController
     end
 
     if @records.present?
-      set_public_cache(browser_ttl: 15.minutes, cdn_ttl: 2.hours)
+      set_public_cache(cdn_ttl: 2.hours)
     else
-      set_public_cache(browser_ttl: 1.minute, cdn_ttl: 1.minute)
+      set_public_cache(cdn_ttl: 1.minute)
     end
   end
 
@@ -107,7 +107,7 @@ class TendersController < ApplicationController
       is_cached = Rails.cache.exist?(tender_cache_key)
       response.headers['X-Cache'] = is_cached ? 'HIT' : 'MISS'
 
-      set_public_cache(browser_ttl: 30.minutes, cdn_ttl: 12.hours)
+      set_public_cache(cdn_ttl: 12.hours)
       @tender_json = Rails.cache.fetch("tender:#{@tender_data.id}:full_data:#{cache_version}", expires_in: 12.hours) do
         JSON.parse(@tender_data.full_data) rescue {}
       end if @tender_data.full_data.present?
