@@ -17,7 +17,7 @@ export default class extends Controller {
     const gsi = google.accounts.id
     gsi.initialize({
       client_id: this.clientIdValue,
-      callback: ({ credential }) => this.signIn(credential),
+      callback: ({ credential, select_by }) => this.signIn(credential, select_by),
       auto_select: true,
       cancel_on_tap_outside: false,
       context: "signin",
@@ -39,7 +39,9 @@ export default class extends Controller {
     gsi.prompt()
   }
 
-  async signIn(credential) {
+  // selectBy says how the user signed in: "auto" (automatic sign-in),
+  // "user"/"user_1tap" (One Tap), "btn"/"btn_confirm" (button), ...
+  async signIn(credential, selectBy) {
     // Double-submit CSRF token: see Users::GoogleSignInsController
     const csrf = crypto.randomUUID()
     document.cookie = `g_csrf_token=${csrf}; path=/; SameSite=Strict; Secure`
@@ -50,6 +52,10 @@ export default class extends Controller {
     const response = await fetch(this.urlValue, { method: "POST", body, headers: { Accept: "application/json" } })
     const data = await response.json().catch(() => ({}))
     if (!response.ok) return showError(data.error || "Google sign-in failed, please try again.")
+
+    // GA4's recommended login / sign_up events; gtag sends them with a beacon,
+    // so they survive the navigation below
+    window.gtag?.("event", data.new_user ? "sign_up" : "login", { method: `Google (${selectBy})` })
 
     // reload() revalidates; navigating to the same URL could show the
     // browser's cached logged-out copy of the page
