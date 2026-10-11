@@ -191,8 +191,8 @@ class TendersController < ApplicationController
     #   ]
     # end
 
-    unless verify_recaptcha
-      @full_message = 'Please enter your reCAPTCHA again'
+    unless verify_captcha
+      @full_message = "Please confirm you're not a robot and try again"
       return render 'get_relevant_tenders_success'
     end
 
@@ -217,8 +217,8 @@ class TendersController < ApplicationController
     # return render plain: params.to_json
     @full_message = 'Please Check your email (including spam folder) to download your files'
 
-    unless verify_recaptcha
-      @full_message = 'Please enter your reCAPTCHA again'
+    unless verify_captcha
+      @full_message = "Please confirm you're not a robot and try again"
       return render 'get_relevant_tenders_success'
     end
 

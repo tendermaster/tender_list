@@ -1,12 +1,16 @@
 module ApplicationHelper
   include Pagy::Frontend
 
-  # recaptcha_tags emits the api.js <script> every time; pages with two forms
-  # (e.g. home) loaded it twice. Only the first widget on a page includes it.
-  def recaptcha_tags_once(**options)
-    include_script = !@recaptcha_script_rendered
-    @recaptcha_script_rendered = true
-    recaptcha_tags(**options, script: include_script)
+  # Bot check widget for Captcha#verify_captcha: Turnstile when configured,
+  # reCAPTCHA otherwise. Pages with two forms (e.g. home) load the provider's
+  # script once, with the first widget.
+  def captcha_tags
+    include_script = !@captcha_script_rendered
+    @captcha_script_rendered = true
+    return recaptcha_tags(script: include_script) unless Captcha.turnstile?
+
+    script = tag.script(src: 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: true, defer: true) if include_script
+    safe_join([script, tag.div(class: 'cf-turnstile', data: { sitekey: ENV['TURNSTILE_SITE_KEY'] })].compact)
   end
 
   def time_left(time)

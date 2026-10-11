@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
+  include Captcha
   helper_method :site_base_url
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from Pagy::OverflowError, with: :record_not_found

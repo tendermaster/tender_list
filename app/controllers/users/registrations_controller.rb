@@ -13,12 +13,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    if verify_recaptcha
+    if verify_captcha
       super
     else
       build_resource(sign_up_params)
       clean_up_passwords(resource)
-      flash[:error] = 'Please enter your reCAPTCHA again'
+      flash[:error] = "Please confirm you're not a robot and try again"
       render :new
     end
   end
