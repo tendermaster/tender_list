@@ -1,13 +1,13 @@
 <%= render 'layouts/navbar' %>
 <div class="flex justify-center px-4 py-12">
   <div class="w-full max-w-sm">
-    <h1 class="text-center text-2xl font-bold text-gray-900 dark:text-white">Log in to Sigma Tenders</h1>
-    <p class="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">One click with your Google account, no password needed.</p>
+    <h1 class="text-center text-2xl font-bold text-gray-900 dark:text-white">Sign in to Sigma Tenders</h1>
+    <p class="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">New or returning, one click with your Google account.</p>
     <div class="text-center"><%= render 'layouts/flash' %></div>
 
     <div class="mt-8"><%= render 'devise/shared/google_button' %></div>
 
-    <%= render 'devise/shared/email_divider', label: 'or log in with email' %>
+    <%= render 'devise/shared/email_divider', label: 'or use email' %>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'new_user px-0 pt-0 sm:max-w-none' }) do |f| %>
       <div class="field">

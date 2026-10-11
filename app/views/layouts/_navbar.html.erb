@@ -230,11 +230,9 @@
           <%#= button_to "Logout", destroy_user_session_path, method: :delete, class: 'btn' %>
           <!--          </li>-->
         <% else %>
+          <%# One button: Continue with Google on the sign-in page creates the account too %>
           <li>
-            <a href="<%= new_user_session_path %>" class="block py-2 pl-3 pr-4 text-gray-700 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Login</a>
-          </li>
-          <li>
-            <a href="<%= new_user_registration_path %>" class="btn">Sign Up</a>
+            <a href="<%= new_user_session_path %>" class="inline-block rounded-full bg-orange-600 px-5 py-2 font-semibold text-white hover:bg-orange-700 md:py-1.5">Sign in</a>
           </li>
         <% end %>
       </ul>
