@@ -12,14 +12,6 @@ class User < ApplicationRecord
   has_many :subscriptions
   has_many :tenders, through: :bookmarks
 
-  def self.ransackable_associations(auth_object = nil)
-    ['bookmarks', 'query', 'tenders']
-  end
-
-  def self.ransackable_attributes(auth_object = nil)
-    ['confirmation_sent_at', 'confirmation_token', 'confirmed_at', 'created_at', 'current_plan', 'current_sign_in_at', 'current_sign_in_ip', 'email', 'encrypted_password', 'failed_attempts', 'id', 'last_sign_in_at', 'last_sign_in_ip', 'locked_at', 'name', 'remember_created_at', 'reset_password_sent_at', 'reset_password_token', 'role', 'sign_in_count', 'unconfirmed_email', 'unlock_token', 'updated_at']
-  end
-
   # The user for a Google account, linking or creating one on first sign-in.
   # Returns nil if Google hasn't verified the email address.
   def self.from_google(uid:, email:, email_verified:, name: nil)

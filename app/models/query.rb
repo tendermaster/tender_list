@@ -7,14 +7,6 @@ class Query < ApplicationRecord
   validates :include_keyword, presence: true
   validates :updates, inclusion: ['REGULARLY', 'WEEKLY', 'MONTHLY', 'NONE']
 
-  def self.ransackable_attributes(auth_object = nil)
-    ["created_at", "exclude_keyword", "id", "include_keyword", "last_sent", "name", "query_type", "state_name", "updated_at", "updates", "user_id"]
-  end
-
-  def self.ransackable_associations(auth_object = nil)
-    ["user"]
-  end
-
   def self.find_by_keyword_or_name(term)
     return nil if term.blank?
 
