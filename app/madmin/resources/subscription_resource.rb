@@ -1,15 +1,15 @@
 class SubscriptionResource < Madmin::Resource
   # Attributes
   attribute :id, form: false
-  attribute :plan_name
+  attribute :plan_name, index: true
   attribute :order_id
-  attribute :price
-  attribute :start_date
-  attribute :end_date
-  attribute :user_id
+  attribute :price, index: true
+  attribute :start_date, index: true
+  attribute :end_date, index: true
+  attribute :user_id, index: true
   attribute :created_at, form: false
   attribute :updated_at, form: false
-  attribute :coupon_code
+  attribute :coupon_code, index: true
 
   # Associations
 
@@ -31,7 +31,7 @@ class SubscriptionResource < Madmin::Resource
   # def self.display_name(record) = record.name
 
   # Customize the default sort column and direction.
-  # def self.default_sort_column = "created_at"
-  #
-  # def self.default_sort_direction = "desc"
+  def self.default_sort_column = "created_at"
+
+  def self.default_sort_direction = "desc"
 end

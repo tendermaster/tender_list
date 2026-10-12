@@ -4,12 +4,12 @@ class QueryResource < Madmin::Resource
   attribute :name
   attribute :query_type
   attribute :state_name
-  attribute :include_keyword
+  attribute :include_keyword, index: true
   attribute :exclude_keyword
   attribute :created_at, form: false
   attribute :updated_at, form: false
-  attribute :updates
-  attribute :last_sent
+  attribute :updates, index: true
+  attribute :last_sent, index: true
 
   # Associations
   attribute :user
@@ -32,7 +32,7 @@ class QueryResource < Madmin::Resource
   # def self.display_name(record) = record.name
 
   # Customize the default sort column and direction.
-  # def self.default_sort_column = "created_at"
-  #
-  # def self.default_sort_direction = "desc"
+  def self.default_sort_column = "created_at"
+
+  def self.default_sort_direction = "desc"
 end

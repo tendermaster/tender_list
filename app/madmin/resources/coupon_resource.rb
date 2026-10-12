@@ -1,12 +1,12 @@
 class CouponResource < Madmin::Resource
   # Attributes
   attribute :id, form: false
-  attribute :coupon_code
-  attribute :start_date
-  attribute :end_date
+  attribute :coupon_code, index: true
+  attribute :start_date, index: true
+  attribute :end_date, index: true
   attribute :validity_seconds
-  attribute :is_valid
-  attribute :one_time_use
+  attribute :is_valid, index: true
+  attribute :one_time_use, index: true
   attribute :created_at, form: false
   attribute :updated_at, form: false
 
@@ -30,7 +30,7 @@ class CouponResource < Madmin::Resource
   # def self.display_name(record) = record.name
 
   # Customize the default sort column and direction.
-  # def self.default_sort_column = "created_at"
-  #
-  # def self.default_sort_direction = "desc"
+  def self.default_sort_column = "created_at"
+
+  def self.default_sort_direction = "desc"
 end

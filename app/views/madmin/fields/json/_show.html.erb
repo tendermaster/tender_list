@@ -1,0 +1,3 @@
+<% value = field.value(record) %>
+<% value = (JSON.parse(value) rescue value) if value.is_a?(String) %>
+<%= tag.pre JSON.pretty_generate(value), style: "white-space: pre-wrap; word-break: break-word; margin: 0" unless value.nil? %>

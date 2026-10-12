@@ -1,0 +1,5 @@
+<%# One line per record: "key: value · key: value", the full text on hover %>
+<% value = field.value(record) %>
+<% value = (JSON.parse(value) rescue value) if value.is_a?(String) %>
+<% text = value.is_a?(Hash) ? value.map { |k, v| "#{k}: #{v.is_a?(String) ? v : v.to_json}" }.join(" · ") : value.to_json %>
+<%= tag.span text.squish.truncate(140), title: text.truncate(1000) unless value.nil? %>

@@ -1,13 +1,13 @@
 class BookmarkResource < Madmin::Resource
   # Attributes
   attribute :id, form: false
-  attribute :personal_note
+  attribute :personal_note, index: true
   attribute :created_at, form: false
   attribute :updated_at, form: false
 
   # Associations
   attribute :user
-  attribute :tender
+  attribute :tender, index: true
 
   # Add scopes to easily filter records
   # scope :published
@@ -27,7 +27,7 @@ class BookmarkResource < Madmin::Resource
   # def self.display_name(record) = record.name
 
   # Customize the default sort column and direction.
-  # def self.default_sort_column = "created_at"
-  #
-  # def self.default_sort_direction = "desc"
+  def self.default_sort_column = "created_at"
+
+  def self.default_sort_direction = "desc"
 end

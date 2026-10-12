@@ -1,9 +1,9 @@
 class MiscDataStoreResource < Madmin::Resource
   # Attributes
   attribute :id, form: false
-  attribute :data
+  attribute :data, index: true
   attribute :name
-  attribute :source
+  attribute :source, index: true
   attribute :note
   attribute :created_at, form: false
   attribute :updated_at, form: false
@@ -28,7 +28,7 @@ class MiscDataStoreResource < Madmin::Resource
   # def self.display_name(record) = record.name
 
   # Customize the default sort column and direction.
-  # def self.default_sort_column = "created_at"
-  #
-  # def self.default_sort_direction = "desc"
+  def self.default_sort_column = "created_at"
+
+  def self.default_sort_direction = "desc"
 end
