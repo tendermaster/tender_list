@@ -1,0 +1,136 @@
+<%= content_for :title, "Dashboard" %>
+<% ist = ->(time) { time&.in_time_zone("Asia/Kolkata")&.strftime("%-d %b %Y, %H:%M") } %>
+
+<style>
+  .dashboard-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .dashboard-metrics .metric { border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem; }
+  .dashboard-metrics h4 { color: var(--light-text-color); font-weight: 600; margin: 0 0 0.5rem; }
+  .dashboard-metrics p { font-size: 1.75rem; font-weight: 600; margin: 0; }
+  .dashboard-metrics small { color: var(--light-text-color); }
+  .dashboard h2 { font-size: 1.1rem; margin: 2rem 0 0.75rem; }
+  .dashboard h2 small { color: var(--light-text-color); font-weight: 400; font-size: 0.85rem; }
+  .dashboard td.num, .dashboard th.num { text-align: right; }
+  .dashboard .stale { color: oklch(.577 .245 27.325); font-weight: 600; }
+  .dashboard .muted { color: var(--light-text-color); }
+</style>
+
+<div class="dashboard">
+  <header class="header">
+    <h1>Dashboard</h1>
+  </header>
+
+  <section class="dashboard-metrics">
+    <div class="metric">
+      <h4>Users</h4>
+      <p><%= number_with_delimiter @users_total %></p>
+      <small>+<%= @users_week %> this week · <%= @users_google %> with Google</small>
+    </div>
+    <div class="metric">
+      <h4>Active subscriptions</h4>
+      <p><%= @active_subscriptions.size %></p>
+      <small>₹<%= number_with_delimiter @revenue_30_days.to_i %> taken in 30 days</small>
+    </div>
+    <div class="metric">
+      <h4>Open tenders</h4>
+      <p><%= number_with_delimiter @tenders[:open] %></p>
+      <small>closing date still ahead</small>
+    </div>
+    <div class="metric">
+      <h4>Tenders</h4>
+      <p><%= number_to_human @tenders[:total], precision: 3 %></p>
+      <small><%= number_with_delimiter @tenders[:sources].sum { |s| s[:day] } %> added or updated in 24 h</small>
+    </div>
+  </section>
+
+  <h2>Scrapers <small>tenders added or updated, by source · figures from <%= ist.(@tenders[:at]) %></small></h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Source</th><th class="num">24 h</th><th class="num">7 days</th><th>Last update (IST)</th></tr>
+      </thead>
+      <tbody>
+        <% @tenders[:sources].each do |s| %>
+          <% stale = s[:last] < 26.hours.ago %>
+          <tr>
+            <td><%= s[:source] %></td>
+            <td class="num <%= 'stale' if s[:day].zero? %>"><%= number_with_delimiter s[:day] %></td>
+            <td class="num"><%= number_with_delimiter s[:week] %></td>
+            <td class="<%= 'stale' if stale %>"><%= ist.(s[:last]) %> <span class="muted">(<%= time_ago_in_words s[:last] %> ago)</span></td>
+          </tr>
+        <% end %>
+        <% if @tenders[:sources].empty? %>
+          <tr><td colspan="4" class="stale">No tenders added or updated in the last 7 days</td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted">A source missing from this list hasn't written anything in 7 days.</p>
+
+  <h2>Newest users</h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Email</th><th>Name</th><th>Signed up (IST)</th><th>Via</th><th>Confirmed</th><th class="num">Sign-ins</th><th>Plan</th></tr>
+      </thead>
+      <tbody>
+        <% @recent_users.each do |user| %>
+          <tr>
+            <td><%= link_to user.email, madmin_user_path(user) %></td>
+            <td><%= user.name %></td>
+            <td><%= ist.(user.created_at) %></td>
+            <td><%= user.google_uid.present? ? "Google" : "Email" %></td>
+            <td><%= user.confirmed? ? "Yes" : tag.span("No", class: "stale") %></td>
+            <td class="num"><%= user.sign_in_count %></td>
+            <td><%= user.active_plan %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <p><%= link_to "All users →", madmin_users_path %></p>
+
+  <h2>Active subscriptions</h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>User</th><th>Plan</th><th class="num">Price</th><th>Started</th><th>Ends</th><th>Coupon</th></tr>
+      </thead>
+      <tbody>
+        <% @active_subscriptions.each do |sub| %>
+          <% user = @subscribers[sub.user_id] %>
+          <tr>
+            <td><%= user ? link_to(user.email, madmin_user_path(user)) : tag.span("user #{sub.user_id} missing", class: "muted") %></td>
+            <td><%= link_to sub.plan_name, madmin_subscription_path(sub) %></td>
+            <td class="num">₹<%= number_with_delimiter sub.price.to_i %></td>
+            <td><%= sub.start_date&.to_date&.to_fs(:long) %></td>
+            <td><%= sub.end_date.to_date.to_fs(:long) %> <span class="muted">(<%= distance_of_time_in_words_to_now sub.end_date %> left)</span></td>
+            <td><%= sub.coupon_code %></td>
+          </tr>
+        <% end %>
+        <% if @active_subscriptions.empty? %>
+          <tr><td colspan="6" class="muted">No active subscriptions</td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Newest saved searches</h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Keywords</th><th>User</th><th>Alerts</th><th>Created (IST)</th></tr>
+      </thead>
+      <tbody>
+        <% @recent_queries.each do |query| %>
+          <tr>
+            <td><%= link_to query.name, madmin_query_path(query) %></td>
+            <td><%= truncate query.include_keyword, length: 60 %></td>
+            <td><%= query.user&.email %></td>
+            <td><%= query.updates&.capitalize %></td>
+            <td><%= ist.(query.created_at) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
