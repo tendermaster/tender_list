@@ -21,7 +21,9 @@ module Madmin
     def paginate_collection(collection)
       return super if search_term.present?
 
-      pagy(collection, count: estimated_tender_count)
+      # -1 until the table is first analyzed (a fresh restore, the tests)
+      estimate = estimated_tender_count
+      estimate.positive? ? pagy(collection, count: estimate) : super
     end
 
     def estimated_tender_count
