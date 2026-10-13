@@ -121,8 +121,7 @@ Rails.application.routes.draw do
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  #   admin
-  get '/admin2', controller: :admin, action: :admin2, as: :admin2
-  post '/admin2/login_as', controller: :admin, action: :login_as, as: :login_as
+  # "Log in as" moved to each user's page in /admin
+  get '/admin2', to: redirect('/admin/users')
 
 end

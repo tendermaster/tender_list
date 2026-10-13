@@ -22,6 +22,11 @@ class UserResource < Madmin::Resource
   attribute :bookmarks, index: false
   attribute :subscriptions, index: false
 
+  member_action do |user|
+    button_to 'Log in as', impersonate_madmin_user_path(user), class: 'btn btn-secondary',
+                                                             data: { turbo: false }
+  end
+
   def self.display_name(record) = record.email
 
   # Newest first

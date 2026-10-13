@@ -9,6 +9,8 @@ namespace :madmin, path: 'admin' do
   resources :queries
   resources :attachments
   resources :admin_users
-  resources :users
+  resources :users do
+    post :impersonate, on: :member
+  end
   root to: "dashboard#show"
 end

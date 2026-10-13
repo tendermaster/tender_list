@@ -48,4 +48,25 @@ class AdminDashboardTest < ActionDispatch::IntegrationTest
     get "/admin/misc_data_stores/#{lead.id}"
     assert_select 'pre', /"mobile": "9876543210"/
   end
+
+  test 'admins can log in as a user without touching their sign-in stats' do
+    user = User.create!(email: 'buyer@example.com', password: 'secret-password-1', confirmed_at: Time.current,
+                        sign_in_count: 4)
+
+    post "/admin/users/#{user.id}/impersonate"
+    assert_redirected_to '/admin/login'
+
+    sign_in AdminUser.create!(email: 'admin@example.com', password: 'secret-password-1')
+    get "/admin/users/#{user.id}"
+    assert_select 'button', 'Log in as'
+
+    post "/admin/users/#{user.id}/impersonate"
+    assert_redirected_to '/'
+    assert_equal 4, user.reload.sign_in_count
+
+    get '/admin'
+    assert_response :success, 'the admin stays signed in'
+    get '/admin2'
+    assert_redirected_to '/admin/users'
+  end
 end
