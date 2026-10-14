@@ -2,6 +2,13 @@ class QueriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_query, only: %i[ show edit update destroy ]
 
+  # A saved search's results when Elasticsearch is down or too slow: the
+  # "try again" page, as for site search, not a 500
+  rescue_from TenderSearch::SearchUnavailableError do
+    response.headers['Retry-After'] = '30'
+    render 'home/page_503', status: :service_unavailable
+  end
+
   # GET /queries or /queries.json
   def index
     # @queries = Query.all

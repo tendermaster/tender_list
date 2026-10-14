@@ -159,9 +159,28 @@ module TenderSearch
 
   private
 
+  # "-(term)" / "-term": a tender mentioning it is left out
+  EXCLUDED_TERM = /(?:\A|\s)-(\([^)]*\)|[^\s()|]+)/
+
   def search_clause_for(query)
     # Sanitize empty parentheses from query strings
     clean_query = query.to_s.gsub(/\(\s*\)/, '').gsub(/-\(\s*\)/, '').squish
+
+    # Exclusions go in must_not. Inside the query string, where terms are
+    # OR'd, "-(road)" means "or doesn't mention road": nearly every tender
+    # matched, so the results were wrong and a saved search with exclusions
+    # took 20s+.
+    excluded = clean_query.scan(EXCLUDED_TERM).flatten
+    included = clean_query.gsub(EXCLUDED_TERM, ' ').squish
+    if excluded.any? && included.present?
+      return {
+        bool: {
+          must: [search_clause_for(included)],
+          must_not: [{ simple_query_string: { query: excluded.join(' | '), fields: %w[title organisation state],
+                                              default_operator: 'or' } }]
+        }
+      }
+    end
 
     # Determine if query uses Lucene boolean syntax (pipes, negations, or grouping)
     if clean_query.match?(/[|()]|(?:\s-\w+)/)
