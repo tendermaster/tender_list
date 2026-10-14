@@ -22,8 +22,9 @@ class Users::GoogleSignInsController < ApplicationController
     user.remember_me = true
     sign_in(:user, user, event: :authentication)
     # Stay on the page the visitor signed in from; from the sign-in page, go
-    # where they were headed
-    render json: { redirect: return_to || after_sign_in_path_for(user), new_user: new_user }
+    # where they were headed. New users go to onboarding first.
+    redirect = user.new_to_onboarding? ? welcome_path(return_to:) : return_to || after_sign_in_path_for(user)
+    render json: { redirect:, new_user: new_user }
   rescue GoogleIdToken::InvalidToken => e
     Rails.logger.warn("Google sign-in rejected: #{e.message}")
     render json: { error: 'Google sign-in failed, please try again.' }, status: :unauthorized

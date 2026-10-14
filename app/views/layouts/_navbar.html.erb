@@ -239,3 +239,10 @@
     </div>
   </div>
 </nav>
+<%# Users without a mobile number: onboarding asks for it (OnboardingsController) %>
+<% if user_signed_in? && current_user.needs_phone? && controller_name != 'onboardings' %>
+  <div class="bg-orange-50 px-4 py-2 text-center text-sm text-orange-900">
+    Get tenders matched to your business, and a call from our team.
+    <%= link_to 'Finish setup →', welcome_path, class: 'ml-1 font-semibold underline' %>
+  </div>
+<% end %>

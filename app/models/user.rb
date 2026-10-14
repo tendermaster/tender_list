@@ -12,6 +12,22 @@ class User < ApplicationRecord
   has_many :subscriptions
   has_many :tenders, through: :bookmarks
 
+  BUSINESS_TYPES = ['Manufacturer', 'Contractor', 'Trader / Supplier', 'Service provider'].freeze
+
+  # How the team's call to a new user went (blank: not called yet)
+  enum :call_status, { called: 'called', no_answer: 'no_answer', not_interested: 'not_interested' },
+       validate: { allow_nil: true }
+
+  # Indian mobiles only, stored as +919876543210
+  validates :phone, phone: { possible: false, types: [:mobile], countries: :in }, allow_blank: true
+  validates :business_type, inclusion: { in: BUSINESS_TYPES }, allow_blank: true
+  before_validation :normalize_phone
+
+  # Sent to /welcome after the first sign-in; afterwards the "Finish setup"
+  # bar asks for the number until they give it.
+  def needs_phone? = phone.blank?
+  def new_to_onboarding? = needs_phone? && onboarded_at.nil? && sign_in_count <= 1
+
   # The user for a Google account, linking or creating one on first sign-in.
   # Returns nil if Google hasn't verified the email address.
   def self.from_google(uid:, email:, email_verified:, name: nil)
@@ -134,4 +150,12 @@ class User < ApplicationRecord
     end
   end
 
+  private
+
+  def normalize_phone
+    return if phone.blank?
+
+    parsed = Phonelib.parse(phone, 'IN')
+    self.phone = parsed.e164 if parsed.valid?
+  end
 end

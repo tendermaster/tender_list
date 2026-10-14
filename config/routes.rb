@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   root controller: :tenders, action: :home
 
   resources :queries
+  resource :welcome, controller: :onboardings, only: %i[show update]
   get '/redeem', controller: :queries, action: :redeem, as: :redeem
   post '/redeem', controller: :queries, action: :redeem_coupon, as: :redeem_coupon
 

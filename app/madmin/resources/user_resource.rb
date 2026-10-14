@@ -2,6 +2,12 @@ class UserResource < Madmin::Resource
   attribute :id, form: false
   attribute :email, index: true
   attribute :name
+  attribute :phone, index: true
+  attribute :business_type, index: false
+  attribute :call_status, index: true
+  attribute :call_note, index: false
+  attribute :onboarded_at, index: false, form: false
+  attribute :contact_consent_at, index: false, form: false
   attribute :role
   attribute :current_plan
   attribute :sign_in_count, index: true, form: false

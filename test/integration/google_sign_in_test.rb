@@ -12,7 +12,8 @@ class GoogleSignInTest < ActionDispatch::IntegrationTest
     sign_in_with_google(return_to: '/tender/abc')
 
     assert_response :success
-    assert_equal({ 'redirect' => '/tender/abc', 'new_user' => true }, response.parsed_body)
+    # New users answer onboarding (/welcome) first, then go back to the tender
+    assert_equal({ 'redirect' => '/welcome?return_to=%2Ftender%2Fabc', 'new_user' => true }, response.parsed_body)
     assert cookies[:remember_user_token].present?
     get queries_path
     assert_response :success
@@ -25,6 +26,11 @@ class GoogleSignInTest < ActionDispatch::IntegrationTest
   end
 
   test 'goes to the dashboard when there is no page to return to, never to another site' do
+    sign_in_with_google(return_to: '//evil.example/x')
+    assert_equal '/welcome', response.parsed_body['redirect']
+
+    delete destroy_user_session_path
+    User.find_by(google_uid: 'google-123').update!(phone: '9876543210')
     sign_in_with_google(return_to: '//evil.example/x')
     assert_equal queries_path, response.parsed_body['redirect']
   end
@@ -65,7 +71,7 @@ class GoogleSignInTest < ActionDispatch::IntegrationTest
   end
 
   test 'opening the sign-in page from a tender returns there after an email login' do
-    User.create!(email: 'email@example.com', password: 'email-pass-123', confirmed_at: Time.current)
+    User.create!(email: 'email@example.com', password: 'email-pass-123', confirmed_at: Time.current, phone: '9876543210')
     get new_user_session_path, headers: { 'Referer' => 'http://www.example.com/tender/xyz?ref=1' }
     post user_session_path, params: { user: { email: 'email@example.com', password: 'email-pass-123' } }
     assert_redirected_to '/tender/xyz?ref=1'
@@ -74,7 +80,7 @@ class GoogleSignInTest < ActionDispatch::IntegrationTest
   test 'while mail is off, unconfirmed email users can log in' do
     allowed_was = Devise.allow_unconfirmed_access_for
     Devise.allow_unconfirmed_access_for = nil # as config/initializers/devise.rb sets it without MAIL_ENABLED
-    User.create!(email: 'unconfirmed@example.com', password: 'email-pass-123')
+    User.create!(email: 'unconfirmed@example.com', password: 'email-pass-123', phone: '9876543210')
     post user_session_path, params: { user: { email: 'unconfirmed@example.com', password: 'email-pass-123' } }
     assert_redirected_to queries_path
   ensure

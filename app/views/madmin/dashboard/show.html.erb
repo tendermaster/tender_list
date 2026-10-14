@@ -42,6 +42,31 @@
     </div>
   </section>
 
+  <h2>New sign-ups to call <small>last 30 days, not called yet · mark a call on the user's Edit page</small></h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Mobile</th><th>Bids on</th><th>States</th><th>Business</th><th>Signed up (IST)</th></tr>
+      </thead>
+      <tbody>
+        <% @to_call.each do |user| %>
+          <% interests = @to_call_interests[user.id]&.first %>
+          <tr>
+            <td><%= link_to user.name.presence || user.email, madmin_user_path(user) %></td>
+            <td><%= user.phone ? link_to(user.phone, "tel:#{user.phone}") : tag.span('no number (skipped)', class: 'muted') %></td>
+            <td><%= interests&.include_keyword&.truncate(80) %></td>
+            <td><%= interests&.state_name&.truncate(60) %></td>
+            <td><%= user.business_type %></td>
+            <td><%= ist.(user.created_at) %></td>
+          </tr>
+        <% end %>
+        <% if @to_call.empty? %>
+          <tr><td colspan="6" class="muted">Nobody waiting for a call</td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
   <h2>Scrapers <small>tenders added or updated, by source · figures from <%= ist.(@tenders[:at]) %></small></h2>
   <div class="table-scroll">
     <table>

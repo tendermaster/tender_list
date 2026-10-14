@@ -6,6 +6,10 @@ module Madmin
       @users_google = User.where.not(google_uid: nil).count
       @recent_users = User.order(created_at: :desc).limit(10)
 
+      # Onboarding (/welcome) collects these for the team to call
+      @to_call = User.where(call_status: nil, created_at: 30.days.ago..).order(created_at: :desc).limit(30).to_a
+      @to_call_interests = Query.where(user_id: @to_call.map(&:id)).order(:id).group_by(&:user_id)
+
       @active_subscriptions = Subscription.where('end_date > now()').order(end_date: :asc).to_a
       # Subscription has no user association
       @subscribers = User.where(id: @active_subscriptions.map(&:user_id)).index_by(&:id)

@@ -112,6 +112,9 @@ gem 'aws-sdk-s3', '~> 1'
 
 gem 'recaptcha'
 
+# Validates and normalises users' mobile numbers (onboarding)
+gem 'phonelib'
+
 
 
 # Admin at /admin (replaced ActiveAdmin)

@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     return stored_location_for(resource) || madmin_root_path if resource.is_a?(AdminUser)
+    # New users: onboarding first, then back where they were headed
+    return welcome_path(return_to: stored_location_for(resource)) if resource.new_to_onboarding?
 
     stored_location_for(resource) || queries_path
   end
