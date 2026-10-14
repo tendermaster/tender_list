@@ -112,41 +112,6 @@ const Toast = Swal.mixin({
   }
 });
 
-const bookmarkBtn = $('#bookmark-btn')
-const csrfToken = $('meta[name=csrf-token]').attr('content')
-bookmarkBtn.on('click', (e) => {
-  //   ajax like
-  const pageId = bookmarkBtn.attr('data-page-id');
-  $.ajax({
-    url: '/tender/bookmark',
-    type: 'POST',
-    headers: {
-      'X-CSRF-Token': csrfToken,
-    },
-    data: {
-      pageId: pageId,
-    },
-    dataType: 'json',
-    success: (function (data) {
-      Toast.fire({
-        icon: "success",
-        title: data?.message,
-        timer: 2000
-      });
-
-      // change color
-      bookmarkBtn.toggleClass('bg-orange-600 text-white');
-    })
-  })
-    .fail(function (error) {
-      const errorMesssage = error?.responseJSON?.error
-      Toast.fire({
-        icon: "info",
-        title: errorMesssage || 'Error'
-      });
-    })
-})
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Autocomplete functionality
 // ─────────────────────────────────────────────────────────────────────────────

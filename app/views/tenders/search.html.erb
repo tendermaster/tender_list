@@ -9,7 +9,7 @@
   end
 
   meta_title = if has_results
-    "#{@pagy.count} #{@query_label} in India - #{Date.today.year}".titleize
+    "#{@total} #{@query_label} in India - #{Date.today.year}".titleize
   else
     "#{@query_label} Tenders in India - Search & Alerts (#{Date.today.year})".titleize
   end
@@ -23,7 +23,8 @@
   # Industry standard SEO rule:
   # - If programmatic keyword landing page (/tenders/:keyword-tenders): keep 'index, follow' (displays recommendations/archive).
   # - If raw user search with 0 hits (/search?q=...): use 'noindex, follow' to prevent Soft-404 and crawl budget waste.
-  robots_directive = if is_keyword_page || has_results
+  # Filtered views repeat the unfiltered page's tenders
+  robots_directive = if (is_keyword_page || has_results) && !TenderSearch.filtered?(@filters)
     'index, follow'
   else
     'noindex, follow'
@@ -68,11 +69,12 @@
     <%# Arrived from onboarding (/welcome) %>
     <div class="mt-6 rounded-lg bg-green-50 px-4 py-3 text-green-800" id="notice">
       <p class="font-semibold"><%= number_with_delimiter(@pagy.count) %> tenders match what you bid on.</p>
-      <p class="text-sm">Thanks! Our team will call you on <%= current_user.phone %>. Change your keywords any time in <%= link_to 'My searches', queries_path, class: 'underline' %>.</p>
+      <p class="text-sm">Change your keywords any time in <%= link_to 'My searches', queries_path, class: 'underline' %>.</p>
     </div>
     <script>window.gtag?.("event", "onboarding_complete")</script>
   <% end %>
   <h1 class="my-4 text-xl font-bold">Results for: <%= @query_label %></h1>
+  <%= render 'tenders/search_filters', total: @total, filters: @filters %>
   <h2 class="mt-4 mb-8 text-sm font-bold text-gray-700 dark:text-gray-300">
     Find the latest <%= @query_label %> tenders from different organizations. SigmaTenders helps you participate in these online e-Procurement tenders. We provide access to tender details, BOQs, and technical bids, along with bidding support for <%= @query_label %> e-tenders. Stay informed with daily email alerts and comprehensive coverage across government websites, GeM, and e-Procurement portals.
   </h2>

@@ -21,6 +21,13 @@ class ApplicationController < ActionController::Base
     stored_location_for(resource) || queries_path
   end
 
+  # Which of these tenders the signed-in user has saved, for their Save buttons
+  def bookmarked_ids_for(tenders)
+    return Set.new if current_user.nil? || tenders.blank?
+
+    current_user.bookmarks.where(tender_id: tenders.map(&:id)).pluck(:tender_id).to_set
+  end
+
   def record_not_found
     render 'home/page_404', status: 404
   end

@@ -19,7 +19,6 @@ class QueriesController < ApplicationController
     @query_id = params['query_id'].to_i
     @saved_query = current_user.query.find(@query_id)
     @query_string = @saved_query.to_search_query
-    pp @query_string
 
     @min_value = params['min_value'].to_i
     @max_value = params['max_value'].to_i
@@ -27,7 +26,9 @@ class QueriesController < ApplicationController
     @max_value = 10 ** 10 if @max_value == 0
 
     # collection = TendersController.search_tender(@query_string, @min_value, @max_value)
-    @pagy, @records = TendersController.elastic_pagy(@query_string, params[:page])
+    @filters = TenderSearch.filters_from(params)
+    @pagy, @records, _cache_hit, @total = TendersController.elastic_pagy(@query_string, params[:page], filters: @filters)
+    @bookmarked_ids = bookmarked_ids_for(@records)
 
     # @pagy, @records = pagy(collection, items: 5)
     @query = @query_string

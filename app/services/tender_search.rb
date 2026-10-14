@@ -11,16 +11,31 @@ module TenderSearch
   HYDRATED_RECORDS_TTL = 15.minutes
   COUNT_TTL = 1.hour
   MLT_TTL = 3.days            # similar tenders rarely change; MLT queries are expensive
-  MAX_PAGE = 2000             # Support deep pagination (ES handles this well)
+  PER_PAGE = 10
+  # Deeper pages were nearly all crawlers, and page 1,800 made Elasticsearch
+  # rank 5,000 tenders to show 5
+  MAX_PAGE = 50
   ES_INDEX = 'tenders'
-  
-  # Tiered cache limits for performance
+
+  # Ids fetched per snapshot: most visits stop in the first pages
   CACHE_TIERS = {
-    40  => 200,    # Pages 1-40:    fetch 200 ids
-    200 => 1000,   # Pages 41-200:  fetch 1000 ids
-    500 => 2500,   # Pages 201-500: fetch 2500 ids
-    2000 => 5000   # Pages 501-2000: fetch 5000 ids
+    20 => 200,   # Pages 1-20
+    50 => 500    # Pages 21-50
   }.freeze
+
+  SORTS = %w[relevance closing newest].freeze
+
+  # Search filters from request params: open tenders only, a state, the order
+  def filters_from(params)
+    sort = SORTS.include?(params[:sort].to_s) ? params[:sort].to_s : 'relevance'
+    {
+      open: params[:status].to_s == 'open' || sort == 'closing',
+      state: params[:state].presence&.to_s&.squish&.slice(0, 60),
+      sort: sort
+    }
+  end
+
+  def filtered?(filters) = filters[:open] || filters[:state].present? || filters[:sort] != 'relevance'
 
   AUTOCOMPLETE_TTL = 10.minutes  # 10 minutes for autocomplete cache
 
@@ -49,26 +64,27 @@ module TenderSearch
   # PHASE 1: Search with Snapshot
   # ─────────────────────────────────────────────────────────────────────────────
 
-  def weighted_search(query, page = 1, per_page: 5)
+  def weighted_search(query, page = 1, per_page: PER_PAGE, filters: {})
     page = [[page.to_i, 1].max, MAX_PAGE].min
     query = query.to_s.squish
+    filters = { open: false, state: nil, sort: 'relevance' }.merge(filters)
 
     return [Pagy.new(count: 0, page: 1, items: per_page), [], false] if query.blank?
 
     Telemetry::Tracer.in_span('tender_search.weighted_search', { 'search.query' => query, 'search.page' => page, 'search.per_page' => per_page }) do
-      effective_limit = CACHE_TIERS.find { |max_page, _| page <= max_page }&.last || 10000
-      snapshot = get_or_create_snapshot(query, limit: effective_limit)
+      last_row = page * per_page
+      effective_limit = CACHE_TIERS.values.find { |ids| ids >= last_row } || last_row
+      snapshot = get_or_create_snapshot(query, limit: effective_limit, filters: filters)
 
       from_pos = ((page - 1) * per_page) + 1
       page_ids = snapshot[:ids].slice((from_pos - 1), per_page) || []
 
-      # Show full page count (up to 2000 pages = 10000 results at 5/page)
-      max_results = MAX_PAGE * per_page
-      total = [snapshot[:total], max_results].min
-      pagy = Pagy.new(count: total, page: page, items: per_page)
+      # Page numbers stop at MAX_PAGE; the 4th value is the full count
+      # (counted up to 10,000)
+      pagy = Pagy.new(count: [snapshot[:total], MAX_PAGE * per_page].min, page: page, items: per_page)
       records = fetch_tenders_in_order(page_ids)
 
-      [pagy, records, snapshot[:cache_hit]]
+      [pagy, records, snapshot[:cache_hit], snapshot[:total]]
     end
   end
 
@@ -120,9 +136,7 @@ module TenderSearch
       body = {
         query: {
           bool: {
-            must: [
-              { multi_match: { query: query, fields: ['title', 'description'] } }
-            ],
+            must: [search_clause_for(query)],
             filter: [
               { term: { is_visible: true } }
             ]
@@ -159,6 +173,15 @@ module TenderSearch
 
   private
 
+  OPEN = { range: { submission_close_date: { gt: 'now/m' } } }.freeze
+
+  def filter_clauses(filters)
+    clauses = [{ term: { is_visible: true } }]
+    clauses << OPEN if filters[:open]
+    clauses << { match: { state: { query: filters[:state], operator: 'and' } } } if filters[:state].present?
+    clauses
+  end
+
   # "-(term)" / "-term": a tender mentioning it is left out
   EXCLUDED_TERM = /(?:\A|\s)-(\([^)]*\)|[^\s()|]+)/
 
@@ -177,37 +200,47 @@ module TenderSearch
         bool: {
           must: [search_clause_for(included)],
           must_not: [{ simple_query_string: { query: excluded.join(' | '), fields: %w[title organisation state],
-                                              default_operator: 'or' } }]
+                                              default_operator: 'and' } }]
         }
       }
     end
 
-    # Determine if query uses Lucene boolean syntax (pipes, negations, or grouping)
-    if clean_query.match?(/[|()]|(?:\s-\w+)/)
-      {
-        simple_query_string: {
-          query: clean_query,
-          fields: ['title^3', 'organisation^1.5', 'state', 'tender_id.keyword^2'],
-          default_operator: 'or'
-        }
-      }
+    # Saved searches: "(solar panel) | (street light)". | is OR; the words
+    # inside a group must all match.
+    if clean_query.match?(/[|()]/)
+      { simple_query_string: { query: clean_query, fields: TEXT_FIELDS, default_operator: 'and' } }
     else
-      {
-        multi_match: {
-          query: clean_query,
-          fields: ['title^3', 'description^2', 'organisation^1.5', 'tender_id.keyword^2', 'page_link', 'state'],
-          type: 'best_fields'
-        }
-      }
+      words_clause(clean_query)
     end
+  end
+
+  # Where words are looked for, and how much a match in each counts
+  TEXT_FIELDS = ['title^3', 'organisation^1.5', 'description', 'state', 'tender_category'].freeze
+
+  # Typed words: most of them must appear (all of up to 3; 75% of longer
+  # queries), anywhere across the fields, so "road construction pwd" finds
+  # a PWD road tender; matching any one word made "empanelment of agency"
+  # match every tender with "of", slowly. The exact phrase in the title ranks
+  # higher, and a tender id finds that tender.
+  def words_clause(text)
+    {
+      bool: {
+        should: [
+          { multi_match: { query: text, type: 'cross_fields', fields: TEXT_FIELDS, minimum_should_match: '3<75%' } },
+          { match_phrase: { title: { query: text, boost: 2 } } },
+          { term: { 'tender_id.keyword' => { value: text, boost: 20 } } }
+        ],
+        minimum_should_match: 1
+      }
+    }
   end
 
   # ─────────────────────────────────────────────────────────────────────────────
   # Snapshot Management
   # ─────────────────────────────────────────────────────────────────────────────
 
-  def get_or_create_snapshot(query, limit:)
-    query_hash = Digest::MD5.hexdigest(query)
+  def get_or_create_snapshot(query, limit:, filters:)
+    query_hash = Digest::MD5.hexdigest([query, filters[:open], filters[:state], filters[:sort]].join("\u0000"))
     target_cache_key = "search:#{query_hash}:#{limit}"
 
     # 1. Exact tier match
@@ -238,11 +271,9 @@ module TenderSearch
 
     # 3. Compute from Elasticsearch
     Telemetry::Metrics.record_cache_event(operation: 'search_snapshot', key: target_cache_key, hit: false)
-    snapshot = compute_ranking_snapshot(query, limit: limit)
+    snapshot = compute_ranking_snapshot(query, limit: limit, filters: filters)
 
-    # Deep pagination queries (limit >= 2500) get 2-hour TTL to absorb crawler spikes
-    ttl = limit >= 2500 ? 2.hours : SNAPSHOT_TTL
-    Rails.cache.write(target_cache_key, snapshot, expires_in: ttl) if snapshot[:ids].present?
+    Rails.cache.write(target_cache_key, snapshot, expires_in: SNAPSHOT_TTL) if snapshot[:ids].present?
     snapshot.merge(cache_hit: false)
   end
 
@@ -253,43 +284,35 @@ module TenderSearch
   # Uses function_score with script_score to boost active tenders.
   # Active tenders (submission_close_date > now) get +10000 score boost.
   #
-  def compute_ranking_snapshot(query, limit:)
+  def compute_ranking_snapshot(query, limit:, filters:)
     Telemetry::Tracer.in_span('tender_search.compute_ranking_snapshot', { 'search.query' => query, 'search.limit' => limit }) do
-      search_clause = search_clause_for(query)
-
+      matching = { bool: { must: [search_clause_for(query)], filter: filter_clauses(filters) } }
       body = {
-        query: {
-          function_score: {
-            query: {
-              bool: {
-                must: [search_clause],
-                filter: [
-                  { term: { is_visible: true } }
-                ]
-              }
-            },
-            functions: [
-              {
-                filter: { range: { submission_close_date: { gt: 'now/m' } } },
-                weight: 10000
-              }
-            ],
-            score_mode: 'sum',
-            boost_mode: 'sum'
-          }
-        },
         size: limit,
         track_total_hits: 10000,
         _source: false,
         fields: ['id']
       }
+      case filters[:sort]
+      when 'closing'
+        body.merge!(query: matching, sort: [{ submission_close_date: 'asc' }, '_score'])
+      when 'newest'
+        body.merge!(query: matching, sort: [{ id: 'desc' }])
+      else
+        # Open tenders first, each group by relevance
+        body[:query] = {
+          function_score: {
+            query: matching,
+            functions: [{ filter: OPEN, weight: 10000 }],
+            score_mode: 'sum',
+            boost_mode: 'sum'
+          }
+        }
+      end
 
       results = ElasticClient.search(index: ES_INDEX, body: body)
-      
       ids = results['hits']['hits'].map { |hit| hit['fields']['id'].first }
-      total = results['hits']['total']['value']
-
-      { ids: ids, total: total }
+      { ids: ids, total: results['hits']['total']['value'] }
     end
   rescue StandardError => e
     Telemetry::Tracer.record_exception(e)

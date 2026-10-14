@@ -1,6 +1,5 @@
 class TendersController < ApplicationController
   before_action :set_tender, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, only: [:bookmark_tender, :bookmarks]
   # These forms render on session-less public pages, so there is no session to hold
   # a CSRF token; both are anonymous lead forms guarded by reCAPTCHA instead.
   skip_forgery_protection only: [:get_relevant_tenders_post, :checklist_download]
@@ -35,8 +34,12 @@ class TendersController < ApplicationController
     raw_query = params[:q] || params[:keyword]&.tr('-', ' ')
     return redirect_to root_path if raw_query.blank?
 
+    # Pages past the last one are crawler traffic; there are no results there
+    return record_not_found if params[:page].to_i > TenderSearch::MAX_PAGE
+
     @query = raw_query.to_s.strip
     @query_label = @query
+    @filters = TenderSearch.filters_from(params)
     @min_value = params[:min_value].to_i
     @max_value = params[:max_value].to_i
     @max_value = 10**10 if @max_value <= 0
@@ -49,7 +52,7 @@ class TendersController < ApplicationController
       @query_label = saved_query.name
     end
 
-    @pagy, @records, cache_hit = TendersController.elastic_pagy(@query, params[:page])
+    @pagy, @records, cache_hit, @total = TendersController.elastic_pagy(@query, params[:page], filters: @filters)
 
     if @records.blank?
       @fallback_tenders = Rails.cache.fetch('search:fallback_active_tenders', expires_in: 30.minutes) do
@@ -61,6 +64,7 @@ class TendersController < ApplicationController
       end
     end
 
+    @bookmarked_ids = bookmarked_ids_for(@records.presence || @fallback_tenders)
     response.headers['X-Cache'] = cache_hit ? 'HIT' : 'MISS'
     response.headers['X-Hits'] = @pagy.count.to_s
 
@@ -102,63 +106,16 @@ class TendersController < ApplicationController
       # redirect_to(controller: :home, action: :not_found)
       redirect_to root_path
     else
-      cache_version = @tender_data.try(:updated_at_auto)&.to_i || @tender_data.updated_at.to_i
-      tender_cache_key = "tender:#{@tender_data.id}:similar_records:#{cache_version}"
-      is_cached = Rails.cache.exist?(tender_cache_key)
-      response.headers['X-Cache'] = is_cached ? 'HIT' : 'MISS'
 
       set_public_cache(cdn_ttl: 12.hours)
-      @tender_json = Rails.cache.fetch("tender:#{@tender_data.id}:full_data:#{cache_version}", expires_in: 12.hours) do
-        JSON.parse(@tender_data.full_data) rescue {}
-      end if @tender_data.full_data.present?
+      # Parsed per request: cached copies of every crawled tender filled Redis
+      @tender_json = (JSON.parse(@tender_data.full_data) rescue nil) if @tender_data.full_data.present?
       @tender_json ||= {}
-      @bid_result = Rails.cache.fetch("tender:#{@tender_data.id}:bid_result:#{cache_version}", expires_in: 12.hours) do
-        @tender_data.parsed_bid_result
-      end if @tender_data.has_bid_result?
+      @bid_result = @tender_data.parsed_bid_result if @tender_data.has_bid_result?
 
-      @similar_tenders = Rails.cache.fetch("tender:#{@tender_data.id}:similar_records:#{cache_version}", expires_in: 1.day) do
-        TenderSearch.similar_tenders(@tender_data, @tender_data.id, limit: 10)
-      end
+      # similar_tenders caches the matching ids; the rows are read fresh
+      @similar_tenders = TenderSearch.similar_tenders(@tender_data, @tender_data.id, limit: 10)
     end
-  end
-
-  def bookmarks
-    @bookmarks = Bookmark.where(user_id: current_user.id)
-  end
-
-  def bookmark_tender
-    # TODO: complete bookmark
-    # with turbo
-    #
-    # tender = Tender.find_by(slug_uuid: params[:slug_uuid])
-    # if tender.present? && current_user.present?
-    #   bookmark = Bookmark.find(user_id: current_user.id, tender_id: tender.id).count
-    #   if bookmark
-    #     bookmark.destroy!
-    #     render json: { message: 'removed bookmark' }
-    #   else
-    #     Bookmark.create!(user_id: current_user.id, tender_id: tender.id)
-    #     render json: { message: 'bookmarked tender' }
-    #     format.turbo_stream { render turbo_stream: turbo_stream.replace('#test_id', 'ss') }
-    #   end
-    # end
-    # render json: { error: 'unable to bookmark' }, status: :unprocessable_entity
-
-    page_id = params[:pageId]
-    p params
-    tender = Tender.find_by({ slug_uuid: page_id })
-    render json: { error: 'Tender not found' }, status: :unprocessable_entity if tender.nil?
-
-    marked = Bookmark.find_by({ user_id: current_user.id, tender_id: tender.id })
-    message = ''
-    if marked.present?
-      marked.destroy!
-      message = 'Removed from Bookmark'
-    else
-      Bookmark.create(user_id: current_user.id, tender_id: tender.id)
-      message = 'Added to Bookmark'
-    end
-    render json: { message: message }
   end
 
   def tender_like
@@ -455,8 +412,8 @@ class TendersController < ApplicationController
   # https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-simple-query-string-query.html
   #   long tail keywords
   #
-  def self.elastic_pagy(query, page_number)
-    TenderSearch.weighted_search(query, page_number, per_page: 5)
+  def self.elastic_pagy(query, page_number, filters: {})
+    TenderSearch.weighted_search(query, page_number, filters: filters)
   end
 
   private

@@ -30,8 +30,7 @@ class OnboardingsController < ApplicationController
     current_user.update!(contact_consent_at: current_user.contact_consent_at || Time.current,
                          onboarded_at: current_user.onboarded_at || Time.current)
     # Back to the page they signed up from (a tender), else their matches
-    redirect_to return_to || query_result_path(query_id: query.id, onboarded: 1),
-                notice: "Thanks! We'll call you on #{current_user.phone}."
+    redirect_to return_to || query_result_path(query_id: query.id, onboarded: 1)
   end
 
   private

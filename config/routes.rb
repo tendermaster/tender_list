@@ -21,7 +21,10 @@ Rails.application.routes.draw do
   get '/redeem', controller: :queries, action: :redeem, as: :redeem
   post '/redeem', controller: :queries, action: :redeem_coupon, as: :redeem_coupon
 
-  get '/dashboard/bookmarks', to: 'tenders#bookmarks', as: :bookmarks
+  get '/dashboard/bookmarks', to: 'bookmarks#index', as: :bookmarks
+  # Save (POST) or unsave (DELETE) one tender, by its slug_uuid
+  post '/bookmarks/:slug_uuid', to: 'bookmarks#create'
+  delete '/bookmarks/:slug_uuid', to: 'bookmarks#destroy', as: :bookmark
 
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
@@ -98,7 +101,6 @@ Rails.application.routes.draw do
   get '/search', controller: :tenders, action: :search
   get '/tender/:slug_uuid', controller: :tenders, action: :tender_show, as: :tender_show
   post '/tender/:slug_uuid/like', controller: :tenders, action: :tender_like
-  post '/tender/bookmark', controller: :tenders, action: :bookmark_tender
 
   # get '/tenders-by-state', controller: :home, action: :tenders_by_state
   # get '/tenders-by-sector', controller: :home, action: :tenders_by_sector

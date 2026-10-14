@@ -59,6 +59,7 @@
       <% end %>
     </div>
 
+    <div class="mt-3 flex flex-wrap items-center gap-2">
     <a
       href="/tender/<%= result.slug_uuid %>"
       class="inline-flex items-center rounded-lg bg-orange-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-orange-800 focus:outline-hidden focus:ring-4 focus:ring-orange-300 dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800"
@@ -69,12 +70,15 @@
       </svg>
     </a>
 
+    <%= render 'tenders/bookmark_button', tender: result, saved: @bookmarked_ids&.include?(result.id) %>
+
     <!-- days left -->
-    <div class="ml-4 inline-flex items-center rounded-lg border-2 px-3 py-2 text-center text-sm font-medium <%= time_left(result.submission_close_date) >= 0 ? 'bg-green-500 text-white' : 'bg-red-200' %>">
+    <div class="inline-flex items-center rounded-lg border-2 px-3 py-2 text-center text-sm font-medium <%= time_left(result.submission_close_date) >= 0 ? 'bg-green-500 text-white' : 'bg-red-200' %>">
       Due Date: <%= time_left_text(result.submission_close_date) %>
       <svg aria-hidden="true" class="ml-2 -mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
       </svg>
+    </div>
     </div>
   </div>
 </div>

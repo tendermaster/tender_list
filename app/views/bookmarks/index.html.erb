@@ -1,0 +1,60 @@
+<% set_meta_tags title: 'Saved tenders', robots: 'noindex, nofollow' %>
+<%= render 'layouts/navbar' %>
+
+<%# Closing dates are stored as IST wall-clock time, read back as UTC %>
+<% closes = ->(tender) { tender.submission_close_date&.utc&.strftime('%-d %b %Y, %-I:%M %p') } %>
+
+<div class="mx-auto w-full max-w-4xl px-4 py-10" style="min-height: 60vh">
+  <%= render 'layouts/flash' %>
+
+  <div class="flex flex-wrap items-baseline justify-between gap-2">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Saved tenders</h1>
+    <p class="text-sm text-gray-500"><%= pluralize(@open.size, 'open tender') %><%= ", #{@closed.size} closed" if @closed.any? %></p>
+  </div>
+
+  <% if @open.empty? && @closed.empty? %>
+    <div class="mt-10 rounded-lg border border-dashed border-gray-300 p-10 text-center">
+      <p class="font-semibold text-gray-900 dark:text-white">No saved tenders yet</p>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Press <span class="font-semibold">Save</span> on any tender to keep it here with its closing date.</p>
+      <%= link_to 'Find tenders', root_path, class: 'btn-sm mt-5 inline-block' %>
+    </div>
+  <% end %>
+
+  <% [['Open', @open], ['Closed', @closed]].each do |heading, bookmarks| %>
+    <% next if bookmarks.empty? %>
+    <h2 class="mt-10 mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500"><%= heading %></h2>
+    <ul class="space-y-3">
+      <% bookmarks.each do |bookmark| %>
+        <% tender = bookmark.tender %>
+        <% days = time_left(tender.submission_close_date) %>
+        <li data-bookmark-card class="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white p-4 sm:flex-row sm:items-start sm:justify-between dark:border-gray-700 dark:bg-gray-800">
+          <div class="min-w-0">
+            <%= link_to tender.title.to_s.capitalize, tender_show_path(slug_uuid: tender.slug_uuid),
+                        class: 'font-semibold text-gray-900 hover:underline dark:text-white' %>
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+              <%= [tender.organisation, tender.state].compact_blank.join(' · ') %>
+            </p>
+            <p class="mt-2 flex flex-wrap items-center gap-2 text-sm">
+              <% if days.nil? %>
+                <span class="text-gray-500">No closing date</span>
+              <% elsif days.negative? %>
+                <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-600">Closed</span>
+                <span class="text-gray-500"><%= closes.(tender) %></span>
+              <% else %>
+                <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold <%= days < 3 ? 'bg-red-100 text-red-700' : (days < 7 ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800') %>">
+                  <%= days.zero? ? 'Closes today' : "#{days} #{'day'.pluralize(days)} left" %>
+                </span>
+                <span class="text-gray-600 dark:text-gray-400">Closes <%= closes.(tender) %></span>
+              <% end %>
+            </p>
+          </div>
+          <div class="shrink-0">
+            <%= render 'tenders/bookmark_button', tender:, saved: true, remove_card: true %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
+
+<%= render 'layouts/footer' %>
