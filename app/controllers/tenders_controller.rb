@@ -46,10 +46,9 @@ class TendersController < ApplicationController
 
     SearchQueryLoggerJob.perform_later(@query) if current_user.present?
 
-    saved_query = Query.find_by_keyword_or_name(@query)
-    if saved_query.present?
-      @query = saved_query.to_search_query
-      @query_label = saved_query.name
+    if (page = KeywordPage.for(@query))
+      @query = page.to_search_query
+      @query_label = page.name
     end
 
     @pagy, @records, cache_hit, @total = TendersController.elastic_pagy(@query, params[:page], filters: @filters)

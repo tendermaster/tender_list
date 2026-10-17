@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_14_120000) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_18_090000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_buffercache"
   enable_extension "pg_catalog.plpgsql"
@@ -80,6 +80,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_14_120000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["coupon_code"], name: "index_coupons_on_coupon_code", unique: true
+  end
+
+  create_table "keyword_pages", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "include_keyword", null: false
+    t.text "exclude_keyword"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "lower((name)::text)", name: "index_keyword_pages_on_lower_name", unique: true
   end
 
   create_table "misc_data_stores", force: :cascade do |t|

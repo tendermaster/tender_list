@@ -7,6 +7,7 @@ namespace :madmin, path: 'admin' do
   resources :coupons
   resources :misc_data_stores
   resources :queries
+  resources :keyword_pages
   resources :attachments
   resources :admin_users
   resources :users do

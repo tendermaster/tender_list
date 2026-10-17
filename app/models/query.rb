@@ -15,14 +15,6 @@ class Query < ApplicationRecord
   validates :include_keyword, presence: true
   validates :updates, inclusion: ['REGULARLY', 'WEEKLY', 'MONTHLY', 'NONE']
 
-  def self.find_by_keyword_or_name(term)
-    return nil if term.blank?
-
-    term_clean = term.to_s.strip.downcase
-    where('LOWER(name) = ?', term_clean).first ||
-      where("LOWER(REPLACE(name, ' ', '-')) = ?", term_clean).first
-  end
-
   def include_keywords_array
     include_keyword.to_s.split(',').map { |e| e.gsub(/[()]/, '').strip }.reject(&:blank?)
   end
