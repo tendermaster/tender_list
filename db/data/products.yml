@@ -1,0 +1,1863 @@
+---
+- name: Desktop Computers
+  slug: desktop-computers
+  category: IT & Electronics
+  summary: Compare tower, small form factor and mini desktop PCs, then request quotes from suppliers for your office, school or lab.
+  body: |
+    ## Types
+
+    - **Tower desktop** — full-size cabinet with room for extra drives and graphics cards. Choose it for design, CAD or workstations that may need upgrades later.
+    - **Small form factor (SFF)** — compact cabinet with the same core performance as a basic tower. Good for offices and computer labs where desk space is tight.
+    - **Mini PC** — palm-sized unit that mounts behind a monitor. Suits reception desks, kiosks and light office work.
+    - **Workstation** — high-core CPU, ECC memory and a professional graphics card for engineering, video editing and heavy simulation.
+
+    ## What to check before buying
+
+    - Processor generation and core count, RAM (8 GB is a sensible minimum for office use) and an SSD rather than a hard disk for the main drive.
+    - Operating system licence: confirm whether Windows or a Linux option is included and whether it is a genuine OEM licence.
+    - Warranty period and whether service is on-site at your location, not carry-in.
+    - Ports and display outputs matching your monitors (HDMI, DisplayPort, USB-C) and whether a monitor, keyboard and mouse are bundled.
+    - Power consumption and BEE star rating where available, since a lab of 40 machines adds up.
+    - Authorisation letter from the OEM, GST invoice and an AMC option after warranty ends.
+
+    Common brands include HP, Dell, Lenovo, Acer and Asus.
+
+    ## Who buys them
+
+    Offices, schools and colleges, computer labs, banks, hospitals, shops, government departments and NGOs.
+
+    ## Frequently asked questions
+
+    ### How much RAM does an office desktop need?
+    For email, documents, browsers and accounting software, 8 GB is workable and 16 GB gives headroom for several years. Design or video work needs 16 GB to 32 GB or more.
+
+    ### Is an SSD really necessary?
+    Yes for the system drive. It cuts boot and application load times sharply compared with a hard disk, and it is more tolerant of knocks.
+
+    ### How many desktops should I order as spares?
+    For a lab or large office, keeping one or two spare units per 20 to 25 machines is common, so a failed system can be swapped while it is repaired.
+- name: Laptops
+  slug: laptops
+  category: IT & Electronics
+  summary: See which laptop type fits staff, students or field teams, what specifications matter, and get quotes from suppliers.
+  body: |
+    ## Types
+
+    - **Business laptop** — sturdy build, good keyboard, security features and manageable software. The usual choice for office staff.
+    - **Student or entry-level laptop** — lower specification and lighter build for browsing, documents and online classes.
+    - **Ultrabook** — thin, light and long-lasting on battery, for executives and staff who travel often.
+    - **Rugged laptop** — sealed against dust, water and drops, for field engineers, surveyors and factory floors.
+    - **Workstation laptop** — dedicated graphics and more memory for CAD, rendering and video editing.
+    - **Chromebook** — browser-based and simple to manage, useful for schools running web-based learning tools.
+
+    ## What to check before buying
+
+    - Processor generation, RAM (8 GB minimum for office work), and SSD storage size.
+    - Screen size and resolution: 14-inch is easy to carry, 15.6-inch is easier on the eyes for long hours.
+    - Real battery life and charger weight if staff will carry them daily.
+    - Warranty length, and whether on-site service and accidental damage cover are available.
+    - Pre-installed operating system licence and any bundled office software.
+    - OEM authorisation, GST invoice, and whether the supplier can arrange service in your city.
+
+    Common brands include HP, Dell, Lenovo, Acer and Asus.
+
+    ## Who buys them
+
+    Offices, schools and colleges, hospitals, consultants, contractors, NGOs, sales teams and government departments.
+
+    ## Frequently asked questions
+
+    ### Which screen size is best for office staff?
+    A 14-inch laptop balances portability and comfort. Choose 15.6-inch if the laptop mostly stays on a desk and users work with spreadsheets all day.
+
+    ### Do students need a high-end laptop?
+    No. A mid-range processor, 8 GB RAM and an SSD handle online classes and coursework. Spend more only for engineering, design or coding programmes.
+
+    ### Should I buy extended warranty?
+    If staff travel or handle the laptops roughly, extended warranty with accidental damage cover is worth asking about. Compare it with an AMC from a local service provider.
+- name: All-in-One PCs
+  slug: all-in-one-pcs
+  category: IT & Electronics
+  summary: Understand all-in-one PC options, screen sizes and what to verify, then send one request to get quotes from multiple suppliers.
+  body: |
+    ## Types
+
+    - **Standard all-in-one** — screen and computer in one unit with a single power cable. Suits reception, billing counters and front offices.
+    - **Touchscreen all-in-one** — adds a touch panel for kiosks, self-service points and point-of-sale use.
+    - **High-performance all-in-one** — stronger processor and graphics for design and light editing work.
+    - **Wall- or VESA-mount models** — designed to attach to an arm or wall bracket to save counter space.
+
+    ## What to check before buying
+
+    - Screen size (21 to 24 inches is typical for offices) and resolution, ideally Full HD or better.
+    - Processor, RAM and SSD, as the internals are harder to upgrade than in a tower.
+    - Included webcam, speakers and microphone if staff use video calls.
+    - Warranty terms: a failed part means the whole unit needs service, so confirm on-site support.
+    - Availability of ports (USB, HDMI-in or out, LAN) for printers, scanners and barcode readers.
+    - Stand adjustability, VESA mounting support, GST invoice and OEM authorisation.
+
+    Common brands include HP, Dell, Lenovo, Acer and Asus.
+
+    ## Who buys them
+
+    Offices, shops, hospitals and clinics, hotels, schools, banks, housing society offices and government counters.
+
+    ## Frequently asked questions
+
+    ### Is an all-in-one better than a desktop with a monitor?
+    It saves space and cables and looks tidy. A separate desktop is cheaper to repair and upgrade because the monitor and computer can be replaced independently.
+
+    ### What screen size suits a reception desk?
+    A 21 to 24-inch screen is usually enough. Go larger only if more than one person views the screen at once.
+
+    ### Can I add more RAM later?
+    Many models allow it, but some use soldered memory. Ask the supplier to state whether RAM and storage are upgradable.
+- name: Printers & Multifunction Printers
+  slug: printers-multifunction-printers
+  category: IT & Electronics
+  summary: Choose between laser, inkjet and multifunction printers by volume and use, then get quotes from suppliers for your office.
+  body: |
+    ## Types
+
+    - **Mono laser printer** — fast, low cost per page for black-and-white documents. The default for most offices.
+    - **Colour laser printer** — for brochures, reports and presentations in moderate volumes.
+    - **Inkjet and ink-tank printer** — good for photos and low-volume colour; ink-tank models cut refill cost.
+    - **Multifunction printer (MFP)** — prints, copies and scans, sometimes faxes. Saves space and suits shared use.
+    - **Large-format printer** — for drawings, posters and maps up to A1 or A0.
+    - **Dot-matrix and thermal printers** — for multi-part forms, invoices and receipts.
+
+    ## What to check before buying
+
+    - Monthly duty cycle and print speed in pages per minute, matched to your real volume.
+    - Cost per page, which depends on cartridge yield and price, more than the printer itself.
+    - Duplex (two-sided) printing, automatic document feeder, and paper tray capacity.
+    - Connectivity: USB, Ethernet, Wi-Fi, and driver support for your operating system.
+    - Warranty, on-site service availability and a toner or AMC arrangement.
+    - Whether the printer works with compatible cartridges without losing warranty.
+
+    Common brands include HP, Canon, Epson, Brother and Xerox.
+
+    ## Who buys them
+
+    Offices, schools, hospitals, banks, shops, accounts departments, courts, print shops and government offices.
+
+    ## Frequently asked questions
+
+    ### Laser or inkjet for an office?
+    Choose laser for steady document printing. Ink-tank is a reasonable choice for small offices that print colour occasionally.
+
+    ### How many pages a month can a printer handle?
+    Check the recommended monthly volume, not just the maximum duty cycle. Staying well within it extends the life of the machine.
+
+    ### Do I need an MFP or separate scanner?
+    An MFP is enough for everyday copying and scanning. A separate scanner is better for high-volume document digitisation.
+- name: Toner & Ink Cartridges
+  slug: toner-ink-cartridges
+  category: IT & Electronics
+  summary: Know the difference between original, compatible and refilled toner and ink cartridges, and request supplier quotes by model.
+  body: |
+    ## Types
+
+    - **Original (OEM) cartridges** — made by the printer brand. Highest consistency and no warranty questions.
+    - **Compatible cartridges** — new cartridges made by a third party for the same model, usually at lower cost.
+    - **Remanufactured or refilled cartridges** — used shells cleaned and refilled. Quality varies a lot by supplier.
+    - **Ink bottles and refill kits** — for ink-tank printers.
+    - **Drum units and imaging kits** — separate parts in many laser printers that wear out on a different cycle from toner.
+    - **Ribbons and thermal rolls** — for dot-matrix and receipt printers.
+
+    ## What to check before buying
+
+    - The exact cartridge model number from your printer, such as the code printed on the existing cartridge. Printer name alone is not enough.
+    - Page yield (standard or high yield) at the stated 5 percent coverage.
+    - Whether the supplier offers a replacement for dead-on-arrival or leaking cartridges.
+    - Whether using non-original cartridges affects your printer warranty or service contract.
+    - Sealed, branded packaging and batch details on original cartridges, to avoid counterfeits.
+    - GST invoice, delivery lead time, and rate contract options for regular supply.
+
+    Common brands include HP, Canon, Brother, Epson and Samsung.
+
+    ## Who buys them
+
+    Offices, schools, banks, hospitals, print shops, accounts departments and any organisation with a fleet of printers.
+
+    ## Frequently asked questions
+
+    ### What does page yield mean?
+    It is the number of pages a cartridge prints at standard coverage. A high-yield cartridge usually gives a lower cost per page.
+
+    ### Are compatible cartridges safe to use?
+    Good ones work well, but quality varies. Ask for a trial unit and check print quality and leakage before a bulk order.
+
+    ### How many spare cartridges should we keep?
+    Keep at least one spare per printer model, and more for printers used heavily or in remote locations.
+- name: Scanners
+  slug: scanners
+  category: IT & Electronics
+  summary: Compare flatbed, sheet-fed, book and large-format scanners and get quotes from suppliers for document digitisation.
+  body: |
+    ## Types
+
+    - **Flatbed scanner** — glass bed for single pages, photos and bound documents. Slow but gentle on originals.
+    - **Sheet-fed (ADF) scanner** — feeds a stack of pages automatically. Choose it for high-volume office scanning.
+    - **Book and overhead scanner** — scans bound volumes and fragile records without flattening them.
+    - **Large-format scanner** — for engineering drawings, maps and posters.
+    - **Portable scanner** — small and USB powered for field work.
+    - **Barcode and handheld scanners** — for stock, billing and library use, a different category from document scanners.
+
+    ## What to check before buying
+
+    - Scanning speed in pages per minute and daily duty cycle for your volume.
+    - Optical resolution (300 or 600 dpi covers most documents) and colour or greyscale support.
+    - Duplex scanning, so both sides are captured in one pass.
+    - Maximum paper size and ADF capacity, plus ability to handle thin or mixed paper.
+    - Software: OCR, searchable PDF output and compatibility with your document management system.
+    - Warranty, on-site service, GST invoice and availability of drivers for your operating system.
+
+    Common brands include Canon, Epson, Fujitsu, Brother and HP.
+
+    ## Who buys them
+
+    Offices, courts and legal firms, hospitals, schools and universities, banks, archives, libraries and records rooms.
+
+    ## Frequently asked questions
+
+    ### How fast a scanner do we need for a records room?
+    For tens of thousands of pages, choose a duplex ADF scanner with a high daily duty cycle. Slower units will take weeks and wear out sooner.
+
+    ### Is 300 dpi enough?
+    For typical text documents, yes. Use 600 dpi for small print, drawings or photos.
+
+    ### Can a scanner make documents searchable?
+    Yes, with OCR software. Check that it supports the languages in your records, including Hindi or other Indian scripts if needed.
+- name: Tablets
+  slug: tablets
+  category: IT & Electronics
+  summary: Find the right tablet type for classrooms, field staff or clinics and request quotes from suppliers with specifications that match.
+  body: |
+    ## Types
+
+    - **Android tablet** — wide range of sizes and budgets, easy to manage in bulk. Common in schools and survey work.
+    - **iPad and iPadOS tablets** — consistent software and long update support; used in design, education and sales.
+    - **Windows tablet (2-in-1)** — runs full desktop software, with a detachable keyboard. For staff who need office applications on the move.
+    - **Rugged tablet** — dustproof, waterproof and drop-resistant, for field inspection and warehouses.
+    - **Kids and education tablets** — protective cases and parental controls for students.
+
+    ## What to check before buying
+
+    - Screen size and resolution; 10 to 11 inches suits most classroom and field use.
+    - RAM and storage, plus a microSD slot if you need to expand it.
+    - SIM or 4G/5G versions, if the device must work without Wi-Fi.
+    - Battery life across a full working day, and whether the charger is included.
+    - Mobile device management support, so that apps and settings can be controlled centrally.
+    - Warranty terms, availability of service in your city, GST invoice and OEM authorisation.
+
+    Common brands include Samsung, Apple, Lenovo, Xiaomi and Honor.
+
+    ## Who buys them
+
+    Schools and colleges, hospitals and clinics, survey and field teams, delivery and sales staff, NGOs, restaurants and retail shops.
+
+    ## Frequently asked questions
+
+    ### Wi-Fi only or SIM version?
+    Choose a SIM version if staff work where Wi-Fi is not available, such as field surveys. Wi-Fi only is enough for classrooms and offices.
+
+    ### How do we control apps on many tablets?
+    Ask whether the model supports mobile device management, which lets you install apps, set restrictions and lock lost devices from one console.
+
+    ### How much storage is enough?
+    64 GB is typical for light use; choose 128 GB or more if you will store photos, videos or offline content.
+- name: Servers
+  slug: servers
+  category: IT & Electronics
+  summary: Understand rack, tower and blade servers and the specifications to check, then get supplier quotes for your workload.
+  body: |
+    ## Types
+
+    - **Tower server** — looks like a large desktop. Suits small offices with one or two servers and no rack.
+    - **Rack server** — standard-width unit mounted in a rack, measured in U height (1U, 2U). The usual choice for server rooms.
+    - **Blade server** — thin modules in a shared chassis, for large installations needing density.
+    - **Storage server or NAS** — built mainly to hold files and backups.
+    - **Hyperconverged systems** — combine compute and storage in clustered units for virtualisation.
+
+    ## What to check before buying
+
+    - Workload: file sharing, ERP, databases, virtualisation or video recording each need different CPU, RAM and disk layouts.
+    - Processor count and core count, RAM with ECC and spare slots for expansion.
+    - Storage type and RAID level, hot-swap bays, and redundant power supplies.
+    - Remote management features so that administrators can reach the server even if the operating system fails.
+    - Warranty and service level: on-site response within a stated time, and OEM authorisation for support.
+    - Operating system and virtualisation licences, which are often priced separately, and rack, cooling and UPS requirements.
+
+    Common brands include Dell, HP Enterprise, Lenovo, Cisco and Supermicro.
+
+    ## Who buys them
+
+    Offices running ERP or file servers, banks, hospitals, universities, data-driven businesses, government departments and CCTV or surveillance installations.
+
+    ## Frequently asked questions
+
+    ### Tower or rack server?
+    Tower for a single server in an ordinary room. Rack when you have or plan several servers, networking gear and a proper server room.
+
+    ### How much storage do we need?
+    Add current data, expected yearly growth for three to five years, and backup space. RAID reduces usable capacity, so confirm the usable figure.
+
+    ### Do we need a backup solution too?
+    Yes. RAID protects against disk failure, not deletion, ransomware or fire. Plan separate backups, including an offsite copy.
+- name: UPS Systems
+  slug: ups-systems
+  category: IT & Electronics
+  summary: Learn about offline, line-interactive and online UPS types, how to size them, and get supplier quotes for computers and servers.
+  body: |
+    ## Types
+
+    - **Offline (standby) UPS** — switches to battery when power fails. Basic protection for single home or small-office computers.
+    - **Line-interactive UPS** — adds voltage correction, so it handles brownouts without using the battery. Common for office computers and networking.
+    - **Online (double-conversion) UPS** — continuously supplies clean power from the inverter, with zero transfer time. Choose it for servers, labs and sensitive equipment.
+    - **Rack-mount UPS** — fits in a server rack.
+    - **Three-phase UPS** — for larger loads such as data rooms, buildings and industrial equipment.
+
+    ## What to check before buying
+
+    - Capacity in VA or kVA, and the power factor, because real watts equal VA multiplied by power factor.
+    - Backup time needed at your actual load, which determines battery capacity and whether external battery banks are required.
+    - Battery type (sealed maintenance-free or lithium-ion) and replacement cycle.
+    - Input voltage range, which matters where supply fluctuates widely.
+    - Output waveform: pure sine wave is preferred for electronic equipment.
+    - Warranty on the UPS and the batteries separately, on-site service, AMC, GST invoice and OEM authorisation.
+
+    Common brands include APC, Luminous, Microtek, Numeric and Delta.
+
+    ## Who buys them
+
+    Offices, server rooms, banks, hospitals, labs, schools, CCTV control rooms, factories and shops with billing computers.
+
+    ## Frequently asked questions
+
+    ### What UPS capacity does a desktop need?
+    A typical office desktop with a monitor draws roughly 150 to 300 watts. Add up all connected devices and choose a UPS rated comfortably above that load.
+
+    ### How long will the battery last?
+    That depends on the battery capacity and your load. Tell the supplier the load and the backup time you want, so they can specify the battery bank.
+
+    ### Do I need online UPS for CCTV?
+    A line-interactive UPS is usually enough for a small system. Choose online UPS for large recorders or where power is unstable.
+- name: CCTV Cameras & Recorders
+  slug: cctv-cameras-recorders
+  category: IT & Electronics
+  summary: Compare dome, bullet, PTZ and IP cameras with DVR and NVR recorders, and get quotes for a complete surveillance setup.
+  body: |
+    ## Types
+
+    - **Dome camera** — discreet and vandal-resistant, for indoor corridors, offices and shops.
+    - **Bullet camera** — long body, weatherproof, for outdoor gates, boundaries and parking.
+    - **PTZ camera** — pans, tilts and zooms by remote control, for large open areas.
+    - **IP camera with NVR** — digital network cameras recorded to a network video recorder, with higher resolution and flexible cabling.
+    - **Analogue HD camera with DVR** — coaxial cable systems. Easier to retrofit over existing cabling.
+    - **Wireless and 4G cameras** — for sites where running cable is hard.
+
+    ## What to check before buying
+
+    - Resolution (2 MP or 4 MP is common), lens angle, and night vision range.
+    - Weatherproof rating such as IP66 for outdoor units.
+    - Recorder channels and storage: hard disk size determines how many days of footage are kept.
+    - Cabling, PoE switches, power supplies and mounting, which are part of the installation cost.
+    - Mobile app viewing, remote access and security of default passwords.
+    - Installation, warranty, AMC and GST invoice. Ask whether the supplier does the installation.
+
+    Common brands include Hikvision, Dahua, CP Plus, Axis and Bosch.
+
+    ## Who buys them
+
+    Offices, shops, schools, hospitals, housing societies, factories, warehouses, petrol pumps, contractors and government buildings.
+
+    ## Frequently asked questions
+
+    ### How many cameras does a 2,000 sq ft office need?
+    Typically six to ten: entrance, reception, corridors, work areas and exits. A walk-through of the floor plan gives a more accurate count.
+
+    ### How many days of recording do I get?
+    It depends on camera count, resolution, compression and hard disk size. Tell the supplier your required retention, such as 30 days, so they can size the storage.
+
+    ### IP or analogue system?
+    IP gives better image quality and easier expansion. Analogue HD is practical when old coaxial cabling can be reused.
+- name: Projectors
+  slug: projectors
+  category: IT & Electronics
+  summary: Compare lamp, laser and short-throw projectors by brightness and room size, and request quotes from suppliers.
+  body: |
+    ## Types
+
+    - **Lamp projector** — traditional light source with lower upfront cost, but lamps need replacement.
+    - **Laser projector** — long life with consistent brightness and little maintenance. Better for rooms in daily use.
+    - **LED projector** — compact and low power, suited to small rooms and portable use.
+    - **Short-throw and ultra-short-throw projector** — sits close to the screen, so presenters do not cast shadows. Good for classrooms.
+    - **Portable pico projector** — pocket size for travelling presentations.
+
+    ## What to check before buying
+
+    - Brightness in ANSI lumens: roughly 3,000 to 4,000 for classrooms and meeting rooms with some ambient light, higher for large halls.
+    - Native resolution (XGA, WXGA, Full HD) and whether it matches your laptops.
+    - Connections: HDMI, VGA, USB and wireless casting.
+    - Lamp or light-source life in hours and the cost and availability of replacement lamps.
+    - Throw ratio and screen size, so the image fits your room at the distance available.
+    - Warranty, including the lamp, on-site service, mounting kit, screen and GST invoice.
+
+    Common brands include Epson, BenQ, ViewSonic, Optoma and Sony.
+
+    ## Who buys them
+
+    Schools, colleges, training centres, offices, auditoriums, hotels, houses of worship and NGOs.
+
+    ## Frequently asked questions
+
+    ### How many lumens for a classroom?
+    About 3,000 to 4,000 ANSI lumens for a standard classroom with curtains. Choose higher if the room is bright or the screen is large.
+
+    ### Projector or interactive flat panel?
+    A panel stays clear in daylight and needs no dimming, but costs more per screen size. A projector is more economical for large screens.
+
+    ### How long does a projector lamp last?
+    Lamp life is stated in hours by the manufacturer and varies by mode. Laser models last far longer and need no lamp changes.
+- name: Interactive Flat Panels
+  slug: interactive-flat-panels
+  category: IT & Electronics
+  summary: Understand interactive flat panel sizes, touch and software features for classrooms and meeting rooms, and get supplier quotes.
+  body: |
+    ## Types
+
+    - **Education panel** — large touchscreen with whiteboard software, built for classrooms and designed for chalk-free teaching.
+    - **Corporate meeting panel** — adds video-call, wireless screen sharing and calendar integration for meeting rooms.
+    - **Panel with built-in Android** — runs apps without a connected computer.
+    - **Panel with OPS slot** — accepts a plug-in computer module for Windows applications.
+    - **Mobile-stand panel** — mounted on a trolley that can move between rooms.
+
+    ## What to check before buying
+
+    - Screen size: 65 inch for small rooms, 75 to 86 inch for classrooms and larger meeting rooms.
+    - Resolution (4K is common) and touch points, with the ability to write with a pen and finger.
+    - Glass protection, anti-glare finish and viewing angle.
+    - Built-in operating system, RAM, and what whiteboard software is bundled and whether it needs a separate licence.
+    - Ports, wireless casting and camera or microphone support.
+    - Wall mount or stand, installation, warranty length, on-site service and GST invoice.
+
+    Common brands include Samsung, LG, ViewSonic, BenQ and Promethean.
+
+    ## Who buys them
+
+    Schools, colleges, coaching and training institutes, corporate offices, boardrooms and NGOs running workshops.
+
+    ## Frequently asked questions
+
+    ### What size panel for a classroom of 40 students?
+    A 75 or 86-inch panel usually works, depending on room depth. The back row should be able to read text comfortably.
+
+    ### Do I still need a computer?
+    Many panels have a built-in Android system. For Windows software, you can connect a laptop or fit an OPS computer module.
+
+    ### Is it better than a projector?
+    It works in bright rooms, needs no lamp changes and handles touch directly. A projector can cover bigger screen sizes for less.
+- name: Televisions & Commercial Displays
+  slug: televisions-commercial-displays
+  category: IT & Electronics
+  summary: Compare consumer TVs, commercial displays and video walls for offices, shops and hospitals, and get quotes from suppliers.
+  body: |
+    ## Types
+
+    - **Smart TV** — consumer television with apps and streaming. Suits waiting rooms, hostels and meeting rooms with light use.
+    - **Commercial display** — rated for long daily operation, with better durability and remote management. Choose it for anything running 12 hours or more a day.
+    - **Digital signage display** — portrait or landscape screens with players and content software for advertising and notices.
+    - **Video wall** — several narrow-bezel panels combined into one large display, for control rooms and lobbies.
+    - **Outdoor and high-brightness display** — weatherproof and readable in sunlight.
+
+    ## What to check before buying
+
+    - Screen size matched to viewing distance, and resolution (Full HD or 4K).
+    - Rated hours of operation per day. Consumer TVs may not be designed for continuous use.
+    - Panel type, brightness and viewing angle.
+    - Mounting: wall bracket, ceiling mount or floor stand, plus cables and media players if needed.
+    - Content management and remote control for signage installations.
+    - Warranty terms for commercial use, on-site service, BEE star rating where shown, and GST invoice.
+
+    Common brands include Samsung, LG, Sony, Philips and Panasonic.
+
+    ## Who buys them
+
+    Offices, hospitals, hotels and restaurants, shops and showrooms, schools, hostels, control rooms and housing societies.
+
+    ## Frequently asked questions
+
+    ### Can I use a normal TV for 12 hours a day?
+    It may work but could void warranty or wear out early. Commercial displays are built and warranted for long daily running.
+
+    ### What size TV for a meeting room?
+    A 55 to 65-inch screen suits a small room. Larger rooms may need 75 inches or a pair of screens.
+
+    ### What is digital signage?
+    It means screens showing scheduled content such as notices, menus or promotions, managed centrally through software.
+- name: Drones
+  slug: drones
+  category: IT & Electronics
+  summary: Compare camera, survey, agricultural and enterprise drones, and learn what to check, including regulations, before requesting quotes.
+  body: |
+    ## Types
+
+    - **Photography and videography drone** — high-quality camera with gimbal, for events, real estate and inspection photos.
+    - **Mapping and survey drone** — supports planned flight paths and accurate geotagged imagery for land and construction surveys.
+    - **Agricultural spraying drone** — carries a liquid tank for crop spraying; larger and needs trained operators.
+    - **Inspection drone** — thermal or zoom camera for solar plants, towers, roofs and pipelines.
+    - **Training and micro drone** — small and low cost for learning and school programmes.
+
+    ## What to check before buying
+
+    - Flight time per battery and number of batteries supplied.
+    - Camera resolution, gimbal stability and any thermal or multispectral sensor.
+    - Payload capacity and range for the tasks you plan.
+    - Compliance with the Drone Rules in force: weight category, registration, operator requirements and no-fly zones via the official Digital Sky platform. Ask the supplier which of these apply to the model.
+    - Software for mission planning and data processing, and whether a licence is needed.
+    - After-sales service, spare parts such as propellers and batteries, warranty, training and GST invoice.
+
+    Common brands include DJI, Autel, Parrot and Indian makers such as ideaForge.
+
+    ## Who buys them
+
+    Survey and construction contractors, agriculture businesses, media firms, utilities, schools and colleges, NGOs, police and government departments.
+
+    ## Frequently asked questions
+
+    ### What flight time do I need?
+    Most drones fly 20 to 40 minutes per battery. For survey work, plan on several batteries and a charging setup.
+
+    ### Do I need permission to fly?
+    Rules depend on drone weight, location and use. Confirm current requirements with the supplier and the regulator before flying.
+
+    ### Which drone for crop spraying?
+    Choose a purpose-built spraying drone with the tank size suited to your acreage, and make sure operator training is included.
+- name: Network Switches
+  slug: network-switches
+  category: IT & Electronics
+  summary: Compare unmanaged, managed, PoE and core switches and what to specify, then get quotes from suppliers for your network.
+  body: |
+    ## Types
+
+    - **Unmanaged switch** — plug-and-play with no configuration. Fine for small offices, labs and CCTV links.
+    - **Smart or web-managed switch** — basic VLANs and monitoring through a web page, at moderate complexity.
+    - **Managed switch** — full control: VLANs, QoS, security and monitoring. For larger organisations.
+    - **PoE switch** — powers IP cameras, Wi-Fi access points and phones over the network cable.
+    - **Layer 3 or core switch** — routes between VLANs and aggregates other switches in the building.
+    - **Industrial switch** — rugged, for factories and outdoor cabinets.
+
+    ## What to check before buying
+
+    - Number of ports and speed: gigabit is standard, with 10G uplinks for backbone links.
+    - PoE budget in watts, not just PoE support, so it can power all connected devices.
+    - Switching capacity, uplink ports (SFP or SFP+), and rack-mount or desktop form.
+    - Management features such as VLAN, port security and SNMP monitoring.
+    - Cabling quality and structured layout: Cat6 is a common choice for new installations.
+    - Warranty length, replacement terms, OEM authorisation and GST invoice.
+
+    Common brands include Cisco, TP-Link, D-Link, Netgear and HPE Aruba.
+
+    ## Who buys them
+
+    Offices, schools and colleges, hospitals, factories, hotels, CCTV installers, data rooms and government departments.
+
+    ## Frequently asked questions
+
+    ### How many ports do I need?
+    Count every device that needs a wired connection, then add 20 to 30 percent spare for growth. Choose 24 or 48 ports for larger floors.
+
+    ### Do I need PoE?
+    If you are installing IP cameras or ceiling Wi-Fi points, yes, as it avoids separate power cabling. Check the total PoE budget.
+
+    ### Managed or unmanaged?
+    Unmanaged suits a simple network. Choose managed if you need separate VLANs for guests, CCTV and staff, or want monitoring.
+- name: Distribution Transformers
+  slug: distribution-transformers
+  category: Electrical & Power
+  summary: Understand oil-filled, dry-type and pole-mounted distribution transformers, key ratings, and get quotes from manufacturers and suppliers.
+  body: |
+    ## Types
+
+    - **Oil-immersed transformer** — most common type, cooled by mineral oil. Used outdoors for substations and pole or plinth mounting.
+    - **Dry-type (cast resin) transformer** — no oil, so lower fire risk. Chosen for indoor use in buildings, hospitals and malls.
+    - **Pole-mounted transformer** — smaller ratings on a utility pole for rural and street supply.
+    - **Pad- or plinth-mounted transformer** — installed on the ground in a housing society, campus or factory.
+    - **Amorphous core transformer** — lower no-load losses for energy savings on lightly loaded transformers.
+
+    ## What to check before buying
+
+    - kVA rating, with a margin over the calculated load, and the primary and secondary voltages (for example 11 kV to 415 V).
+    - Energy efficiency level: BEE star rating or loss levels as per the applicable BIS standard.
+    - Vector group, cooling type, tap changer, impedance and temperature rise.
+    - Accessories: breather, Buchholz relay where applicable, oil level gauge, and protection fittings.
+    - Factory test reports, routine test certificates and inspection before dispatch.
+    - Warranty period, delivery and installation scope, and GST invoice. Check approval requirements of your electricity distribution company.
+
+    ## Who buys them
+
+    Factories, housing societies, hospitals, malls, campuses, contractors, solar developers and utilities.
+
+    ## Frequently asked questions
+
+    ### What kVA transformer do I need?
+    Add up the connected load, apply a diversity factor, and size for future growth. An electrical consultant or the utility can confirm the figure.
+
+    ### Oil-filled or dry-type?
+    Oil-filled costs less and suits outdoors. Dry-type is safer for enclosed spaces and basements where fire risk matters.
+
+    ### What are no-load and load losses?
+    They are the energy the transformer wastes when idle and when loaded. Lower losses reduce running costs over its life.
+- name: Batteries
+  slug: batteries
+  category: Electrical & Power
+  summary: Compare inverter, tubular, SMF and VRLA, automotive and lithium-ion batteries by use, and get quotes from suppliers.
+  body: |
+    ## Types
+
+    - **Inverter (tubular) battery** — deep-cycle flooded lead-acid with long life. Used with home and office inverters; needs periodic water topping up.
+    - **SMF and VRLA battery** — sealed, maintenance-free lead-acid. Standard for UPS systems, telecom, alarm and control panels.
+    - **Automotive battery** — designed to deliver high starting current for cars, trucks, tractors and generator sets.
+    - **Lithium-ion (LFP) battery** — lighter and longer cycle life with faster charging, suited to solar storage and modern UPS.
+    - **Solar battery** — deep-cycle lead-acid or lithium made for daily charging and discharging.
+
+    ## What to check before buying
+
+    - Voltage and capacity in Ah, usually at the 10-hour rate (C10) for inverter batteries.
+    - Compatibility with your inverter, UPS or vehicle, including terminal type and physical size.
+    - Expected life in cycles or years, and the warranty terms, including pro-rata clauses.
+    - Brand's service network and whether old batteries are taken back for recycling, as required under battery waste rules.
+    - Manufacturing date: avoid stock that has sat uncharged for many months.
+    - GST invoice, delivery, and for lithium, a battery management system and safety certification.
+
+    Common brands include Exide, Amaron, Luminous, Microtek and Okaya.
+
+    ## Who buys them
+
+    Offices, shops, hospitals, schools, housing societies, telecom and CCTV installers, transporters, factories and solar installers.
+
+    ## Frequently asked questions
+
+    ### What battery capacity do I need for an inverter?
+    Multiply load in watts by required backup hours, then divide by battery voltage and usable efficiency. The inverter supplier can size this for you.
+
+    ### Tubular or SMF for a home or office inverter?
+    Tubular lasts longer in frequent power cuts but needs topping up. SMF needs no maintenance and suits places that cannot be checked regularly.
+
+    ### Is lithium worth considering?
+    It lasts more cycles and is compact, but needs a compatible charger or inverter. Ask for a like-for-like comparison.
+- name: Diesel Generators
+  slug: diesel-generators
+  category: Electrical & Power
+  summary: Understand diesel generator sizes, silent canopies and key checks, and request quotes from suppliers for backup power.
+  body: |
+    ## Types
+
+    - **Portable diesel generator** — small sets, up to a few kVA, for shops, sites and events.
+    - **Silent or canopy generator** — sound-insulated enclosure for use near homes, clinics and offices.
+    - **Standby generator** — permanent set with an automatic changeover panel that starts when mains fails.
+    - **Prime and continuous-duty generator** — built for sites with little or no grid supply.
+    - **Containerised or trailer-mounted set** — for construction sites and temporary installations.
+
+    ## What to check before buying
+
+    - Rating in kVA and the power factor, with the load calculated including motor starting current.
+    - Engine and alternator makes, and whether the set is rated for standby, prime or continuous use.
+    - Compliance with applicable CPCB emission and noise norms, with the required certificates for the model.
+    - Control panel and AMF (automatic mains failure) panel, fuel tank size and fuel consumption at load.
+    - Installation: foundation, exhaust, earthing, cabling, fuel storage and any local approvals.
+    - Warranty, service network, spare parts availability, AMC and GST invoice.
+
+    Common brands include Kirloskar, Cummins, Mahindra Powerol, Ashok Leyland and Greaves.
+
+    ## Who buys them
+
+    Hospitals, offices, factories, housing societies, malls, hotels, schools, telecom sites, construction contractors and shops.
+
+    ## Frequently asked questions
+
+    ### What size generator does my building need?
+    Total the loads that must run during outages, allow for starting current of pumps and lifts, then add a margin. A qualified electrical engineer should confirm the sizing.
+
+    ### What is the difference between standby and prime rating?
+    Standby is for occasional outages. Prime suits long daily running. Using a standby set continuously shortens its life.
+
+    ### Do I need an AMF panel?
+    Yes if the set must start automatically during power failure, as in hospitals and data rooms. A manual changeover is acceptable where short delays are fine.
+- name: Inverters
+  slug: inverters
+  category: Electrical & Power
+  summary: Compare square wave, sine wave, solar and hybrid inverters, learn how to size them, and request quotes from suppliers.
+  body: |
+    ## Types
+
+    - **Sine wave inverter** — clean output safe for computers, fans, refrigerators and electronics. The standard choice today.
+    - **Square or quasi-square wave inverter** — cheaper but suited only to simple loads and can cause noise or heating.
+    - **Solar PCU or hybrid inverter** — charges batteries from solar panels as well as the grid, to cut grid use.
+    - **Grid-tie inverter** — feeds solar power directly into the building, usually without batteries.
+    - **Inverter-UPS with high capacity** — for larger shops, offices and clinics running many computers.
+
+    ## What to check before buying
+
+    - Capacity in VA or kVA, based on your connected load and the inverter power factor.
+    - System voltage (12 V, 24 V, 48 V), which decides how many batteries are connected.
+    - Waveform quality, overload protection, and the transfer time to battery.
+    - Battery type supported (tubular, SMF or lithium) and charging current.
+    - Whether it supports solar input, and the MPPT or PWM charge controller type.
+    - Warranty, on-site service, installation, AMC and GST invoice. Check that the battery warranty is clear.
+
+    Common brands include Luminous, Microtek, Exide, Su-Kam and Livguard.
+
+    ## Who buys them
+
+    Shops, small offices, clinics, schools, housing societies, coaching centres, workshops and households.
+
+    ## Frequently asked questions
+
+    ### What size inverter do I need for a small office?
+    Add the wattage of lights, fans, computers and printers, then choose a rating about 25 to 30 percent higher. Avoid including heavy loads like air conditioners.
+
+    ### Can an inverter run an air conditioner?
+    Only a large, specially sized system can. Most inverters are meant for lights, fans and electronics.
+
+    ### How long will the backup last?
+    That depends on battery capacity and load. A bigger battery bank gives longer backup but needs more space and cost.
+- name: LED Street Lights
+  slug: led-street-lights
+  category: Electrical & Power
+  summary: Compare LED street light wattages, optics and controls for roads and campuses, and get quotes from suppliers and manufacturers.
+  body: |
+    ## Types
+
+    - **Standard LED street light** — grid-powered luminaire with a cobra-head or flat body for roads and colonies.
+    - **Smart or dimmable LED street light** — adjusts brightness by schedule or sensor and can report faults remotely.
+    - **Retrofit LED lamp** — replaces an old sodium or mercury lamp in the existing fitting.
+    - **Garden and pathway light** — lower-height poles for parks, campuses and walkways.
+    - **Integrated LED street light with driver** — complete unit including driver and surge protection.
+
+    ## What to check before buying
+
+    - Wattage and lumen output, plus efficacy (lumens per watt) for energy performance.
+    - Optics and light distribution, so the pole spacing and road width are lit evenly.
+    - Colour temperature, normally neutral to cool white for roads.
+    - Ingress protection (such as IP65 or higher), surge protection and operating voltage range.
+    - BIS certification and test reports for the model, and LM-79 or similar photometric data.
+    - Warranty, commonly several years, with clear terms, spares, GST invoice and pole mounting arrangements.
+
+    ## Who buys them
+
+    Housing societies, municipal bodies, industrial estates, campuses, contractors, townships and hospitals.
+
+    ## Frequently asked questions
+
+    ### What wattage for a 12-metre road?
+    It depends on pole height and spacing. Typically 60 to 120 watts at 8 to 10 metre poles. A lighting calculation will give the right figure.
+
+    ### Do LED street lights need maintenance?
+    Very little. Clean the cover occasionally and keep an eye on drivers, which fail before the LEDs do.
+
+    ### Is a surge protector necessary?
+    Yes, as Indian grids see voltage spikes and lightning. Ask for built-in surge protection rated for outdoor use.
+- name: Solar Street Lights
+  slug: solar-street-lights
+  category: Electrical & Power
+  summary: Understand all-in-one and split solar street lights, battery and panel sizing, and get supplier quotes for roads, campuses and villages.
+  body: |
+    ## Types
+
+    - **All-in-one solar street light** — panel, battery, controller and lamp in one body. Quick to install on a pole.
+    - **Semi-integrated light** — panel and fitting in one unit, battery mounted separately.
+    - **Split or conventional solar street light** — separate panel, battery box and luminaire. Larger and easier to service and upgrade.
+    - **Solar garden and bollard lights** — small units for paths and parks.
+    - **Solar flood light** — for gates, yards and boundary walls.
+
+    ## What to check before buying
+
+    - LED wattage and lumen output, and the number of nights of autonomy (backup in cloudy weather).
+    - Solar panel wattage and type, such as monocrystalline.
+    - Battery chemistry, usually lithium iron phosphate or tubular, with capacity and cycle life.
+    - Charge controller type (MPPT is more efficient), dusk-to-dawn and dimming options.
+    - Pole height, foundation, wind load and ingress protection of at least IP65.
+    - Warranty on battery, panel and luminaire separately, installation scope, GST invoice and any MNRE-related benefit applicable to your category.
+
+    ## Who buys them
+
+    Panchayats and villages, housing societies, campuses, farms, highways contractors, industrial sites, schools and NGOs.
+
+    ## Frequently asked questions
+
+    ### Do solar street lights work in monsoon?
+    Yes if designed with enough autonomy, usually two to three nights. Ask for the stated backup days.
+
+    ### All-in-one or split type?
+    All-in-one is quick and tidy for small roads. Split suits larger lamps, shaded poles, or places where the panel needs a better angle.
+
+    ### How often should the battery be replaced?
+    Lithium batteries commonly last several years. Ask for the stated cycle life and warranty terms.
+- name: High Mast Lights
+  slug: high-mast-lights
+  category: Electrical & Power
+  summary: Learn about fixed, raise-and-lower and tilting high mast poles and luminaires, and request quotes from suppliers.
+  body: |
+    ## Types
+
+    - **Fixed high mast** — pole with a fixed head, serviced using a ladder or crane. Simplest and lowest in cost.
+    - **Raise-and-lower (winch) mast** — lantern carriage comes down to ground level for maintenance, which is safer and quicker.
+    - **Tilting mast** — pole tilts for servicing, used where height is moderate.
+    - **LED high mast luminaires** — energy-efficient flood fittings that have mostly replaced metal halide and sodium lamps.
+    - **Solar high mast** — off-grid option for remote yards and grounds.
+
+    ## What to check before buying
+
+    - Mast height, typically 15 to 30 metres, and the number of luminaires and total wattage.
+    - Lighting design: lux level and uniformity for the area, such as a stadium, yard or junction.
+    - Pole material, galvanisation thickness, design wind speed and foundation drawings.
+    - Winch and motor quality for raise-and-lower systems, along with safety interlocks and lightning protection.
+    - Luminaire rating, such as IP65 or better, and surge protection.
+    - Installation, structural certificates, warranty, AMC, electrical panel and GST invoice.
+
+    ## Who buys them
+
+    Sports grounds and stadiums, industrial yards, ports, railway and bus stations, highways, mines, large campuses and townships.
+
+    ## Frequently asked questions
+
+    ### What height mast do I need?
+    It depends on the area and light level. Larger areas use taller masts, with 20 to 30 metres typical for big yards. A lighting plan will fix this.
+
+    ### Why choose a raise-and-lower mast?
+    Technicians service lights at ground level, which is safer and cheaper than using cranes at height.
+
+    ### How many luminaires per mast?
+    Commonly six to twelve, but it depends on wattage and the lux required. Ask the supplier for a lux simulation.
+- name: LED Lights & Floodlights
+  slug: led-lights-floodlights
+  category: Electrical & Power
+  summary: Compare LED bulbs, battens, panels, downlights and floodlights, what to check, and get quotes from suppliers for your premises.
+  body: |
+    ## Types
+
+    - **LED bulbs and tube lights** — direct replacements for CFL and fluorescent tubes.
+    - **LED panel lights** — flat square or round fittings for false ceilings in offices and schools.
+    - **LED downlights and spotlights** — recessed fittings for shops, showrooms and lobbies.
+    - **LED battens and linear lights** — for corridors, warehouses and parking areas.
+    - **LED floodlights** — high-output outdoor fittings for building facades, yards, sports courts and signage.
+    - **LED high bay lights** — for factories and warehouses with tall ceilings.
+
+    ## What to check before buying
+
+    - Wattage and lumens, since lumens measure the light you actually get.
+    - Colour temperature (warm, neutral or cool white) and colour rendering index (CRI) for retail and clinics.
+    - BIS certification for LED products and BEE star ratings where applicable.
+    - Driver quality, flicker, power factor and surge protection.
+    - Ingress protection for outdoor use, such as IP65 for floodlights.
+    - Warranty period and replacement terms, and GST invoice. Ask for photometric data on larger orders.
+
+    Common brands include Philips, Wipro, Havells, Syska and Crompton.
+
+    ## Who buys them
+
+    Offices, schools, hospitals, factories, warehouses, shops, housing societies, hotels, contractors and sports clubs.
+
+    ## Frequently asked questions
+
+    ### How many lumens per square foot does an office need?
+    A general guide is around 300 to 500 lux at desk level. A lighting calculation with room size and fitting spacing gives a precise count.
+
+    ### Which colour temperature should I choose?
+    Cool white (around 6500 K) suits workplaces and warehouses; neutral (4000 K) suits retail and clinics; warm white suits hotels and homes.
+
+    ### What floodlight wattage for a courtyard?
+    For small yards, 50 to 100 watts at a pole or wall height of several metres. Larger areas need higher wattages or multiple lights.
+- name: Solar Panels & Rooftop Solar Systems
+  slug: solar-panels-rooftop-solar-systems
+  category: Electrical & Power
+  summary: Compare on-grid, off-grid and hybrid rooftop solar systems and panels, and get quotes from installers for your building.
+  body: |
+    ## Types
+
+    - **On-grid (grid-tied) system** — connected to the electricity grid with net metering, no batteries. Lowers daytime electricity bills.
+    - **Off-grid system** — panels with batteries, for places with unreliable or no grid supply.
+    - **Hybrid system** — grid-connected with battery backup, so it keeps supplying during power cuts.
+    - **Solar water pump system** — panels run an agricultural or water pump directly.
+    - **Standalone solar panels** — individual modules for projects built by your own electrician or EPC contractor.
+
+    ## What to check before buying
+
+    - System size in kW, based on roof shadow-free area (about 8 to 10 sq m per kW) and your monthly electricity use.
+    - Panel type (mono PERC or TOPCon), efficiency, and whether the modules are on the approved list required for subsidy or net metering.
+    - Inverter capacity and brand, and the warranty terms for panels and inverter separately.
+    - Structure: galvanised mounting, wind load, roof waterproofing and earthing and lightning protection.
+    - Net metering, utility approvals and any central or state subsidy, and who handles the paperwork.
+    - Performance guarantees, monitoring, AMC, cleaning plan and GST invoice.
+
+    Common brands include Waaree, Adani Solar, Tata Power Solar, Vikram Solar and Luminous.
+
+    ## Who buys them
+
+    Factories, offices, schools, hospitals, housing societies, farms, shops, hotels and contractors.
+
+    ## Frequently asked questions
+
+    ### What size rooftop system do I need?
+    Divide monthly units used by about 120 to get a rough kW size. Roof area and shading may reduce it.
+
+    ### On-grid or hybrid?
+    On-grid has lower cost and is ideal if power cuts are rare. Choose hybrid if you need supply during outages.
+
+    ### How long do panels last?
+    Panels commonly carry performance warranties of 25 years or more, while inverters typically have shorter warranties.
+- name: Air Conditioners
+  slug: air-conditioners
+  category: Electrical & Power
+  summary: Compare split, window, cassette and ducted air conditioners by room size and star rating, and request quotes from suppliers.
+  body: |
+    ## Types
+
+    - **Window AC** — single box fitted in a wall opening. Cheaper and simple to install, but noisier.
+    - **Split AC** — indoor unit plus outdoor compressor, quieter and the most common choice for rooms.
+    - **Inverter split AC** — variable-speed compressor that saves electricity, especially with long daily running.
+    - **Cassette AC** — ceiling-mounted unit blowing in four directions, for halls, shops and offices with false ceilings.
+    - **Tower and ducted AC** — floor-standing or hidden units for large rooms, showrooms and auditoriums.
+    - **VRF systems** — one outdoor unit serving many indoor units across a building.
+
+    ## What to check before buying
+
+    - Capacity in tonnes: roughly 1 tonne for 100 to 120 sq ft, 1.5 tonne for about 150 to 180 sq ft, depending on sun exposure and occupancy.
+    - BEE star rating and ISEER value; higher stars mean lower electricity bills.
+    - Compressor type (inverter or fixed speed), refrigerant (such as R32) and condenser coil material, with copper preferred.
+    - Warranty separately for the compressor and the full unit, plus availability of on-site service.
+    - Installation: copper piping length, stand, drain, electrical point and stabiliser need.
+    - AMC, GST invoice and OEM authorisation.
+
+    Common brands include Daikin, Voltas, Blue Star, LG and Carrier.
+
+    ## Who buys them
+
+    Offices, schools, hospitals, shops, server rooms, hotels, banks, housing societies and factories.
+
+    ## Frequently asked questions
+
+    ### What AC capacity for a 150 sq ft room?
+    A 1.5-tonne unit is usual for a 150 sq ft room, and 1 tonne is enough for smaller or well-shaded rooms. West-facing rooms may need more.
+
+    ### Is a 5-star AC worth it?
+    For rooms used many hours a day, yes: the lower power use usually pays back over time. For occasional use, a 3-star is enough.
+
+    ### Window or split?
+    Split is quieter and cools more evenly. Choose window only where wall openings exist and budgets are tight.
+- name: Ceiling Fans
+  slug: ceiling-fans
+  category: Electrical & Power
+  summary: Compare standard, BLDC, high-speed and heavy-duty ceiling fans, then get quotes from suppliers for offices, schools, shops and factories.
+  body: |
+    ## Types
+
+    - **Standard 1200 mm fan** — the common choice for rooms up to about 12 x 12 feet such as offices, classrooms and wards.
+    - **1400 mm and 1500 mm fans** — larger sweep for halls, shops, workshops and godowns where one fan must cover more floor.
+    - **BLDC (energy-saving) fans** — use a brushless motor and draw far less power than conventional fans, so they suit rooms where fans run for long hours.
+    - **High-speed or heavy-duty fans** — built for dusty or hot spaces such as factories and kitchens, with stronger bearings and higher air delivery.
+    - **Decorative and remote-controlled fans** — chosen for reception areas, conference rooms and homes where appearance matters.
+
+    ## What to check before buying
+
+    - Sweep size and air delivery (CMM) matched to room area and ceiling height; use a down-rod in high ceilings.
+    - BIS certification and, for energy-saving models, the BEE star rating label.
+    - Power consumption in watts at full speed, because this decides running cost across many fans.
+    - Motor winding (copper or aluminium), ball-bearing quality and capacitor type.
+    - Warranty period, availability of local service and spare parts, and a GST invoice with serial numbers.
+    - Installation scope: hooks, down-rods, regulators and wiring should be quoted clearly.
+
+    ## Who buys them
+
+    Offices, schools, hospitals, shops, factories, housing societies, contractors, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### How many ceiling fans do I need for a room?
+    A fan with a 1200 mm sweep covers roughly 120 to 150 square feet. For larger halls, use more than one fan or a bigger sweep rather than a single oversized unit.
+
+    ### Is a BLDC fan worth it for an office?
+    Where fans run most of the day, the lower power draw usually repays the higher purchase cost over time. For rarely used rooms a standard star-rated fan is often enough.
+
+    ### Which fan suits a dusty workshop?
+    Choose a heavy-duty fan with sealed bearings and a sturdy blade. Common brands include Crompton, Havells, Orient, Usha and Bajaj.
+- name: Refrigerators
+  slug: refrigerators
+  category: Electrical & Power
+  summary: Understand domestic fridges, deep freezers and visi-coolers, check capacity and star ratings, and request supplier quotes for your premises.
+  body: |
+    ## Types
+
+    - **Direct-cool single door** — simple, low-cost units for small offices, pantries and staff rooms; needs manual defrosting.
+    - **Frost-free double door** — automatic defrost and separate freezer, suitable for larger pantries, hostels and guest houses.
+    - **Deep freezer** — chest-type unit for storing frozen items in bulk, used by canteens, hospitals and food businesses.
+    - **Visi-cooler (glass-door display)** — vertical cooler with a transparent door for cold drinks, dairy and packaged food in shops and canteens.
+    - **Commercial under-counter or upright refrigerator** — stainless steel units for kitchens and catering, built for frequent door opening.
+
+    ## What to check before buying
+
+    - Usable capacity in litres compared with what you actually store.
+    - BEE star rating where the model is covered, and the stated annual energy use.
+    - Refrigerant type and compressor make, plus compressor warranty, which is often longer than the product warranty.
+    - Operating temperature range and whether the unit holds temperature during power cuts or voltage fluctuation; consider a voltage stabiliser.
+    - Ambient rating for hot climates and ventilation clearance behind the unit.
+    - On-site service coverage in your town, AMC options and a GST invoice with serial number.
+
+    ## Who buys them
+
+    Offices, schools, hospitals, shops, canteens, hostels, housing societies, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### What capacity of fridge does an office pantry need?
+    A single-door unit of 180 to 250 litres is usually enough for a team of 20 to 40 people storing drinks and lunches. Increase capacity if the fridge is shared by several floors.
+
+    ### Do I need a frost-free model?
+    Frost-free units save the effort of defrosting and suit heavy use. Direct-cool models use less power and cost less to repair but need regular manual defrosting.
+
+    ### What is a visi-cooler used for?
+    It displays and chills bottled drinks and packaged items for customers. Common brands include Godrej, Voltas, Blue Star, Haier and Whirlpool.
+- name: Water Purifiers & RO Plants
+  slug: water-purifiers-ro-plants
+  category: Water & Sanitation
+  summary: Learn when to choose RO, UV, UF or commercial RO plants, what capacity you need, and get quotes from water treatment suppliers.
+  body: |
+    ## Types
+
+    - **RO (reverse osmosis) purifier** — removes dissolved salts and is the usual choice where borewell or tap water has high TDS.
+    - **UV purifier** — treats microbes in low-TDS water and does not reduce dissolved salts.
+    - **UF purifier** — gravity or low-pressure membrane filter that removes particles and some microbes, needing no electricity in many models.
+    - **Under-counter or wall-mounted office purifier** — typically 10 to 25 litres per hour for a pantry or reception.
+    - **Commercial RO plant** — capacities from 50 to several thousand litres per hour for schools, hospitals, factories and housing societies, with pre-treatment and storage.
+
+    ## What to check before buying
+
+    - Get your water tested first: TDS, hardness, iron and turbidity decide whether RO, softener or pre-filter is needed.
+    - Output in litres per hour and the recovery rate, because RO rejects a share of input water.
+    - Membrane make and expected life, filter and cartridge replacement schedule.
+    - Material of tank and contact parts, which should be food grade.
+    - Electrical load, inlet pressure needs and space for a reject-water drain or reuse line.
+    - Installation, free service visits, AMC terms and a GST invoice.
+
+    ## Who buys them
+
+    Offices, schools, hospitals, shops, factories, housing societies, contractors, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### What size RO plant do I need for a school?
+    Plan for roughly 3 to 5 litres of drinking water per person per day, then add margin for peak use. For 500 students this suggests a plant of about 250 to 500 litres per hour with a storage tank.
+
+    ### Is RO always necessary?
+    No. If a lab test shows low TDS, UV or UF may be sufficient, and removing too many salts is not always desirable.
+
+    ### How often should filters be changed?
+    Sediment and carbon cartridges are usually changed every few months and membranes after one to three years, depending on water quality. Common brands include Kent, Aquaguard, Pureit and Livpure.
+- name: Water Coolers & Dispensers
+  slug: water-coolers-dispensers
+  category: Water & Sanitation
+  summary: See the differences between storage coolers, bottle dispensers and purifier-linked units, and request supplier quotes sized for your headcount.
+  body: |
+    ## Types
+
+    - **Storage water cooler** — insulated tank that chills water continuously, suited to schools, factories and offices with steady demand.
+    - **Bottle-top dispenser** — takes a 20-litre bottle and gives hot, normal or cold water; flexible where no plumbing is available.
+    - **Bottom-loading dispenser** — the bottle sits in a cabinet, which makes changing it easier.
+    - **Pipeline or POU dispenser** — connects to the water line, often with a built-in purifier, avoiding bottle handling.
+    - **Stainless steel multi-tap cooler** — heavy-duty units with several taps for hostels, hospitals and public areas.
+
+    ## What to check before buying
+
+    - Cooling capacity in litres per hour and storage tank size, matched to the number of users.
+    - Tank material, usually stainless steel, and food-grade pipework.
+    - Whether the model includes a filter or purifier, and the cost of replacing it.
+    - Compressor cooling versus electronic (thermoelectric) cooling; compressor units chill faster in hot weather.
+    - Number of taps, drain tray, and safety lock on hot water.
+    - Warranty, on-site service, installation and a GST invoice.
+
+    ## Who buys them
+
+    Offices, schools, hospitals, shops, factories, housing societies, contractors, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### What capacity of water cooler is needed for 100 people?
+    A rough guide is one litre of cooling per hour for every two to three users, so a 40 to 60 litres per hour cooler is typical. Choose the higher end in hot regions.
+
+    ### Should I pick a bottle dispenser or a pipeline cooler?
+    Where a reliable water line exists, pipeline units remove bottle supply and storage. Bottle dispensers suit locations without plumbing.
+
+    ### Can a cooler run without a purifier?
+    Coolers only chill the water, so incoming water should already be safe. Common brands include Blue Star, Voltas, Usha, Kent and Zero B.
+- name: Water Storage Tanks
+  slug: water-storage-tanks
+  category: Water & Sanitation
+  summary: Compare plastic, RCC, steel and underground tanks by capacity and layers, and get supplier quotes for terraces, campuses and plants.
+  body: |
+    ## Types
+
+    - **Plastic (LLDPE or rotational-moulded) tank** — light, rust-free and common for terraces, schools and homes; available in single and multi-layer builds.
+    - **Triple-layer tank** — an opaque outer layer and a white inner layer limit light and algae growth in stored water.
+    - **FRP tank** — fibre-reinforced plastic, used for larger or special-use storage such as chemicals.
+    - **Stainless steel or mild steel tank** — sturdy and used where temperature, hygiene or fire-water storage needs are stricter.
+    - **Underground sump or RCC tank** — built on site for large buildings and housing societies, often with a terrace tank above.
+
+    ## What to check before buying
+
+    - Capacity in litres sized to daily use; many planners store one to two days of demand.
+    - BIS certification for plastic tanks, and food-grade, virgin material for drinking water.
+    - Wall thickness, number of layers, and UV stabilisation if the tank stays in the sun.
+    - Lid, manhole, outlet and overflow fittings, and whether they are included.
+    - Terrace load: a full tank is heavy, so confirm structural capacity and a level base.
+    - Warranty period, delivery and installation terms, and a GST invoice.
+
+    ## Who buys them
+
+    Offices, schools, hospitals, shops, factories, housing societies, contractors, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### What tank capacity is right for a building?
+    A common planning figure is around 135 litres per person per day for residential use, with lower figures for offices. Multiply by occupants and the days of storage you want.
+
+    ### Why choose a multi-layer tank?
+    The dark outer layer blocks sunlight, which slows algae growth and keeps water cooler. Common brands include Sintex, Supreme, Kisan and Jindal.
+
+    ### Can one tank serve drinking and flushing water?
+    Keep them separate where possible, and use a food-grade tank for drinking water.
+- name: Dustbins & Waste Containers
+  slug: dustbins-waste-containers
+  category: Water & Sanitation
+  summary: Choose between pedal bins, wheeled bins, segregation sets and bulk containers, then request quotes from suppliers sized to your waste volume.
+  body: |
+    ## Types
+
+    - **Pedal bins** — foot-operated lid for hygienic use in offices, clinics and washrooms.
+    - **Open or swing-lid bins** — low-cost bins for corridors, classrooms and public areas.
+    - **Wheeled bins (120 to 240 litres)** — handle high volumes and are moved by hand to collection points in campuses and housing societies.
+    - **Segregation sets** — colour-coded bins for wet, dry and hazardous waste, or for biomedical waste categories in hospitals.
+    - **Large containers and skips** — 660 litres and above, for municipal-style collection, markets and factories.
+
+    ## What to check before buying
+
+    - Capacity in litres matched to daily waste and collection frequency.
+    - Material: HDPE, polypropylene or stainless steel, with UV stabilisation for outdoor use.
+    - Colour coding that matches the rules in force, such as green, blue and black under solid waste rules, or yellow, red, white and blue for biomedical waste.
+    - Lid type, wheels and handles, and whether liners are needed.
+    - Wall thickness and impact strength, because thin bins crack under heavy use.
+    - Warranty, bulk delivery terms and a GST invoice.
+
+    ## Who buys them
+
+    Offices, schools, hospitals, shops, factories, housing societies, contractors, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### How many bins does an office need?
+    Place at least one bin per workstation cluster and one at each pantry and washroom, then add segregated bins at common points. Count on emptying them daily.
+
+    ### Do hospitals need special bins?
+    Yes. Biomedical waste must be kept in coloured containers and bags as per the Biomedical Waste Management Rules, so confirm compliance with your waste handler.
+
+    ### What size wheeled bin should a society choose?
+    Estimate daily waste per household and the frequency of collection, then pick a bin that is not more than about 80 percent full at pickup. Common brands include Supreme, Nilkamal, Cello and Sintex.
+- name: HDPE Pipes
+  slug: hdpe-pipes
+  category: Water & Sanitation
+  summary: Understand HDPE pipe grades, pressure classes and fittings, and request quotes from suppliers for water supply, irrigation and cable ducting.
+  body: |
+    ## Types
+
+    - **HDPE water supply pipes** — PE 80 and PE 100 grades in pressure classes for drinking water lines and distribution.
+    - **Irrigation and sprinkler pipes** — for farms, gardens and campuses, in lower pressure classes and coils.
+    - **HDPE coils** — lengths up to 100 metres or more in smaller diameters, which reduce joints on long runs.
+    - **HDPE ducts for cables** — smooth or corrugated pipes for protecting electrical and telecom cables underground.
+    - **HDPE sewer and drainage pipes** — larger diameters, often double-wall corrugated, for gravity drains.
+
+    ## What to check before buying
+
+    - Material grade (PE 63, PE 80 or PE 100) and the pressure rating in kgf per square centimetre or PN class.
+    - BIS certification; IS 4984 covers HDPE pipes for water supply.
+    - Outer diameter, wall thickness and standard dimension ratio, quoted per metre or per coil.
+    - Jointing method: butt fusion, electrofusion or compression fittings, and availability of matching fittings.
+    - Manufacturer test reports and batch marking on the pipe.
+    - Delivery of long lengths, whether the supplier or contractor handles jointing, and a GST invoice.
+
+    ## Who buys them
+
+    Contractors, factories, housing societies, farms, schools, hospitals, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### How do I choose the pressure class?
+    Select a class that is above the working pressure of the line plus allowance for surges. A higher class means a thicker wall and more cost.
+
+    ### Why is HDPE preferred over metal pipes?
+    It does not rust, is flexible and has few joints when supplied in coils. It needs correct jointing, which should be done by trained crews.
+
+    ### Can HDPE pipes be laid above ground?
+    Black pipes with carbon black are UV-resistant and can be laid in the sun. Common brands include Jain, Finolex, Supreme, Astral and Kisan.
+- name: Office Furniture
+  slug: office-furniture
+  category: Furniture
+  summary: Compare desks, storage, seating and reception furniture for offices and institutions, and get supplier quotes for a full fit-out or single items.
+  body: |
+    ## Types
+
+    - **Workstations and desks** — single desks, cluster workstations and executive tables for staff areas.
+    - **Seating** — task chairs, visitor chairs, conference chairs and sofas for waiting areas.
+    - **Storage** — steel almirahs, filing cabinets, lockers and wooden bookcases.
+    - **Meeting and conference furniture** — tables and chairs sized for the number of attendees.
+    - **Reception and counter units** — customer-facing desks and display counters.
+    - **Institutional furniture** — benches, desks, hostel cots and library racks for schools and colleges.
+
+    ## What to check before buying
+
+    - Material: particle board, MDF, plywood, solid wood or steel, and the laminate or finish thickness.
+    - Edge banding and hardware quality, since weak hinges and drawer channels fail first.
+    - Dimensions against the floor plan, including passage space and cable management.
+    - Load rating of shelves, tables and seating.
+    - Formaldehyde emission class of boards, where the supplier can state it.
+    - Delivery, assembly and installation scope, warranty period and a GST invoice.
+
+    ## Who buys them
+
+    Offices, schools, colleges, hospitals, shops, factories, housing societies, contractors, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### How much space should I plan per employee?
+    A common guide is about 50 to 100 square feet per person, depending on open-plan or cabin layouts. Include aisles and shared areas in the calculation.
+
+    ### Is wood or laminate board better?
+    Solid wood and plywood last longer but cost more and weigh more. Pre-laminated particle board suits large fit-outs when thickness and edge banding are good.
+
+    ### Should I buy everything from one supplier?
+    A single supplier can keep finish and colours consistent and simplify delivery. Compare item-wise quotes so that you can mix suppliers when it makes sense.
+- name: Office Chairs
+  slug: office-chairs
+  category: Furniture
+  summary: Pick between ergonomic, executive, visitor and mesh office chairs, and request supplier quotes with the adjustments and warranty you need.
+  body: |
+    ## Types
+
+    - **Ergonomic task chairs** — adjustable seat height, lumbar support and armrests for staff who sit many hours.
+    - **Executive and director chairs** — high-back chairs with padded seats, usually in leatherette or leather.
+    - **Mesh-back chairs** — breathable backs that suit warm offices and long use.
+    - **Visitor and guest chairs** — fixed or cantilever frames for cabins, reception and waiting areas.
+    - **Conference chairs** — medium-back chairs for meeting rooms, some with castors.
+    - **Stackable and training chairs** — light chairs for classrooms, halls and events.
+
+    ## What to check before buying
+
+    - Adjustments: seat height, backrest tilt, lumbar support and armrests, as per the user's need.
+    - Gas lift class and base material; nylon bases are common, steel or aluminium last longer.
+    - Foam density and cover fabric, and whether leatherette is of good quality.
+    - Weight capacity stated by the manufacturer.
+    - Castor type, for hard floors or carpets.
+    - Warranty on frame, gas lift and mechanism, availability of spares, and a GST invoice.
+
+    ## Who buys them
+
+    Offices, schools, colleges, hospitals, shops, factories, housing societies, contractors, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### Which chair is best for people who sit all day?
+    Choose a task chair with lumbar support, height-adjustable armrests and a synchronised tilt. Test a sample if the order is large.
+
+    ### How do I pick a chair for a cabin and for staff?
+    Use high-back chairs for cabins and medium-back task chairs for staff, so that cost goes where comfort and appearance matter most.
+
+    ### Does a mesh chair last longer than a cushioned one?
+    Quality of the mesh and frame matters more than the type. Common brands include Godrej, Featherlite, Nilkamal and Wipro.
+- name: Steel Almirahs & Cabinets
+  slug: steel-almirahs-cabinets
+  category: Furniture
+  summary: Review steel almirahs, filing cabinets, lockers and compactors by gauge and locks, and get quotes for offices, schools and records rooms.
+  body: |
+    ## Types
+
+    - **Steel almirah** — two-door cupboard with shelves, used for files, stationery and stores.
+    - **Filing cabinet** — drawers for suspended files, two to four drawers high, for records.
+    - **Lockers** — multiple compartments with individual locks for staff, students and workers.
+    - **Storage compactor** — mobile racks on rails that hold more files in less floor space.
+    - **Tambour or roller-shutter cabinets** — sliding shutters that save door swing space.
+    - **Fireproof cabinets and safes** — for documents and valuables needing heat protection.
+
+    ## What to check before buying
+
+    - Steel sheet thickness, usually quoted in gauge or millimetres, because thicker sheets resist bending.
+    - Powder coating or paint finish and whether the base is pre-treated against rust.
+    - Number and adjustability of shelves, and load capacity per shelf.
+    - Lock type: cam lock, multi-point lock or digital lock, and number of keys supplied.
+    - Dimensions against your room and passage, and flat-pack or fully welded construction.
+    - Warranty, delivery to your floor and a GST invoice.
+
+    ## Who buys them
+
+    Offices, schools, colleges, hospitals, shops, factories, housing societies, contractors, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### What gauge of steel should I ask for?
+    For heavy files, ask for thicker sheet in the shelves and doors, and check that the supplier states the thickness in writing. Thin sheet sags and dents quickly.
+
+    ### Is a fireproof cabinet the same as a steel almirah?
+    No. A normal almirah does not protect papers from fire; fire-resistant cabinets are tested and rated for a stated time. Common brands include Godrej, Remi, Bharat and Nilkamal.
+
+    ### When is a compactor worth considering?
+    When records are large and floor space is limited. Compactors need a level floor and professional installation.
+- name: Modular Workstations
+  slug: modular-workstations
+  category: Furniture
+  summary: Learn about linear, cluster and cubicle workstations, and request supplier quotes with the partition, storage and cabling you need.
+  body: |
+    ## Types
+
+    - **Linear workstation** — desks placed in a row, with a shared partition, for dense seating.
+    - **Cluster workstation** — four or six desks arranged around a central spine, popular in call centres and IT offices.
+    - **Cubicle workstation** — high partitions for privacy, useful for finance and HR teams.
+    - **Benching system** — shared long tables with minimal partitions for open layouts.
+    - **Height-adjustable workstation** — electric or manual desks that allow sitting or standing.
+
+    ## What to check before buying
+
+    - Desk size, usually 1200 x 600 mm or larger, and partition height.
+    - Board thickness and laminate, with edge banding on all exposed sides.
+    - Frame material and stability; powder-coated metal legs are common.
+    - Cable management: grommets, trays, and power and data modules.
+    - Under-desk storage such as pedestals, with lock and drawer quality.
+    - Installation and re-arrangement support, warranty period and a GST invoice.
+
+    ## Who buys them
+
+    Offices, call centres, IT firms, banks, schools, hospitals, contractors, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### How many workstations fit in my office?
+    Divide usable floor area by 40 to 60 square feet per seat for typical layouts, after deducting aisles and meeting rooms. A layout drawing from the supplier helps verify this.
+
+    ### Are partitions necessary?
+    Low partitions give some privacy and hold notice boards. Open benches suit collaborative teams but are noisier.
+
+    ### Can workstations be moved later?
+    Most modular systems can be dismantled and re-assembled, but check that parts are standard and available. Common brands include Godrej Interio, Featherlite, Wipro and Durian.
+- name: Sofas
+  slug: sofas
+  category: Furniture
+  summary: Compare sofa sets, lounge seating and reception sofas by frame, foam and fabric, and get supplier quotes for waiting rooms, offices and homes.
+  body: |
+    ## Types
+
+    - **Three-seater, two-seater and single sofas** — standard sets for reception areas, cabins and guest rooms.
+    - **L-shaped and sectional sofas** — modular units that fit corners and larger lounges.
+    - **Leather or leatherette sofas** — wipe-clean surfaces used in offices and clinics.
+    - **Fabric sofas** — comfortable and available in many finishes, though they need regular cleaning.
+    - **Waiting-room seating** — linked chairs with arms or metal frames for hospitals, banks and public areas.
+    - **Sofa-cum-beds** — dual-use units for guest houses and hostels.
+
+    ## What to check before buying
+
+    - Frame material: seasoned hardwood or metal frames last longer than soft wood or thin board.
+    - Foam density and thickness, which decide comfort and sagging over time.
+    - Upholstery: fabric weight, leatherette quality and colour fastness.
+    - Seat height and depth for the users, and total dimensions against the room.
+    - Stitching, joints and legs, which should be firm without wobble.
+    - Warranty on frame and foam, delivery, and a GST invoice.
+
+    ## Who buys them
+
+    Offices, hospitals, clinics, schools, shops, hotels, housing societies, contractors, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### How many seats do I need in a reception area?
+    Plan seating for the maximum number of visitors waiting at one time, adding one or two extra. Leave at least 90 cm of walking space around the furniture.
+
+    ### Is leatherette or fabric better for a public area?
+    Leatherette is easier to wipe clean, while fabric can be more comfortable. Choose heavy-duty fabric for high-traffic areas.
+
+    ### Can sofas be customised?
+    Many suppliers can adjust size, fabric and colour for bulk orders. Ask for a sample and approve it before production.
+- name: Office & Computer Tables
+  slug: office-computer-tables
+  category: Furniture
+  summary: Choose executive tables, computer desks, conference and training tables, and request quotes from suppliers in the sizes and finishes you need.
+  body: |
+    ## Types
+
+    - **Executive table** — large table with side return and drawers for managers and cabins.
+    - **Computer table** — desk with a keyboard tray and CPU space for staff and labs.
+    - **Standard office desk** — straight desk with drawer pedestal for clerical staff.
+    - **Conference table** — long or modular table to seat meeting groups of six to twenty.
+    - **Training and classroom tables** — folding or flip-top tables for flexible rooms.
+    - **Reception counters** — front desks with a transaction ledge and storage.
+
+    ## What to check before buying
+
+    - Top size and thickness; common office desks use 18 to 25 mm board, with thicker tops for conference tables.
+    - Material and finish: pre-laminated board, plywood with laminate, veneer or solid wood.
+    - Edge banding on all sides and the quality of drawer slides and locks.
+    - Cable access, CPU space and keyboard tray strength for computer tables.
+    - Leg design and stability, and floor levelling feet.
+    - Delivery, assembly, warranty and a GST invoice.
+
+    ## Who buys them
+
+    Offices, schools, colleges, computer labs, hospitals, shops, factories, contractors, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### What size table suits one computer user?
+    A desk of about 1200 mm by 600 mm works for a single monitor and some paperwork. Choose 1500 mm or more where two screens are used.
+
+    ### How big should a conference table be?
+    Allow about 60 to 70 cm of table edge per person, plus clear space of about one metre behind chairs. A table for eight is often about 2400 mm long.
+
+    ### Is a laminate top durable?
+    Good-quality laminate on thick board resists scratches and stains, but check for sealed edges so moisture does not enter.
+- name: X-Ray Machines
+  slug: x-ray-machines
+  category: Medical & Laboratory
+  summary: Compare fixed, mobile, portable, digital and dental X-ray machines, understand AERB licensing, and get supplier quotes for clinics and hospitals.
+  body: |
+    ## Types
+
+    - **Fixed X-ray unit** — installed in a shielded room, in ratings from 100 mA to 800 mA and above for general radiography.
+    - **Mobile X-ray unit** — wheeled unit for use at the bedside in wards and ICUs.
+    - **Portable X-ray unit** — light, handheld or tripod system for camps and small clinics.
+    - **Digital radiography (DR or CR) systems** — detector-based systems that produce digital images instead of film.
+    - **Dental X-ray (intra-oral and OPG)** — compact units for dental clinics.
+    - **C-arm** — used in operation theatres for live imaging.
+
+    ## What to check before buying
+
+    - AERB type approval for the model and licence requirements for operating it; the buyer must register and obtain a licence for the facility.
+    - CDSCO registration status where applicable to the device.
+    - Generator rating in kVp and mA matched to the examinations you plan.
+    - Room layout, lead shielding and radiation protection needs, including a qualified radiological safety officer.
+    - Image receptor type, software, DICOM output and storage.
+    - Installation, applicator and operator training, warranty, AMC and a GST invoice.
+
+    ## Who buys them
+
+    Hospitals, nursing homes, diagnostic centres, dental clinics, NGOs running health camps and government health facilities.
+
+    ## Frequently asked questions
+
+    ### What rating of X-ray machine do I need?
+    A 100 to 300 mA unit suits small clinics for limbs and chest, while 500 mA or more suits busier hospitals. Ask a radiologist or supplier to match the rating to your cases.
+
+    ### Does an X-ray room need special construction?
+    Yes. Walls, doors and windows need shielding as per the AERB-approved layout.
+
+    ### What is the difference between CR and DR?
+    CR uses reusable cassettes that are scanned, while DR captures images directly on a detector and is faster.
+- name: Ultrasound Machines
+  slug: ultrasound-machines
+  category: Medical & Laboratory
+  summary: Understand portable, trolley, colour Doppler and 4D ultrasound machines, PCPNDT registration, and request quotes from medical equipment suppliers.
+  body: |
+    ## Types
+
+    - **Black-and-white (2D) ultrasound** — basic scanners for general abdominal and obstetric imaging.
+    - **Colour Doppler** — adds blood flow imaging for cardiac, vascular and obstetric work.
+    - **Portable and handheld units** — laptop-style or pocket probes for bedside, emergency and field use.
+    - **Trolley-based premium systems** — higher image quality and more probes for large hospitals.
+    - **3D and 4D systems** — volume imaging used in obstetrics and specialist centres.
+
+    ## What to check before buying
+
+    - PCPNDT Act, 1994: any centre that uses ultrasound must be registered with the appropriate authority, and the machine must be registered with the centre. Sellers also report sales to the authority, so keep the paperwork ready.
+    - CDSCO registration or import licence for the device, as applicable.
+    - Probe types supplied, such as convex, linear, endocavity and cardiac, and their frequencies.
+    - Image quality, software packages, storage and DICOM support.
+    - Safety features, power backup and a stabiliser.
+    - Installation, operator training, warranty duration, probe warranty, AMC and a GST invoice.
+
+    ## Who buys them
+
+    Hospitals, nursing homes, diagnostic centres, clinics, NGOs and government health facilities.
+
+    ## Frequently asked questions
+
+    ### Which probes should I order first?
+    A convex probe is the usual starting point for abdominal work, with a linear probe for superficial structures. Add others based on the specialities you plan to serve.
+
+    ### Do I need registration before buying?
+    Yes, registration under the PCPNDT Act is required for the facility using the machine, so complete it early. Suppliers often ask for the registration certificate before delivery.
+
+    ### Is a portable unit enough for a clinic?
+    Often yes for routine use, but check the probe range and image quality. Common brands include GE, Philips, Samsung, Mindray and Siemens.
+- name: Ventilators
+  slug: ventilators
+  category: Medical & Laboratory
+  summary: Review ICU, transport, neonatal and non-invasive ventilators and their specifications, then get quotes from licensed medical equipment suppliers.
+  body: |
+    ## Types
+
+    - **ICU ventilator** — advanced unit with multiple modes and monitoring for critical care.
+    - **Transport ventilator** — compact, battery-backed unit for ambulances and patient movement.
+    - **Neonatal and paediatric ventilator** — built for small tidal volumes and infant circuits.
+    - **Non-invasive ventilators (BiPAP and CPAP)** — deliver pressure support via a mask rather than a tube.
+    - **Home or basic ventilators** — simpler units for long-term use outside ICUs, as directed by clinicians.
+
+    ## What to check before buying
+
+    - CDSCO registration or import licence as applicable to the model.
+    - Ventilation modes and parameter ranges, and whether adult, paediatric and neonatal use is supported.
+    - Display, alarms and monitoring features, and compatibility with oxygen and compressed air supply.
+    - Internal battery duration, and need for a UPS and stabiliser.
+    - Breathing circuits, humidifiers, filters and other consumables, including how long they remain available.
+    - Installation, biomedical engineer training, warranty, AMC and a GST invoice.
+
+    ## Who buys them
+
+    Hospitals, nursing homes, ambulance operators, medical colleges, NGOs and government health facilities.
+
+    ## Frequently asked questions
+
+    ### How many ventilators does a hospital need?
+    This depends on ICU bed count and case mix, and is decided by clinical staff. Suppliers can advise on the number of units and spares.
+
+    ### Do ventilators need a compressed air supply?
+    Many ICU models use medical air and oxygen, while some have an internal turbine. Check the gas supply of your facility before choosing.
+
+    ### What after-sales support should I ask for?
+    Ask for service engineers within your region, a spare parts commitment and operator training. Common brands include Medtronic, Philips, Draeger, Mindray and Hamilton.
+- name: Microscopes
+  slug: microscopes
+  category: Medical & Laboratory
+  summary: Choose between compound, binocular, stereo, digital and fluorescence microscopes, and request supplier quotes for schools, labs and clinics.
+  body: |
+    ## Types
+
+    - **Monocular student microscope** — basic unit for school science labs and demonstrations.
+    - **Binocular compound microscope** — comfortable for long use in pathology labs and colleges.
+    - **Stereo (dissecting) microscope** — low magnification with a 3D view, for biology, electronics and inspection work.
+    - **Trinocular and digital microscope** — has a camera port or built-in camera to display or record images.
+    - **Fluorescence microscope** — for specialised research and diagnostic labs.
+    - **Inverted microscope** — for viewing cells in culture dishes in research settings.
+
+    ## What to check before buying
+
+    - Magnification range and objective lenses, such as 4x, 10x, 40x and 100x oil immersion.
+    - Optics quality: achromatic or plan objectives, and numerical aperture.
+    - Illumination: LED lighting is long-lasting and cool, while halogen is older but still used.
+    - Stage type, focus mechanism and build material, preferably metal.
+    - Dust cover, spare bulb or LED, immersion oil and slides in the package.
+    - Warranty, on-site service, training and a GST invoice.
+
+    ## Who buys them
+
+    Schools, colleges, hospitals, pathology labs, research institutes, factories running quality labs, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### Which microscope suits a school lab?
+    A monocular or binocular compound microscope with 4x, 10x and 40x objectives is usually enough. Add a few stereo microscopes for biology practicals.
+
+    ### Do I need a digital microscope?
+    Only if you want to project or record images for teaching or reporting. A trinocular unit with a camera can be added later.
+
+    ### What does a pathology lab need?
+    A binocular microscope with a 100x oil immersion objective is standard. Common brands include Olympus, Nikon, Zeiss, Labomed and Radical.
+- name: Laboratory Chemicals & Reagents
+  slug: laboratory-chemicals-reagents
+  category: Medical & Laboratory
+  summary: Know the difference between AR, LR and GR grade chemicals, pack sizes and documents, then get supplier quotes for school, college and industrial labs.
+  body: |
+    ## Types
+
+    - **Laboratory reagent (LR) grade** — general-purpose chemicals for school practicals and teaching.
+    - **Analytical reagent (AR) grade** — higher purity for analysis and quality testing.
+    - **Guaranteed reagent (GR) or ACS grade** — tight purity limits for precise analytical work.
+    - **Diagnostic reagents and kits** — ready-to-use test kits for pathology and clinical labs, including stains.
+    - **Solvents and acids** — bulk liquids such as methanol, acetone, hydrochloric and sulphuric acid.
+    - **Buffers, indicators and standard solutions** — prepared solutions of known concentration for titration and calibration.
+
+    ## What to check before buying
+
+    - Grade and purity stated on the label, matched to the test method you follow.
+    - Certificate of analysis and safety data sheet for each batch.
+    - Manufacturing and expiry dates, and shelf life remaining at delivery.
+    - Pack size and packing material, such as amber glass or HDPE bottles, with sealed caps.
+    - Hazard class: flammable, corrosive and toxic items need safe transport and storage.
+    - For diagnostic kits, CDSCO registration where required, cold-chain handling, and a GST invoice with batch details.
+
+    ## Who buys them
+
+    Schools, colleges, hospitals, pathology labs, research institutes, factories, universities and government laboratories.
+
+    ## Frequently asked questions
+
+    ### Which grade should a school lab buy?
+    LR grade is generally enough for school experiments. Use AR grade only where results must be precise.
+
+    ### How should I plan quantities?
+    Estimate by practicals per term and group size, and avoid stocking more than one year of consumption, since some chemicals degrade.
+
+    ### How are hazardous chemicals delivered?
+    Suppliers must pack and label them as per hazard class. Common brands include Merck, SRL, Qualigens, Loba Chemie and Himedia.
+- name: Sanitary Napkins & Vending Machines
+  slug: sanitary-napkins-vending-machines
+  category: Medical & Laboratory
+  summary: Compare napkin types, vending machines and incinerators for schools, offices and factories, and get supplier quotes for bulk orders.
+  body: |
+    ## Types
+
+    - **Cotton or cellulose pad napkins** — standard disposable pads in regular and extra-long sizes.
+    - **Biodegradable or oxo-biodegradable napkins** — made with materials intended to break down faster after disposal.
+    - **Reusable cloth pads** — washable pads sometimes distributed by NGOs and schools.
+    - **Coin-operated or free-vend machines** — wall-mounted units for school, college and office washrooms.
+    - **Napkin incinerators** — small electric units that burn used napkins in the washroom.
+    - **Disposal bins and bags** — covered bins and bags for safe napkin disposal.
+
+    ## What to check before buying
+
+    - BIS certification for sanitary napkins; IS 5405 is the Indian standard.
+    - Absorbency, length, wings and pack size matched to users.
+    - Material composition and whether it is free from fragrance additives or irritants.
+    - For vending machines: capacity in pads, coin or free-vend mode, wall or floor mounting and lock quality.
+    - For incinerators: burn capacity, power load, ash tray and a smoke-control design.
+    - Restocking, service support, warranty and a GST invoice.
+
+    ## Who buys them
+
+    Schools, colleges, offices, factories, hospitals, hostels, NGOs, housing societies and government offices.
+
+    ## Frequently asked questions
+
+    ### How many napkins should an institution stock?
+    Estimate by number of female users and average monthly use, and keep a buffer stock for a month or two. Ask suppliers about regular replenishment.
+
+    ### Where should vending machines be placed?
+    Place them inside or next to girls' and women's washrooms, where privacy is respected and the machine is easy to refill.
+
+    ### How should used napkins be disposed of?
+    Use covered bins with regular collection, or an incinerator where permitted by local rules.
+- name: Tractors
+  slug: tractors
+  category: Vehicles, Safety & Other
+  summary: Compare tractors by horsepower, 2WD and 4WD, and implements, then get supplier quotes for farms, contractors, campuses and municipal use.
+  body: |
+    ## Types
+
+    - **Compact tractors (under 30 HP)** — used for orchards, small farms, gardens and campuses.
+    - **Utility tractors (30 to 50 HP)** — the most common choice for general farm work and haulage.
+    - **High-HP tractors (50 HP and above)** — for heavy tillage, large farms and contractor work.
+    - **4WD tractors** — better traction in wet or uneven ground and heavy loads.
+    - **Orchard and vineyard tractors** — narrow models that work between tree rows.
+    - **Tractor with trolley or loader** — configurations for haulage, earthwork and municipal jobs.
+
+    ## What to check before buying
+
+    - Engine power in HP, number of cylinders and PTO power for implements.
+    - Lifting capacity of the hydraulics, in kilograms, and the type of linkage.
+    - Fuel tank size, fuel efficiency and emission norms that apply to the model.
+    - Compatibility with implements such as rotavators, ploughs, trailers and loaders.
+    - Dealer network, availability of spare parts and servicing near you.
+    - Warranty in hours or years, delivery, registration support, insurance and a GST invoice.
+
+    ## Who buys them
+
+    Farms, contractors, schools and colleges with farmland, housing societies, NGOs, municipal bodies, factories and government offices.
+
+    ## Frequently asked questions
+
+    ### What HP tractor do I need?
+    Match HP to the heaviest implement you will use and to the soil. For most general farm work 35 to 50 HP is common, and bigger implements need more power.
+
+    ### Do I need 2WD or 4WD?
+    2WD suffices on firm, flat ground, while 4WD helps in wet fields and heavy loading. 4WD adds purchase and fuel cost.
+
+    ### Which brands are common?
+    Common brands include Mahindra, Sonalika, TAFE, John Deere and Kubota.
+- name: Ambulances
+  slug: ambulances
+  category: Vehicles, Safety & Other
+  summary: Understand basic, advanced, patient transport and neonatal ambulances, key fit-out checks and approvals, and request quotes from builders.
+  body: |
+    ## Types
+
+    - **Patient transport ambulance** — carries a stretcher patient who does not need active medical care on the way.
+    - **Basic life support (BLS) ambulance** — equipped with oxygen, a stretcher and basic first-aid equipment.
+    - **Advanced life support (ALS) ambulance** — adds a monitor, defibrillator, ventilator and drug storage.
+    - **Neonatal ambulance** — carries an infant transport incubator for newborns.
+    - **Mortuary van** — a vehicle for transporting the deceased, with a cold-chamber option.
+    - **Mobile medical unit** — a larger vehicle fitted as a clinic or diagnostic unit.
+
+    ## What to check before buying
+
+    - Base vehicle make and model, such as van or tempo traveller, and its availability of service.
+    - Conformity with the applicable ambulance design code for that category, often referred to as AIS-125, along with approval from the transport authority.
+    - Fit-out list: stretcher, oxygen cylinder, suction, lights, siren, beacon, and storage.
+    - Interior material that is easy to clean, and ventilation, lighting and power backup.
+    - Registration as an ambulance, permit, and the builder's capacity to handle paperwork.
+    - Warranty on both vehicle and fit-out, service network and a GST invoice.
+
+    ## Who buys them
+
+    Hospitals, nursing homes, NGOs, trusts, housing societies, factories, schools and government health facilities.
+
+    ## Frequently asked questions
+
+    ### Which ambulance type do I need?
+    Pick patient transport for routine movement, BLS for first response and ALS where trained staff can use advanced equipment. A higher category needs more equipment and staff.
+
+    ### Who does the fit-out?
+    Specialist builders convert a base vehicle, and the supplier should tell you whether approvals are included in the quote.
+
+    ### Does an ambulance need special registration?
+    Yes, it needs registration and body approval as an ambulance under motor vehicle rules, so confirm the steps with your supplier and local transport office.
+- name: E-Rickshaws & E-Carts
+  slug: e-rickshaws-e-carts
+  category: Vehicles, Safety & Other
+  summary: Compare passenger e-rickshaws, loader e-carts and garbage tippers by battery and range, and get supplier quotes for campuses, societies and fleets.
+  body: |
+    ## Types
+
+    - **Passenger e-rickshaw** — three-wheeler for four or more passengers, used in towns, campuses and stations.
+    - **Loader e-cart** — three-wheeler with a cargo bed for goods in markets, factories and warehouses.
+    - **Garbage tipper e-cart** — fitted with bins or a tipping body for door-to-door waste collection.
+    - **Electric auto (L5 category)** — larger three-wheeler with a higher speed and passenger capacity.
+    - **Utility e-carts and golf-style carts** — for campuses, resorts, hospitals and large plants.
+
+    ## What to check before buying
+
+    - Type approval or homologation from an authorised testing agency, such as ARAI or ICAT, and compliance with motor vehicle rules.
+    - Battery type (lead-acid or lithium-ion), capacity in kWh, and stated range per charge.
+    - Motor power, payload and gradient capability.
+    - Charger type, charging time and whether battery swapping is possible.
+    - Registration, insurance, and whether a driving licence is needed for your category.
+    - Warranty on battery and motor separately, service network and a GST invoice.
+
+    ## Who buys them
+
+    Housing societies, campuses, factories, municipal bodies, NGOs, hospitals, contractors, warehouses and government offices.
+
+    ## Frequently asked questions
+
+    ### Lead-acid or lithium-ion battery?
+    Lithium-ion typically lasts longer and weighs less but costs more upfront. Lead-acid is cheaper and easier to replace locally.
+
+    ### What range should I look for?
+    Estimate daily kilometres and add a margin of 20 to 30 percent, since loaded or hilly routes shorten range. Check the stated range against the payload.
+
+    ### Do e-rickshaws need registration?
+    Yes, they must be registered and approved models should be used. Common brands include Mahindra, Bajaj, Piaggio, Saarthi and Lohia.
+- name: Fire Extinguishers
+  slug: fire-extinguishers
+  category: Vehicles, Safety & Other
+  summary: Know which extinguisher type suits which fire, check ISI marks and refill needs, and request supplier quotes for offices, plants and buildings.
+  body: |
+    ## Types
+
+    - **ABC dry powder** — covers wood and paper, flammable liquids and gas fires; the common general-purpose choice.
+    - **CO2 (carbon dioxide)** — for electrical equipment, server rooms and laboratories, leaves no residue.
+    - **Water or water-mist** — for paper, cloth and wood fires, not for electrical or oil fires.
+    - **Foam (AFFF or mechanical foam)** — for flammable liquid fires in garages, workshops and fuel stores.
+    - **Clean agent** — for sensitive electronics and control rooms where residue must be avoided.
+    - **Wheeled or trolley extinguishers** — larger capacity for factories and godowns.
+
+    ## What to check before buying
+
+    - BIS certification, with the ISI mark on the body; IS 15683 covers portable fire extinguishers.
+    - Fire class rating, such as A, B, C, D or electrical, matched to what you store or use.
+    - Capacity in kilograms or litres and the discharge time.
+    - Cylinder test date, pressure gauge in the green zone, and a tamper seal.
+    - Mounting brackets, signage and a refill and testing schedule.
+    - Warranty, annual maintenance, installation and a GST invoice.
+
+    ## Who buys them
+
+    Offices, schools, hospitals, shops, factories, housing societies, contractors, NGOs and government offices.
+
+    ## Frequently asked questions
+
+    ### How many extinguishers does a building need?
+    Local fire rules and the National Building Code set the number, usually by floor area and risk. A fire safety consultant or the local fire department can advise.
+
+    ### Can one extinguisher handle all fires?
+    ABC powder covers many cases, but it is messy on equipment. Use CO2 or clean agent for electronics.
+
+    ### How often should extinguishers be serviced?
+    They need periodic inspection and refilling as per the manufacturer and local rules. Common brands include Safex, Ceasefire, Minimax and Kanex.
+- name: Signage Boards
+  slug: signage-boards
+  category: Vehicles, Safety & Other
+  summary: Compare LED, acrylic, flex, vinyl and safety signage, and request supplier quotes for shopfronts, campuses, factories and public buildings.
+  body: |
+    ## Types
+
+    - **Flex or vinyl boards** — printed sheets on a frame for hoardings, banners and temporary or outdoor use.
+    - **Acrylic and ACP (aluminium composite panel) boards** — sleek nameplates and facades for offices and shops.
+    - **LED backlit and glow sign boards** — lit signs that are visible at night on shopfronts and entrances.
+    - **Individual letter signs** — 3D steel, acrylic or LED letters mounted on walls.
+    - **Safety and statutory signs** — fire exit, warning, evacuation and instruction boards for buildings and plants.
+    - **Directional and wayfinding signs** — floor plans and room signs for hospitals, campuses and offices.
+
+    ## What to check before buying
+
+    - Material and thickness, and suitability for indoor or outdoor use.
+    - Print or finish durability against sun and rain, such as UV-resistant inks and weatherproof coatings.
+    - For LED signs, the power load, driver quality and ingress protection rating.
+    - Legibility: letter height for viewing distance, contrast and reflective material for roadside boards.
+    - Structure, anchoring and wind-load safety for large hoardings, and any local permission needed for display.
+    - Design approval before production, installation, warranty and a GST invoice.
+
+    ## Who buys them
+
+    Shops, offices, schools, hospitals, factories, housing societies, contractors, NGOs, event organisers and government offices.
+
+    ## Frequently asked questions
+
+    ### What letter size do I need?
+    As a rule of thumb, allow about 25 mm of letter height for every 10 metres of viewing distance, then adjust for font and speed of passing traffic.
+
+    ### Is flex or acrylic better outdoors?
+    Flex is economical but fades and tears over time, while acrylic and ACP last longer. LED signs add night visibility.
+
+    ### Do I need permission to put up a sign?
+    Many local bodies require approval for large or roadside signs, so check municipal rules before ordering.
+- name: Tents & Shamianas
+  slug: tents-shamianas
+  category: Vehicles, Safety & Other
+  summary: Compare shamianas, waterproof tents, pagoda and dome structures for events and camps, and get supplier quotes with fabric, size and set-up included.
+  body: |
+    ## Types
+
+    - **Traditional shamiana** — cloth canopy on poles for weddings, meetings and community events.
+    - **Pagoda tent** — peaked frame tents often used for gardens, receptions and exhibitions.
+    - **Hanger or clear-span tent** — aluminium frame with large open space, for exhibitions and trade fairs.
+    - **Dome and geodesic tents** — strong round structures for events and camps.
+    - **Relief and army-style tents** — waterproof, rugged tents for disaster relief, camps and site offices.
+    - **Rental party tents and canopies** — small pop-up gazebos for stalls and registration desks.
+
+    ## What to check before buying
+
+    - Size in square feet or metres and the headcount it can hold with seating or standing.
+    - Fabric type, such as PVC-coated polyester or canvas, with waterproof and UV-resistant coating.
+    - Fire-retardant treatment, especially for indoor or crowded events.
+    - Frame material and wind rating, with ground anchoring, ropes and pegs.
+    - Flooring, lighting, side walls and fans, and whether they are included.
+    - Set-up and dismantling time, a crew, rental or purchase terms and a GST invoice.
+
+    ## Who buys them
+
+    Event organisers, schools, housing societies, contractors, NGOs, factories, hospitals running camps, and government offices.
+
+    ## Frequently asked questions
+
+    ### How big a tent do I need for 200 guests?
+    Allow around 8 to 10 square feet per seated guest, so about 1,600 to 2,000 square feet for 200 seated guests, plus space for a stage or buffet.
+
+    ### Can tents withstand rain and wind?
+    Waterproof fabric and a firm frame help, but each structure has a wind limit, so ask for the supplier's rating and anchor properly.
+
+    ### Should I rent or buy?
+    Rent for one-time events, since the supplier handles storage and set-up. Buy if you use the tent often, such as for camps.

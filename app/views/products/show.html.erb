@@ -1,0 +1,45 @@
+<% quoted = params[:quoted].present? %>
+<% set_meta_tags title: "#{@product.name}: Types, Buying Guide & Quotes",
+                  description: @product.summary,
+                  canonical: product_url(@product),
+                  robots: (quoted || @lead.errors.any? ? 'noindex, follow' : nil) %>
+<% breadcrumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+                   itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Products', item: products_url },
+                                     { '@type': 'ListItem', position: 2, name: @product.name, item: product_url(@product) }] } %>
+<script type="application/ld+json"><%= raw json_escape(breadcrumbs.to_json) %></script>
+<%= render 'layouts/navbar' %>
+
+<div class="mx-auto w-full max-w-6xl px-4 py-8">
+  <nav class="text-sm text-gray-500" aria-label="Breadcrumb">
+    <%= link_to 'Products', products_path, class: 'hover:underline' %> ›
+    <span><%= @product.category %></span>
+  </nav>
+
+  <div class="mt-4 grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <div class="lg:col-span-2">
+      <h1 class="text-3xl font-bold text-gray-900 md:text-4xl"><%= @product.name %></h1>
+      <p class="mt-2 text-gray-600"><%= @product.summary %></p>
+      <a href="#quote" class="btn-primary mt-4 inline-block lg:hidden">Get quote</a>
+
+      <div class="prose mt-8 max-w-none rounded-lg border border-gray-200 bg-white p-6 sm:p-8 prose-a:text-orange-700">
+        <%= @product.body_html.html_safe %>
+      </div>
+
+      <% related = @product.related %>
+      <% if related.any? %>
+        <h2 class="mt-10 mb-3 text-lg font-semibold text-gray-900">Related products</h2>
+        <ul class="flex flex-wrap gap-2">
+          <% related.each do |product| %>
+            <li><%= link_to product.name, product_path(product), class: 'inline-block rounded-full border border-gray-300 px-3 py-1 text-sm text-gray-700 hover:border-orange-500 hover:text-orange-700' %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+
+    <aside id="quote" class="lg:sticky lg:top-4 lg:self-start">
+      <%= render 'quote_form', product: @product, lead: @lead, quoted: %>
+    </aside>
+  </div>
+</div>
+
+<%= render 'layouts/footer' %>

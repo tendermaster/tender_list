@@ -26,6 +26,11 @@ Rails.application.routes.draw do
   post '/bookmarks/:slug_uuid', to: 'bookmarks#create'
   delete '/bookmarks/:slug_uuid', to: 'bookmarks#destroy', as: :bookmark
 
+  # Product buying guides with a "Get quote" form; requests go to /admin/leads
+  get '/products', to: 'products#index', as: :products
+  get '/products/:slug', to: 'products#show', as: :product
+  post '/products/:slug/quote', to: 'products#quote', as: :product_quote
+
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
     sessions: 'users/sessions',

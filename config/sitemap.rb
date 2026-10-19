@@ -38,6 +38,11 @@ SitemapGenerator::Sitemap.create(create_index: true, max_sitemap_links: 35_000) 
   add how_to_file_tender_path
   add faq_path
 
+  add products_path, changefreq: 'weekly'
+  Product.published.find_each do |product|
+    add product_path(product), lastmod: product.updated_at, changefreq: 'monthly'
+  end
+
   add blog_index_path, changefreq: 'weekly'
   BlogPost.all.each do |post|
     add blog_post_path(post), lastmod: post.last_modified, changefreq: 'monthly'

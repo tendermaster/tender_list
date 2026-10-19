@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_18_090000) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_20_090000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_buffercache"
   enable_extension "pg_catalog.plpgsql"
@@ -91,6 +91,25 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_18_090000) do
     t.index "lower((name)::text)", name: "index_keyword_pages_on_lower_name", unique: true
   end
 
+  create_table "leads", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "user_id"
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "phone", null: false
+    t.string "quantity", null: false
+    t.string "location", null: false
+    t.string "needed_by"
+    t.text "details"
+    t.integer "status", default: 0, null: false
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_leads_on_product_id"
+    t.index ["status", "created_at"], name: "index_leads_on_status_and_created_at"
+    t.index ["user_id"], name: "index_leads_on_user_id"
+  end
+
   create_table "misc_data_stores", force: :cascade do |t|
     t.json "data"
     t.string "name"
@@ -98,6 +117,19 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_18_090000) do
     t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.string "category", null: false
+    t.string "summary", null: false
+    t.text "body", null: false
+    t.integer "position", default: 0, null: false
+    t.boolean "published", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_products_on_slug", unique: true
   end
 
   create_table "queries", force: :cascade do |t|
@@ -233,6 +265,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_18_090000) do
   add_foreign_key "attachments", "tenders", on_delete: :cascade
   add_foreign_key "bookmarks", "tenders"
   add_foreign_key "bookmarks", "users"
+  add_foreign_key "leads", "products"
+  add_foreign_key "leads", "users"
   add_foreign_key "queries", "users"
   add_foreign_key "subscriptions", "users"
 end

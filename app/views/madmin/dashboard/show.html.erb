@@ -42,6 +42,31 @@
     </div>
   </section>
 
+  <h2>Quote requests to call <small>not called yet · set the status on the <%= link_to 'lead', madmin_leads_path %></small></h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Product</th><th>Quantity</th><th>Delivery</th><th>Needed</th><th>Name</th><th>Mobile</th><th>Received (IST)</th></tr>
+      </thead>
+      <tbody>
+        <% @leads.each do |lead| %>
+          <tr>
+            <td><%= link_to lead.product.name, madmin_lead_path(lead) %></td>
+            <td><%= lead.quantity %></td>
+            <td><%= lead.location %></td>
+            <td><%= lead.needed_by %></td>
+            <td><%= lead.name %></td>
+            <td><%= link_to lead.phone, "tel:#{lead.phone}" %></td>
+            <td><%= ist.(lead.created_at) %></td>
+          </tr>
+        <% end %>
+        <% if @leads.empty? %>
+          <tr><td colspan="7" class="muted">No quote requests waiting</td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
   <h2>New sign-ups to call <small>last 30 days, not called yet · mark a call on the user's Edit page</small></h2>
   <div class="table-scroll">
     <table>

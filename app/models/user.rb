@@ -18,10 +18,8 @@ class User < ApplicationRecord
   enum :call_status, { called: 'called', no_answer: 'no_answer', not_interested: 'not_interested' },
        validate: { allow_nil: true }
 
-  # Indian mobiles only, stored as +919876543210
-  validates :phone, phone: { possible: false, types: [:mobile], countries: :in }, allow_blank: true
+  include IndianMobile
   validates :business_type, inclusion: { in: BUSINESS_TYPES }, allow_blank: true
-  before_validation :normalize_phone
 
   # Sent to /welcome after the first sign-in; afterwards the "Finish setup"
   # bar asks for the number until they give it.
@@ -148,14 +146,5 @@ class User < ApplicationRecord
         message: 'Invalid Coupon'
       }
     end
-  end
-
-  private
-
-  def normalize_phone
-    return if phone.blank?
-
-    parsed = Phonelib.parse(phone, 'IN')
-    self.phone = parsed.e164 if parsed.valid?
   end
 end

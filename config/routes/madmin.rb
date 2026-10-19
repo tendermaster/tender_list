@@ -8,6 +8,8 @@ namespace :madmin, path: 'admin' do
   resources :misc_data_stores
   resources :queries
   resources :keyword_pages
+  resources :products
+  resources :leads
   resources :attachments
   resources :admin_users
   resources :users do

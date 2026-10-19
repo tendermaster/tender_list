@@ -1,0 +1,76 @@
+<%# "Get quote" form for one product. locals: product, lead, quoted (just sent).
+    Signed-out visitors get a cached page, so the form carries no CSRF token
+    and is checked by the captcha instead. %>
+<% input = 'mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm placeholder:text-gray-400 focus:border-orange-500 focus:ring-orange-500' %>
+<div class="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+  <% if quoted %>
+    <h2 class="text-lg font-semibold text-gray-900">Request received</h2>
+    <p class="mt-2 text-sm text-gray-600">We'll find suppliers for your <%= product.name.downcase %> and get back to you with quotes, usually within one working day.</p>
+    <%= link_to 'Request another quote', product_path(product, anchor: 'quote'), class: 'mt-4 inline-block text-sm font-semibold text-orange-700 hover:underline' %>
+  <% else %>
+    <h2 class="text-lg font-semibold text-gray-900">Get quote</h2>
+    <p class="mt-1 text-sm text-gray-600">Tell us what you need. We'll find suppliers and send you quotes.</p>
+
+    <% if lead.errors.any? %>
+      <ul class="mt-4 list-inside list-disc rounded-lg bg-red-50 px-4 py-3 text-sm font-medium text-red-600" id="alert">
+        <% lead.errors.full_messages.each do |message| %><li><%= message %></li><% end %>
+      </ul>
+    <% end %>
+
+    <%= form_with model: lead, url: product_quote_path(product), authenticity_token: false,
+                  class: 'mt-4 space-y-3', data: { turbo: false } do |f| %>
+      <div>
+        <%= f.label :quantity, 'Quantity', class: 'block text-sm font-medium text-gray-900' %>
+        <%= f.text_field :quantity, required: true, maxlength: 120, placeholder: 'e.g. 20 pieces', class: input %>
+      </div>
+      <div>
+        <%= f.label :details, 'Type or specifications', class: 'block text-sm font-medium text-gray-900' %>
+        <%= f.text_area :details, rows: 3, maxlength: 2000, placeholder: 'Model, size, capacity, brand preference…', class: input %>
+      </div>
+      <div>
+        <%= f.label :location, 'Delivery city and state', class: 'block text-sm font-medium text-gray-900' %>
+        <%= f.text_field :location, required: true, maxlength: 120, placeholder: 'e.g. Lucknow, Uttar Pradesh', class: input %>
+      </div>
+      <div>
+        <%= f.label :needed_by, 'When do you need it?', class: 'block text-sm font-medium text-gray-900' %>
+        <%= f.select :needed_by, Lead::NEEDED_BY, { include_blank: 'Choose…' }, class: input %>
+      </div>
+
+      <% if lead.user %>
+        <% if lead.user.phone.blank? %>
+          <div>
+            <%= f.label :phone, 'Mobile number', class: 'block text-sm font-medium text-gray-900' %>
+            <%= f.telephone_field :phone, required: true, inputmode: 'numeric', autocomplete: 'tel-national',
+                                  placeholder: '98765 43210', class: input %>
+          </div>
+        <% end %>
+        <p class="text-xs text-gray-500">We'll contact you at <%= lead.user.email %><%= " and #{lead.user.phone}" if lead.user.phone.present? %>.</p>
+      <% else %>
+        <div>
+          <%= f.label :name, 'Your name', class: 'block text-sm font-medium text-gray-900' %>
+          <%= f.text_field :name, required: true, maxlength: 120, autocomplete: 'name', class: input %>
+        </div>
+        <div>
+          <%= f.label :email, 'Email', class: 'block text-sm font-medium text-gray-900' %>
+          <%= f.email_field :email, required: true, maxlength: 120, autocomplete: 'email', class: input %>
+        </div>
+        <div>
+          <%= f.label :phone, 'Mobile number', class: 'block text-sm font-medium text-gray-900' %>
+          <%= f.telephone_field :phone, required: true, inputmode: 'numeric', autocomplete: 'tel-national',
+                                placeholder: '98765 43210', class: input %>
+        </div>
+        <p class="text-xs text-gray-500">Have an account? <%= link_to 'Sign in', new_user_session_path, class: 'font-semibold text-orange-700 hover:underline' %> to skip these.</p>
+      <% end %>
+
+      <%# Left empty by people; bots fill it in %>
+      <div class="hidden" aria-hidden="true">
+        <%= label_tag :website, 'Website' %>
+        <%= text_field_tag :website, nil, tabindex: -1, autocomplete: 'off' %>
+      </div>
+      <%= captcha_tags unless lead.user %>
+
+      <%= f.submit 'Get quote', class: 'btn-primary w-full' %>
+      <p class="text-xs text-gray-500">By sending this you agree that SigmaTenders may call, WhatsApp or email you about this request.</p>
+    <% end %>
+  <% end %>
+</div>

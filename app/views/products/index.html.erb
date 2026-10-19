@@ -1,0 +1,29 @@
+<% set_meta_tags title: 'Products: Buying Guides & Bulk Quotes',
+                  description: 'Buying guides for computers, CCTV, solar lights, furniture, medical equipment and more. Tell us what you need and get quotes from suppliers.',
+                  canonical: products_url %>
+<%= render 'layouts/navbar' %>
+
+<div class="mx-auto w-full max-w-6xl px-4 py-10">
+  <h1 class="text-3xl font-bold text-gray-900 md:text-4xl">Products</h1>
+  <p class="mt-2 max-w-2xl text-gray-600">Compare types and what to check before you buy, then tell us what you need. We'll find suppliers and get back to you with quotes.</p>
+
+  <% @products.each do |category, products| %>
+    <h2 class="mt-10 mb-4 text-sm font-semibold uppercase tracking-wide text-gray-500"><%= category %></h2>
+    <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <% products.each do |product| %>
+        <li>
+          <%= link_to product_path(product), class: 'block h-full rounded-lg border border-gray-200 bg-white p-4 hover:border-orange-500 hover:shadow-sm' do %>
+            <span class="font-semibold text-gray-900"><%= product.name %></span>
+            <span class="mt-1 block text-sm text-gray-600"><%= product.summary %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if @products.empty? %>
+    <p class="mt-10 text-gray-500">Products are coming soon.</p>
+  <% end %>
+</div>
+
+<%= render 'layouts/footer' %>
