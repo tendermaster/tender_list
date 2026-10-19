@@ -20,4 +20,19 @@ class Product < ApplicationRecord
 
   # Raw HTML in the Markdown is dropped, as in blog posts
   def body_html = Commonmarker.to_html(body.to_s, options: BlogPost::MARKDOWN_OPTIONS)
+
+  # <title> is capped at 70 characters including the "Sigma Tenders | " prefix
+  def seo_title
+    ["#{name}: Buying Guide & Quotes", "#{name}: Get Quotes", name].find { |title| title.size <= 54 } || name.truncate(54)
+  end
+
+  # The "### Question?" headings under "## Frequently asked questions" and the
+  # text below each, as [question, answer] pairs (for FAQPage structured data)
+  def faqs
+    section = body.to_s.split(/^## Frequently asked questions\s*$/i, 2)[1].to_s.split(/^## /, 2).first.to_s
+    section.split(/^### /).drop(1).filter_map do |block|
+      question, answer = block.split("\n", 2).map { |text| text.to_s.squish }
+      [question, answer.gsub(/[*_`]/, '')] if question.present? && answer.present?
+    end
+  end
 end

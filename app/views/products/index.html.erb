@@ -1,6 +1,9 @@
 <% set_meta_tags title: 'Products: Buying Guides & Bulk Quotes',
                   description: 'Buying guides for computers, CCTV, solar lights, furniture, medical equipment and more. Tell us what you need and get quotes from suppliers.',
-                  canonical: products_url %>
+                  canonical: products_url,
+                  **social_meta(title: 'Products: Buying Guides & Bulk Quotes', url: products_url,
+                                description: 'Compare product types, see what to check before buying, and get quotes from suppliers.') %>
+<%= products_index_schema(@products.values.flatten) %>
 <%= render 'layouts/navbar' %>
 
 <div class="mx-auto w-full max-w-6xl px-4 py-10">

@@ -6,7 +6,9 @@ class ProductsTest < ActionDispatch::IntegrationTest
   setup do
     @cctv = Product.create!(name: 'CCTV Cameras', slug: 'cctv-cameras', category: 'IT & Electronics',
                             summary: 'Compare camera types and get quotes.',
-                            body: "## Types\n\n- **IP cameras** — for networks\n\n<script>alert(1)</script>")
+                            body: "## Types\n\n- **IP cameras** — for networks\n\n<script>alert(1)</script>\n\n" \
+                                  "## Frequently asked questions\n\n### How many cameras?\nSix to **ten** for an office.\n\n" \
+                                  "### IP or analogue?\nIP for new sites.\n")
     Product.create!(name: 'Laptops', slug: 'laptops', category: 'IT & Electronics', summary: 'Get quotes.', body: 'x')
     Product.create!(name: 'Hidden', slug: 'hidden', category: 'Furniture', summary: 'x', body: 'x', published: false)
   end
@@ -37,6 +39,25 @@ class ProductsTest < ActionDispatch::IntegrationTest
     assert_select 'input[name=authenticity_token]', count: 0
     assert_select "a[href='/products/laptops']", 'Laptops'
     assert_includes response.headers['Cache-Control'], 's-maxage'
+  end
+
+  test 'search engines get a short title, social tags and structured data' do
+    get product_path(@cctv)
+    assert_select 'title', 'Sigma Tenders | CCTV Cameras: Buying Guide & Quotes'
+    assert_select 'meta[property="og:url"][content=?]', 'http://www.example.com/products/cctv-cameras'
+    assert_select 'meta[name="twitter:card"][content="summary"]'
+
+    graph = JSON.parse(css_select('script[type="application/ld+json"]').first.text)['@graph']
+    assert_equal %w[WebPage BreadcrumbList FAQPage], graph.map { _1['@type'] }
+    assert_equal [['How many cameras?', 'Six to ten for an office.'], ['IP or analogue?', 'IP for new sites.']],
+                 graph.last['mainEntity'].map { [_1['name'], _1.dig('acceptedAnswer', 'text')] }
+
+    get products_path
+    list = JSON.parse(css_select('script[type="application/ld+json"]').first.text)['@graph'].first['mainEntity']
+    assert_equal ['CCTV Cameras', 'Laptops'], list['itemListElement'].map { _1['name'] }
+
+    long = Product.new(name: 'Sanitary Napkins & Vending Machines Extra')
+    assert_operator long.seo_title.size, :<=, 54
   end
 
   test 'a visitor asks for a quote with their name, email and mobile' do
