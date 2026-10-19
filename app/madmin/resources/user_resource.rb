@@ -4,6 +4,9 @@ class UserResource < Madmin::Resource
   attribute :name
   attribute :phone, index: true
   attribute :business_type, index: false
+  attribute :annual_turnover, index: false
+  attribute :msme, index: false
+  attribute :startup_india, index: false
   attribute :call_status, index: true
   attribute :call_note, index: false
   attribute :onboarded_at, index: false, form: false

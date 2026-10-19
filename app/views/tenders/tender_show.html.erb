@@ -448,6 +448,7 @@
 	        </div>
 
         <div class="col-span-4 mt-10 lg:mt-0">
+          <%= render 'tenders/partner_card', tender: @tender_data unless days_left&.negative? %>
           <%= render "get_relevant_tenders_form" %>
         </div>
       </div>

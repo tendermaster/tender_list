@@ -49,7 +49,7 @@ class BookmarksTest < ActionDispatch::IntegrationTest
 
     get bookmarks_path
     assert_response :success
-    titles = css_select('li[data-bookmark-card] a').map(&:text)
+    titles = css_select('li[data-bookmark-card] > div:first-child > a').map(&:text)
     assert_equal ['Road repair', 'Bridge works', 'Old canal'], titles
     assert_select 'li[data-bookmark-card]', text: /1 day left|2 days left/
     assert_select 'li[data-bookmark-card]', text: /Closed/

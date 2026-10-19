@@ -1,0 +1,34 @@
+<%# Who to call back about a lead. Signed-in users use their account (and
+    give a mobile once if it has none). locals: f, lead, input (field classes) %>
+<% if lead.user %>
+  <% if lead.user.phone.blank? %>
+    <div>
+      <%= f.label :phone, 'Mobile number', class: 'block text-sm font-medium text-gray-900' %>
+      <%= f.telephone_field :phone, required: true, inputmode: 'numeric', autocomplete: 'tel-national',
+                            placeholder: '98765 43210', class: input %>
+    </div>
+  <% end %>
+  <p class="text-xs text-gray-500">We'll contact you at <%= lead.user.email %><%= " and #{lead.user.phone}" if lead.user.phone.present? %>.</p>
+<% else %>
+  <div>
+    <%= f.label :name, 'Your name', class: 'block text-sm font-medium text-gray-900' %>
+    <%= f.text_field :name, required: true, maxlength: 120, autocomplete: 'name', class: input %>
+  </div>
+  <div>
+    <%= f.label :email, 'Email', class: 'block text-sm font-medium text-gray-900' %>
+    <%= f.email_field :email, required: true, maxlength: 120, autocomplete: 'email', class: input %>
+  </div>
+  <div>
+    <%= f.label :phone, 'Mobile number', class: 'block text-sm font-medium text-gray-900' %>
+    <%= f.telephone_field :phone, required: true, inputmode: 'numeric', autocomplete: 'tel-national',
+                          placeholder: '98765 43210', class: input %>
+  </div>
+  <p class="text-xs text-gray-500">Have an account? <%= link_to 'Sign in', new_user_session_path, class: 'font-semibold text-orange-700 hover:underline' %> to skip these.</p>
+<% end %>
+
+<%# Left empty by people; bots fill it in %>
+<div class="hidden" aria-hidden="true">
+  <%= label_tag :website, 'Website' %>
+  <%= text_field_tag :website, nil, tabindex: -1, autocomplete: 'off' %>
+</div>
+<%= captcha_tags unless lead.user %>

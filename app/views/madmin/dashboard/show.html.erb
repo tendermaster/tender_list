@@ -42,26 +42,26 @@
     </div>
   </section>
 
-  <h2>Quote requests to call <small>not called yet · set the status on the <%= link_to 'lead', madmin_leads_path %></small></h2>
+  <h2>Requests to call <small>product quotes and bidding-partner requests, not called yet · set the status on the <%= link_to 'lead', madmin_leads_path %></small></h2>
   <div class="table-scroll">
     <table>
       <thead>
-        <tr><th>Product</th><th>Quantity</th><th>Delivery</th><th>Needed</th><th>Name</th><th>Mobile</th><th>Received (IST)</th></tr>
+        <tr><th>Type</th><th>For</th><th>Need</th><th>From</th><th>Name</th><th>Mobile</th><th>Received (IST)</th></tr>
       </thead>
       <tbody>
         <% @leads.each do |lead| %>
           <tr>
-            <td><%= link_to lead.product.name, madmin_lead_path(lead) %></td>
-            <td><%= lead.quantity %></td>
-            <td><%= lead.location %></td>
-            <td><%= lead.needed_by %></td>
+            <td><%= lead.partner? ? 'Partner' : 'Quote' %></td>
+            <td><%= link_to lead.subject, madmin_lead_path(lead) %></td>
+            <td><%= lead.partner? ? lead.partner_need.to_s.split(',').first : [lead.quantity, lead.needed_by].compact_blank.join(' · ') %></td>
+            <td><%= [lead.company, lead.location, lead.annual_turnover].compact_blank.join(' · ') %></td>
             <td><%= lead.name %></td>
             <td><%= link_to lead.phone, "tel:#{lead.phone}" %></td>
             <td><%= ist.(lead.created_at) %></td>
           </tr>
         <% end %>
         <% if @leads.empty? %>
-          <tr><td colspan="7" class="muted">No quote requests waiting</td></tr>
+          <tr><td colspan="7" class="muted">No requests waiting</td></tr>
         <% end %>
       </tbody>
     </table>
@@ -81,7 +81,7 @@
             <td><%= user.phone ? link_to(user.phone, "tel:#{user.phone}") : tag.span('no number (skipped)', class: 'muted') %></td>
             <td><%= interests&.include_keyword&.truncate(80) %></td>
             <td><%= interests&.state_name&.truncate(60) %></td>
-            <td><%= user.business_type %></td>
+            <td><%= [user.business_type, user.annual_turnover, ('MSME' if user.msme), ('Startup India' if user.startup_india)].compact_blank.join(' · ') %></td>
             <td><%= ist.(user.created_at) %></td>
           </tr>
         <% end %>

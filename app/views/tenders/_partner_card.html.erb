@@ -1,0 +1,8 @@
+<%# Tender page sidebar: help finding a JV/consortium partner or a local
+    subcontractor (/find-a-partner). locals: tender %>
+<div class="mb-6 rounded-lg border border-orange-200 bg-orange-50 p-5">
+  <h2 class="font-semibold text-gray-900">Can't bid on this alone?</h2>
+  <p class="mt-1 text-sm text-gray-700">Short of the turnover, experience or certification it asks for, or need a team where the work is? We'll find a JV, consortium or local partner.</p>
+  <%= link_to 'Find a partner →', find_partner_path(tender: tender.slug_uuid), rel: 'nofollow',
+              class: 'mt-3 inline-block rounded-lg bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700' %>
+</div>

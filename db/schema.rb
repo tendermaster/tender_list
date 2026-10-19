@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_20_090000) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_20_200000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_buffercache"
   enable_extension "pg_catalog.plpgsql"
@@ -92,12 +92,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_20_090000) do
   end
 
   create_table "leads", force: :cascade do |t|
-    t.bigint "product_id", null: false
+    t.bigint "product_id"
     t.bigint "user_id"
     t.string "name", null: false
     t.string "email", null: false
     t.string "phone", null: false
-    t.string "quantity", null: false
+    t.string "quantity"
     t.string "location", null: false
     t.string "needed_by"
     t.text "details"
@@ -105,8 +105,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_20_090000) do
     t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "kind", default: "quote", null: false
+    t.bigint "tender_id"
+    t.string "partner_need"
+    t.string "company"
+    t.string "annual_turnover"
     t.index ["product_id"], name: "index_leads_on_product_id"
     t.index ["status", "created_at"], name: "index_leads_on_status_and_created_at"
+    t.index ["tender_id"], name: "index_leads_on_tender_id"
     t.index ["user_id"], name: "index_leads_on_user_id"
   end
 
@@ -257,6 +263,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_20_090000) do
     t.datetime "onboarded_at"
     t.string "call_status"
     t.text "call_note"
+    t.string "annual_turnover"
+    t.boolean "msme"
+    t.boolean "startup_india"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["google_uid"], name: "index_users_on_google_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

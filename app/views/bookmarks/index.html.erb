@@ -48,7 +48,10 @@
               <% end %>
             </p>
           </div>
-          <div class="shrink-0">
+          <div class="flex shrink-0 items-center gap-3">
+            <% if days.nil? || !days.negative? %>
+              <%= link_to 'Find a partner', find_partner_path(tender: tender.slug_uuid), class: 'text-sm font-semibold text-orange-700 hover:underline' %>
+            <% end %>
             <%= render 'tenders/bookmark_button', tender:, saved: true, remove_card: true %>
           </div>
         </li>

@@ -10,8 +10,8 @@ module Madmin
       @to_call = User.where(call_status: nil, created_at: 30.days.ago..).order(created_at: :desc).limit(30).to_a
       @to_call_interests = Query.where(user_id: @to_call.map(&:id)).order(:id).group_by(&:user_id)
 
-      # "Get quote" requests from product pages that nobody has called yet
-      @leads = Lead.pending.includes(:product).order(created_at: :desc).limit(30).to_a
+      # Product quotes and partner requests that nobody has called yet
+      @leads = Lead.pending.includes(:product, :tender).order(created_at: :desc).limit(30).to_a
 
       @active_subscriptions = Subscription.where('end_date > now()').order(end_date: :asc).to_a
       # Subscription has no user association

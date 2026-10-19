@@ -11,6 +11,7 @@ class OnboardingTest < ActionDispatch::IntegrationTest
   def submit(return_to: nil, **fields)
     patch '/welcome', params: { return_to:, onboarding: { keywords: 'solar, street lights', states: %w[Maharashtra Goa],
                                                          phone: '98765 43210', business_type: 'Contractor',
+                                                         annual_turnover: '₹1–5 Cr', msme: '1', startup_india: '0',
                                                          consent: '1' }.merge(fields) }.compact
   end
 
@@ -36,6 +37,7 @@ class OnboardingTest < ActionDispatch::IntegrationTest
     @user.reload
     assert_equal '+919876543210', @user.phone
     assert_equal 'Contractor', @user.business_type
+    assert_equal ['₹1–5 Cr', true, false], [@user.annual_turnover, @user.msme, @user.startup_india]
     assert @user.onboarded_at && @user.contact_consent_at
     assert_equal ['solar, street lights', 'Maharashtra, Goa'], [query.include_keyword, query.state_name]
 

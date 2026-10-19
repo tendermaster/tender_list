@@ -59,6 +59,34 @@
       </div>
     </fieldset>
 
+    <fieldset>
+      <legend class="font-semibold text-gray-900">Annual turnover <span class="font-normal text-gray-500">(optional)</span></legend>
+      <p class="text-sm text-gray-500">Many tenders ask for a minimum turnover. This helps us match tenders and partners.</p>
+      <div class="mt-2 flex flex-wrap gap-2">
+        <% User::TURNOVER_BANDS.each do |band| %>
+          <label class="cursor-pointer rounded-full border border-gray-300 px-3 py-1 text-sm text-gray-700 has-checked:border-orange-500 has-checked:bg-orange-50 has-checked:text-orange-800 has-focus-visible:ring-2 has-focus-visible:ring-orange-300">
+            <%= f.radio_button :annual_turnover, band, checked: @form[:annual_turnover] == band, class: 'sr-only' %>
+            <%= band %>
+          </label>
+        <% end %>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend class="font-semibold text-gray-900">Registrations <span class="font-normal text-gray-500">(optional)</span></legend>
+      <p class="text-sm text-gray-500">Many tenders exempt these from EMD or relax turnover and experience rules.</p>
+      <div class="mt-2 space-y-2">
+        <label class="flex items-center gap-2 text-sm text-gray-700">
+          <%= f.check_box :msme, { checked: @form[:msme] == '1', class: 'rounded-sm border-gray-300 text-orange-600 focus:ring-orange-500' }, '1', '0' %>
+          MSME (Udyam registered)
+        </label>
+        <label class="flex items-center gap-2 text-sm text-gray-700">
+          <%= f.check_box :startup_india, { checked: @form[:startup_india] == '1', class: 'rounded-sm border-gray-300 text-orange-600 focus:ring-orange-500' }, '1', '0' %>
+          Startup India (DPIIT recognised)
+        </label>
+      </div>
+    </fieldset>
+
     <div>
       <%= f.label :phone, 'Mobile number', class: 'block font-semibold text-gray-900' %>
       <div class="mt-2 flex max-w-xs rounded-lg border border-gray-300 focus-within:border-orange-500">

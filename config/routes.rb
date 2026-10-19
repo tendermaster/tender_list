@@ -29,7 +29,11 @@ Rails.application.routes.draw do
   # Product buying guides with a "Get quote" form; requests go to /admin/leads
   get '/products', to: 'products#index', as: :products
   get '/products/:slug', to: 'products#show', as: :product
-  post '/products/:slug/quote', to: 'products#quote', as: :product_quote
+  post '/products/:slug/quote', to: 'products#create', as: :product_quote
+
+  # A JV/consortium partner or subcontractor for a tender; also goes to /admin/leads
+  get '/find-a-partner', to: 'partner_requests#new', as: :find_partner
+  post '/find-a-partner', to: 'partner_requests#create'
 
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
