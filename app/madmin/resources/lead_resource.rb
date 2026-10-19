@@ -5,6 +5,8 @@ class LeadResource < Madmin::Resource
   attribute :product, index: true
   # Read-only: a form select would list every tender
   attribute :tender, form: false
+  attribute :topic, index: true, form: false
+  attribute :answers, form: false
   attribute :partner_need
   attribute :name, index: true
   attribute :company
@@ -26,6 +28,7 @@ class LeadResource < Madmin::Resource
   scope :won
   scope :quote
   scope :partner
+  scope :enquiry
 
   def self.display_name(record) = "#{record.name} · #{record.subject}"
 

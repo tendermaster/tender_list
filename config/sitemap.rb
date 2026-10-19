@@ -34,7 +34,6 @@ SitemapGenerator::Sitemap.create(create_index: true, max_sitemap_links: 35_000) 
   add '/'
   add '/about'
   add '/pricing'
-  add '/free-trial'
   add how_to_file_tender_path
   add faq_path
 

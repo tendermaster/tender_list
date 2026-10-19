@@ -42,7 +42,7 @@
     </div>
   </section>
 
-  <h2>Requests to call <small>product quotes and bidding-partner requests, not called yet · set the status on the <%= link_to 'lead', madmin_leads_path %></small></h2>
+  <h2>Requests to call <small>quotes, partner requests and enquiries, not called yet · set the status on the <%= link_to 'lead', madmin_leads_path %></small></h2>
   <div class="table-scroll">
     <table>
       <thead>
@@ -51,9 +51,11 @@
       <tbody>
         <% @leads.each do |lead| %>
           <tr>
-            <td><%= lead.partner? ? 'Partner' : 'Quote' %></td>
+            <td><%= lead.kind.titleize %></td>
             <td><%= link_to lead.subject, madmin_lead_path(lead) %></td>
-            <td><%= lead.partner? ? lead.partner_need.to_s.split(',').first : [lead.quantity, lead.needed_by].compact_blank.join(' · ') %></td>
+            <td><%= if lead.partner? then lead.partner_need.to_s.split(',').first
+                    elsif lead.enquiry? then lead.answers.values.first.then { Array(_1).join(', ') }.to_s.truncate(60)
+                    else [lead.quantity, lead.needed_by].compact_blank.join(' · ') end %></td>
             <td><%= [lead.company, lead.location, lead.annual_turnover].compact_blank.join(' · ') %></td>
             <td><%= lead.name %></td>
             <td><%= link_to lead.phone, "tel:#{lead.phone}" %></td>

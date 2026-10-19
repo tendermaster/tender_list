@@ -15,25 +15,9 @@ class HomeController < ApplicationController
     render 'home/coming_soon'
   end
 
-  def get_callback
-
-  end
-
-  def partner_with_us
-
-  end
-
   def onboarding
 
   end
-
-  def get_sample_tenders
-    redirect_to get_callback_path
-  end
-
-  # def free_trial
-  #
-  # end
 
   def faq
 

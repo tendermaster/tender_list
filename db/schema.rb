@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_20_200000) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_20_210000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_buffercache"
   enable_extension "pg_catalog.plpgsql"
@@ -98,7 +98,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_20_200000) do
     t.string "email", null: false
     t.string "phone", null: false
     t.string "quantity"
-    t.string "location", null: false
+    t.string "location"
     t.string "needed_by"
     t.text "details"
     t.integer "status", default: 0, null: false
@@ -110,9 +110,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_20_200000) do
     t.string "partner_need"
     t.string "company"
     t.string "annual_turnover"
+    t.string "topic"
+    t.jsonb "answers", default: {}, null: false
     t.index ["product_id"], name: "index_leads_on_product_id"
     t.index ["status", "created_at"], name: "index_leads_on_status_and_created_at"
     t.index ["tender_id"], name: "index_leads_on_tender_id"
+    t.index ["topic"], name: "index_leads_on_topic"
     t.index ["user_id"], name: "index_leads_on_user_id"
   end
 

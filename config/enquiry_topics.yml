@@ -1,0 +1,1178 @@
+# Native enquiry forms (/enquiry/<key>), replacing the Google Forms. Each topic:
+#   title, intro, submit (button label)
+#   contact: extra contact fields besides name, email and mobile (company,
+#     designation, website); a trailing ! makes one required
+#   fields: key, label, type (short, paragraph, choice, checkboxes),
+#     required, options, hint
+# Answers are saved on the Lead (kind enquiry) and shown in /admin/leads.
+---
+- key: rfq
+  title: Request for quotation
+  intro: Need a product, service or solution? Tell us what you need and we'll get you quotes from suppliers.
+  submit: Get quotes
+  contact:
+  - company
+  fields:
+  - key: need
+    label: What do you need?
+    type: choice
+    required: true
+    options:
+    - Products or equipment
+    - Services
+    - A complete solution (supply and installation)
+  - key: requirement
+    label: Describe your requirement
+    type: paragraph
+    required: true
+    hint: Item, specifications, quantity and any brand preference
+  - key: location
+    label: Delivery city and state
+    type: short
+    required: true
+  - key: needed_by
+    label: When do you need it?
+    type: choice
+    options:
+    - Immediately
+    - Within a week
+    - Within a month
+    - Just comparing prices
+  - key: for_tender
+    label: Is this for a tender you are bidding on?
+    type: choice
+    options:
+    - 'Yes'
+    - 'No'
+- key: gem_registration
+  title: GeM registration and catalogue support
+  intro: Get your business registered on the Government e-Marketplace (GeM) and your products or services listed. We'll call you to collect the documents.
+  submit: Request a call
+  contact:
+  - company!
+  fields:
+  - key: gem_status
+    label: Where are you on GeM?
+    type: choice
+    required: true
+    options:
+    - Not registered yet
+    - Registered, need help listing products or services
+    - Listed, need help bidding
+    - Need help with something else
+  - key: business_type
+    label: Business type
+    type: choice
+    required: true
+    options:
+    - Proprietorship
+    - Partnership
+    - Private or Public Limited Company
+    - LLP
+    - NGO / Trust / Society
+    - Other
+  - key: offer
+    label: What do you sell?
+    type: paragraph
+    required: true
+    hint: Products or services you want to list on GeM
+  - key: documents
+    label: Documents you have ready
+    type: checkboxes
+    options:
+    - PAN
+    - GST registration
+    - Udyam (MSME) registration
+    - Company or firm registration
+    - Bank account details
+    - Product brand or OEM authorisation
+  - key: state
+    label: State
+    type: short
+    required: true
+- key: supplier
+  title: Register as a supplier or vendor
+  intro: Tell us what you make, sell or do. We match registered suppliers with buyers, bidders and tenders that need them.
+  submit: Register
+  contact:
+  - company!
+  - website
+  fields:
+  - key: role
+    label: What is your primary role or interest in participating in SigmaTenders' Business Connectivity Ecosystem?
+    type: choice
+    options:
+    - Enthusiast or Opportunity Seeker
+    - Unpaid Subscriber (Basic Functionality)
+    - Paid Subscriber (Full Functionality)
+    - Professional Agency or Individual for Marketing Services
+    - Sourcing Partner for Products and Services
+    - Empaneled Vendor for Private Tenders
+    - Other (Please Specify)
+  - key: business_type
+    label: Business Type
+    type: choice
+    required: true
+    options:
+    - Sole Proprietorship
+    - Partnership
+    - Corporation (MCA Registered)
+    - Non profit Organisation
+    - Institutions/ college/ university/organisations/ Federations/SHGs
+  - key: industry_niche
+    label: Industry/Niche
+    type: checkboxes
+    required: true
+    options:
+    - Construction and Infrastructure
+    - Information Technology (IT) and Software Services
+    - Healthcare and Pharmaceuticals
+    - Education and Training Services
+    - Manufacturing and Production
+    - Renewable Energy and Sustainability
+    - Logistics and Transportation
+    - Financial and Banking Services
+    - Consulting and Professional Services
+    - Retail and Consumer Goods
+    - Agriculture and Agribusiness
+    - Real Estate and Property Development
+    - Media and Entertainment
+    - Telecommunications and Networking
+    - Engineering and Architecture
+    - Legal and Compliance Services
+    - Hospitality and Tourism
+    - Non-Profit and Social Services
+    - Government and Public Sector
+    - Other (Please specify)
+    - Others
+  - key: products_services
+    label: 'Products/Services Details: Briefly describe your main products or services'
+    type: paragraph
+    required: true
+  - key: supplier_type
+    label: Are you a manufacturer, distributor, or service provider?
+    type: choice
+    required: true
+    options:
+    - manufacturer
+    - distributor/ trader
+    - service provider
+  - key: heard_from
+    label: How did you learn about SigmaTenders?
+    type: checkboxes
+    required: true
+    options:
+    - Online Search
+    - Referral
+    - Social Media
+    - Received Invitation Email
+    - Google Advertisement
+- key: professional
+  title: Join the SigmaTenders professional network
+  intro: 'CAs, CSs, lawyers and consultants: get referrals from businesses that need your expertise.'
+  submit: Join the network
+  contact:
+  - company
+  - designation!
+  - website
+  fields:
+  - key: address
+    label: Company Address with pincode and Landmark
+    type: paragraph
+    required: true
+  - key: expertise
+    label: 'Please select all areas of expertise that your company or team specializes in:'
+    type: checkboxes
+    required: true
+    options:
+    - Business Registration & Incorporation
+    - Private Limited Company Business Registration/ Incorporation/ compliances
+    - Limited Liability Partnership (LLP) Business Registration/ Incorporation/ compliances
+    - One Person Company (OPC) Business Registration/ Incorporation/ compliances
+    - Partnership Firm Business Registration/ Incorporation/ compliances
+    - Goods and Services Tax (GST) Registration Business Registration/ Incorporation/ compliances
+    - Import Export Code (IEC) Registration
+    - Micro, Small, and Medium Enterprises (MSME) Registration
+    - Manpower Services Licensing / Registrations and compliances
+    - Security Agencies Licensing / Registrations and compliances
+    - Real Estate (RERA) Licensing / Registrations and compliances
+    - Trade License
+    - Food Safety and Standards Authority of India (FSSAI) License
+    - Environmental Clearance Licensing / Registrations and compliances
+    - IT & Software
+    - Healthcare & Pharmaceutical Licensing / Registrations and compliances
+    - Food & Beverage Licensing / Registrations and compliances
+    - Company Law Compliance (MCA)
+    - Annual Returns Filing
+    - Statutory Register Maintenance
+    - Secretarial Audits
+    - Income Tax Compliance
+    - Income Tax Registration & Filing
+    - TDS Compliance
+    - Tax Audit
+    - Labor Laws
+    - Tendering & Bid Management
+    - Tender Filing & Submission
+    - Finance & Accounting
+    - Bookkeeping & Accounting
+    - Payroll Management
+    - Legal Services
+    - Intellectual Property (IP) Registration
+    - Legal Compliance & Advisory
+    - Digital Signature Certificate (DSC) Solutions
+    - Market Research / Market surveys
+    - Feasibility Studies
+    - Wensite designing, Digital marketing & SEO
+    - Industry-Specific Training Programs
+    - Project Report Preparation and Customization as per industry needs (For Bankable Project Reports)
+    - Finance & industrial Loans
+    - Event management professionals
+    - Non profits & CSR professionals
+    - industrial Consultants
+  - key: representing
+    label: Are you representing an individual, a company, or a team of associates?
+    type: choice
+    required: true
+    options:
+    - Individual
+    - Company
+    - Team of professional
+  - key: about
+    label: 'Briefly describe about you as individual/your company/team and your / company expertise:'
+    type: paragraph
+    required: true
+  - key: experience
+    label: How many years of experience does your company/team have in providing these services?
+    type: choice
+    required: true
+    options:
+    - less than 1 year
+    - 1 year to 3 years
+    - 4 years to 10 years
+    - More than 10 years
+  - key: signatory
+    label: If a mutual service level agreement is required, who would be the designated person to sign the agreement on behalf of your company/team? Write Name & Designation
+    type: short
+    required: true
+- key: sample_tender
+  title: Get a free sample tender
+  intro: Tell us where to send it.
+  submit: Send me a sample
+  contact: []
+  fields:
+  - key: city
+    label: City
+    type: short
+- key: contact
+  title: Contact us
+  intro: Send us a message and our team will get back to you.
+  submit: Send
+  contact: []
+  fields:
+  - key: message
+    label: Message
+    type: paragraph
+- key: tender_alerts
+  title: Find tenders for your business
+  intro: Share your products or services and we'll find the right tenders for you.
+  submit: Find my tenders
+  contact: []
+  fields:
+  - key: keywords
+    label: Products or services you offer
+    type: paragraph
+    required: true
+  - key: message
+    label: Message
+    type: paragraph
+- key: funding
+  title: Business funding eligibility check
+  intro: Tell us what funding you need and we'll check what you're eligible for.
+  submit: Check my eligibility
+  contact:
+  - company
+  fields:
+  - key: funding_type
+    label: What type of funding are you looking for?
+    type: choice
+    required: true
+    options:
+    - Working Capital
+    - Startup / New Venture Loan
+    - Asset & Machinery Finance
+    - Government Scheme Loan
+  - key: amount
+    label: What is the estimated funding amount you require?
+    type: short
+    required: true
+  - key: notes
+    label: Is there anything else we should know?
+    type: paragraph
+- key: free_trial
+  title: Activate your free trial
+  intro: Tell us the sectors you're interested in and we'll activate your trial.
+  submit: Activate free trial
+  contact: []
+  fields:
+  - key: sectors
+    label: Sector of your Interests (comma seprated list)
+    type: paragraph
+    required: true
+- key: partnership
+  title: Partner with SigmaTenders
+  intro: Refer customers, generate leads or collaborate with us, and earn from it.
+  submit: Send enquiry
+  contact:
+  - company
+  fields:
+  - key: applicant
+    label: Are you an individual Entrepreneur or organisation?
+    type: choice
+    required: true
+    options:
+    - Individual
+    - organisation
+  - key: interest
+    label: Which best describes your partnership interest?
+    type: choice
+    required: true
+    options:
+    - 'Referral Partner (Earn Commissions): Earn a recurring commission on every paid subscription you refer to SigmaTenders.'
+    - 'Lead Generation Partner: Generate qualified leads for SigmaTenders and receive payment based on agreed-upon terms.'
+    - 'Strategic Alliance (Joint Ventures/Co-marketing): Explore joint ventures, co-marketing opportunities, or other strategic collaborations to leverage our combined strengths.'
+    - 'Affiliate Partner (Content/Influencer Marketing): Promote SigmaTenders through your content, website, or social media channels and earn commissions'
+    - 'Technology Partner (Integrations/API Access): Integrate SigmaTenders into your platform or application through API access or other technical integrations'
+    - 'Other (Please specify): If your partnership interest doesn''t fit the above categories, please describe it here.'
+  - key: expertise
+    label: Choose and define your Role & expertise
+    type: choice
+    options:
+    - Business Consultants
+    - Digital Marketing Agency
+    - Procurement Experts
+    - Industry Influencers
+    - Content Creators and Bloggers
+    - Associations and Chambers of Commerce
+    - Government Relations Firms
+    - Education and Training Providers
+    - Legal Firms Specializing in Procurement Law
+    - Industry-Specific Forums and Communities
+    - Trade Publications and Magazines
+    - Business Networking Events
+    - Strategic Partnerships with Software Providers
+    - Referral Programs with Existing Subscribers
+    - NGOs and voluntary organisations
+- key: bid_support
+  title: 'Tendering and bid support: free consultation'
+  intro: Tell us about your business and tendering goals, and our experts will call you.
+  submit: Book free consultation
+  contact:
+  - company!
+  - designation!
+  - website
+  fields:
+  - key: industry
+    label: Industry
+    type: choice
+    required: true
+    options:
+    - 'Civil Engineering: Road construction, bridge building, building construction'
+    - 'Electrical Engineering: Power plants, transmission lines, electrical installations'
+    - 'Mechanical Engineering: HVAC systems, piping, industrial equipment'
+    - 'Architectural Services: Building design and planning'
+    - 'Software Development: Application development, system integration'
+    - 'Hardware Manufacturing: Computers, servers, networking equipment'
+    - 'IT Services: Consulting, support, cybersecurity'
+    - 'Telecommunications: Network infrastructure, mobile services'
+    - 'Pharmaceuticals: Drug manufacturing and distribution'
+    - 'Medical Equipment: Hospital supplies, diagnostic equipment'
+    - 'Healthcare Services: Hospitals, clinics, nursing homes'
+    - 'Educational Services: Schools, universities, training institutes'
+    - 'Educational Technology: E-learning platforms, educational software'
+    - Skilling , training and vocational education
+    - 'Agricultural Products: Crops, livestock, dairy products'
+    - 'Food Processing: Food manufacturing, packaging'
+    - 'Automotive: Vehicle manufacturing, maintenance'
+    - 'Logistics: Transportation services, warehousing'
+    - 'Renewable Energy: Solar, wind, hydro power'
+    - 'Fossil Fuels: Oil, gas, coal'
+    - 'Defense Equipment: Weapons, vehicles, military hardware'
+    - 'Security Services: Security personnel, surveillance systems'
+    - 'Consulting Services: Management consulting, financial consulting'
+    - 'Legal Services: Legal advice, contract drafting'
+    - 'Printing and Publishing: Printing services, publishing houses'
+    - NGO services
+    - Horticulture and support services
+    - Man power and security guards
+    - Catering services
+    - Supplies of various goods and articles
+    - Others
+    - Option 32
+  - key: turnover
+    label: Estimated Annual Turnover (INR)
+    type: short
+    required: true
+  - key: bid_before
+    label: Have you participated in government tenders before?
+    type: choice
+    required: true
+    options:
+    - 'Yes'
+    - 'No'
+  - key: sectors
+    label: Which industries or sectors are you interested in bidding for?
+    type: checkboxes
+    required: true
+    options:
+    - 'Civil Engineering: Road construction, bridge building, building construction'
+    - 'Electrical Engineering: Power plants, transmission lines, electrical installations'
+    - 'Mechanical Engineering: HVAC systems, piping, industrial equipment'
+    - 'Architectural Services: Building design and planning'
+    - 'Software Development: Application development, system integration'
+    - 'Hardware Manufacturing: Computers, servers, networking equipment'
+    - 'IT Services: Consulting, support, cybersecurity'
+    - 'Telecommunications: Network infrastructure, mobile services'
+    - 'Pharmaceuticals: Drug manufacturing and distribution'
+    - 'Medical Equipment: Hospital supplies, diagnostic equipment'
+    - 'Healthcare Services: Hospitals, clinics, nursing homes'
+    - 'Educational Services: Schools, universities, training institutes'
+    - 'Educational Technology: E-learning platforms, educational software'
+    - Skilling , training and vocational education
+    - 'Agricultural Products: Crops, livestock, dairy products'
+    - 'Food Processing: Food manufacturing, packaging'
+    - 'Automotive: Vehicle manufacturing, maintenance'
+    - 'Logistics: Transportation services, warehousing'
+    - 'Renewable Energy: Solar, wind, hydro power'
+    - 'Fossil Fuels: Oil, gas, coal'
+    - 'Defense Equipment: Weapons, vehicles, military hardware'
+    - 'Security Services: Security personnel, surveillance systems'
+    - 'Consulting Services: Management consulting, financial consulting'
+    - 'Legal Services: Legal advice, contract drafting'
+    - 'Printing and Publishing: Printing services, publishing houses'
+    - NGO services
+    - Horticulture and support services
+    - Man power and security guards
+    - Catering services
+    - Supplies of various goods and articles
+    - Others
+  - key: goal
+    label: What are your primary goals for tendering?
+    type: choice
+    required: true
+    options:
+    - Find More Relevant Tenders
+    - Improve Bid Quality & Competitiveness
+    - Increase Chances of Winning Tenders
+    - Save Time & Resources on Tendering
+    - Get Expert Guidance Throughout the Process
+    - Other (Specify)
+  - key: services
+    label: Which services are you most interested in?
+    type: checkboxes
+    required: true
+    options:
+    - General Tendering Consultancy
+    - SigmaTenders Premium Subscription
+    - 'Package 1: Tender Alert & Search'
+    - 'Package 2: Bid Preparation Support'
+    - 'Package 3: Complete Tender Management'
+    - Both General Consultancy & SigmaTenders Premium
+  - key: challenges
+    label: What are your primary challenges or concerns related to tendering?
+    type: paragraph
+  - key: tenders_per_month
+    label: How many tenders do you typically apply for each month/quarter?
+    type: short
+- key: document_review
+  title: Tender compliance and document review
+  intro: Tell us about the tender and documents you want reviewed.
+  submit: Send request
+  contact:
+  - company
+  fields:
+  - key: message
+    label: Message
+    type: paragraph
+- key: business_setup
+  title: 'Business setup and registrations: free consultation'
+  intro: Starting or expanding a business? Tell us what you need registered.
+  submit: Book free consultation
+  contact:
+  - company!
+  - designation!
+  - website
+  fields:
+  - key: stage
+    label: Are you starting a new business or expanding an existing one?
+    type: choice
+    required: true
+    options:
+    - Starting a New Business
+    - Expanding an Existing Business
+  - key: industry
+    label: Industry
+    type: choice
+    required: true
+    options:
+    - 'Software Development: Web, mobile, enterprise'
+    - 'Information Technology (IT): IT services, IT consulting'
+    - 'Hardware Manufacturing: Computers, peripherals, electronics'
+    - 'Cybersecurity: Network security, data protection'
+    - 'Artificial Intelligence (AI): Machine learning, natural language processing'
+    - 'E-commerce: Online retail, marketplaces'
+    - 'Pharmaceuticals: Drug development, manufacturing'
+    - 'Medical Devices: Medical equipment, diagnostics'
+    - 'Healthcare Services: Hospitals, clinics, healthcare IT'
+    - 'Biotechnology: Genetic engineering, pharmaceuticals'
+    - 'Healthcare Insurance: Health plans, insurance services'
+    - 'Automotive: Car, truck, motorcycle manufacturing'
+    - 'Aerospace: Aircraft, spacecraft manufacturing'
+    - 'Heavy Machinery: Industrial equipment, construction machinery'
+    - 'Consumer Goods: Electronics, appliances, clothing'
+    - 'Food and Beverage: Food processing, beverage manufacturing'
+    - 'Textiles: Clothing, fabrics, textiles'
+    - 'Banking: Retail banking, commercial banking, investment banking'
+    - 'Insurance: Life insurance, property insurance, health insurance'
+    - 'Financial Services: Investment management, wealth management'
+    - 'Accounting: Tax preparation, financial auditing'
+    - 'Consulting: Management consulting, technology consulting'
+    - 'Legal Services: Law firms, legal advice'
+    - 'Oil and Gas: Exploration, production, refining'
+    - 'Renewable Energy: Solar, wind, hydro, geothermal'
+    - 'Utilities: Electric power, gas, water'
+    - 'Energy Efficiency: Energy-saving technologies, consulting'
+    - 'Education: K-12 schools, higher education, online learning'
+    - 'Media and Entertainment: Film, television, music, publishing'
+    - 'Real Estate: Property development, property management'
+    - 'Transportation: Logistics, shipping, trucking'
+    - 'Hospitality: Hotels, restaurants, tourism'
+    - 'Construction: Building construction, infrastructure development'
+    - Others
+  - key: legal_structure
+    label: If starting a new business, what type of legal structure are you considering?
+    type: choice
+    required: true
+    options:
+    - Private Limited Company
+    - LLP (Limited Liability Partnership)
+    - OPC (One Person Company)
+    - Partnership Firm
+    - Section 8 Company (Non-Profit)
+    - Not Sure (Need Guidance)
+  - key: plans
+    label: Briefly describe your business idea or expansion plans
+    type: paragraph
+    required: true
+  - key: registrations
+    label: Which registrations or licenses are you seeking assistance with?
+    type: checkboxes
+    required: true
+    options:
+    - Company/Business Incorporation
+    - GST Registration
+    - Import Export Code (IEC)
+    - MSME Registration (Udyam)
+    - Shop & Establishment Act Registration
+    - Professional Tax Registration
+    - FSSAI License
+    - Trade License
+    - Other (Specify)
+- key: gst
+  title: 'GST compliance: free consultation'
+  intro: Tell us about your business and GST needs.
+  submit: Book free consultation
+  contact:
+  - company!
+  - designation!
+  - website
+  fields:
+  - key: industry
+    label: Industry
+    type: choice
+    required: true
+    options:
+    - 'Software Development: Web, mobile, enterprise'
+    - 'Information Technology (IT): IT services, IT consulting'
+    - 'Hardware Manufacturing: Computers, peripherals, electronics'
+    - 'Cybersecurity: Network security, data protection'
+    - 'Artificial Intelligence (AI): Machine learning, natural language processing'
+    - 'E-commerce: Online retail, marketplaces'
+    - 'Pharmaceuticals: Drug development, manufacturing'
+    - 'Medical Devices: Medical equipment, diagnostics'
+    - 'Healthcare Services: Hospitals, clinics, healthcare IT'
+    - 'Biotechnology: Genetic engineering, pharmaceuticals'
+    - 'Healthcare Insurance: Health plans, insurance services'
+    - 'Automotive: Car, truck, motorcycle manufacturing'
+    - 'Aerospace: Aircraft, spacecraft manufacturing'
+    - 'Heavy Machinery: Industrial equipment, construction machinery'
+    - 'Consumer Goods: Electronics, appliances, clothing'
+    - 'Food and Beverage: Food processing, beverage manufacturing'
+    - 'Textiles: Clothing, fabrics, textiles'
+    - 'Banking: Retail banking, commercial banking, investment banking'
+    - 'Insurance: Life insurance, property insurance, health insurance'
+    - 'Financial Services: Investment management, wealth management'
+    - 'Accounting: Tax preparation, financial auditing'
+    - 'Consulting: Management consulting, technology consulting'
+    - 'Legal Services: Law firms, legal advice'
+    - 'Oil and Gas: Exploration, production, refining'
+    - 'Renewable Energy: Solar, wind, hydro, geothermal'
+    - 'Utilities: Electric power, gas, water'
+    - 'Energy Efficiency: Energy-saving technologies, consulting'
+    - 'Education: K-12 schools, higher education, online learning'
+    - 'Media and Entertainment: Film, television, music, publishing'
+    - 'Real Estate: Property development, property management'
+    - 'Transportation: Logistics, shipping, trucking'
+    - 'Hospitality: Hotels, restaurants, tourism'
+    - 'Construction: Building construction, infrastructure development'
+    - Non profit organisations
+    - Agriculture
+  - key: business_type
+    label: Type of Business
+    type: choice
+    required: true
+    options:
+    - Manufacturer
+    - Trader
+    - Service Provider
+    - E-commerce Operator
+    - Other (Specify)
+  - key: state
+    label: State of Operation
+    type: short
+    required: true
+  - key: turnover
+    label: Estimated Annual Turnover (INR)
+    type: short
+    required: true
+  - key: gst_registered
+    label: Do you have a GST registration?
+    type: choice
+    required: true
+    options:
+    - 'Yes'
+    - 'No'
+    - Applied but pending
+  - key: needs
+    label: What are your primary GST compliance needs or concerns?
+    type: choice
+    required: true
+    options:
+    - Obtaining GST Registration
+    - Understanding GST Applicability & Liability
+    - Choosing the Right GST Registration Type
+    - Filing GST Returns (GSTR-1, GSTR-3B, etc.)
+    - Input Tax Credit (ITC) Reconciliation
+    - GST Impact Assessment & Optimization
+    - HSN/SAC Code Classification
+    - GST Compliance Audits
+    - Staying Updated on GST Law Changes
+    - Other (Specify)
+  - key: past_issues
+    label: Have you faced any challenges with GST compliance in the past?
+    type: choice
+    required: true
+    options:
+    - 'Yes'
+    - 'No'
+- key: company_law
+  title: 'Company law compliance: free consultation'
+  intro: Tell us about your company and compliance needs.
+  submit: Book free consultation
+  contact:
+  - company!
+  - designation!
+  - website
+  fields:
+  - key: company_type
+    label: Type of Company
+    type: choice
+    required: true
+    options:
+    - Private Limited Company
+    - Public Limited Company
+    - One Person Company (OPC)
+    - Limited Liability Partnership (LLP)
+    - Section 8 Company (Non-Profit)
+    - Other (Specify)
+  - key: incorporated
+    label: Year of Incorporation
+    type: short
+    required: true
+  - key: state
+    label: State of Registration
+    type: short
+    required: true
+  - key: needs
+    label: What are your primary company law compliance concerns?
+    type: choice
+    required: true
+    options:
+    - Annual Filings (Annual Returns, Financial Statements)
+    - Board Meeting Compliance
+    - Shareholder Meeting Compliance
+    - Corporate Social Responsibility (CSR)
+    - Secretarial Audit
+    - Changes in Company Structure
+    - Other (Specify)
+  - key: past_issues
+    label: Have you faced any compliance challenges or penalties in the past?
+    type: choice
+    required: true
+    options:
+    - 'Yes'
+    - 'No'
+    - Maybe
+- key: income_tax
+  title: 'Income tax: free consultation'
+  intro: Tell us about your tax situation and what you need help with.
+  submit: Book free consultation
+  contact: []
+  fields:
+  - key: taxpayer_type
+    label: Type of Taxpayer
+    type: choice
+    required: true
+    options:
+    - Individual
+    - Hindu Undivided Family (HUF)
+    - Company
+    - Partnership Firm
+    - LLP
+    - Trust/NGO
+    - Other (Specify)
+  - key: pan
+    label: PAN Number
+    type: short
+  - key: financial_year
+    label: Financial Year
+    type: choice
+    required: true
+    options:
+    - 2025-26
+    - 2024-25
+    - 2023-24
+    - Earlier years
+  - key: income_sources
+    label: What are your main sources of income?
+    type: choice
+    required: true
+    options:
+    - Salary
+    - Business/Profession
+    - House Property
+    - Capital Gains
+    - Interest Income
+    - Other (Specify)
+  - key: needs
+    label: What are your primary income tax needs or concerns?
+    type: choice
+    required: true
+    options:
+    - Income Tax Return (ITR) Filing
+    - Tax Planning & Optimization
+    - Understanding Tax Deductions & Exemptions
+    - TDS/TCS Compliance
+    - Assistance with Income Tax Notices
+    - Tax Audit Support
+    - International Taxation
+    - Other (Specify)
+  - key: filed_on_time
+    label: Have you filed your income tax returns on time in the past?
+    type: choice
+    required: true
+    options:
+    - 'Yes'
+    - 'No'
+    - Don't know
+- key: iec
+  title: 'IEC code and import/export: free consultation'
+  intro: Tell us about your import or export business.
+  submit: Book free consultation
+  contact:
+  - company!
+  - designation!
+  - website
+  fields:
+  - key: business_type
+    label: Type of Business
+    type: choice
+    required: true
+    options:
+    - Manufacturer
+    - Trader (Importer/Exporter)
+    - Service Provider (Import/Export related)
+    - Other (Specify)
+  - key: industry
+    label: Industry
+    type: choice
+    required: true
+    options:
+    - 'Civil Engineering: Road construction, bridge building, building construction'
+    - 'Electrical Engineering: Power plants, transmission lines, electrical installations'
+    - 'Mechanical Engineering: HVAC systems, piping, industrial equipment'
+    - 'Architectural Services: Building design and planning'
+    - 'Software Development: Application development, system integration'
+    - 'Hardware Manufacturing: Computers, servers, networking equipment'
+    - 'IT Services: Consulting, support, cybersecurity'
+    - 'Telecommunications: Network infrastructure, mobile services'
+    - 'Pharmaceuticals: Drug manufacturing and distribution'
+    - 'Medical Equipment: Hospital supplies, diagnostic equipment'
+    - 'Healthcare Services: Hospitals, clinics, nursing homes'
+    - 'Educational Services: Schools, universities, training institutes'
+    - 'Educational Technology: E-learning platforms, educational software'
+    - Skilling , training and vocational education
+    - 'Agricultural Products: Crops, livestock, dairy products'
+    - 'Food Processing: Food manufacturing, packaging'
+    - 'Automotive: Vehicle manufacturing, maintenance'
+    - 'Logistics: Transportation services, warehousing'
+    - 'Renewable Energy: Solar, wind, hydro power'
+    - 'Fossil Fuels: Oil, gas, coal'
+    - 'Defense Equipment: Weapons, vehicles, military hardware'
+    - 'Security Services: Security personnel, surveillance systems'
+    - 'Consulting Services: Management consulting, financial consulting'
+    - 'Legal Services: Legal advice, contract drafting'
+    - 'Printing and Publishing: Printing services, publishing houses'
+    - NGO services
+    - Horticulture and support services
+    - Man power and security guards
+    - Catering services
+    - Supplies of various goods and articles
+    - Others
+    - Option 32
+  - key: trading_now
+    label: Are you currently engaged in importing or exporting goods?
+    type: choice
+    required: true
+    options:
+    - 'Yes'
+    - 'No'
+    - Planning to
+  - key: needs
+    label: What are your primary needs related to IEC and import/export?
+    type: choice
+    required: true
+    options:
+    - Obtaining an IEC Code
+    - Understanding IEC Eligibility & Exemptions
+    - Assistance with IEC Application & Documentation
+    - Modifying or Updating IEC Details
+    - Guidance on Import/Export Documentation
+    - Customs Compliance Advisory
+    - Information on Export Promotion Schemes
+    - Identifying New Markets
+    - Connecting with Logistics Providers (Freight Forwarders, Customs Brokers)
+    - Advice on International Payments & Financing
+    - Other (Specify)
+- key: msme
+  title: 'MSME (Udyam) registration and schemes: free consultation'
+  intro: Tell us about your business and what you want from MSME registration.
+  submit: Book free consultation
+  contact:
+  - company!
+  - designation!
+  - website
+  fields:
+  - key: industry
+    label: Industry/Sector
+    type: choice
+    required: true
+    options:
+    - 'Civil Engineering: Road construction, bridge building, building construction'
+    - 'Electrical Engineering: Power plants, transmission lines, electrical installations'
+    - 'Mechanical Engineering: HVAC systems, piping, industrial equipment'
+    - 'Architectural Services: Building design and planning'
+    - 'Software Development: Application development, system integration'
+    - 'Hardware Manufacturing: Computers, servers, networking equipment'
+    - 'IT Services: Consulting, support, cybersecurity'
+    - 'Telecommunications: Network infrastructure, mobile services'
+    - 'Pharmaceuticals: Drug manufacturing and distribution'
+    - 'Medical Equipment: Hospital supplies, diagnostic equipment'
+    - 'Healthcare Services: Hospitals, clinics, nursing homes'
+    - 'Educational Services: Schools, universities, training institutes'
+    - 'Educational Technology: E-learning platforms, educational software'
+    - Skilling , training and vocational education
+    - 'Agricultural Products: Crops, livestock, dairy products'
+    - 'Food Processing: Food manufacturing, packaging'
+    - 'Automotive: Vehicle manufacturing, maintenance'
+    - 'Logistics: Transportation services, warehousing'
+    - 'Renewable Energy: Solar, wind, hydro power'
+    - 'Fossil Fuels: Oil, gas, coal'
+    - 'Defense Equipment: Weapons, vehicles, military hardware'
+    - 'Security Services: Security personnel, surveillance systems'
+    - 'Consulting Services: Management consulting, financial consulting'
+    - 'Legal Services: Legal advice, contract drafting'
+    - 'Printing and Publishing: Printing services, publishing houses'
+    - NGO services
+    - Horticulture and support services
+    - Man power and security guards
+    - Catering services
+    - Supplies of various goods and articles
+    - Others
+  - key: organisation_type
+    label: Type of Organization
+    type: choice
+    required: true
+    options:
+    - Proprietorship
+    - Partnership Firm
+    - Private Limited Company
+    - LLP (Limited Liability Partnership)
+    - Section-8 charitable company
+  - key: state
+    label: State of Operation
+    type: short
+    required: true
+  - key: investment
+    label: Investment in Plant & Machinery/Equipment (INR)
+    type: short
+  - key: turnover
+    label: Annual Turnover (INR
+    type: short
+    required: true
+  - key: msme_registered
+    label: Do you have an existing MSME registration?
+    type: choice
+    required: true
+    options:
+    - 'Yes'
+    - 'No'
+    - Maybe
+  - key: goal
+    label: What are your primary goals for obtaining MSME registration?
+    type: choice
+    required: true
+    options:
+    - Access Government Schemes & Subsidies
+    - Obtain Tax Benefits
+    - Easier Access to Credit
+    - Participation in Government Tenders
+    - Enhance Business Credibility
+    - Other (Specify)
+  - key: extra_services
+    label: Are you interested in any of these additional services?
+    type: checkboxes
+    required: true
+    options:
+    - Assistance with Applying for MSME Schemes & Subsidies
+    - Guidance on Accessing Credit & Finance for MSMEs
+    - Business Development & Growth Strategies for MSMEs
+    - GST Registration & Compliance
+    - Other Compliance Services (Shop Act, Labor Laws, etc.)
+- key: food_safety
+  title: 'FSSAI and food safety: free consultation'
+  intro: Tell us about your food business.
+  submit: Book free consultation
+  contact:
+  - company!
+  - designation!
+  - website
+  fields:
+  - key: food_business_type
+    label: Type of Food Business
+    type: choice
+    required: true
+    options:
+    - Restaurant/Cafe/Bakery
+    - Food Manufacturer
+    - Food Retailer/Distributor
+    - Caterer
+    - Food Importer/Exporter
+    - Online Food Business
+    - Other (Specify)
+  - key: outlets
+    label: Number of Locations/Outlets
+    type: short
+    required: true
+  - key: fssai
+    label: Do you have an existing FSSAI registration or license?
+    type: choice
+    required: true
+    options:
+    - 'Yes'
+    - 'No'
+  - key: fsms
+    label: Have you implemented a Food Safety Management System (FSMS)?
+    type: choice
+    required: true
+    options:
+    - 'Yes'
+    - 'No'
+    - Maybe
+  - key: priority
+    label: What are your top food safety priorities?
+    type: choice
+    required: true
+    options:
+    - Obtaining/Renewing FSSAI Registration/License
+    - Implementing/Improving FSMS (HACCP/ISO 22000)
+    - Hygiene & Sanitation Training for Staff
+    - Supplier Audits & Due Diligence
+    - Labeling & Packaging Compliance
+    - Food Safety Audits & Gap Analysis
+    - Pest Control Management
+    - Developing a Food Recall Plan
+    - Other (Specify)
+- key: csr_grants
+  title: Free CSR and grant eligibility check for NGOs
+  intro: Tell us about your NGO and the funding you are looking for.
+  submit: Check my eligibility
+  contact:
+  - company
+  - designation!
+  - website
+  fields:
+  - key: ngo_type
+    label: Type of NGO
+    type: choice
+    required: true
+    options:
+    - Trust
+    - Society
+    - Section 8 Company
+    - SHG
+    - RWA
+    - Cooperative Society
+    - FPO
+    - Government Sector Foundations and Institutions
+    - Colleges and Institutions Run By NGO
+    - Colleges and institutions run by Private company/ firms
+  - key: registered_year
+    label: Year of Registration
+    type: short
+  - key: ngo_darpan
+    label: NGO Darpan unique id Generated or not?
+    type: checkboxes
+    required: true
+    options:
+    - Unique id Generated
+    - Applied but not generated
+    - Not Applied
+  - key: funding_types
+    label: What type(s) of opportunities or funding are you actively looking for your NGO/ Institutions or project?
+    type: checkboxes
+    required: true
+    options:
+    - Indian Government Grants
+    - CSR (Corporate Social Responsibility) Funding
+    - Individual Donations
+    - Crowdfunding
+    - Foreign Funding (FCRA)
+    - Equity/investment
+    - Loan/ subsidies
+    - NGO service Tenders
+    - Contracts/ sub-Contracts
+    - Joint ventures or looking for syndicate partner to apply for bigger projects
+  - key: themes
+    label: Which thematic areas align with your NGO/project?
+    type: checkboxes
+    options:
+    - Education & Skill Development
+    - Health & Nutrition
+    - Livelihoods & Economic Empowerment
+    - Social Justice & Human Rights
+    - Environment & Sustainability
+    - Art & Culture
+    - Governance & Civil Society
+    - Disaster Relief & Humanitarian Aid
+    - Rural Development
+    - Agriculture and FPOs
+    - Social Enterprise
+  - key: turnover
+    label: What is your Average Annual Turnover (Last 3 Years)?
+    type: choice
+    required: true
+    options:
+    - 0 - 5 Lakhs (Startup Phase)
+    - 5 Lakhs - 50 Lakhs (Growth Phase)
+    - 50 Lakhs - 1 Crore (CSR Ready)
+    - 1 Crore - 5 Crores (High Value)
+    - Above 5 Crores (Institutional)
+  - key: registrations
+    label: Do you have valid 12A, 80G & CSR-1 Registrations?
+    type: choice
+    required: true
+    options:
+    - We have All 3 (12A + 80G + CSR-1)
+    - We have 12A & 80G, but NO CSR-1
+    - We have 12A only
+    - We have 80G only
+    - New NGO / No Documents yet
+    - Applied / Pending Approval
+  - key: fcra
+    label: Do you have FCRA (Foreign Funding) Registration?
+    type: choice
+    options:
+    - 'Yes'
+    - 'No'
+    - Need to Apply
+    - Applied / Pending for approval
+  - key: docs_link
+    label: Link to NGO Profile/Docs (Google Drive/Dropbox) - Optional
+    type: short
+- key: fcra
+  title: 'FCRA compliance for NGOs: free consultation'
+  intro: Tell us about your NGO and its foreign funding.
+  submit: Book free consultation
+  contact:
+  - company!
+  - designation!
+  - website
+  fields:
+  - key: ngo_type
+    label: Type of NGO
+    type: choice
+    required: true
+    options:
+    - Trust
+    - Society
+    - Section 8 Company
+    - Other (Specify)
+  - key: registered_year
+    label: Year of Registration/Establishment
+    type: short
+    required: true
+  - key: fcra
+    label: Do you currently have FCRA Registration?
+    type: choice
+    required: true
+    options:
+    - 'Yes'
+    - 'No'
+    - Applied but pending
+  - key: foreign_funding
+    label: Do you receive or plan to receive foreign funding?
+    type: choice
+    required: true
+    options:
+    - 'Yes'
+    - 'No'
+  - key: needs
+    label: What are your primary FCRA compliance concerns?
+    type: choice
+    required: true
+    options:
+    - Obtaining FCRA Registration
+    - Understanding Recent FCRA Amendments
+    - Updating Our FCRA Policies
+    - Managing FCRA Bank Accounts
+    - Filing Annual FCRA Returns
+    - Ensuring Compliance with Spending Restrictions
+    - Due Diligence on Foreign Donors
+    - Transferring Funds to Other NGOs
+    - Other (Specify)
+  - key: past_issues
+    label: Have you faced any FCRA compliance challenges or notices in the past?
+    type: choice
+    required: true
+    options:
+    - 'Yes'
+    - 'No'
+- key: callback
+  title: Request a call back
+  intro: Leave your number and we'll call you.
+  submit: Call me back
+  contact: []
+  fields:
+  - key: message
+    label: Message
+    type: paragraph

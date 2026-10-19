@@ -1,5 +1,6 @@
 # A request for the team to call back: a quote for a product (product
-# pages), or a bidding partner for a tender (/find-a-partner)
+# pages), a bidding partner for a tender (/find-a-partner), or an enquiry
+# (/enquiry/<topic>, the forms that replaced the Google Forms)
 class Lead < ApplicationRecord
   include IndianMobile
 
@@ -12,19 +13,32 @@ class Lead < ApplicationRecord
   belongs_to :tender, optional: true
   belongs_to :user, optional: true
 
-  enum :kind, { quote: 'quote', partner: 'partner' }, default: 'quote'
+  enum :kind, { quote: 'quote', partner: 'partner', enquiry: 'enquiry' }, default: 'quote'
   # Pending: nobody has called yet
   enum :status, { pending: 0, called: 1, quoted: 2, won: 3, lost: 4 }
 
-  validates :name, :email, :phone, :location, presence: true
+  validates :name, :email, :phone, presence: true
+  validates :location, presence: true, unless: :enquiry?
   validates :product, :quantity, presence: true, if: :quote?
   validates :partner_need, inclusion: { in: PARTNER_NEEDS }, if: :partner?
+  validates :topic, inclusion: { in: ->(_) { EnquiryTopic.all.keys } }, if: :enquiry?
+  validate :enquiry_answered, if: -> { enquiry? && enquiry_topic }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
   validates :needed_by, inclusion: { in: NEEDED_BY }, allow_blank: true
   validates :annual_turnover, inclusion: { in: User::TURNOVER_BANDS }, allow_blank: true
   validates :name, :email, :quantity, :location, :company, length: { maximum: 120 }
   validates :details, length: { maximum: 2000 }
 
+  def enquiry_topic = (EnquiryTopic.find(topic) if topic.present?)
+
   # What the request is about, for lists
-  def subject = product&.name || tender&.title.to_s.squish.truncate(70).presence || 'Bidding partner'
+  def subject
+    product&.name || enquiry_topic&.title || tender&.title.to_s.squish.truncate(70).presence || 'Bidding partner'
+  end
+
+  private
+
+  def enquiry_answered
+    enquiry_topic.missing(answers, company:).each { |message| errors.add(:base, message) }
+  end
 end

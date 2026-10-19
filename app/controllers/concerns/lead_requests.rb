@@ -27,6 +27,10 @@ module LeadRequests
 
   def bot? = params[:website].present?
 
+  def no_cache
+    response.headers['Cache-Control'] = 'no-cache, no-store, private, max-age=0'
+  end
+
   # Saves the lead, unless the captcha fails for a signed-out visitor
   def save_lead(lead)
     if current_user.nil? && !verify_captcha

@@ -31,8 +31,4 @@ class PartnerRequestsController < ApplicationController
     params.require(:lead).permit(:partner_need, :details, :company, :annual_turnover, :location,
                                  :name, :email, :phone)
   end
-
-  def no_cache
-    response.headers['Cache-Control'] = 'no-cache, no-store, private, max-age=0'
-  end
 end

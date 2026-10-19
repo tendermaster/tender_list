@@ -35,6 +35,10 @@ Rails.application.routes.draw do
   get '/find-a-partner', to: 'partner_requests#new', as: :find_partner
   post '/find-a-partner', to: 'partner_requests#create'
 
+  # Enquiry forms (config/enquiry_topics.yml), which replaced the Google Forms
+  get '/enquiry/:topic', to: 'enquiries#show', as: :enquiry
+  post '/enquiry/:topic', to: 'enquiries#create'
+
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
     sessions: 'users/sessions',
@@ -54,11 +58,11 @@ Rails.application.routes.draw do
   # get '/signup', controller: :home, action: :signup
   get '/services', controller: :home, action: :services
   get '/coming-soon', controller: :home, action: :coming_soon
-  get '/get-callback', controller: :home, action: :get_callback, as: :get_callback
-  get '/partner-with-us', controller: :home, action: :partner_with_us, as: :partner_with_us
+  get '/get-callback', to: redirect('/enquiry/callback'), as: :get_callback
+  get '/partner-with-us', to: redirect('/enquiry/partnership'), as: :partner_with_us
   get '/onboarding', controller: :home, action: :onboarding, as: :onboarding
-  get '/get-sample-tenders', controller: :home, action: :get_sample_tenders, as: :get_sample_tenders
-  # get '/free-trial', controller: :home, action: :free_trial, as: :free_trial
+  get '/get-sample-tenders', to: redirect('/enquiry/sample_tender'), as: :get_sample_tenders
+  get '/free-trial', to: redirect('/enquiry/free_trial'), as: :free_trial
   get '/faq', controller: :home, action: :faq, as: :faq
 
   get '/pricing', controller: :home, action: :pricing, as: :pricing
@@ -99,7 +103,7 @@ Rails.application.routes.draw do
   get '/tenders/:keyword-tenders', controller: :tenders, action: :search, as: :keyword_tender
 
   get '/trending-tenders', controller: :tenders, action: :trending_tenders, as: :trending_tenders
-  get '/get-relevant-tenders', controller: :tenders, action: :get_relevant_tenders, as: :get_relevant_tenders
+  get '/get-relevant-tenders', to: redirect('/enquiry/tender_alerts'), as: :get_relevant_tenders
   # get '/get-relevant-tenders/success', controller: :tenders, action: :get_relevant_tenders_success, as: :get_relevant_tenders_success
   # get relevant keywords
   post '/get-relevant-tenders', controller: :tenders, action: :get_relevant_tenders_post, as: :get_relevant_tenders_post

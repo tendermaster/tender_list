@@ -123,9 +123,6 @@ class TendersController < ApplicationController
     render plain: 'OK'
   end
 
-  def get_relevant_tenders
-  end
-
   # def get_relevant_tenders_success
   #   @full_message = "Form Submitted Successfully"
   # end
