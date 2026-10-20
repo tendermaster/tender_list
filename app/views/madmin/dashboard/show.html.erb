@@ -42,7 +42,7 @@
     </div>
   </section>
 
-  <h2>Requests to call <small>quotes, partner requests and enquiries, not called yet · set the status on the <%= link_to 'lead', madmin_leads_path %></small></h2>
+  <h2>Requests to call <small>quotes, partner requests and enquiries, not called yet · set the status on the <%= link_to 'lead', madmin_leads_path %> · <%= link_to "#{@spam_week} marked spam this week", madmin_leads_path(scope: 'spam') %></small></h2>
   <div class="table-scroll">
     <table>
       <thead>

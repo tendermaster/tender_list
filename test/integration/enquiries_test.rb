@@ -13,6 +13,8 @@ class EnquiriesTest < ActionDispatch::IntegrationTest
     assert_operator EnquiryTopic.all.size, :>=, 20
     EnquiryTopic.all.each_value do |topic|
       get enquiry_path(topic.key)
+      next assert_response(:not_found, topic.key) unless topic.form?
+
       assert_response :success, topic.key
       assert_select 'h1', topic.title
       assert_select 'input[type=submit][value=?]', topic.submit
@@ -23,7 +25,7 @@ class EnquiriesTest < ActionDispatch::IntegrationTest
   end
 
   test 'a visitor sends an enquiry; answers are saved by question' do
-    post enquiry_path('gst'), params: { lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210',
+    post enquiry_path('gst'), params: { fill_ms: 10_000, lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210',
                                                 company: 'Rao Traders', designation: 'Owner', website: 'https://rao.example',
                                                 answers: gst_answers } }
     assert_redirected_to enquiry_path('gst', sent: 1)
@@ -41,7 +43,7 @@ class EnquiriesTest < ActionDispatch::IntegrationTest
   end
 
   test 'required questions, the company and offered options are checked' do
-    post enquiry_path('gst'), params: { lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210',
+    post enquiry_path('gst'), params: { fill_ms: 10_000, lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210',
                                                 designation: 'Owner', answers: gst_answers(gst_registered: 'Maybe?') } }
     assert_response :unprocessable_entity
     assert_select '#alert li', /Do you have a GST registration is required/
@@ -51,7 +53,7 @@ class EnquiriesTest < ActionDispatch::IntegrationTest
 
   test 'checkbox answers keep only the offered options' do
     post enquiry_path('gem_registration'),
-         params: { lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210', company: 'Rao Traders',
+         params: { fill_ms: 10_000, lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210', company: 'Rao Traders',
                            answers: { gem_status: 'Not registered yet', business_type: 'Proprietorship', offer: 'Chairs',
                                       state: 'Goa', documents: ['PAN', 'Passport', 'GST registration'] } } }
     assert_equal ['PAN', 'GST registration'], Lead.last.answers['Documents you have ready']
@@ -64,7 +66,7 @@ class EnquiriesTest < ActionDispatch::IntegrationTest
     get enquiry_path('callback')
     assert_select 'input[name="lead[email]"]', count: 0
 
-    post enquiry_path('callback'), params: { lead: { answers: { message: 'Please call after 5' } } }
+    post enquiry_path('callback'), params: { fill_ms: 10_000, lead: { answers: { message: 'Please call after 5' } } }
     lead = Lead.last
     assert_equal [user, 'Ravi', 'buyer@example.com', 'Please call after 5'],
                  [lead.user, lead.name, lead.email, lead.answers['Message']]
@@ -88,7 +90,7 @@ class EnquiriesTest < ActionDispatch::IntegrationTest
   end
 
   test 'staff see enquiries with their answers' do
-    post enquiry_path('callback'), params: { lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210',
+    post enquiry_path('callback'), params: { fill_ms: 10_000, lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210',
                                                      answers: { message: 'Call me' } } }
     sign_in AdminUser.create!(email: 'admin@example.com', password: 'secret-password-1')
     get '/admin'

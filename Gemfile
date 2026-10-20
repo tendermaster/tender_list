@@ -114,6 +114,8 @@ gem 'recaptcha'
 
 # Validates and normalises users' mobile numbers (onboarding)
 gem 'phonelib'
+# Rejects throwaway email domains on lead forms
+gem 'valid_email2', '~> 7.0'
 
 
 

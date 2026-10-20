@@ -477,6 +477,9 @@ GEM
     unicode-display_width (2.4.2)
     uri (1.1.2)
     useragent (0.16.11)
+    valid_email2 (7.1.0)
+      activemodel (>= 6.0)
+      mail (~> 2.5)
     version_gem (1.1.4)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -554,6 +557,7 @@ DEPENDENCIES
   tailwindcss-rails (~> 4.6)
   turbo-rails
   tzinfo-data
+  valid_email2 (~> 7.0)
   web-console
   webdrivers
 

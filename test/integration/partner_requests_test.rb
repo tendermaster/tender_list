@@ -11,7 +11,7 @@ class PartnerRequestsTest < ActionDispatch::IntegrationTest
 
   def request_partner(tender: @tender, **lead)
     post find_partner_path(tender: tender&.slug_uuid),
-         params: { lead: { partner_need: Lead::PARTNER_NEEDS.first, details: 'Need ₹50 Cr turnover',
+         params: { fill_ms: 10_000, lead: { partner_need: Lead::PARTNER_NEEDS.first, details: 'Need ₹50 Cr turnover',
                            company: 'Rao Builders', annual_turnover: '₹5–50 Cr', location: 'Guwahati, Assam' }.merge(lead) }
   end
 

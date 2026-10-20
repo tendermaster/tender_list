@@ -19,8 +19,6 @@ class ProductsController < ApplicationController
   end
 
   def create
-    return redirect_to(product_path(@product, quoted: 1)) if bot?
-
     @lead = build_lead(lead_params.merge(product: @product, kind: 'quote'))
     return render(:show, status: :unprocessable_entity) unless save_lead(@lead)
 

@@ -1,8 +1,5 @@
 class TendersController < ApplicationController
   before_action :set_tender, only: %i[ show edit update destroy ]
-  # These forms render on session-less public pages, so there is no session to hold
-  # a CSRF token; both are anonymous lead forms guarded by reCAPTCHA instead.
-  skip_forgery_protection only: [:get_relevant_tenders_post, :checklist_download]
   include ApplicationHelper
 
   rescue_from TenderSearch::SearchUnavailableError,
@@ -123,117 +120,6 @@ class TendersController < ApplicationController
     pp params
     pp current_user
     render plain: 'OK'
-  end
-
-  # def get_relevant_tenders_success
-  #   @full_message = "Form Submitted Successfully"
-  # end
-
-  def get_relevant_tenders_post
-    # pp params
-    #   save to file
-
-    # File.open('dev/get_relevant_tenders_post.txt', 'w') do |file|
-    #   file.write("#{params['name']},#{params['email']},#{params['mobile']},#{params['sectors']}\n")
-    # end
-
-    # CSV.open("dev/get_relevant_tenders_post.txt", "a+") do |csv|
-    #   csv << [params['name'],
-    #           params['email'],
-    #           params['mobile'],
-    #           params['sectors'],
-    #           current_time
-    #   ]
-    # end
-
-    unless verify_captcha
-      @full_message = "Please confirm you're not a robot and try again"
-      return render 'get_relevant_tenders_success'
-    end
-
-    # Spam that solved the captcha: thanked, not saved, so bots learn nothing
-    if SpamFilter.spam?(params['name'], params['email'], params['mobile'], params['sectors'])
-      @full_message = 'Form Submitted Successfully'
-      return render 'get_relevant_tenders_success'
-    end
-
-    unless SpamFilter.plausible_phone?(params['mobile'])
-      @full_message = 'Please enter a valid phone number'
-      return render 'get_relevant_tenders_success'
-    end
-
-    MiscDataStore.create!(
-      name: 'customized_tender_recommendations',
-      data: {
-        name: params['name'],
-        email: params['email'],
-        mobile: params['mobile'],
-        sectors: params['sectors'],
-        time: current_time
-      },
-      source: 'sidebar'
-    )
-
-    # redirect_to action: :get_relevant_tenders_success
-    @full_message = 'Form Submitted Successfully'
-    render 'get_relevant_tenders_success'
-  end
-
-  def checklist_download
-    # return render plain: params.to_json
-    @full_message = 'Please Check your email (including spam folder) to download your files'
-
-    unless verify_captcha
-      @full_message = "Please confirm you're not a robot and try again"
-      return render 'get_relevant_tenders_success'
-    end
-
-    unless params[:report_type].present?
-      @full_message = 'Invalid report type'
-      return render 'get_relevant_tenders_success'
-    end
-
-    unless params[:email].present?
-      @full_message = 'Please specify email address'
-      return render 'get_relevant_tenders_success'
-    end
-
-    # Spam that solved the captcha: shown the usual message, not saved
-    return render 'get_relevant_tenders_success' if SpamFilter.spam?(params['full_name'], params['email'], params['phone'])
-
-    if params['phone'].present? && !SpamFilter.plausible_phone?(params['phone'])
-      @full_message = 'Please enter a valid phone number'
-      return render 'get_relevant_tenders_success'
-    end
-
-    # validate email
-    email = params[:email]
-    if email.match?(URI::MailTo::EMAIL_REGEXP)
-      report_data = checklist_options('get_code', params[:report_type])
-
-      MiscDataStore.create!(
-        name: 'checklist_download',
-        data: {
-          full_name: params['full_name'],
-          email: params['email'],
-          phone: params['phone'],
-          report_type: params['report_type'],
-          time: current_time
-        },
-        source: 'homepage'
-      )
-
-      if ActionMailer::Base.perform_deliveries
-        CheckListDownloaderMailer.send_check_list(params[:email], report_data).deliver_later
-      else
-        # Mail is off (MAIL_ENABLED): show the links instead of emailing them
-        @report_data = report_data
-        @full_message = "Your #{report_data[:label]} files are ready"
-      end
-    else
-      @full_message = 'Please recheck your email'
-    end
-    render 'get_relevant_tenders_success'
   end
 
   def trending_tenders

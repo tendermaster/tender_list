@@ -12,6 +12,7 @@ module Madmin
 
       # Product quotes and partner requests that nobody has called yet
       @leads = Lead.pending.includes(:product, :tender).order(created_at: :desc).limit(30).to_a
+      @spam_week = Lead.spam.where(created_at: 7.days.ago..).count
 
       @active_subscriptions = Subscription.where('end_date > now()').order(end_date: :asc).to_a
       # Subscription has no user association

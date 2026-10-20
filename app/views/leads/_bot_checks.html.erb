@@ -1,0 +1,9 @@
+<%# Inside every public lead form (SpamFilter.reason): a field people leave
+    empty and bots fill in, how long the page was open (lead_form_controller.js),
+    and the captcha for signed-out visitors. local: captcha (default true) %>
+<div class="hidden" aria-hidden="true">
+  <%= label_tag :website, 'Website' %>
+  <%= text_field_tag :website, nil, tabindex: -1, autocomplete: 'off', id: nil %>
+</div>
+<%= hidden_field_tag :fill_ms, nil, id: nil, data: { controller: 'lead-form' } %>
+<%= captcha_tags if local_assigns.fetch(:captcha, true) %>

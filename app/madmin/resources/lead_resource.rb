@@ -26,6 +26,7 @@ class LeadResource < Madmin::Resource
   scope :called
   scope :quoted
   scope :won
+  scope :spam
   scope :quote
   scope :partner
   scope :enquiry

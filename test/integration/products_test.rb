@@ -14,7 +14,8 @@ class ProductsTest < ActionDispatch::IntegrationTest
   end
 
   def quote(product = @cctv, **lead)
-    post product_quote_path(product), params: { lead: { quantity: '40 pieces', location: 'Pune, Maharashtra',
+    post product_quote_path(product), params: { fill_ms: 10_000,
+                                                lead: { quantity: '40 pieces', location: 'Pune, Maharashtra',
                                                         needed_by: 'Within a week' }.merge(lead) }
   end
 
@@ -77,7 +78,7 @@ class ProductsTest < ActionDispatch::IntegrationTest
     quote(name: 'Asha', email: 'not-an-email', phone: '12345', location: '')
     assert_response :unprocessable_entity
     assert_select '#alert li', /Email is invalid/
-    assert_select '#alert li', /Phone is invalid/
+    assert_select '#alert li', /Phone is not a valid number/
     assert_select '#alert li', /Location can't be blank/
     assert_equal 0, Lead.count
   end

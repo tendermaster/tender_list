@@ -106,8 +106,8 @@ Rails.application.routes.draw do
   get '/get-relevant-tenders', to: redirect('/enquiry/tender_alerts'), as: :get_relevant_tenders
   # get '/get-relevant-tenders/success', controller: :tenders, action: :get_relevant_tenders_success, as: :get_relevant_tenders_success
   # get relevant keywords
-  post '/get-relevant-tenders', controller: :tenders, action: :get_relevant_tenders_post, as: :get_relevant_tenders_post
-  post '/checklist-download' => "tenders#checklist_download", as: :checklist_download
+  post '/get-relevant-tenders', to: 'tender_alert_requests#create', as: :get_relevant_tenders_post
+  post '/checklist-download', to: 'checklist_downloads#create', as: :checklist_download
 
   # /search?q=a
   get '/search/autocomplete', controller: :tenders, action: :autocomplete

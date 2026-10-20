@@ -4,6 +4,7 @@
 #     designation, website); a trailing ! makes one required
 #   fields: key, label, type (short, paragraph, choice, checkboxes),
 #     required, options, hint
+#   form: false for topics filled in elsewhere (no /enquiry page)
 # Answers are saved on the Lead (kind enquiry) and shown in /admin/leads.
 ---
 - key: rfq
@@ -1176,3 +1177,14 @@
   - key: message
     label: Message
     type: paragraph
+- key: checklist_download
+  title: Tender checklist download
+  intro: Industry tender guides and document checklists, downloaded from the home page.
+  submit: Download
+  form: false
+  contact: []
+  fields:
+  - key: checklist
+    label: Checklist
+    type: short
+    required: true

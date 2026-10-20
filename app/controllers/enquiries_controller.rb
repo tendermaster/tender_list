@@ -12,8 +12,6 @@ class EnquiriesController < ApplicationController
   end
 
   def create
-    return redirect_to(enquiry_path(@topic.key, sent: 1)) if bot?
-
     attrs = params.require(:lead).permit(:name, :email, :phone, :company, :designation, :website,
                                          answers: @topic.permitted_answers)
     @lead = build_lead(attrs.slice(:name, :email, :phone, :company)
@@ -27,6 +25,6 @@ class EnquiriesController < ApplicationController
 
   def set_topic
     @topic = EnquiryTopic.find(params[:topic])
-    record_not_found unless @topic
+    record_not_found unless @topic&.form?
   end
 end

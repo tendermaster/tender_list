@@ -26,9 +26,4 @@
   <p class="text-xs text-gray-500">Have an account? <%= link_to 'Sign in', new_user_session_path, class: 'font-semibold text-orange-700 hover:underline' %> to skip these.</p>
 <% end %>
 
-<%# Left empty by people; bots fill it in %>
-<div class="hidden" aria-hidden="true">
-  <%= label_tag :website, 'Website' %>
-  <%= text_field_tag :website, nil, tabindex: -1, autocomplete: 'off' %>
-</div>
-<%= captcha_tags unless lead.user %>
+<%= render 'leads/bot_checks', captcha: lead.user.nil? %>
