@@ -151,6 +151,17 @@ class TendersController < ApplicationController
       return render 'get_relevant_tenders_success'
     end
 
+    # Spam that solved the captcha: thanked, not saved, so bots learn nothing
+    if SpamFilter.spam?(params['name'], params['email'], params['mobile'], params['sectors'])
+      @full_message = 'Form Submitted Successfully'
+      return render 'get_relevant_tenders_success'
+    end
+
+    unless SpamFilter.indian_mobile?(params['mobile'])
+      @full_message = 'Please enter a valid Indian mobile number'
+      return render 'get_relevant_tenders_success'
+    end
+
     MiscDataStore.create!(
       name: 'customized_tender_recommendations',
       data: {
@@ -184,6 +195,14 @@ class TendersController < ApplicationController
 
     unless params[:email].present?
       @full_message = 'Please specify email address'
+      return render 'get_relevant_tenders_success'
+    end
+
+    # Spam that solved the captcha: shown the usual message, not saved
+    return render 'get_relevant_tenders_success' if SpamFilter.spam?(params['full_name'], params['email'], params['phone'])
+
+    if params['phone'].present? && !SpamFilter.indian_mobile?(params['phone'])
+      @full_message = 'Please enter a valid Indian mobile number'
       return render 'get_relevant_tenders_success'
     end
 
