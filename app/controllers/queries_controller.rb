@@ -42,7 +42,9 @@ class QueriesController < ApplicationController
 
   # GET /queries/new
   def new
-    @query = Query.new
+    # "Save as an alert" from a search page
+    keyword = params[:keyword].to_s.squish.truncate(120, omission: '').presence
+    @query = Query.new(name: keyword, include_keyword: keyword)
   end
 
   # GET /queries/1/edit

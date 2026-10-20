@@ -1,41 +1,7 @@
 <div class="space-y-8">
-  <!-- 0-Result Alert & Lead Capture Box -->
-  <div class="rounded-xl border-2 border-dashed border-orange-300 bg-orange-50/70 p-6 dark:border-gray-700 dark:bg-gray-800">
-    <div class="flex items-start gap-4">
-      <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-100 text-orange-600 dark:bg-orange-900/30">
-        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-        </svg>
-      </div>
-      <div class="flex-1">
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-          No live tenders matching "<%= @query_label %>" today
-        </h3>
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">
-          Government tenders for <strong><%= @query_label %></strong> are published regularly across 200+ central, state, GeM, and PSU portals. Get alerted the moment new tenders go live!
-        </p>
-
-        <!-- Quick Alert Subscription Form -->
-        <form action="/get-relevant-tenders" method="post" class="mt-4 flex flex-col sm:flex-row gap-3">
-          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
-          <input type="hidden" name="sectors" value="<%= @query_label %>" />
-          <input 
-            type="email" 
-            name="email" 
-            required="required" 
-            placeholder="Enter your work email for <%= @query_label %> alerts"
-            class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 focus:border-orange-500 focus:ring-orange-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-          />
-          <button 
-            type="submit" 
-            class="inline-flex shrink-0 items-center justify-center rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-orange-700 focus:outline-hidden focus:ring-4 focus:ring-orange-300"
-          >
-            Get Free Alerts
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
+  <%= render 'tenders/get_relevant_tenders_form', keywords: @query_label,
+             heading: "No live tenders matching “#{@query_label}” today",
+             intro: "They're published regularly across 200+ central, state, GeM and PSU portals. Leave your details and we'll alert you when new ones go live." %>
 
   <!-- Helpful Search Suggestions -->
   <div class="rounded-lg border border-gray-200 bg-white p-5 shadow-xs dark:border-gray-700 dark:bg-gray-800">

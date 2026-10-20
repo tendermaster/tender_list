@@ -1,0 +1,28 @@
+<%# Under the tender details: help with bidding on this tender. Replaces the
+    generic sourcing banner that sat above the details. locals: tender, open %>
+<% secondary = 'rounded-md border border-orange-200 bg-orange-50 px-3 py-2 text-center text-sm font-semibold text-orange-700 hover:bg-orange-100' %>
+<div class="mt-6 rounded-lg border border-gray-200 bg-white p-5 shadow-xs">
+  <h2 class="text-base font-semibold text-gray-900"><%= open ? 'Bidding on this tender?' : 'Bidding on tenders like this?' %></h2>
+  <p class="mt-1 text-sm text-gray-600">Partners, bid preparation, supplier quotes and GeM registration, from our team and partners.</p>
+
+  <div class="mt-4 grid gap-2 sm:grid-cols-2">
+    <% if open %>
+      <%= link_to 'Find a JV or local partner', find_partner_path(tender: tender.slug_uuid), rel: 'nofollow',
+                  class: 'rounded-md bg-orange-600 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-orange-700' %>
+    <% end %>
+    <%= link_to(open ? 'Get help filing this bid' : 'Get bid preparation help', enquiry_path('bid_support'), rel: 'nofollow',
+                class: "rounded-md px-3 py-2 text-center text-sm font-semibold #{open ? 'border border-orange-600 text-orange-700 hover:bg-orange-50' : 'bg-orange-600 text-white hover:bg-orange-700'}") %>
+  </div>
+
+  <div class="mt-2 grid gap-2 sm:grid-cols-3">
+    <%= link_to 'Supplier quotes', enquiry_path('rfq'), rel: 'nofollow', class: secondary %>
+    <%= link_to 'GeM registration', enquiry_path('gem_registration'), rel: 'nofollow', class: secondary %>
+    <%= link_to 'How to file a tender', how_to_file_tender_path, class: 'rounded-md border border-gray-200 px-3 py-2 text-center text-sm font-semibold text-gray-700 hover:bg-gray-50' %>
+  </div>
+
+  <div class="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+    <a href="https://wa.me/918882301033" target="_blank" rel="noopener noreferrer" class="font-semibold text-green-700 hover:underline">WhatsApp support</a>
+    <a href="https://whatsapp.com/channel/0029Vab3ADv7YSd4FZmQpj02" target="_blank" rel="noopener noreferrer" class="font-semibold text-green-700 hover:underline">Join our WhatsApp channel</a>
+    <a href="<%= getsaarthi_opportunity_matching_url(medium: 'tender_detail', campaign: 'opportunity_matching') %>" target="_blank" rel="noopener noreferrer" class="font-semibold text-orange-700 hover:underline">Execution support via GetSaarthi</a>
+  </div>
+</div>
