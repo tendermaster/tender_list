@@ -51,6 +51,8 @@ class TendersController < ApplicationController
       @query_label = page.name
     end
 
+    return record_not_found unless TenderSearch.page_exists?(@query, params[:page], filters: @filters)
+
     @pagy, @records, cache_hit, @total = TendersController.elastic_pagy(@query, params[:page], filters: @filters)
 
     if @records.blank?

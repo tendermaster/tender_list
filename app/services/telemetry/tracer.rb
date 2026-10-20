@@ -22,6 +22,15 @@ module Telemetry
         raise e
       end
 
+      # Runs the block without spans for the work inside it; the enclosing
+      # span (a job's) still records how long it took. For loops that would
+      # otherwise add tens of thousands of spans to a trace.
+      def untraced(&)
+        return yield unless enabled? && defined?(OpenTelemetry::Common::Utilities)
+
+        OpenTelemetry::Common::Utilities.untraced(&)
+      end
+
       # Record an exception to the current active span and Sentry
       def record_exception(exception)
         Sentry.capture_exception(exception) if defined?(Sentry)

@@ -88,6 +88,20 @@ module TenderSearch
     end
   end
 
+  # Whether a results page has any results. Crawlers ask for page 20 of
+  # searches with one page of results; this answers from a cached snapshot or
+  # a cached count instead of ranking hundreds of tenders to find nothing.
+  def page_exists?(query, page, per_page: PER_PAGE, filters: {})
+    page = page.to_i
+    return true if page <= 1
+
+    filters = { open: false, state: nil, sort: 'relevance' }.merge(filters)
+    query = query.to_s.squish
+    return false if query.blank?
+
+    total_matching(query, filters) > (page - 1) * per_page
+  end
+
   # ─────────────────────────────────────────────────────────────────────────────
   # PHASE 2: Similar Tenders (MLT)
   # ─────────────────────────────────────────────────────────────────────────────
@@ -239,8 +253,23 @@ module TenderSearch
   # Snapshot Management
   # ─────────────────────────────────────────────────────────────────────────────
 
+  def snapshot_hash(query, filters) = Digest::MD5.hexdigest([query, filters[:open], filters[:state], filters[:sort]].join("\u0000"))
+
+  # Matching tenders (up to 10,000, as search counts them), from any cached
+  # snapshot of the search, else an Elasticsearch count
+  def total_matching(query, filters)
+    query_hash = snapshot_hash(query, filters)
+    cached = CACHE_TIERS.values.lazy.map { |limit| Rails.cache.read("search:#{query_hash}:#{limit}") }.find { |snapshot| snapshot.is_a?(Hash) }
+    return cached[:total].to_i if cached
+
+    Rails.cache.fetch("search_total:#{query_hash}", expires_in: COUNT_TTL) do
+      body = { query: { bool: { must: [search_clause_for(query)], filter: filter_clauses(filters) } } }
+      [ElasticClient.count(index: ES_INDEX, body: body)['count'].to_i, 10_000].min
+    end
+  end
+
   def get_or_create_snapshot(query, limit:, filters:)
-    query_hash = Digest::MD5.hexdigest([query, filters[:open], filters[:state], filters[:sort]].join("\u0000"))
+    query_hash = snapshot_hash(query, filters)
     target_cache_key = "search:#{query_hash}:#{limit}"
 
     # 1. Exact tier match

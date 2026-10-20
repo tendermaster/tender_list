@@ -56,6 +56,28 @@ class TenderSearchTest < ActiveSupport::TestCase
 end
 
 class SearchPagesTest < ActionDispatch::IntegrationTest
+  # TenderSearch with a fixed number of matching tenders, and no ranked search
+  def with_total(total)
+    elastic_pagy = TendersController.method(:elastic_pagy)
+    TenderSearch.define_singleton_method(:total_matching) { |_query, _filters| total }
+    TendersController.define_singleton_method(:elastic_pagy) { |*| raise 'ranked search ran' }
+    yield
+  ensure
+    TenderSearch.singleton_class.send(:remove_method, :total_matching)
+    TendersController.define_singleton_method(:elastic_pagy, elastic_pagy)
+  end
+
+  test 'a page past the last result is not found, without a ranked search' do
+    with_total(25) do
+      assert TenderSearch.page_exists?('solar', 1)
+      assert TenderSearch.page_exists?('solar', 3)
+      assert_not TenderSearch.page_exists?('solar', 4)
+
+      get '/tenders/solar-tenders', params: { page: 4 }
+      assert_response :not_found
+    end
+  end
+
   test 'pages past the last allowed one are not found, without searching' do
     get '/search', params: { q: 'solar', page: TenderSearch::MAX_PAGE + 1 }
     assert_response :not_found

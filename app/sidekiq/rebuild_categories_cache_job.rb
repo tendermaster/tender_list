@@ -3,7 +3,9 @@ class RebuildCategoriesCacheJob
 
   def perform(*args)
     Telemetry::Tracer.in_span('cron.rebuild_categories_cache') do
-      CategoryService.rebuild_categories_cache
+      # ~42k keyword checks, each a cache read and often a search: the job's
+      # span keeps the total time without a span for each
+      Telemetry::Tracer.untraced { CategoryService.rebuild_categories_cache }
     end
   end
 
