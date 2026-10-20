@@ -51,6 +51,9 @@ gem 'bootsnap', require: false
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
+  # Security checks: the code (brakeman) and known gem vulnerabilities (bundler-audit)
+  gem 'brakeman', require: false
+  gem 'bundler-audit', require: false
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'rubocop'
@@ -73,7 +76,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'webdrivers'
 end
 
 
@@ -116,6 +118,12 @@ gem 'recaptcha'
 gem 'phonelib'
 # Rejects throwaway email domains on lead forms
 gem 'valid_email2', '~> 7.0'
+# One line per request in production.log (was five; ~600 MB a day)
+gem 'lograge'
+# Postgres dashboard at /admin/pghero: slow queries, unused indexes, sizes
+gem 'pghero'
+# Stops migrations that would lock big tables (tenders is ~20 GB)
+gem 'strong_migrations'
 
 
 

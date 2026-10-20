@@ -74,32 +74,6 @@ $('.state-filter input[type="checkbox"]').on('change', function () {
   $('.state-filter input[type="checkbox"]').not(this).prop('checked', false);
 });
 
-$('#main-search-btn').on('click', (e) => {
-  const query = $('#main-search').val()
-  const userEmail = $('#user-email').text().trim()
-  if (query.length) {
-    // ahoy.track("user_search", {
-    //   query: query,
-    //   url: window.location.href,
-    //   time: new Date().toString(),
-    //   email: userEmail.length > 0 ? userEmail : null
-    // });
-  }
-})
-
-$('#nav-search-btn').on('click', (e) => {
-  const query = $('#search-navbar').val()
-  const userEmail = $('#user-email').text().trim()
-  if (query.length) {
-    // ahoy.track("user_search_nav", {
-    //   query: query,
-    //   url: window.location.href,
-    //   time: new Date().toString(),
-    //   email: userEmail.length > 0 ? userEmail : null
-    // });
-  }
-})
-
 const Toast = Swal.mixin({
   toast: true,
   position: "top-end",

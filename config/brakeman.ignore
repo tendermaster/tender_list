@@ -1,0 +1,16 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "11e944f80b1777a94693da3834d02647a24b8729bf3620556009540db06068ff",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/products/show.html.erb",
+      "line": 121,
+      "code": "Product.published.find_by(:slug => params[:slug]).body_html",
+      "note": "body_html is Commonmarker output with render.unsafe false (BlogPost::MARKDOWN_OPTIONS): raw HTML in the Markdown is dropped, so it cannot inject markup. The Markdown is written by staff in /admin. Reviewed 2026-10-20."
+    }
+  ],
+  "brakeman_version": "8.1.0"
+}

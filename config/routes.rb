@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   devise_for :admin_users, path: 'admin', path_names: { sign_in: 'login', sign_out: 'logout' }
   authenticate :admin_user do
     draw :madmin
+    # Postgres dashboard: slow queries, unused indexes, table sizes
+    mount PgHero::Engine, at: 'admin/pghero'
   end
   # /
   root controller: :tenders, action: :home
