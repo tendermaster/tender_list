@@ -7,8 +7,9 @@ module LeadRequests
   extend ActiveSupport::Concern
 
   included do
-    # Behind Cloudflare, remote_ip is Cloudflare's
-    rate_limit to: 5, within: 1.hour, only: :create, by: -> { request.headers['CF-Connecting-IP'] || request.remote_ip },
+    # remote_ip is the visitor's: Caddy passes on Cloudflare's CF-Connecting-IP,
+    # trusted only from Cloudflare's addresses (caddy/conf/Caddyfile)
+    rate_limit to: 5, within: 1.hour, only: :create, by: -> { request.remote_ip },
                with: -> { render plain: 'Too many requests. Please try again in an hour.', status: :too_many_requests }
   end
 
