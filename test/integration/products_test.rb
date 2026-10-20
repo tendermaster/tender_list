@@ -34,7 +34,7 @@ class ProductsTest < ActionDispatch::IntegrationTest
     get product_path(@cctv)
     assert_response :success
     assert_select 'h1', 'CCTV Cameras'
-    assert_select '.prose h2', 'Types'
+    assert_select '.prose h3', 'Types'
     assert_select '.prose script', count: 0
     assert_select 'form[action=?]', product_quote_path(@cctv)
     assert_select 'input[name=authenticity_token]', count: 0
@@ -44,7 +44,7 @@ class ProductsTest < ActionDispatch::IntegrationTest
 
   test 'search engines get a short title, social tags and structured data' do
     get product_path(@cctv)
-    assert_select 'title', 'Sigma Tenders | CCTV Cameras: Buying Guide & Quotes'
+    assert_select 'title', 'Sigma Tenders | CCTV Cameras: Compare & Request a Quote'
     assert_select 'meta[property="og:url"][content=?]', 'http://www.example.com/products/cctv-cameras'
     assert_select 'meta[name="twitter:card"][content="summary"]'
 
@@ -126,5 +126,40 @@ class ProductsTest < ActionDispatch::IntegrationTest
     assert_response :success
     get '/admin/keyword_pages/new'
     assert_response :success
+  end
+
+  test 'configuration cards: compare, request one, and the form remembers which' do
+    @cctv.update!(configurations: [
+      { 'key' => 'indoor-dome', 'name' => 'Indoor IP dome camera', 'summary' => 'For offices.',
+        'attributes' => { 'Resolution' => '2–5 MP', 'Night vision' => 'Up to 30 m IR' } },
+      { 'key' => 'outdoor-bullet', 'name' => 'Outdoor IP bullet camera', 'summary' => 'For gates.',
+        'attributes' => { 'Resolution' => '2–8 MP', 'Weather rating' => 'IP67' } }
+    ])
+    get product_path(@cctv)
+    assert_select '#choose li#indoor-dome h3', 'Indoor IP dome camera'
+    assert_select '#choose button[data-quote-prefill-name-param="Outdoor IP bullet camera"]', 'Request this configuration'
+    assert_select '#choose button', 'Help me choose'
+    assert_select 'table th[scope=row]', count: 3   # Resolution, Night vision, Weather rating
+    assert_select 'table td', text: '—', count: 2   # each card lacks one attribute
+
+    graph = JSON.parse(css_select('script[type="application/ld+json"]').first.text)['@graph']
+    page = graph.first
+    assert_equal 'CollectionPage', page['@type']
+    assert_equal ['Indoor IP dome camera', 'Outdoor IP bullet camera'], page['mainEntity']['itemListElement'].map { _1['name'] }
+    assert_equal 'http://www.example.com/products/cctv-cameras#indoor-dome', page['mainEntity']['itemListElement'][0]['url']
+
+    quote(name: 'Asha', email: 'asha@example.com', phone: '9876543210', configuration: 'Outdoor IP bullet camera',
+          details: 'Outdoor IP bullet camera: Resolution 2–8 MP')
+    assert_equal({ 'Configuration' => 'Outdoor IP bullet camera' }, Lead.last.answers)
+    quote(name: 'Asha', email: 'asha@example.com', phone: '9876543210', configuration: 'Made up')
+    assert_equal({}, Lead.last.answers)
+  end
+
+  test 'every product page explains sourcing and what a quote should include' do
+    get product_path(@cctv)
+    assert_select 'h2', 'What your quote should include'
+    assert_select 'h2', 'How it works'
+    assert_select 'h2', 'Buying guide'
+    assert_select '#choose', count: 0   # no configurations for this product
   end
 end

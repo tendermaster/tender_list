@@ -21,11 +21,15 @@
                   class: 'mt-4 space-y-3', data: { turbo: false } do |f| %>
       <div>
         <%= f.label :quantity, 'Quantity', class: 'block text-sm font-medium text-gray-900' %>
-        <%= f.text_field :quantity, required: true, maxlength: 120, placeholder: 'e.g. 20 pieces', class: input %>
+        <%= f.text_field :quantity, required: true, maxlength: 120, placeholder: 'e.g. 20 pieces', class: input,
+                         data: { quote_prefill_target: 'quantity' } %>
       </div>
       <div>
         <%= f.label :details, 'Type or specifications', class: 'block text-sm font-medium text-gray-900' %>
-        <%= f.text_area :details, rows: 3, maxlength: 2000, placeholder: 'Model, size, capacity, brand preference…', class: input %>
+        <%= f.text_area :details, rows: 3, maxlength: 2000, placeholder: 'Model, size, capacity, brand preference…', class: input,
+                        data: { quote_prefill_target: 'details' } %>
+        <%# The card picked under "Choose your requirement", if any %>
+        <%= hidden_field_tag 'lead[configuration]', nil, id: nil, data: { quote_prefill_target: 'configuration' } %>
       </div>
       <div>
         <%= f.label :location, 'Delivery city and state', class: 'block text-sm font-medium text-gray-900' %>

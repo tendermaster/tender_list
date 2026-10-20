@@ -1,0 +1,441 @@
+cctv-cameras-recorders:
+  - key: indoor-ip-dome
+    name: "Indoor IP dome camera"
+    summary: "For offices, classrooms, corridors and shops where a discreet, ceiling-mounted camera is needed."
+    attributes:
+      "Resolution": "2–5 MP"
+      "Lens / view": "Fixed, about 2.8–4 mm"
+      "Night vision": "Up to 20–30 m IR"
+      "Weather rating": "Indoor use"
+      "Power": "PoE or 12 V DC"
+      "Recording": "Via NVR; optional SD card"
+  - key: outdoor-ip-bullet
+    name: "Outdoor IP bullet camera"
+    summary: "For gates, boundary walls, parking areas and building entrances that need weatherproof coverage."
+    attributes:
+      "Resolution": "2–8 MP"
+      "Lens / view": "Fixed, about 2.8–6 mm"
+      "Night vision": "Up to 30–60 m IR"
+      "Weather rating": "IP66–IP67"
+      "Power": "PoE or 12 V DC"
+      "Recording": "Via NVR; optional SD card"
+  - key: ptz-camera
+    name: "PTZ camera"
+    summary: "For large open areas such as campuses, yards and plants where one camera must pan, tilt and zoom."
+    attributes:
+      "Resolution": "2–4 MP"
+      "Lens / view": "Motorised zoom, 4x–30x"
+      "Night vision": "Up to 50–150 m IR"
+      "Weather rating": "IP66 and above"
+      "Power": "PoE+, 24 V AC or 12 V DC"
+      "Recording": "Via NVR; optional SD card"
+  - key: eight-camera-nvr-kit
+    name: "8-camera system with NVR"
+    summary: "A complete kit for a small office, school wing or factory floor, with cameras, NVR, hard disk and cabling."
+    attributes:
+      "Resolution": "2–5 MP per camera"
+      "Lens / view": "Mix of dome and bullet"
+      "Night vision": "Up to 30 m IR typical"
+      "Weather rating": "Indoor and outdoor mix"
+      "Power": "PoE switch or central supply"
+      "Recording": "8-channel NVR, 1–4 TB disk"
+  - key: wireless-4g-camera
+    name: "Wireless / 4G camera"
+    summary: "For remote sites, construction sites and rented premises without wired network or easy cabling."
+    attributes:
+      "Resolution": "2–4 MP"
+      "Lens / view": "Fixed or pan-tilt"
+      "Night vision": "Up to 10–30 m IR or colour"
+      "Weather rating": "Indoor or IP65 and above"
+      "Power": "Mains adapter; solar optional"
+      "Recording": "SD card and cloud; SIM or Wi-Fi"
+
+desktop-computers:
+  - key: basic-office-desktop
+    name: "Basic office desktop"
+    summary: "For data entry, email, browsing and office documents across clerical and administrative staff."
+    attributes:
+      "Processor": "Entry-level Core i3 / Ryzen 3 class"
+      "RAM": "4–8 GB"
+      "Storage": "256–512 GB SSD"
+      "Graphics": "Integrated"
+      "Form factor": "Tower or small tower"
+      "Typical use": "Clerical and admin work"
+  - key: mid-range-business-desktop
+    name: "Mid-range business desktop"
+    summary: "For accounts, ERP, multitasking and lab or reception use that needs a smoother, longer-lasting machine."
+    attributes:
+      "Processor": "Core i5 / Ryzen 5 class"
+      "RAM": "8–16 GB"
+      "Storage": "512 GB–1 TB SSD"
+      "Graphics": "Integrated"
+      "Form factor": "Tower or small tower"
+      "Typical use": "Accounts, ERP, multitasking"
+  - key: high-performance-workstation
+    name: "High-performance workstation"
+    summary: "For CAD, 3D design, video editing and heavy analysis where processor and graphics power matter."
+    attributes:
+      "Processor": "Core i7 / i9, Ryzen 7 / 9 or Xeon class"
+      "RAM": "16–64 GB"
+      "Storage": "1 TB+ SSD, optional extra HDD"
+      "Graphics": "Dedicated professional or gaming GPU"
+      "Form factor": "Full tower"
+      "Typical use": "CAD, design, editing"
+  - key: mini-pc
+    name: "Small-form-factor / mini PC"
+    summary: "For reception desks, counters, classrooms and kiosks where desk space is limited."
+    attributes:
+      "Processor": "Core i3 / i5 or Ryzen class"
+      "RAM": "4–16 GB"
+      "Storage": "256 GB–1 TB SSD"
+      "Graphics": "Integrated"
+      "Form factor": "Mini or SFF; VESA mount optional"
+      "Typical use": "Counters, classrooms, kiosks"
+
+laptops:
+  - key: basic-office-laptop
+    name: "Basic office laptop"
+    summary: "For email, documents and browsing for staff who work at a desk and carry the laptop occasionally."
+    attributes:
+      "Processor": "Core i3 / Ryzen 3 class"
+      "RAM": "4–8 GB"
+      "Storage": "256–512 GB SSD"
+      "Screen": "14–15.6 inch"
+      "Weight": "About 1.5–2 kg"
+      "Typical use": "Email, documents, browsing"
+  - key: business-laptop
+    name: "Business laptop"
+    summary: "For managers and field staff who need a sturdy, lighter laptop with good battery life and security options."
+    attributes:
+      "Processor": "Core i5 / i7, Ryzen 5 / 7 class"
+      "RAM": "8–16 GB"
+      "Storage": "512 GB–1 TB SSD"
+      "Screen": "13–15.6 inch"
+      "Weight": "About 1.2–1.8 kg"
+      "Typical use": "Management, travel, meetings"
+  - key: high-performance-laptop
+    name: "High-performance laptop"
+    summary: "For engineers, designers and analysts who run CAD, rendering or heavy software while on the move."
+    attributes:
+      "Processor": "Core i7 / i9, Ryzen 7 / 9 class"
+      "RAM": "16–64 GB"
+      "Storage": "512 GB–2 TB SSD"
+      "Screen": "15.6–17 inch"
+      "Weight": "About 1.8–2.8 kg"
+      "Typical use": "CAD, rendering, analysis"
+  - key: rugged-education-laptop
+    name: "Rugged / education laptop"
+    summary: "For schools, colleges and field work where laptops face drops, dust and rough handling."
+    attributes:
+      "Processor": "Entry-level to mid-range"
+      "RAM": "4–8 GB"
+      "Storage": "64 GB–512 GB eMMC or SSD"
+      "Screen": "11.6–14 inch"
+      "Weight": "About 1.2–2.5 kg"
+      "Typical use": "Classrooms, field surveys"
+
+printers-multifunction-printers:
+  - key: mono-laser-printer
+    name: "Mono laser printer"
+    summary: "For high-volume black and white document printing in offices, schools and counters."
+    attributes:
+      "Functions": "Print only"
+      "Colour": "Black and white"
+      "Paper size": "A4"
+      "Print speed": "About 20–40 ppm"
+      "Duplex": "Optional or built in"
+      "Connectivity": "USB; Ethernet / Wi-Fi optional"
+  - key: mono-laser-mfp
+    name: "Mono laser MFP"
+    summary: "For offices that need print, scan and copy in one machine for everyday documents."
+    attributes:
+      "Functions": "Print, scan, copy"
+      "Colour": "Black and white"
+      "Paper size": "A4"
+      "Print speed": "About 20–40 ppm"
+      "Duplex": "Optional or built in"
+      "Connectivity": "USB, Ethernet; Wi-Fi optional"
+  - key: colour-laser-mfp
+    name: "Colour laser MFP"
+    summary: "For offices that print brochures, reports and presentations in colour along with scanning and copying."
+    attributes:
+      "Functions": "Print, scan, copy"
+      "Colour": "Colour and black and white"
+      "Paper size": "A4"
+      "Print speed": "About 18–30 ppm"
+      "Duplex": "Often built in"
+      "Connectivity": "USB, Ethernet, Wi-Fi"
+  - key: ink-tank-printer
+    name: "Ink tank printer"
+    summary: "For low running cost colour printing and light scanning in schools, shops and small offices."
+    attributes:
+      "Functions": "Print, or print, scan, copy"
+      "Colour": "Colour and black and white"
+      "Paper size": "A4"
+      "Print speed": "About 5–15 ppm"
+      "Duplex": "Varies by model"
+      "Connectivity": "USB; Wi-Fi on many models"
+  - key: a3-mfp-copier
+    name: "A3 MFP / copier"
+    summary: "For busy departments, print rooms and government offices needing A3 copying, scanning and heavy volumes."
+    attributes:
+      "Functions": "Print, scan, copy; fax optional"
+      "Colour": "Black and white or colour"
+      "Paper size": "A3 and A4"
+      "Print speed": "About 25–60 ppm"
+      "Duplex": "Usually built in"
+      "Connectivity": "USB, Ethernet; Wi-Fi optional"
+
+ups-systems:
+  - key: line-interactive-pc-ups
+    name: "Line-interactive UPS for a PC"
+    summary: "For a single desktop, router or point-of-sale counter needing short backup during power cuts."
+    attributes:
+      "Capacity": "600–1000 VA"
+      "Type": "Line-interactive"
+      "Phase": "Single phase"
+      "Backup time": "Typically 10–30 min at small load"
+      "Battery": "Internal sealed battery"
+      "Typical load": "1 PC and accessories"
+  - key: online-ups-1-3-kva
+    name: "Online UPS 1–3 kVA"
+    summary: "For small server rooms, labs, clinics and sensitive equipment that needs clean, uninterrupted power."
+    attributes:
+      "Capacity": "1–3 kVA"
+      "Type": "Online double conversion"
+      "Phase": "Single phase"
+      "Backup time": "Varies by battery bank"
+      "Battery": "Internal or external battery pack"
+      "Typical load": "Servers, network racks, lab equipment"
+  - key: online-ups-5-10-kva
+    name: "Online UPS 5–10 kVA"
+    summary: "For larger offices, floors and diagnostic centres that need centralised backup for many devices."
+    attributes:
+      "Capacity": "5–10 kVA"
+      "Type": "Online double conversion"
+      "Phase": "Single or three phase input"
+      "Backup time": "Varies by battery bank"
+      "Battery": "External battery bank"
+      "Typical load": "Office floors, diagnostic equipment"
+  - key: three-phase-online-ups
+    name: "Three-phase online UPS"
+    summary: "For data centres, server rooms and plants that run three-phase equipment and need high-capacity protection."
+    attributes:
+      "Capacity": "10 kVA and above"
+      "Type": "Online double conversion"
+      "Phase": "Three phase in, three phase out"
+      "Backup time": "Varies by battery bank"
+      "Battery": "External battery bank"
+      "Typical load": "Server rooms, data centres, plants"
+
+air-conditioners:
+  - key: split-ac-1-1-5-ton
+    name: "Split AC, 1–1.5 ton"
+    summary: "For small cabins, bedrooms, clinics and rooms of about 100–180 sq ft."
+    attributes:
+      "Capacity": "1–1.5 ton"
+      "Room size": "About 100–180 sq ft"
+      "Type": "Wall-mounted split"
+      "Technology": "Inverter or fixed speed"
+      "Installation": "Indoor and outdoor unit"
+      "Typical use": "Cabins, small rooms"
+  - key: split-ac-2-ton
+    name: "Split AC, 2 ton"
+    summary: "For larger rooms, conference rooms, classrooms and shops of about 180–280 sq ft."
+    attributes:
+      "Capacity": "2 ton"
+      "Room size": "About 180–280 sq ft"
+      "Type": "Wall-mounted split"
+      "Technology": "Inverter or fixed speed"
+      "Installation": "Indoor and outdoor unit"
+      "Typical use": "Conference rooms, classrooms"
+  - key: cassette-ac
+    name: "Cassette AC"
+    summary: "For open offices, showrooms and halls where air should spread evenly from the ceiling."
+    attributes:
+      "Capacity": "1.5–4 ton"
+      "Room size": "About 150–500 sq ft"
+      "Type": "Ceiling cassette split"
+      "Technology": "Inverter or fixed speed"
+      "Installation": "False ceiling required"
+      "Typical use": "Offices, showrooms, halls"
+  - key: tower-floor-standing-ac
+    name: "Tower / floor-standing AC"
+    summary: "For large halls, banquet rooms and clinics where wall space or ceiling void is not available."
+    attributes:
+      "Capacity": "2–5 ton"
+      "Room size": "About 250–600 sq ft"
+      "Type": "Floor-standing split"
+      "Technology": "Inverter or fixed speed"
+      "Installation": "Floor space and piping needed"
+      "Typical use": "Halls, large rooms"
+  - key: window-ac
+    name: "Window AC"
+    summary: "For small rooms, site offices and temporary spaces where a simple, single-unit AC is enough."
+    attributes:
+      "Capacity": "1–2 ton"
+      "Room size": "About 100–250 sq ft"
+      "Type": "Single-unit window"
+      "Technology": "Mostly fixed speed; inverter on some"
+      "Installation": "Window or wall opening"
+      "Typical use": "Small rooms, site offices"
+
+water-purifiers-ro-plants:
+  - key: under-sink-wall-ro
+    name: "Under-sink / wall-mounted RO"
+    summary: "For small offices, clinics and pantries serving up to about 20–30 people."
+    attributes:
+      "Capacity": "About 10–25 LPH"
+      "Purification": "RO with UV or UF options"
+      "Suitable for": "Small offices, pantries"
+      "Storage tank": "Built in, about 7–12 L"
+      "Installation": "Wall or under-sink"
+      "Water source": "Municipal or borewell"
+  - key: commercial-ro-25-50-lph
+    name: "Commercial RO, 25–50 LPH"
+    summary: "For schools, shops and medium offices that need a steady supply of purified water for 50–150 people."
+    attributes:
+      "Capacity": "25–50 LPH"
+      "Purification": "RO with UV or UF options"
+      "Suitable for": "Schools, offices, shops"
+      "Storage tank": "Separate tank, about 50–100 L"
+      "Installation": "Floor-standing, plumbed"
+      "Water source": "Municipal or borewell"
+  - key: commercial-ro-100-500-lph
+    name: "Commercial RO, 100–500 LPH"
+    summary: "For factories, hospitals, hostels and large campuses needing bulk purified water throughout the day."
+    attributes:
+      "Capacity": "100–500 LPH"
+      "Purification": "RO with pre-treatment; UV optional"
+      "Suitable for": "Factories, hospitals, hostels"
+      "Storage tank": "Large external tank"
+      "Installation": "Plant room, skid-mounted"
+      "Water source": "Borewell, tanker or municipal"
+  - key: ro-water-cooler-combo
+    name: "RO + water cooler combo"
+    summary: "For corridors, canteens and schools wanting chilled and normal purified water from one unit."
+    attributes:
+      "Capacity": "About 25–100 LPH RO"
+      "Purification": "RO with UV or UF options"
+      "Suitable for": "Corridors, canteens, schools"
+      "Storage tank": "Built-in cooling tank, 20–80 L"
+      "Installation": "Floor-standing, plumbed"
+      "Water source": "Municipal or borewell"
+
+office-chairs:
+  - key: mesh-task-chair
+    name: "Mesh task chair"
+    summary: "For staff who sit long hours and want a breathable, adjustable chair for daily desk work."
+    attributes:
+      "Back": "Mid or high mesh back"
+      "Seat": "Foam, often with fabric or mesh"
+      "Adjustments": "Height, tilt; lumbar on some"
+      "Arms": "Fixed or adjustable"
+      "Typical load": "About 90–120 kg"
+  - key: high-back-executive-chair
+    name: "High-back executive chair"
+    summary: "For managers, directors and cabins that need a larger, cushioned chair with a premium look."
+    attributes:
+      "Back": "High back, leatherette or leather"
+      "Seat": "Thick cushioned foam"
+      "Adjustments": "Height, tilt lock, recline"
+      "Arms": "Padded, fixed or adjustable"
+      "Typical load": "About 100–150 kg"
+  - key: visitor-chair
+    name: "Visitor chair"
+    summary: "For reception areas, meeting rooms and waiting spaces where guests sit for short periods."
+    attributes:
+      "Back": "Low or mid back"
+      "Seat": "Cushioned or moulded"
+      "Adjustments": "Usually none"
+      "Arms": "Optional"
+      "Typical load": "About 90–120 kg"
+  - key: training-cafeteria-chair
+    name: "Training / cafeteria chair"
+    summary: "For training rooms, canteens and classrooms needing light, stackable or easy-to-move seating in numbers."
+    attributes:
+      "Back": "Low back, plastic or fabric"
+      "Seat": "Plastic, moulded or padded"
+      "Adjustments": "Usually none"
+      "Arms": "Optional; writing pad on some"
+      "Typical load": "About 90–120 kg"
+
+led-street-lights:
+  - key: led-18-24w-lane
+    name: "18–24 W LED street light"
+    summary: "For narrow lanes, internal paths, gardens and small society roads with low traffic."
+    attributes:
+      "Wattage": "18–24 W"
+      "Typical lumens": "About 1,800–3,000 lm"
+      "Mounting height": "About 3–5 m"
+      "Road type": "Lanes, paths, parks"
+      "Protection": "IP65 typical"
+  - key: led-30-45w-colony
+    name: "30–45 W LED street light"
+    summary: "For colony roads, housing society internal roads and campus streets."
+    attributes:
+      "Wattage": "30–45 W"
+      "Typical lumens": "About 3,500–6,500 lm"
+      "Mounting height": "About 5–7 m"
+      "Road type": "Colony and campus roads"
+      "Protection": "IP65 typical"
+  - key: led-60-90w-main-road
+    name: "60–90 W LED street light"
+    summary: "For main roads, market streets and wider approach roads that carry regular traffic."
+    attributes:
+      "Wattage": "60–90 W"
+      "Typical lumens": "About 7,500–13,000 lm"
+      "Mounting height": "About 7–10 m"
+      "Road type": "Main roads, markets"
+      "Protection": "IP65–IP66 typical"
+  - key: led-120w-plus-highway
+    name: "120 W+ LED street light"
+    summary: "For highways, flyovers, junctions and industrial approach roads needing high light output on tall poles."
+    attributes:
+      "Wattage": "120 W and above"
+      "Typical lumens": "About 15,000 lm and above"
+      "Mounting height": "About 9–12 m or more"
+      "Road type": "Highways, junctions"
+      "Protection": "IP66 typical"
+
+solar-street-lights:
+  - key: all-in-one-integrated
+    name: "All-in-one integrated solar light"
+    summary: "For lanes, parks and village roads where quick, simple installation on a pole matters most."
+    attributes:
+      "Configuration": "Panel, battery, LED in one body"
+      "Typical wattage": "About 10–60 W LED"
+      "Mounting height": "About 3–7 m"
+      "Battery": "Usually lithium (LiFePO4)"
+      "Installation": "Single unit on pole"
+      "Typical use": "Lanes, parks, villages"
+  - key: semi-integrated
+    name: "Semi-integrated solar light"
+    summary: "For roads where a larger panel is needed but a compact, tidy fixture is preferred."
+    attributes:
+      "Configuration": "Panel separate; battery in lamp body"
+      "Typical wattage": "About 20–80 W LED"
+      "Mounting height": "About 4–8 m"
+      "Battery": "Usually lithium (LiFePO4)"
+      "Installation": "Panel and lamp on pole"
+      "Typical use": "Colony and village roads"
+  - key: separate-panel-battery
+    name: "Separate panel + battery system"
+    summary: "For main roads and campuses needing higher output, longer backup and easy replacement of parts."
+    attributes:
+      "Configuration": "Panel, battery box and lamp separate"
+      "Typical wattage": "About 30–120 W LED"
+      "Mounting height": "About 6–10 m"
+      "Battery": "Lithium or tubular lead-acid"
+      "Installation": "Pole, battery box, wiring"
+      "Typical use": "Main roads, campuses"
+  - key: solar-high-mast
+    name: "Solar high mast"
+    summary: "For large grounds, plants, parking lots and junctions needing wide-area lighting from a tall mast."
+    attributes:
+      "Configuration": "Mast with multiple lamps; panel array"
+      "Typical wattage": "Varies by design"
+      "Mounting height": "About 10–20 m or more"
+      "Battery": "Battery bank at base"
+      "Installation": "Foundation and mast erection"
+      "Typical use": "Grounds, plants, junctions"

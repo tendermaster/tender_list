@@ -19,7 +19,7 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @lead = build_lead(lead_params.merge(product: @product, kind: 'quote'))
+    @lead = build_lead(lead_params.merge(product: @product, kind: 'quote', answers: configuration_answer))
     return render(:show, status: :unprocessable_entity) unless save_lead(@lead)
 
     redirect_to product_path(@product, quoted: 1)
@@ -30,6 +30,12 @@ class ProductsController < ApplicationController
   def set_product
     @product = Product.published.find_by(slug: params[:slug])
     record_not_found unless @product
+  end
+
+  # The "Choose your requirement" card the request started from
+  def configuration_answer
+    config = @product.configuration_named(params.dig(:lead, :configuration).to_s)
+    config ? { 'Configuration' => config.name } : {}
   end
 
   def lead_params

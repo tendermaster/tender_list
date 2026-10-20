@@ -3,11 +3,20 @@ module ProductsHelper
 
   def product_page_schema(product)
     url = product_url(product)
+    configs = product.configuration_list
     graph = [
-      { '@type' => 'WebPage', '@id' => url, 'url' => url, 'name' => "#{product.name}: Buying Guide & Quotes",
+      { '@type' => configs.any? ? 'CollectionPage' : 'WebPage', '@id' => url, 'url' => url,
+        'name' => "#{product.name}: Compare & Request a Quote",
         'description' => product.summary, 'dateModified' => product.updated_at.iso8601, 'inLanguage' => 'en-IN',
         'about' => { '@type' => 'Thing', 'name' => product.name },
-        'breadcrumb' => { '@id' => "#{url}#breadcrumb" }, 'publisher' => organization_schema },
+        'breadcrumb' => { '@id' => "#{url}#breadcrumb" }, 'publisher' => organization_schema,
+        # The "Choose your requirement" cards: sourcing briefs, so a plain list,
+        # not Product markup (no real model, price or offer to describe)
+        'mainEntity' => ({ '@type' => 'ItemList', 'numberOfItems' => configs.size,
+                           'itemListElement' => configs.each_with_index.map do |config, index|
+                             { '@type' => 'ListItem', 'position' => index + 1, 'name' => config.name,
+                               'url' => "#{url}##{config.key}" }
+                           end } if configs.any?) }.compact,
       { '@type' => 'BreadcrumbList', '@id' => "#{url}#breadcrumb",
         'itemListElement' => [breadcrumb_item(1, 'Products', products_url), breadcrumb_item(2, product.name, url)] }
     ]

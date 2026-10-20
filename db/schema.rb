@@ -138,6 +138,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_20_220000) do
     t.boolean "published", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "configurations", default: [], null: false
+    t.string "image_url"
     t.index ["slug"], name: "index_products_on_slug", unique: true
   end
 

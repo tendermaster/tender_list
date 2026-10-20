@@ -9,4 +9,15 @@ namespace :products do
       puts "added   #{product.slug}"
     end
   end
+
+  desc 'Set "Choose your requirement" cards from db/data/product_configurations.yml (replaces each listed product\'s cards)'
+  task configurations: :environment do
+    YAML.load_file(Rails.root.join('db/data/product_configurations.yml')).each do |slug, configurations|
+      product = Product.find_by(slug:)
+      next puts("missing #{slug}") unless product
+
+      product.update!(configurations:)
+      puts "#{slug}: #{configurations.size} configurations"
+    end
+  end
 end
