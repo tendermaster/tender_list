@@ -24,6 +24,7 @@ class OnboardingsController < ApplicationController
 
     current_user.assign_attributes(phone: @form[:phone], business_type: @form[:business_type].presence,
                                    annual_turnover: @form[:annual_turnover].presence,
+                                   tender_values: Array(@form[:tender_values]) & User::TENDER_VALUE_BANDS,
                                    msme: @form[:msme] == '1', startup_india: @form[:startup_india] == '1')
     @errors << 'Enter a valid Indian mobile number' if current_user.phone.blank? || !current_user.valid?
     return render(:show, status: :unprocessable_entity) if @errors.any?
@@ -53,6 +54,7 @@ class OnboardingsController < ApplicationController
   def form_values(query)
     { keywords: query&.include_keyword.to_s, states: split_list(query&.state_name), phone: current_user.phone.to_s,
       business_type: current_user.business_type.to_s, annual_turnover: current_user.annual_turnover.to_s,
+      tender_values: current_user.tender_values,
       msme: current_user.msme ? '1' : '0', startup_india: current_user.startup_india ? '1' : '0', consent: '1' }
   end
 
@@ -60,7 +62,7 @@ class OnboardingsController < ApplicationController
 
   def onboarding_params
     params.require(:onboarding).permit(:keywords, :phone, :business_type, :annual_turnover, :msme, :startup_india,
-                                       :consent, states: [])
+                                       :consent, states: [], tender_values: [])
   end
 
   def no_cache

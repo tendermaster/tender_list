@@ -12,6 +12,7 @@ class OnboardingTest < ActionDispatch::IntegrationTest
     patch '/welcome', params: { return_to:, onboarding: { keywords: 'solar, street lights', states: %w[Maharashtra Goa],
                                                          phone: '98765 43210', business_type: 'Contractor',
                                                          annual_turnover: '₹1–5 Cr', msme: '1', startup_india: '0',
+                                                         tender_values: ['₹10–50 lakh', '₹50 lakh–2 Cr', 'bogus'],
                                                          consent: '1' }.merge(fields) }.compact
   end
 
@@ -38,6 +39,7 @@ class OnboardingTest < ActionDispatch::IntegrationTest
     assert_equal '+919876543210', @user.phone
     assert_equal 'Contractor', @user.business_type
     assert_equal ['₹1–5 Cr', true, false], [@user.annual_turnover, @user.msme, @user.startup_india]
+    assert_equal ['₹10–50 lakh', '₹50 lakh–2 Cr'], @user.tender_values
     assert @user.onboarded_at && @user.contact_consent_at
     assert_equal ['solar, street lights', 'Maharashtra, Goa'], [query.include_keyword, query.state_name]
 
@@ -99,4 +101,18 @@ class OnboardingTest < ActionDispatch::IntegrationTest
     assert_no_match 'called@example.com', css_select('table').first.to_s
   end
 
+
+  test 'staff see the business profile on the dashboard and the user page' do
+    sign_in @user
+    submit
+    sign_out @user
+
+    sign_in AdminUser.create!(email: 'admin@example.com', password: 'secret-password-1')
+    get '/admin'
+    assert_select 'td', '₹10–50 lakh, ₹50 lakh–2 Cr'
+    assert_select 'td', 'Contractor · ₹1–5 Cr · MSME'
+    get "/admin/users/#{@user.id}"
+    assert_response :success
+    assert_includes response.body, '₹50 lakh–2 Cr'
+  end
 end

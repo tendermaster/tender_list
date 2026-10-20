@@ -73,7 +73,7 @@
   <div class="table-scroll">
     <table>
       <thead>
-        <tr><th>Name</th><th>Mobile</th><th>Bids on</th><th>States</th><th>Business</th><th>Signed up (IST)</th></tr>
+        <tr><th>Name</th><th>Mobile</th><th>Bids on</th><th>Tender sizes</th><th>States</th><th>Business</th><th>Signed up (IST)</th></tr>
       </thead>
       <tbody>
         <% @to_call.each do |user| %>
@@ -82,13 +82,14 @@
             <td><%= link_to user.name.presence || user.email, madmin_user_path(user) %></td>
             <td><%= user.phone ? link_to(user.phone, "tel:#{user.phone}") : tag.span('no number (skipped)', class: 'muted') %></td>
             <td><%= interests&.include_keyword&.truncate(80) %></td>
+            <td><%= user.tender_values.join(', ') %></td>
             <td><%= interests&.state_name&.truncate(60) %></td>
             <td><%= [user.business_type, user.annual_turnover, ('MSME' if user.msme), ('Startup India' if user.startup_india)].compact_blank.join(' · ') %></td>
             <td><%= ist.(user.created_at) %></td>
           </tr>
         <% end %>
         <% if @to_call.empty? %>
-          <tr><td colspan="6" class="muted">Nobody waiting for a call</td></tr>
+          <tr><td colspan="7" class="muted">Nobody waiting for a call</td></tr>
         <% end %>
       </tbody>
     </table>

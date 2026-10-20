@@ -60,6 +60,19 @@
     </fieldset>
 
     <fieldset>
+      <legend class="font-semibold text-gray-900">Tender sizes you bid on <span class="font-normal text-gray-500">(optional, pick any)</span></legend>
+      <p class="text-sm text-gray-500">The estimated value of the tenders you go for.</p>
+      <div class="mt-2 flex flex-wrap gap-2">
+        <% User::TENDER_VALUE_BANDS.each do |band| %>
+          <label class="cursor-pointer rounded-full border border-gray-300 px-3 py-1 text-sm text-gray-700 has-checked:border-orange-500 has-checked:bg-orange-50 has-checked:text-orange-800 has-focus-visible:ring-2 has-focus-visible:ring-orange-300">
+            <%= check_box_tag 'onboarding[tender_values][]', band, Array(@form[:tender_values]).include?(band), id: nil, class: 'sr-only' %>
+            <%= band %>
+          </label>
+        <% end %>
+      </div>
+    </fieldset>
+
+    <fieldset>
       <legend class="font-semibold text-gray-900">Annual turnover <span class="font-normal text-gray-500">(optional)</span></legend>
       <p class="text-sm text-gray-500">Many tenders ask for a minimum turnover. This helps us match tenders and partners.</p>
       <div class="mt-2 flex flex-wrap gap-2">

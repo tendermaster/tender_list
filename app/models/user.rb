@@ -15,6 +15,8 @@ class User < ApplicationRecord
   BUSINESS_TYPES = ['Manufacturer', 'Contractor', 'Trader / Supplier', 'Service provider'].freeze
   # Bands follow the MSME limits (micro up to ₹5 Cr, small ₹50 Cr, medium ₹250 Cr)
   TURNOVER_BANDS = ['Under ₹1 Cr', '₹1–5 Cr', '₹5–50 Cr', '₹50–250 Cr', 'Above ₹250 Cr'].freeze
+  # Tender sizes a user bids on (any number of them)
+  TENDER_VALUE_BANDS = ['Up to ₹10 lakh', '₹10–50 lakh', '₹50 lakh–2 Cr', '₹2–10 Cr', '₹10–50 Cr', 'Above ₹50 Cr'].freeze
 
   # How the team's call to a new user went (blank: not called yet)
   enum :call_status, { called: 'called', no_answer: 'no_answer', not_interested: 'not_interested' },
@@ -23,6 +25,7 @@ class User < ApplicationRecord
   include IndianMobile
   validates :business_type, inclusion: { in: BUSINESS_TYPES }, allow_blank: true
   validates :annual_turnover, inclusion: { in: TURNOVER_BANDS }, allow_blank: true
+  validate { errors.add(:tender_values, 'has an unknown band') if (tender_values - TENDER_VALUE_BANDS).any? }
 
   # Sent to /welcome after the first sign-in; afterwards the "Finish setup"
   # bar asks for the number until they give it.
