@@ -1,10 +1,1 @@
-# Forms and account pages: nothing to index, and crawling them costs a
-# request each (ClaudeBot was fetching /find-a-partner for every tender)
-User-agent: *
-Disallow: /find-a-partner
-Disallow: /enquiry/
-Disallow: /welcome
-Disallow: /dashboard/
-Disallow: /admin
-
 Sitemap: https://sigmatenders.com/sitemap.xml.gz
