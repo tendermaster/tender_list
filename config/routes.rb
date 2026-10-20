@@ -116,6 +116,11 @@ Rails.application.routes.draw do
   post '/tender/:slug_uuid/like', controller: :tenders, action: :tender_like
 
   # get '/tenders-by-state', controller: :home, action: :tenders_by_state
+  # Old state links (tender breadcrumbs pointed here): the state's keyword
+  # page for a real state; anything else stays not found
+  get '/tenders-by-state/:state',
+      to: redirect { |params, _| "/tenders/#{Query::STATES.find { |s| s.parameterize == params[:state] }.tr(' ', '-')}-tenders" },
+      constraints: ->(request) { Query::STATES.any? { |s| s.parameterize == request.path_parameters[:state] } }
   # get '/tenders-by-sector', controller: :home, action: :tenders_by_sector
 
   # get '/state/:state', controller: :tenders, action: :state_page

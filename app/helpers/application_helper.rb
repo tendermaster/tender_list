@@ -13,6 +13,13 @@ module ApplicationHelper
     safe_join([script, tag.div(class: 'cf-turnstile', data: { sitekey: ENV['TURNSTILE_SITE_KEY'] })].compact)
   end
 
+  # The keyword page for a real state (/tenders/West-Bengal-tenders), or nil
+  # for the place and office names some portals put in the state column
+  def state_tenders_path(state)
+    name = Query::STATES.find { |s| s.casecmp?(state.to_s.squish) }
+    keyword_tender_path(keyword: name.tr(' ', '-')) if name && name != 'All India'
+  end
+
   def time_left(time)
     return nil unless time.respond_to?(:to_time)
 
