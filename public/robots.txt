@@ -1,1 +1,10 @@
+# AI crawlers that fetched thousands of tender pages an hour and sent no
+# visitors (October 2026 access logs). Search engines, Apple, Facebook link
+# previews and Claude stay allowed.
+User-agent: ExaSearchBot
+User-agent: Amazonbot
+User-agent: meta-externalagent
+User-agent: Reflectionbot
+Disallow: /
+
 Sitemap: https://sigmatenders.com/sitemap.xml.gz
