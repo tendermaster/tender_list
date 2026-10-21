@@ -159,6 +159,9 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
     sign_in AdminUser.create!(email: "admin@example.com", password: "secret-password-1")
     get "/admin/api_keys/#{@key.id}"
     assert_includes response.body, @key.token
+    assert_select "h2", "How to use this key"
+    assert_select "pre code", /curl -H "X-Api-Key: #{@key.token}"/
+    assert_select "strong", "Python"
     post "/admin/api_keys", params: { api_key: { name: "GetSaarthi" } }
     assert_match(/\Ast_/, ApiKey.find_by(name: "GetSaarthi").token)
   end

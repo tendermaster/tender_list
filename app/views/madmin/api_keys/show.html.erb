@@ -1,0 +1,103 @@
+<%# Madmin's show page (madmin/application/show), plus ready-to-copy examples
+    with this key filled in, to send to the partner %>
+<%= content_for :title, resource.display_name(@record) %>
+
+<header class="header">
+  <h1>
+    <%= link_to resource.friendly_name.pluralize, resource.index_path %>
+    /
+    <%= resource.display_name(@record) %>
+  </h1>
+
+  <div class="actions">
+    <%= link_to t("madmin.actions.edit"), resource.edit_path(@record), class: "btn btn-secondary" %>
+    <%= button_to t("madmin.actions.delete"), resource.show_path(@record), method: :delete, data: { turbo_confirm: t("madmin.confirmations.delete") }, class: "btn btn-danger" %>
+  </div>
+</header>
+
+<div class="table-scroll">
+  <table>
+    <tbody>
+    <% resource.attributes.values.each do |attribute| %>
+      <% next if attribute.field.nil? %>
+      <% next unless attribute.field.visible?(action_name) %>
+      <tr>
+        <th class="label"><%= attribute.field.label %></th>
+        <td><%= render partial: attribute.field.to_partial_path("show"), locals: { field: attribute.field, record: @record, resource: resource } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% url = "#{request.base_url}/api/v1/search" %>
+<% key = @record.token %>
+<% snippets = {
+     'curl' => <<~SH,
+       curl -H "X-Api-Key: #{key}" \\
+         "#{url}?q=solar+street+light&page=1&per_page=20"
+     SH
+     'JavaScript' => <<~JS,
+       const params = new URLSearchParams({ q: "solar street light", page: 1, per_page: 20 });
+       const response = await fetch(`#{url}?${params}`, {
+         headers: { "X-Api-Key": "#{key}" },
+       });
+       if (!response.ok) throw new Error(`SigmaTenders API: ${response.status}`);
+       const { total_count, results } = await response.json();
+     JS
+     'Python' => <<~PY,
+       import requests
+
+       response = requests.get(
+           "#{url}",
+           params={"q": "solar street light", "page": 1, "per_page": 20},
+           headers={"X-Api-Key": "#{key}"},
+           timeout=30,
+       )
+       response.raise_for_status()
+       for tender in response.json()["results"]:
+           print(tender["title"], tender["submission_close_date"], tender["page_url"])
+     PY
+     'PHP' => <<~PHP,
+       $query = http_build_query(['q' => 'solar street light', 'page' => 1, 'per_page' => 20]);
+       $context = stream_context_create(['http' => [
+           'header' => "X-Api-Key: #{key}\\r\\n",
+       ]]);
+       $data = json_decode(file_get_contents("#{url}?$query", false, $context), true);
+       foreach ($data['results'] as $tender) {
+           echo $tender['title'], PHP_EOL;
+       }
+     PHP
+   } %>
+
+<section style="margin-top: 2rem">
+  <h2 style="font-size: 1.1rem; margin-bottom: 0.25rem">How to use this key</h2>
+  <p style="color: var(--light-text-color); margin: 0 0 1rem">
+    Send it in the <code>X-Api-Key</code> header (or <code>Authorization: Bearer …</code>).
+    Parameters: <code>q</code> (required), <code>page</code> (up to 100), <code>per_page</code> (up to 20).
+    Limit: 60 requests a minute. Without a valid key the API answers 401.
+    <% unless @record.active %><strong style="color: oklch(.577 .245 27.325)">This key is switched off.</strong><% end %>
+  </p>
+
+  <% snippets.each do |language, code| %>
+    <div style="margin-bottom: 1.25rem">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem">
+        <strong><%= language %></strong>
+        <button type="button" class="btn btn-secondary"
+                onclick="navigator.clipboard.writeText(this.closest('div').nextElementSibling.innerText).then(() => { this.textContent = 'Copied'; setTimeout(() => this.textContent = 'Copy', 1500) })">Copy</button>
+      </div>
+      <pre style="white-space: pre-wrap; word-break: break-all; margin: 0; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; overflow-x: auto"><code><%= code.strip %></code></pre>
+    </div>
+  <% end %>
+
+  <div>
+    <strong>Response</strong>
+    <pre style="white-space: pre-wrap; margin: 0.25rem 0 0; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 6px"><code><%= JSON.pretty_generate(
+      query: 'solar street light', page: 1, per_page: 20, total_count: 342, total_pages: 18,
+      results: [{ slug_uuid: '…', title: 'Supply of solar street lights', description: '…', organisation: '…',
+                  state: 'Uttar Pradesh', submission_open_date: '2026-10-20T10:00:00Z',
+                  submission_close_date: '2026-11-05T17:00:00Z', tender_value: 2500000, emd: 50000,
+                  tender_id: '2026_UPNEDA_123456_1', page_url: 'https://sigmatenders.com/tender/…' }]
+    ) %></code></pre>
+  </div>
+</section>
