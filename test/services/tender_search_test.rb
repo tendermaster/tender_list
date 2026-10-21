@@ -37,14 +37,20 @@ class TenderSearchTest < ActiveSupport::TestCase
   end
 
   test 'filters from params' do
-    assert_equal({ open: false, state: nil, sort: 'relevance' }, TenderSearch.filters_from({}))
-    assert_equal({ open: true, state: 'Goa', sort: 'relevance' },
+    assert_equal({ open: false, closed: false, state: nil, sort: 'relevance' }, TenderSearch.filters_from({}))
+    assert_equal({ open: true, closed: false, state: 'Goa', sort: 'relevance' },
                  TenderSearch.filters_from({ status: 'open', state: ' Goa ' }))
+    assert_equal({ open: false, closed: true }, TenderSearch.filters_from({ status: 'closed' }).slice(:open, :closed))
     # Closing soonest only makes sense for open tenders
-    assert_equal({ open: true, state: nil, sort: 'closing' }, TenderSearch.filters_from({ sort: 'closing' }))
+    assert_equal({ open: true, closed: false, state: nil, sort: 'closing' }, TenderSearch.filters_from({ sort: 'closing' }))
+    assert_equal({ open: true, closed: false }, TenderSearch.filters_from({ status: 'closed', sort: 'closing' }).slice(:open, :closed))
     assert_equal 'relevance', TenderSearch.filters_from({ sort: 'drop table' })[:sort]
     assert_not TenderSearch.filtered?(TenderSearch.filters_from({}))
     assert TenderSearch.filtered?(TenderSearch.filters_from({ state: 'Goa' }))
+    assert TenderSearch.filtered?(TenderSearch.filters_from({ status: 'closed' }))
+    # Cached searches from before the closed filter keep their keys
+    assert_equal Digest::MD5.hexdigest(['q', false, nil, 'relevance'].join("\u0000")),
+                 TenderSearch.send(:snapshot_hash, 'q', TenderSearch.filters_from({}))
   end
 
   test 'filter clauses' do

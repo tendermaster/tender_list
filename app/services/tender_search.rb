@@ -30,12 +30,13 @@ module TenderSearch
     sort = SORTS.include?(params[:sort].to_s) ? params[:sort].to_s : 'relevance'
     {
       open: params[:status].to_s == 'open' || sort == 'closing',
+      closed: params[:status].to_s == 'closed' && sort != 'closing',
       state: params[:state].presence&.to_s&.squish&.slice(0, 60),
       sort: sort
     }
   end
 
-  def filtered?(filters) = filters[:open] || filters[:state].present? || filters[:sort] != 'relevance'
+  def filtered?(filters) = filters[:open] || filters[:closed] || filters[:state].present? || filters[:sort] != 'relevance'
 
   AUTOCOMPLETE_TTL = 10.minutes  # 10 minutes for autocomplete cache
 
@@ -193,10 +194,12 @@ module TenderSearch
   private
 
   OPEN = { range: { submission_close_date: { gt: 'now/m' } } }.freeze
+  CLOSED = { range: { submission_close_date: { lte: 'now/m' } } }.freeze
 
   def filter_clauses(filters)
     clauses = [{ term: { is_visible: true } }]
     clauses << OPEN if filters[:open]
+    clauses << CLOSED if filters[:closed]
     clauses << { match: { state: { query: filters[:state], operator: 'and' } } } if filters[:state].present?
     clauses
   end
@@ -258,7 +261,10 @@ module TenderSearch
   # Snapshot Management
   # ─────────────────────────────────────────────────────────────────────────────
 
-  def snapshot_hash(query, filters) = Digest::MD5.hexdigest([query, filters[:open], filters[:state], filters[:sort]].join("\u0000"))
+  # closed only when set, so cached searches from before it existed keep their keys
+  def snapshot_hash(query, filters)
+    Digest::MD5.hexdigest([query, filters[:open], filters[:state], filters[:sort], *('closed' if filters[:closed])].join("\u0000"))
+  end
 
   # Matching tenders (up to 10,000, as search counts them), from any cached
   # snapshot of the search, else an Elasticsearch count

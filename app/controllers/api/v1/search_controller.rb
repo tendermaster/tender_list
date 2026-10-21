@@ -7,6 +7,7 @@ module Api
       MAX_PER_PAGE = 20
       THROTTLE_LIMIT = 60
       THROTTLE_WINDOW = 1.minute
+      STATUSES = %w[open closed all].freeze
       # Search loads only what result cards show (TenderSearch::CARD_COLUMNS);
       # the API also returns the value, EMD and tender id
       COLUMNS = %i[id slug_uuid title description organisation state submission_open_date
@@ -18,6 +19,7 @@ module Api
       def index
         query = params[:q].to_s.squish
         return render_bad_request('q is required') if query.blank?
+        return if invalid_filters?
 
         page = normalize_page(params[:page])
         per_page = normalize_per_page(params[:per_page])
@@ -40,7 +42,8 @@ module Api
 
         render json: {
           query: query,
-          filters: { status: filters[:open] ? 'open' : 'all', state: filters[:state], sort: filters[:sort] },
+          filters: { status: filters[:open] ? 'open' : filters[:closed] ? 'closed' : 'all', state: filters[:state],
+                     sort: filters[:sort] },
           page: page,
           per_page: per_page,
           total_count: total,
@@ -75,6 +78,21 @@ module Api
       # them their real +05:30 offset
       def ist(time) = time && IST.local(time.year, time.month, time.day, time.hour, time.min, time.sec)
 
+      # Unknown values are an error, not silently ignored (status=closed once
+      # returned every tender)
+      def invalid_filters?
+        status = params[:status].presence || 'all'
+        sort = params[:sort].presence || 'relevance'
+        message = if STATUSES.exclude?(status)
+                    "status must be one of: #{STATUSES.join(', ')}"
+                  elsif TenderSearch::SORTS.exclude?(sort)
+                    "sort must be one of: #{TenderSearch::SORTS.join(', ')}"
+                  elsif status == 'closed' && sort == 'closing'
+                    'sort=closing lists open tenders, soonest first; use it without status=closed'
+                  end
+        message && render_bad_request(message)
+      end
+
       def normalize_page(value) = [value.to_i, 1].max
 
       def normalize_per_page(value)
@@ -90,8 +108,12 @@ module Api
         @api_key = ApiKey.authenticate(token)
         return @api_key.record_use! if @api_key
 
-        render json: { error: 'API key required: send it in the X-Api-Key header. ' \
-                              'Contact SigmaTenders to request one.' }, status: :unauthorized
+        error = if token.present?
+                  'Invalid or revoked API key. Contact SigmaTenders if you need a new one.'
+                else
+                  'API key required: send it in the X-Api-Key header. Contact SigmaTenders to request one.'
+                end
+        render json: { error: }, status: :unauthorized
       end
 
       def throttle_requests!

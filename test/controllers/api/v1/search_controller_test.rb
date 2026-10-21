@@ -106,7 +106,7 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
     }) do
       get "/api/v1/search", params: { q: "bridge", page: 50, per_page: 999, status: "open", state: "Goa" }, headers: auth
       assert_response :success
-      assert_equal ["bridge", 50, 20, { open: true, state: "Goa", sort: "relevance" }], captured_args
+      assert_equal ["bridge", 50, 20, { open: true, closed: false, state: "Goa", sort: "relevance" }], captured_args
       body = response.parsed_body
       assert_equal [2_000, 50], body.values_at("total_count", "total_pages")
       assert_equal({ "status" => "open", "state" => "Goa", "sort" => "relevance" }, body["filters"])
@@ -140,6 +140,27 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
     Rails.cache = cache_was
   end
 
+  test "status=closed filters to closed tenders; unknown values are a 400, not ignored" do
+    pagy = Pagy.new(count: 0, page: 1, items: 10)
+    captured = nil
+    stub(TenderSearch, :weighted_search, lambda { |_q, _page, per_page:, filters:| captured = filters; [pagy, []] }) do
+      get "/api/v1/search", params: { q: "road", status: "closed" }, headers: auth
+    end
+    assert_response :success
+    assert_equal({ open: false, closed: true }, captured.slice(:open, :closed))
+    assert_equal "closed", response.parsed_body.dig("filters", "status")
+    assert_includes TenderSearch.send(:filter_clauses, captured), TenderSearch::CLOSED
+
+    { { status: "expired" } => "status must be one of: open, closed, all",
+      { sort: "oldest" } => "sort must be one of: relevance, closing, newest",
+      { status: "closed", sort: "closing" } => "sort=closing lists open tenders, soonest first; use it without status=closed" }
+      .each do |params, error|
+        get "/api/v1/search", params: params.merge(q: "road"), headers: auth
+        assert_response :bad_request
+        assert_equal error, response.parsed_body["error"]
+      end
+  end
+
   test 'the debug and file-download endpoints are gone' do
     get '/api/v1/debug/ip'
     assert_response :not_found
@@ -155,6 +176,7 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
 
     get "/api/v1/search", params: { q: "roads" }, headers: { "X-Api-Key" => "st_wrong" }
     assert_response :unauthorized
+    assert_match "Invalid or revoked API key", response.parsed_body["error"]
 
     pagy = Pagy.new(count: 0, page: 1, items: 10)
     stub(TenderSearch, :weighted_search, [pagy, []]) do
