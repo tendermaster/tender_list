@@ -152,24 +152,24 @@
             class="w-full overflow-hidden text-left text-sm text-gray-500 dark:text-gray-400 sm:rounded-lg"
           >
             <thead
-              class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+              class="hidden sm:table-header-group bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
             >
             <tr>
               <th scope="col" class="py-3 px-6">Particulars</th>
               <th scope="col" class="py-3 px-6">Details</th>
             </tr>
             </thead>
-            <tbody class="grid sm:table-row-group">
+            <tbody class="block sm:table-row-group">
             <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              class="block sm:table-row border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <th
                 scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"
               >
                 Title
               </th>
-              <td class="py-4 px-6 select-none flex">
+              <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6 select-none">
                 <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) || !is_tender_id?(@tender_data.title) %>
                   <% if User.active_plan(current_user) === 'PAID' %>
                     <div class="select-text">
@@ -184,15 +184,15 @@
               </td>
             </tr>
             <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              class="block sm:table-row border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <th
                 scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"
               >
                 Description
               </th>
-              <td class="py-4 px-6 select-none">
+              <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6 select-none">
                 <% if User.active_plan(current_user) == 'PAID' %>
                   <div class="select-text">
                     <%= @tender_data.description&.titleize %>
@@ -205,26 +205,26 @@
               </td>
             </tr>
             <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              class="block sm:table-row border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <th
                 scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"
               >
                 Organisation
               </th>
-              <td class="py-4 px-6"><%= @tender_data.organisation %></td>
+              <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6"><%= @tender_data.organisation %></td>
             </tr>
             <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              class="block sm:table-row border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <th
                 scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"
               >
                 Tender Id
               </th>
-              <td class="py-4 px-6 flex">
+              <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6">
                 <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
                   <%= @tender_data.tender_id %>
 	                <% else %>
@@ -233,15 +233,15 @@
               </td>
             </tr>
             <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              class="block sm:table-row border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <th
                 scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"
               >
                 Reference <br> Number
               </th>
-              <td class="py-4 px-6 flex">
+              <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6">
                 <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
                   <%= @tender_json&.dig('TenderReferenceNumber') || @tender_data.tender_reference_number || '-' %>
 	                <% else %>
@@ -250,70 +250,70 @@
               </td>
             </tr>
             <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              class="block sm:table-row border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <th
                 scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"
               >
                 Tender Fee
               </th>
-              <td class="py-4 px-6"><%= currency_format(@tender_data.tender_fee) %></td>
+              <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6"><%= currency_format(@tender_data.tender_fee) %></td>
             </tr>
             <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              class="block sm:table-row border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <th
                 scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"
               >
                 EMD
               </th>
-              <td class="py-4 px-6"><%= currency_format(@tender_data.emd) %></td>
+              <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6"><%= currency_format(@tender_data.emd) %></td>
             </tr>
             <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              class="block sm:table-row border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <th
                 scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"
               >
                 Tender Value
               </th>
-              <td class="py-4 px-6"><%= currency_format(@tender_data.tender_value) %></td>
+              <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6"><%= currency_format(@tender_data.tender_value) %></td>
             </tr>
             <!--              <tr-->
             <!--                class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"-->
             <!--              >-->
             <!--                <th-->
             <!--                  scope="row"-->
-            <!--                  class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"-->
+            <!--                  class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"-->
             <!--                >-->
             <!--                  Time Period-->
             <!--                </th>-->
-            <!--                <td class="py-4 px-6">730d</td>-->
+            <!--                <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6">730d</td>-->
             <!--              </tr>-->
             <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              class="block sm:table-row border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <th
                 scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"
               >
                 Place
               </th>
-              <td class="py-4 px-6"><%= @tender_data.state %></td>
+              <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6"><%= @tender_data.state %></td>
             </tr>
             <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              class="block sm:table-row border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <th
                 scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"
               >
                 Link
               </th>
-              <td class="py-4 px-6 flex">
+              <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6">
 	                <% if User.can_fully_view_tender(current_user, @tender_data.submission_close_date) %>
 	                  <div class="min-w-0">
 	                    <a class="inline-flex items-center rounded-md bg-blue-50 px-3 py-2 font-semibold text-blue-700 hover:bg-blue-100" target="_blank" rel="nofollow noopener noreferrer" href="<%= @tender_data.page_link %>">
@@ -330,26 +330,26 @@
               </td>
             </tr>
             <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              class="block sm:table-row border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <th
                 scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"
               >
                 Start Date
               </th>
-              <td class="py-4 px-6"><%= @tender_data.submission_open_date&.in_time_zone("Asia/Kolkata")&.to_formatted_s(:long) || '-' %></td>
+              <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6"><%= @tender_data.submission_open_date&.in_time_zone("Asia/Kolkata")&.to_formatted_s(:long) || '-' %></td>
             </tr>
             <tr
-              class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              class="block sm:table-row border-b bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <th
                 scope="row"
-                class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                class="block sm:table-cell whitespace-nowrap px-4 pt-3 pb-1 sm:py-4 sm:px-6 font-medium text-gray-900 dark:text-white"
               >
                 End Date
               </th>
-              <td class="py-4 px-6 <%= days_left.nil? ? 'bg-gray-50' : days_left >= 0 ? 'bg-green-50' : 'bg-red-50' %>">
+              <td class="block sm:table-cell px-4 pb-3 sm:py-4 sm:px-6 <%= days_left.nil? ? 'bg-gray-50' : days_left >= 0 ? 'bg-green-50' : 'bg-red-50' %>">
                 <div class="md:flex md:items-center md:justify-between gap-4">
                   <div>
                     <div class="flex flex-wrap items-center gap-2">
@@ -358,8 +358,7 @@
                     </div>
                     <p class="mt-1 text-sm text-gray-600"><%= time_left_text(@tender_data.submission_close_date) %></p>
                   </div>
-                  <a class="btn-sm inline-block mt-2 md:mt-0 md:ml-10" href="#similar-tenders">Search Similar
-                    tenders?</a>
+                  <a class="btn-sm inline-block whitespace-nowrap mt-2 md:mt-0 md:ml-10" href="#similar-tenders">Similar tenders</a>
                 </div>
               </td>
             </tr>
@@ -367,7 +366,6 @@
           </table>
 
           <%= render 'tenders/bid_actions', tender: @tender_data, open: !days_left&.negative? %>
-          </div>
 
           <div>
             <!-- Corrigenda and Amendments -->
@@ -380,35 +378,36 @@
           </div>
 
           <div id="similar-tenders" class="scroll-mt-6">
-            <div class="text-lg font-bold my-8">Similar Tenders</div>
-            <div class="flex justify-center">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <% (@similar_tenders || []).each do |tender| %>
-                  <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                    <a href="<%= tender_show_path(tender.slug_uuid) %>">
-                      <%# no perm needed to only view title %>
-                      <% if User.can_fully_view_tender(current_user, tender.submission_close_date) || !is_tender_id?(tender.title) %>
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><%= tender.title&.capitalize %></h5>
-	                      <% else %>
-	                        <div class="flex">
-	                          <%= render 'plan_to_view_tender', label: 'Unlock tender title' %>
-	                        </div>
-	                      <% end %>
-                    </a>
-                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                      <%= tender.description&.capitalize %>
-                    </p>
-                    <a href="<%= tender_show_path(tender.slug_uuid) %>" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-orange-700 rounded-lg hover:bg-orange-800 focus:ring-4 focus:outline-hidden focus:ring-orange-300 dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">
-                      Read more
-                      <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                      </svg>
-                    </a>
-                  </div>
-
-                <% end %>
-              </div>
-            </div>
+            <h2 class="mt-10 mb-4 text-lg font-bold text-gray-900">Similar Tenders</h2>
+            <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <% (@similar_tenders || []).each do |tender| %>
+                <% title = tender.title.to_s.squish %>
+                <% description = tender.description.to_s.squish %>
+                <li class="flex flex-col rounded-lg border border-gray-200 bg-white p-5 shadow-xs dark:border-gray-700 dark:bg-gray-800">
+                  <%# no perm needed to only view title %>
+                  <% if User.can_fully_view_tender(current_user, tender.submission_close_date) || !is_tender_id?(tender.title) %>
+                    <h3 class="line-clamp-3 font-semibold leading-snug text-gray-900 dark:text-white">
+                      <%= link_to title.capitalize, tender_show_path(tender.slug_uuid), class: 'hover:text-orange-700' %>
+                    </h3>
+                  <% else %>
+                    <div class="flex"><%= render 'plan_to_view_tender', label: 'Unlock tender title' %></div>
+                  <% end %>
+                  <%# The description often repeats the title: only when it adds something %>
+                  <% unless description.blank? || description.downcase.start_with?(title.downcase.first(40)) %>
+                    <p class="mt-2 line-clamp-3 text-sm text-gray-600 dark:text-gray-400"><%= description.capitalize %></p>
+                  <% end %>
+                  <p class="mt-3 text-xs text-gray-500">
+                    <span class="line-clamp-2"><%= [tender.organisation.presence, tender.state.presence].compact.join(' · ') %></span>
+                    <% if tender.submission_close_date %>
+                      <span class="block mt-0.5">Closes <%= tender.submission_close_date.strftime('%d/%m/%Y') %></span>
+                    <% end %>
+                  </p>
+                  <%= link_to tender_show_path(tender.slug_uuid), class: 'mt-auto inline-flex items-center gap-1 pt-3 text-sm font-semibold text-orange-700 hover:underline' do %>
+                    View tender <span aria-hidden="true">→</span>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
           </div>
 
 	        </div>

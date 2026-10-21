@@ -32,6 +32,21 @@ class FormPlacementsTest < ActionDispatch::IntegrationTest
     assert_select '#relevant_tenders_form form input[name=fill_ms]'
   end
 
+  test 'similar tenders sit under the details; the sidebar stays its own column' do
+    other = Tender.create!(title: 'Installation of CCTV at schools', description: 'Supply of CCTV',
+                           organisation: 'Education Dept', state: 'Goa', tender_source: 'goa', slug_uuid: SecureRandom.uuid,
+                           submission_close_date: 5.days.from_now, updated_at_auto: Time.current, is_visible: true)
+    stub(TenderSearch, :similar_tenders, [other]) do
+      get tender_show_path(slug_uuid: @tender.slug_uuid)
+    end
+    # A stray </div> once closed the details column early, squeezing these into 1/12 of the page
+    assert_select '.grid-cols-12 > .col-span-8 #similar-tenders li', 1 do
+      assert_select 'h3 a', 'Installation of cctv at schools'
+      assert_select 'p', /Education Dept · Goa/
+    end
+    assert_select '.grid-cols-12 > .col-span-4 #relevant_tenders_form'
+  end
+
   test 'a closed tender offers alerts for new ones, not a partner' do
     @tender.update!(submission_close_date: 2.days.ago)
     get tender_show_path(slug_uuid: @tender.slug_uuid)
