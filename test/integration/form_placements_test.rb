@@ -40,11 +40,14 @@ class FormPlacementsTest < ActionDispatch::IntegrationTest
       get tender_show_path(slug_uuid: @tender.slug_uuid)
     end
     # A stray </div> once closed the details column early, squeezing these into 1/12 of the page
-    assert_select '.grid-cols-12 > .col-span-8 #similar-tenders li', 1 do
+    assert_select '.grid-cols-12 > #similar-tenders.col-span-8 li', 1 do
       assert_select 'h3 a', 'Installation of cctv at schools'
       assert_select 'p', /Education Dept · Goa/
     end
-    assert_select '.grid-cols-12 > .col-span-4 #relevant_tenders_form'
+    # Phones show the columns in source order: the forms come before similar tenders
+    columns = css_select('.grid-cols-12 > div').map { |div| div['id'] || div['class'][/col-span-\d+/] }
+    assert_equal ['col-span-8', 'col-span-4', 'similar-tenders'], columns
+    assert_select '.grid-cols-12 > .col-span-4.lg\\:row-span-2 #relevant_tenders_form'
   end
 
   test 'a closed tender offers alerts for new ones, not a partner' do
