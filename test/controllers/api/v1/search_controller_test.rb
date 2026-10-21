@@ -181,6 +181,9 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select "h2", "How to use this key"
     assert_select "pre code", /curl -H "X-Api-Key: #{@key.token}"/
     assert_select "strong", "Python"
+    assert_select "pre code", /"status": "open"/   # Python
+    assert_select "pre code", /status: "open"/     # JavaScript
+    assert_select "pre code", /'status' => 'open'/ # PHP
     post "/admin/api_keys", params: { api_key: { name: "GetSaarthi" } }
     assert_match(/\Ast_/, ApiKey.find_by(name: "GetSaarthi").token)
   end

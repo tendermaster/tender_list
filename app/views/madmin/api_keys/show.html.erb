@@ -38,34 +38,35 @@
          "#{url}?q=solar+street+light&status=open&state=Uttar+Pradesh&page=1&per_page=20"
      SH
      'JavaScript' => <<~JS,
-       const params = new URLSearchParams({ q: "solar street light", page: 1, per_page: 20 });
+       const params = new URLSearchParams({ q: "solar street light", status: "open", page: 1, per_page: 20 });
        const response = await fetch(`#{url}?${params}`, {
          headers: { "X-Api-Key": "#{key}" },
        });
        if (!response.ok) throw new Error(`SigmaTenders API: ${response.status}`);
        const { total_count, results } = await response.json();
+       results.forEach((t) => console.log(t.status, t.submission_close_date, t.title));
      JS
      'Python' => <<~PY,
        import requests
 
        response = requests.get(
            "#{url}",
-           params={"q": "solar street light", "page": 1, "per_page": 20},
+           params={"q": "solar street light", "status": "open", "page": 1, "per_page": 20},
            headers={"X-Api-Key": "#{key}"},
            timeout=30,
        )
        response.raise_for_status()
        for tender in response.json()["results"]:
-           print(tender["title"], tender["submission_close_date"], tender["page_url"])
+           print(tender["status"], tender["submission_close_date"], tender["title"], tender["page_url"])
      PY
      'PHP' => <<~PHP,
-       $query = http_build_query(['q' => 'solar street light', 'page' => 1, 'per_page' => 20]);
+       $query = http_build_query(['q' => 'solar street light', 'status' => 'open', 'page' => 1, 'per_page' => 20]);
        $context = stream_context_create(['http' => [
            'header' => "X-Api-Key: #{key}\\r\\n",
        ]]);
        $data = json_decode(file_get_contents("#{url}?$query", false, $context), true);
        foreach ($data['results'] as $tender) {
-           echo $tender['title'], PHP_EOL;
+           echo $tender['status'], ' ', $tender['submission_close_date'], ' ', $tender['title'], PHP_EOL;
        }
      PHP
    } %>
