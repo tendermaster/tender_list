@@ -80,7 +80,7 @@
   </h2>
 
   <div class="lg:grid grid-cols-12 gap-x-8">
-    <div class="results space-y-6 col-span-8">
+    <div class="space-y-6 col-span-8">
       <% if @records.present? %>
         <% @records.each do |result| %>
           <%= render partial: 'tenders/tender_card', locals: { result: result } %>

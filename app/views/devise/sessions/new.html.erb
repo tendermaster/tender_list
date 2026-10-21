@@ -10,18 +10,18 @@
     <%= render 'devise/shared/email_divider', label: 'or use email' %>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'new_user px-0 pt-0 sm:max-w-none' }) do |f| %>
-      <div class="field">
+      <div>
         <%= f.label :email, class: 'mb-2 block text-sm font-medium text-gray-900 dark:text-white' %>
         <%= f.email_field :email, autocomplete: "email" %>
       </div>
 
-      <div class="field">
+      <div>
         <%= f.label :password, class: 'mb-2 block text-sm font-medium text-gray-900 dark:text-white' %>
         <%= f.password_field :password, autocomplete: "current-password" %>
       </div>
 
       <% if devise_mapping.rememberable? %>
-        <div class="field flex items-center gap-3">
+        <div class="flex items-center gap-3">
           <%= f.check_box :remember_me, { checked: true, class: 'h-4 w-4 rounded-sm border-gray-300 bg-gray-100 text-orange-600 focus:ring-2 focus:ring-orange-500' } %>
           <%= f.label :remember_me, class: 'text-sm text-gray-700 dark:text-gray-300' %>
         </div>

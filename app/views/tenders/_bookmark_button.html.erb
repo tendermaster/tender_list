@@ -3,7 +3,7 @@
     bookmarks page, where unsaving removes the card %>
 <% saved = local_assigns.fetch(:saved, false) %>
 <button type="button"
-        class="bookmark-btn group inline-flex items-center gap-1.5 rounded-lg border border-orange-500 px-3 py-2 text-sm font-semibold text-orange-700 hover:bg-orange-50 focus:outline-hidden focus:ring-4 focus:ring-orange-200 dark:text-orange-400 dark:hover:bg-gray-700 <%= 'is-saved' if saved %>"
+        class="group inline-flex items-center gap-1.5 rounded-lg border border-orange-500 px-3 py-2 text-sm font-semibold text-orange-700 hover:bg-orange-50 focus:outline-hidden focus:ring-4 focus:ring-orange-200 dark:text-orange-400 dark:hover:bg-gray-700 <%= 'is-saved' if saved %>"
         aria-pressed="<%= saved %>"
         title="Save this tender to your list"
         data-controller="bookmark"
