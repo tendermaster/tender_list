@@ -8,6 +8,10 @@ module Api
       MAX_PAGE = 100
       THROTTLE_LIMIT = 60
       THROTTLE_WINDOW = 1.minute
+      # Search loads only what result cards show (TenderSearch::CARD_COLUMNS);
+      # the API also returns the value, EMD and tender id
+      COLUMNS = %i[id slug_uuid title description organisation state submission_open_date
+                   submission_close_date tender_value emd tender_id].freeze
 
       before_action :throttle_requests!
 
@@ -19,6 +23,8 @@ module Api
         per_page = normalize_per_page(params[:per_page])
 
         pagy, records = TenderSearch.weighted_search(query, page, per_page: per_page)
+        ids = records.map(&:id)
+        records = Tender.where(id: ids).select(COLUMNS).index_by(&:id).values_at(*ids).compact
 
         Rails.logger.info(
           "api.v1.search q=#{query.inspect} ip=#{request.remote_ip} page=#{page} per_page=#{per_page} total=#{pagy.count}"

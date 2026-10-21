@@ -2,7 +2,8 @@ require "test_helper"
 
 class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
   test "returns search results with public fields" do
-    tender = Tender.new(
+    tender = Tender.create!(
+      tender_source: "pwd", is_visible: true,
       slug_uuid: "road-123",
       title: "Road construction work",
       description: "District road widening package",
@@ -16,7 +17,8 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
     )
     pagy = Pagy.new(count: 1, page: 1, items: 10)
 
-    stub(TenderSearch, :weighted_search, [pagy, [tender]]) do
+    card = Tender.select(TenderSearch::CARD_COLUMNS).find(tender.id)   # what search returns
+    stub(TenderSearch, :weighted_search, [pagy, [card]]) do
       get "/api/v1/search", params: { q: "road construction" }
     end
 
