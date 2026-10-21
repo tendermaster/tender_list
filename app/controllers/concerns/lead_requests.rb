@@ -56,6 +56,9 @@ module LeadRequests
     return false unless lead.save
 
     remember_on_account(lead)
+    # A GA4 generate_lead event on the next page (layouts/_lead_event): only
+    # for real leads, never spam
+    flash[:lead_event] = lead.enquiry? ? lead.topic : lead.kind
     true
   end
 

@@ -1,0 +1,8 @@
+<%# GA4 key event for a saved lead (LeadRequests#save_lead). Discarded here,
+    so it fires once whether the form redirected or rendered this page. %>
+<% if (lead_type = flash[:lead_event]) %>
+  <% flash.discard(:lead_event) %>
+  <%= javascript_tag nonce: true do %>
+    window.gtag && gtag('event', 'generate_lead', { lead_type: <%= raw lead_type.to_s.to_json %> });
+  <% end %>
+<% end %>

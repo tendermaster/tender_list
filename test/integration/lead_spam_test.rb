@@ -36,6 +36,18 @@ class LeadSpamTest < ActionDispatch::IntegrationTest
     assert Lead.sole.spam?
   end
 
+  test 'a saved lead tells GA once; spam never does' do
+    callback
+    follow_redirect!
+    assert_select 'script', /gtag\('event', 'generate_lead', \{ lead_type: "callback" \}\)/
+    get enquiry_path('callback')
+    assert_select 'script', text: /generate_lead/, count: 0
+
+    callback(fill_ms: 900)
+    follow_redirect!
+    assert_select 'script', text: /generate_lead/, count: 0
+  end
+
   test 'throwaway email addresses are refused' do
     callback(email: 'someone@mailinator.com')
     assert_response :unprocessable_entity
