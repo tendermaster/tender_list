@@ -18,8 +18,9 @@ class EnquiriesTest < ActionDispatch::IntegrationTest
       assert_response :success, topic.key
       assert_select 'h1', topic.title
       assert_select 'input[type=submit][value=?]', topic.submit
-      assert_select 'meta[name=robots][content*=noindex]'
+      assert_select 'meta[name=robots][content*=noindex]', count: topic.index? ? 0 : 1
     end
+    assert EnquiryTopic.find('supplier').index?
     get '/enquiry/nope'
     assert_response :not_found
   end

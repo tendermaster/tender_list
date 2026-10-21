@@ -5,9 +5,14 @@ User-agent: ExaSearchBot
 User-agent: Amazonbot
 User-agent: meta-externalagent
 User-agent: Reflectionbot
-# Search engines with practically no Indian users
+Disallow: /
+
+# Search engines with practically no Indian users: only the pages that could
+# bring suppliers (products and supplier registration), not the tender pages
 User-agent: YandexBot
 User-agent: Baiduspider
+Allow: /products
+Allow: /enquiry/supplier
 Disallow: /
 
 Sitemap: https://sigmatenders.com/sitemap.xml.gz

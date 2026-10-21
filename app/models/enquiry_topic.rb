@@ -14,6 +14,9 @@ class EnquiryTopic
   # the home page), with no /enquiry page of their own
   def form? = @form
 
+  # index: true in the YAML: a landing page search engines should list
+  def index? = @index
+
   def self.all
     @all = nil if Rails.env.development?
     @all ||= YAML.load_file(Rails.root.join('config/enquiry_topics.yml')).to_h { |attrs| [attrs['key'], new(attrs)] }
@@ -24,6 +27,7 @@ class EnquiryTopic
   def initialize(attrs)
     @key, @title, @intro, @submit = attrs.values_at('key', 'title', 'intro', 'submit')
     @form = attrs['form'] != false
+    @index = attrs['index'] == true
     # "company!" asks for the company and requires it
     @contact = Array(attrs['contact']).to_h { |name| [name.delete_suffix('!'), name.end_with?('!')] }
     @fields = attrs.fetch('fields').map do |field|

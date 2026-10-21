@@ -5,6 +5,8 @@
 #   fields: key, label, type (short, paragraph, choice, checkboxes),
 #     required, options, hint
 #   form: false for topics filled in elsewhere (no /enquiry page)
+#   index: true for pages search engines should list (in the sitemap too);
+#     the rest are noindex
 # Answers are saved on the Lead (kind enquiry) and shown in /admin/leads.
 ---
 - key: rfq
@@ -93,6 +95,7 @@
     required: true
 - key: supplier
   title: Register as a supplier or vendor
+  index: true
   intro: Tell us what you make, sell or do. We match registered suppliers with buyers, bidders and tenders that need them.
   submit: Register
   contact:
