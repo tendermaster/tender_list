@@ -1,5 +1,5 @@
 <!-- Download Checklist Section -->
-<div id="download-checklist" class="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 max-w-2xl mx-auto">
+<div id="download-checklist" class="bg-white rounded-2xl shadow-xl border border-gray-200 p-5 sm:p-8 max-w-2xl mx-auto">
   
   <!-- Header Section -->
   <div class="text-center mb-8">
@@ -66,10 +66,8 @@
       <p class="text-xs text-gray-500 mt-1">Select the industry most relevant to your business</p>
     </div>
 
-    <!-- reCAPTCHA -->
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <%= render 'leads/bot_checks' %>
-    </div>
+    <%# The captcha is a fixed 300px wide: no extra box around it, so it fits on phones %>
+    <%= render 'leads/bot_checks' %>
 
     <!-- Submit Button -->
     <div class="pt-2">
