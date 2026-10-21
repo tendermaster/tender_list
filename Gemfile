@@ -108,6 +108,11 @@ gem "redis", "~> 5.4"
 gem 'devise', '~> 4.9'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
+# Google sign-in verifies ID tokens with JWT.decode (app/services/google_id_token.rb):
+# stay on 2.x (2.10.3+ has the security fixes) until that's checked against 3.x
+gem 'jwt', '~> 2.10', '>= 2.10.3'
+# Held at 3.x for now; only pulled in indirectly
+gem 'bigdecimal', '~> 3.1'
 gem 'omniauth-rails_csrf_protection'
 
 gem 'aws-sdk-s3', '~> 1'
