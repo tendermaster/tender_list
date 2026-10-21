@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 
 name="tender-list-test-$$"
 docker network create "$name" >/dev/null
-trap 'docker rm -f "$name-db" >/dev/null 2>&1; docker network rm "$name" >/dev/null' EXIT
+trap 'docker rm -fv "$name-db" >/dev/null 2>&1; docker network rm "$name" >/dev/null' EXIT
 docker run -d --name "$name-db" --network "$name" -e POSTGRES_PASSWORD=postgres postgres:16-alpine >/dev/null
 
 docker run --rm --network "$name" -v "$PWD:/app" -w /app \
