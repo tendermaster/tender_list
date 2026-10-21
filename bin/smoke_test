@@ -21,11 +21,11 @@ PATHS=(
   "/trending-tenders|200" "/categories|200" "/categories/tender-by-city|200"
   "/categories/tender-by-state|200" "/categories/tender-by-sector|200"
   "/categories/tender-by-organisation|200" "/categories/tender-by-products|200"
-  "/get-relevant-tenders|200" "/blog|200" "/blog/$POST|200" "/blog/no-such-post|404"
+  "/get-relevant-tenders|301" "/blog|200" "/blog/$POST|200" "/blog/no-such-post|404"
   "/blog/about|301" "/blog/how-to-file-tenders|301" "/how-to-file-tenders|200"
-  "/about|200" "/pricing|200" "/faq|200" "/get-callback|200" "/services|200"
+  "/about|200" "/pricing|200" "/faq|200" "/get-callback|301" "/services|200"
   "/privacy-policy|200" "/terms-and-conditions|200" "/disclaimer|200"
-  "/cancellation-and-refund-policy|200" "/partner-with-us|200"
+  "/cancellation-and-refund-policy|200" "/partner-with-us|301"
   "/users/sign_in|200" "/users/sign_up|200" "/admin/login|200" "/admin|302" "/sidekiq|302"
 )
 
