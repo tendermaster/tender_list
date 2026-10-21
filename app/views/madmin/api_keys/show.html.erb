@@ -35,7 +35,7 @@
 <% snippets = {
      'curl' => <<~SH,
        curl -H "X-Api-Key: #{key}" \\
-         "#{url}?q=solar+street+light&page=1&per_page=20"
+         "#{url}?q=solar+street+light&status=open&state=Uttar+Pradesh&page=1&per_page=20"
      SH
      'JavaScript' => <<~JS,
        const params = new URLSearchParams({ q: "solar street light", page: 1, per_page: 20 });
@@ -74,7 +74,9 @@
   <h2 style="font-size: 1.1rem; margin-bottom: 0.25rem">How to use this key</h2>
   <p style="color: var(--light-text-color); margin: 0 0 1rem">
     Send it in the <code>X-Api-Key</code> header (or <code>Authorization: Bearer …</code>).
-    Parameters: <code>q</code> (required), <code>page</code> (up to 100), <code>per_page</code> (up to 20).
+    Parameters: <code>q</code> (required), <code>page</code> (up to 50), <code>per_page</code> (up to 20),
+    <code>status=open</code>, <code>state</code> (e.g. Kerala), <code>sort</code> (<code>relevance</code>, <code>closing</code>, <code>newest</code>).
+    Dates are Indian time (+05:30).
     Limit: 60 requests a minute. Without a valid key the API answers 401.
     <% unless @record.active %><strong style="color: oklch(.577 .245 27.325)">This key is switched off.</strong><% end %>
   </p>
@@ -93,10 +95,11 @@
   <div>
     <strong>Response</strong>
     <pre style="white-space: pre-wrap; margin: 0.25rem 0 0; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 6px"><code><%= JSON.pretty_generate(
-      query: 'solar street light', page: 1, per_page: 20, total_count: 342, total_pages: 18,
+      query: 'solar street light', filters: { status: 'open', state: 'Uttar Pradesh', sort: 'relevance' },
+      page: 1, per_page: 20, total_count: 342, total_pages: 18,
       results: [{ slug_uuid: '…', title: 'Supply of solar street lights', description: '…', organisation: '…',
-                  state: 'Uttar Pradesh', submission_open_date: '2026-10-20T10:00:00Z',
-                  submission_close_date: '2026-11-05T17:00:00Z', tender_value: 2500000, emd: 50000,
+                  state: 'Uttar Pradesh', submission_open_date: '2026-10-20T10:00:00+05:30',
+                  submission_close_date: '2026-11-05T17:00:00+05:30', status: 'open', tender_value: 2500000, emd: 50000,
                   tender_id: '2026_UPNEDA_123456_1', page_url: 'https://sigmatenders.com/tender/…' }]
     ) %></code></pre>
   </div>

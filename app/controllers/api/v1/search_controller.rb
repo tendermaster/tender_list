@@ -5,7 +5,6 @@ module Api
     class SearchController < ActionController::API
       DEFAULT_PER_PAGE = 10
       MAX_PER_PAGE = 20
-      MAX_PAGE = 100
       THROTTLE_LIMIT = 60
       THROTTLE_WINDOW = 1.minute
       # Search loads only what result cards show (TenderSearch::CARD_COLUMNS);
@@ -22,36 +21,49 @@ module Api
 
         page = normalize_page(params[:page])
         per_page = normalize_per_page(params[:per_page])
+        filters = TenderSearch.filters_from(params)
 
-        pagy, records = TenderSearch.weighted_search(query, page, per_page: per_page)
-        ids = records.map(&:id)
-        records = Tender.where(id: ids).select(COLUMNS).index_by(&:id).values_at(*ids).compact
+        # Search pages stop at TenderSearch::MAX_PAGE; a later page is empty
+        # rather than a repeat of the last one
+        total = TenderSearch.matching_count(query, filters:)
+        total_pages = [(total / per_page.to_f).ceil, TenderSearch::MAX_PAGE].min
+        records = []
+        if page <= total_pages
+          _pagy, found = TenderSearch.weighted_search(query, page, per_page:, filters:)
+          ids = found.map(&:id)
+          records = Tender.where(id: ids).select(COLUMNS).index_by(&:id).values_at(*ids).compact
+        end
 
         Rails.logger.info(
-          "api.v1.search q=#{query.inspect} ip=#{request.remote_ip} page=#{page} per_page=#{per_page} total=#{pagy.count}"
+          "api.v1.search q=#{query.inspect} key=#{@api_key.id} page=#{page} per_page=#{per_page} total=#{total}"
         )
 
         render json: {
           query: query,
-          page: pagy.page,
-          per_page: pagy.items,
-          total_count: pagy.count,
-          total_pages: pagy.pages,
+          filters: { status: filters[:open] ? 'open' : 'all', state: filters[:state], sort: filters[:sort] },
+          page: page,
+          per_page: per_page,
+          total_count: total,
+          total_pages: total_pages,
           results: records.map { |tender| serialize_tender(tender) }
         }
       end
 
       private
 
+      IST = ActiveSupport::TimeZone['Asia/Kolkata']
+
       def serialize_tender(tender)
+        closes = ist(tender.submission_close_date)
         {
           slug_uuid: tender.slug_uuid,
           title: tender.title,
           description: tender.description,
           organisation: tender.organisation,
           state: tender.state,
-          submission_open_date: tender.submission_open_date&.iso8601,
-          submission_close_date: tender.submission_close_date&.iso8601,
+          submission_open_date: ist(tender.submission_open_date)&.iso8601,
+          submission_close_date: closes&.iso8601,
+          status: closes && (closes > Time.current ? 'open' : 'closed'),
           tender_value: tender.tender_value,
           emd: tender.emd,
           tender_id: tender.tender_id,
@@ -59,11 +71,11 @@ module Api
         }
       end
 
-      def normalize_page(value)
-        page = value.to_i
-        page = 1 if page < 1
-        [page, MAX_PAGE].min
-      end
+      # Portal dates are stored as IST wall-clock times in a UTC column: give
+      # them their real +05:30 offset
+      def ist(time) = time && IST.local(time.year, time.month, time.day, time.hour, time.min, time.sec)
+
+      def normalize_page(value) = [value.to_i, 1].max
 
       def normalize_per_page(value)
         per_page = value.to_i

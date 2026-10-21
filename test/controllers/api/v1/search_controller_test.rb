@@ -4,6 +4,15 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
   setup do
     @key = ApiKey.create!(name: "Partner")
+    # Matching tenders, without Elasticsearch
+    @count = 1
+    test = self
+    @matching_count = TenderSearch.method(:matching_count)
+    TenderSearch.define_singleton_method(:matching_count) { |*, **| test.instance_variable_get(:@count) }
+  end
+
+  teardown do
+    TenderSearch.define_singleton_method(:matching_count, @matching_count)
   end
 
   def auth = { "X-Api-Key" => @key.token }
@@ -45,8 +54,9 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
     assert_equal "District road widening package", result["description"]
     assert_equal "PWD", result["organisation"]
     assert_equal "Maharashtra", result["state"]
-    assert_equal "2026-04-01T10:00:00Z", result["submission_open_date"]
-    assert_equal "2026-05-01T17:00:00Z", result["submission_close_date"]
+    assert_equal "2026-04-01T10:00:00+05:30", result["submission_open_date"]   # stored as IST wall-clock
+    assert_equal "2026-05-01T17:00:00+05:30", result["submission_close_date"]
+    assert_equal "closed", result["status"]
     assert_equal 2_500_000, result["tender_value"]
     assert_equal 50_000, result["emd"]
     assert_equal "PWD-2026-17", result["tender_id"]
@@ -85,19 +95,28 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
     assert_equal "q is required", JSON.parse(response.body)["error"]
   end
 
-  test "caps requested pagination inputs" do
-    pagy = Pagy.new(count: 2_000, page: 100, items: 20)
+  test "pages stop at the last one; later pages are empty, not repeats" do
+    @count = 2_000
+    pagy = Pagy.new(count: 1_000, page: 50, items: 20)
     captured_args = nil
 
-    stub(TenderSearch, :weighted_search, lambda { |query, page, per_page:|
-      captured_args = [query, page, per_page]
+    stub(TenderSearch, :weighted_search, lambda { |query, page, per_page:, filters:|
+      captured_args = [query, page, per_page, filters]
       [pagy, []]
     }) do
-      get "/api/v1/search", params: { q: "bridge", page: 999, per_page: 999 }, headers: auth
-    end
+      get "/api/v1/search", params: { q: "bridge", page: 50, per_page: 999, status: "open", state: "Goa" }, headers: auth
+      assert_response :success
+      assert_equal ["bridge", 50, 20, { open: true, state: "Goa", sort: "relevance" }], captured_args
+      body = response.parsed_body
+      assert_equal [2_000, 50], body.values_at("total_count", "total_pages")
+      assert_equal({ "status" => "open", "state" => "Goa", "sort" => "relevance" }, body["filters"])
 
-    assert_response :success
-    assert_equal ["bridge", 100, 20], captured_args
+      captured_args = nil
+      get "/api/v1/search", params: { q: "bridge", page: 51, per_page: 20 }, headers: auth
+      assert_response :success
+      assert_nil captured_args, "no search past the last page"
+      assert_equal [51, []], response.parsed_body.values_at("page", "results")
+    end
   end
 
   test "rate limits repeated requests from the same ip" do

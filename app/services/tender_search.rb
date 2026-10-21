@@ -102,6 +102,11 @@ module TenderSearch
     total_matching(query, filters) > (page - 1) * per_page
   end
 
+  # How many visible tenders match (counted up to 10,000), with filters
+  def matching_count(query, filters: {})
+    total_matching(query.to_s.squish, { open: false, state: nil, sort: 'relevance' }.merge(filters))
+  end
+
   # ─────────────────────────────────────────────────────────────────────────────
   # PHASE 2: Similar Tenders (MLT)
   # ─────────────────────────────────────────────────────────────────────────────
