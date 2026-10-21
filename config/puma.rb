@@ -36,7 +36,7 @@ preload_app!
 
 # Recycle workers that grow beyond 700MB RSS to prevent unbounded memory bloat
 # from long-running bot traffic. The master process will fork a fresh worker.
-on_worker_boot do
+before_worker_boot do
   if defined?(ActiveRecord::Base)
     ActiveRecord::Base.establish_connection
   end

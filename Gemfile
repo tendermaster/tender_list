@@ -4,14 +4,14 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.4.10'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 8.0.0'
+gem 'rails', '~> 8.1.0'
 
 
 # Use pg as the database for Active Record
 gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem 'puma', '~> 6.4'
+gem 'puma', '~> 7.2'
 
 # nio4r >= 2.7.0 required for GCC 14 compatibility (Debian Trixie)
 gem 'nio4r', '>= 2.7.0'
@@ -105,7 +105,7 @@ gem 'connection_pool', '~> 2.5' # 3.0.x has API incompatibility with Sidekiq sch
 
 gem "redis", "~> 5.4"
 
-gem 'devise', '~> 4.9'
+gem 'devise', '~> 5.0', '>= 5.0.4'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 # Google sign-in verifies ID tokens with JWT.decode (app/services/google_id_token.rb):
