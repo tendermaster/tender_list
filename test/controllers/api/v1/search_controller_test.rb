@@ -111,4 +111,11 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
   ensure
     Rails.cache = cache_was
   end
+
+  test 'the debug and file-download endpoints are gone' do
+    get '/api/v1/debug/ip'
+    assert_response :not_found
+    post '/api/download_file', params: { file_path: 'x.pdf', token: 'x' }
+    assert_response :not_found
+  end
 end
