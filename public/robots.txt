@@ -5,6 +5,9 @@ User-agent: ExaSearchBot
 User-agent: Amazonbot
 User-agent: meta-externalagent
 User-agent: Reflectionbot
+# Search engines with practically no Indian users
+User-agent: YandexBot
+User-agent: Baiduspider
 Disallow: /
 
 Sitemap: https://sigmatenders.com/sitemap.xml.gz
