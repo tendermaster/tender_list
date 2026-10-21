@@ -13,6 +13,7 @@ module Api
       COLUMNS = %i[id slug_uuid title description organisation state submission_open_date
                    submission_close_date tender_value emd tender_id].freeze
 
+      before_action :authenticate_api_key!
       before_action :throttle_requests!
 
       def index
@@ -70,8 +71,19 @@ module Api
         [per_page, MAX_PER_PAGE].min
       end
 
+      # A partner's key, in X-Api-Key or Authorization: Bearer (ApiKey)
+      def authenticate_api_key!
+        token = request.headers['X-Api-Key'].presence ||
+                request.authorization.to_s[/\ABearer (.+)\z/, 1]
+        @api_key = ApiKey.authenticate(token)
+        return @api_key.record_use! if @api_key
+
+        render json: { error: 'API key required: send it in the X-Api-Key header. ' \
+                              'Contact SigmaTenders to request one.' }, status: :unauthorized
+      end
+
       def throttle_requests!
-        cache_key = "throttle:api:v1:search:#{request.remote_ip}"
+        cache_key = "throttle:api:v1:search:key:#{@api_key.id}"
         request_count = Rails.cache.increment(cache_key, 1, expires_in: THROTTLE_WINDOW)
 
         unless request_count

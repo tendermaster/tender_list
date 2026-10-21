@@ -10,6 +10,7 @@ namespace :madmin, path: 'admin' do
   resources :keyword_pages
   resources :products
   resources :leads
+  resources :api_keys
   resources :attachments
   resources :admin_users
   resources :users do

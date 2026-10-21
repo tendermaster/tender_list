@@ -1,6 +1,13 @@
 require "test_helper"
 
 class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+  setup do
+    @key = ApiKey.create!(name: "Partner")
+  end
+
+  def auth = { "X-Api-Key" => @key.token }
+
   test "returns search results with public fields" do
     tender = Tender.create!(
       tender_source: "pwd", is_visible: true,
@@ -19,7 +26,7 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
 
     card = Tender.select(TenderSearch::CARD_COLUMNS).find(tender.id)   # what search returns
     stub(TenderSearch, :weighted_search, [pagy, [card]]) do
-      get "/api/v1/search", params: { q: "road construction" }
+      get "/api/v1/search", params: { q: "road construction" }, headers: auth
     end
 
     assert_response :success
@@ -51,7 +58,7 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
     pagy = Pagy.new(count: 0, page: 1, items: 10)
 
     stub(TenderSearch, :weighted_search, [pagy, []]) do
-      get "/api/v1/search", params: { q: "roads" }, headers: { "Origin" => "https://example-client.test" }
+      get "/api/v1/search", params: { q: "roads" }, headers: auth.merge("Origin" => "https://example-client.test")
     end
 
     assert_response :success
@@ -72,7 +79,7 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "rejects blank query" do
-    get "/api/v1/search", params: { q: "   " }
+    get "/api/v1/search", params: { q: "   " }, headers: auth
 
     assert_response :bad_request
     assert_equal "q is required", JSON.parse(response.body)["error"]
@@ -86,7 +93,7 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
       captured_args = [query, page, per_page]
       [pagy, []]
     }) do
-      get "/api/v1/search", params: { q: "bridge", page: 999, per_page: 999 }
+      get "/api/v1/search", params: { q: "bridge", page: 999, per_page: 999 }, headers: auth
     end
 
     assert_response :success
@@ -101,11 +108,11 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
 
     stub(TenderSearch, :weighted_search, [pagy, []]) do
       60.times do
-        get "/api/v1/search", params: { q: "roads" }
+        get "/api/v1/search", params: { q: "roads" }, headers: auth
         assert_response :success
       end
 
-      get "/api/v1/search", params: { q: "roads" }
+      get "/api/v1/search", params: { q: "roads" }, headers: auth
     end
 
     assert_response :too_many_requests
@@ -119,5 +126,40 @@ class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
     post '/api/download_file', params: { file_path: 'x.pdf', token: 'x' }
     assert_response :not_found
+  end
+
+  test "a key is required, revoked keys stop working, and a Bearer token works too" do
+    get "/api/v1/search", params: { q: "roads" }
+    assert_response :unauthorized
+    assert_match "API key required", response.parsed_body["error"]
+    assert_equal "*", response.headers["Access-Control-Allow-Origin"]
+
+    get "/api/v1/search", params: { q: "roads" }, headers: { "X-Api-Key" => "st_wrong" }
+    assert_response :unauthorized
+
+    pagy = Pagy.new(count: 0, page: 1, items: 10)
+    stub(TenderSearch, :weighted_search, [pagy, []]) do
+      get "/api/v1/search", params: { q: "roads" }, headers: { "Authorization" => "Bearer #{@key.token}" }
+    end
+    assert_response :success
+    assert_equal 1, @key.reload.requests_count
+    assert @key.last_used_at
+
+    @key.update!(active: false)
+    get "/api/v1/search", params: { q: "roads" }, headers: auth
+    assert_response :unauthorized
+  end
+
+  test "keys are matched on their digest and stay viewable for admins" do
+    assert_match(/\Ast_\w{32}\z/, @key.token)
+    assert_equal @key.token.first(9), @key.token_prefix
+    assert_equal ApiKey.digest(@key.token), @key.token_digest
+    assert_equal @key.token, ApiKey.find(@key.id).token
+
+    sign_in AdminUser.create!(email: "admin@example.com", password: "secret-password-1")
+    get "/admin/api_keys/#{@key.id}"
+    assert_includes response.body, @key.token
+    post "/admin/api_keys", params: { api_key: { name: "GetSaarthi" } }
+    assert_match(/\Ast_/, ApiKey.find_by(name: "GetSaarthi").token)
   end
 end
