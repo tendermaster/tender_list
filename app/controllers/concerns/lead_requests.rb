@@ -37,8 +37,16 @@ module LeadRequests
   # nothing), or false with the errors on the lead.
   def save_lead(lead)
     if (reason = spam_reason(lead))
+      # Kept for review even when it's junk that wouldn't pass validation
+      # (bots fill a fake phone or email); spam stays off the call list.
+      # Only what the database itself refuses (a missing email) is dropped.
       lead.assign_attributes(status: :spam, note: "Spam: #{reason}")
-      Rails.logger.info("Lead marked spam (#{reason}): #{lead.kind} #{lead.topic || lead.product_id}") unless lead.save
+      kept = begin
+        lead.save(validate: false)
+      rescue ActiveRecord::NotNullViolation
+        false
+      end
+      Rails.logger.info("Lead marked spam (#{reason}#{', not kept' unless kept}): #{lead.kind} #{lead.topic || lead.product_id}")
       return :spam
     end
     if current_user.nil? && !verify_captcha

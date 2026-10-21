@@ -28,6 +28,14 @@ class LeadSpamTest < ActionDispatch::IntegrationTest
     assert_select 'a', '5 marked spam this week'
   end
 
+  test 'spam with junk a real lead would be refused for is still kept' do
+    post '/get-relevant-tenders', params: { website: 'http://spam.example', fill_ms: 10_000, name: 'x' * 300,
+                                            email: 'not-an-email', mobile: '123', sectors: 'seo services' }
+    assert_response :success
+    assert_equal 'Spam: hidden field filled in', Lead.sole.note
+    assert Lead.sole.spam?
+  end
+
   test 'throwaway email addresses are refused' do
     callback(email: 'someone@mailinator.com')
     assert_response :unprocessable_entity
