@@ -79,6 +79,21 @@ class LeadSpamTest < ActionDispatch::IntegrationTest
     assert Lead.pending.sole.request_meta['ip']
   end
 
+  test 'admin lists spam only under the Spam tab' do
+    callback(name: 'Real Person')
+    callback(name: 'Bot Person', fill_ms: 900)
+    sign_in AdminUser.create!(email: 'admin@example.com', password: 'secret-password-1')
+
+    %w[all enquiry pending].each do |scope|
+      get '/admin/leads', params: { scope: }
+      assert_includes response.body, 'Real Person'
+      assert_not_includes response.body, 'Bot Person', "spam listed under #{scope}"
+    end
+    get '/admin/leads', params: { scope: 'spam' }
+    assert_includes response.body, 'Bot Person'
+    assert_not_includes response.body, 'Real Person'
+  end
+
   test 'throwaway email addresses are refused' do
     callback(email: 'someone@mailinator.com')
     assert_response :unprocessable_entity
