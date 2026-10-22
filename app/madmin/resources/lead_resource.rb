@@ -20,6 +20,9 @@ class LeadResource < Madmin::Resource
   attribute :status, index: true
   attribute :note
   attribute :user, form: false
+  # IP, country, the page with the form and request headers (LeadRequests#request_meta)
+  attribute :country, :string, index: true, form: false
+  attribute :request_meta, form: false
   attribute :updated_at, form: false
 
   scope :pending

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_21_110000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_22_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_buffercache"
   enable_extension "pg_catalog.plpgsql"
@@ -125,6 +125,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_21_110000) do
     t.string "annual_turnover"
     t.string "topic"
     t.jsonb "answers", default: {}, null: false
+    t.jsonb "request_meta", default: {}, null: false
     t.index ["product_id"], name: "index_leads_on_product_id"
     t.index ["status", "created_at"], name: "index_leads_on_status_and_created_at"
     t.index ["tender_id"], name: "index_leads_on_tender_id"

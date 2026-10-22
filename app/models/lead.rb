@@ -34,6 +34,9 @@ class Lead < ApplicationRecord
 
   def enquiry_topic = (EnquiryTopic.find(topic) if topic.present?)
 
+  # Where it was sent from (request_meta), for the admin list
+  def country = request_meta['country']
+
   # What the request is about, for lists
   def subject
     product&.name || enquiry_topic&.title || tender&.title.to_s.squish.truncate(70).presence || 'Bidding partner'

@@ -55,6 +55,12 @@ unless ENV['SECRET_KEY_BASE_DUMMY'] || ENV['SKIP_SIDEKIQ_CRON']
       class: 'InfraHealthCheckJob'
     )
 
+    Sidekiq::Cron::Job.create(
+      name:  'LeadMetaCleanupJob - daily 4:30am IST',
+      cron:  '30 4 * * * Asia/Kolkata',
+      class: 'LeadMetaCleanupJob'
+    )
+
     puts "Sidekiq Redis connection"
     Sidekiq.redis(&:ping)
   rescue StandardError => e

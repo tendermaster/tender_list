@@ -36,6 +36,7 @@ module LeadRequests
   # it isn't even valid; the visitor is thanked either way, so bots learn
   # nothing), or false with the errors on the lead.
   def save_lead(lead)
+    lead.request_meta = request_meta
     if (reason = spam_reason(lead))
       # Kept for review even when it's junk that wouldn't pass validation
       # (bots fill a fake phone or email); spam stays off the call list.
@@ -60,6 +61,27 @@ module LeadRequests
     # for real leads, never spam
     flash[:lead_event] = lead.enquiry? ? lead.topic : lead.kind
     true
+  end
+
+  # Request headers that are credentials, never stored with a lead
+  SECRET_HEADERS = %w[cookie authorization x-api-key x-csrf-token proxy-authorization].freeze
+
+  # Where the lead came from: IP, country, the page with the form, and every
+  # request header but the secret ones (browser fingerprint for spam review).
+  # Cleared from spam after 90 days (LeadMetaCleanupJob).
+  def request_meta
+    headers = request.headers.env.filter_map do |key, value|
+      next unless key.start_with?('HTTP_')
+
+      name = key.delete_prefix('HTTP_').downcase.tr('_', '-')
+      [name, value.to_s.first(500)] unless SECRET_HEADERS.include?(name)
+    end.sort.to_h
+    {
+      'ip' => request.remote_ip,
+      'country' => headers['cf-ipcountry'],
+      'page' => request.referer.to_s.first(300).presence,
+      'headers' => headers
+    }.compact
   end
 
   # Signed-in users are people; the rest go through SpamFilter

@@ -48,6 +48,37 @@ class LeadSpamTest < ActionDispatch::IntegrationTest
     assert_select 'script', text: /generate_lead/, count: 0
   end
 
+  test 'each lead keeps its IP, country, page and headers, never the secret ones' do
+    post enquiry_path('callback'),
+         params: { fill_ms: 10_000, lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210',
+                                            answers: { message: 'Please call' } } },
+         headers: { 'CF-IPCountry' => 'IN', 'User-Agent' => 'Mozilla/5.0 (Android)', 'Referer' => 'https://sigmatenders.com/tender/abc',
+                    'Cookie' => 'secret_session=1', 'Authorization' => 'Bearer st_x', 'X-Api-Key' => 'st_y' }
+    meta = Lead.sole.request_meta
+    assert_equal '127.0.0.1', meta['ip']
+    assert_equal 'IN', meta['country']
+    assert_equal 'IN', Lead.sole.country
+    assert_equal 'https://sigmatenders.com/tender/abc', meta['page']
+    assert_equal 'Mozilla/5.0 (Android)', meta.dig('headers', 'user-agent')
+    assert_empty meta['headers'].keys & %w[cookie authorization x-api-key]
+    assert_not_includes meta.to_json, 'secret_session'
+
+    sign_in AdminUser.create!(email: 'admin@example.com', password: 'secret-password-1')
+    get "/admin/leads/#{Lead.sole.id}"
+    assert_includes response.body, 'Mozilla/5.0 (Android)'
+    get '/admin/leads', params: { sort: 'country' }
+    assert_response :success
+  end
+
+  test 'spam loses its request details after 90 days; real leads keep them' do
+    callback(fill_ms: 900)
+    callback
+    Lead.update_all(created_at: 91.days.ago)
+    LeadMetaCleanupJob.new.perform
+    assert_equal({}, Lead.spam.sole.request_meta)
+    assert Lead.pending.sole.request_meta['ip']
+  end
+
   test 'throwaway email addresses are refused' do
     callback(email: 'someone@mailinator.com')
     assert_response :unprocessable_entity
