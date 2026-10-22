@@ -89,6 +89,7 @@ module LeadRequests
     return if current_user
 
     SpamFilter.reason(honeypot: params[:website], fill_ms: params[:fill_ms], email: lead.email,
+                      name: lead.name, headers: lead.request_meta['headers'],
                       texts: [lead.name, lead.email, lead.phone, lead.company, lead.details, lead.quantity,
                               lead.location, *lead.answers.except('Website').values])
   end
