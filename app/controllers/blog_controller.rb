@@ -8,7 +8,7 @@ class BlogController < ApplicationController
 
   def show
     @post = BlogPost.find(params[:slug])
-    return render('home/page_404', status: :not_found) if @post.nil?
+    return record_not_found if @post.nil?
 
     set_public_cache(cdn_ttl: 6.hours)
   end

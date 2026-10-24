@@ -28,8 +28,9 @@ class ApplicationController < ActionController::Base
     current_user.bookmarks.where(tender_id: tenders.map(&:id)).pluck(:tender_id).to_set
   end
 
+  # Always the HTML page: /blog/robots.txt asked for a text 404 and got a 500
   def record_not_found
-    render 'home/page_404', status: 404
+    render 'home/page_404', status: 404, formats: :html
   end
 
   def set_public_cache(cdn_ttl: 2.hours)
