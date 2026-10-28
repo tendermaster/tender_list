@@ -54,8 +54,52 @@ class FormPlacementsTest < ActionDispatch::IntegrationTest
     @tender.update!(submission_close_date: 2.days.ago)
     get tender_show_path(slug_uuid: @tender.slug_uuid)
     assert_select 'h2', 'Bidding on tenders like this?'
-    assert_select 'h3', 'This tender has closed'
+    assert_select '#relevant_tenders_form h3', 'Get alerts for tenders like this'
+    # Prefilled with what the tender is for
+    assert_select '#relevant_tenders_form textarea[name=sectors]', 'CCTV cameras'
     assert_select "a[href^='/find-a-partner?tender=']", count: 0
+  end
+
+  # Most search visitors land on tenders that closed long ago: the top of the
+  # page points them to open ones like it
+  test 'a closed tender leads with open tenders like it' do
+    @tender.update!(submission_close_date: Time.zone.local(2024, 9, 14, 15))
+    open = Tender.create!(title: 'Installation of CCTV at schools', organisation: 'Education Dept', state: 'Goa',
+                          tender_source: 'goa', slug_uuid: SecureRandom.uuid, submission_close_date: 5.days.from_now,
+                          updated_at_auto: Time.current, is_visible: true)
+    closed = Tender.create!(title: 'CCTV maintenance', organisation: 'PWD', state: 'Goa', tender_source: 'goa',
+                            slug_uuid: SecureRandom.uuid, submission_close_date: 1.year.ago,
+                            updated_at_auto: Time.current, is_visible: true)
+    stub(TenderSearch, :similar_tenders, [open, closed]) do
+      get tender_show_path(slug_uuid: @tender.slug_uuid)
+    end
+    assert_select 'p', /This tender closed on 14 Sep 2024.\s+1 tender like it is open now./
+    assert_select "a[href='#similar-tenders']", 'See open tenders like this'
+    assert_select "a[href='#relevant_tenders_form']", 'Get alerts for new ones'
+    assert_select "a[href='#bid-results']", count: 0
+    assert_select '#similar-tenders h2', 'Open tenders like this'
+    assert_select '#similar-tenders li', 2 do |items|
+      assert_match(/Closes/, items.first.text)
+      assert_match(/Closed/, items.last.text)
+    end
+  end
+
+  test 'a closed tender links to its bid result only when there is one' do
+    @tender.update!(submission_close_date: 1.year.ago,
+                    meta_data: { has_bid_result: true, bid_result: { status: 'active', bid_data: { 'Name' => 'A Buyer' } } }.to_json)
+    get tender_show_path(slug_uuid: @tender.slug_uuid)
+    assert_select "a[href='#bid-results']", count: 0
+    assert_select '#bid-results', count: 0
+
+    @tender.update!(meta_data: { has_bid_result: true, bid_result: { winner_name: 'Acme Traders', contract_amount: '120000' } }.to_json)
+    get tender_show_path(slug_uuid: @tender.slug_uuid)
+    assert_select "a[href='#bid-results']", 'See who won'
+    assert_select '#bid-results', /Acme Traders/
+  end
+
+  test 'an open tender has no closed banner' do
+    get tender_show_path(slug_uuid: @tender.slug_uuid)
+    assert_not_includes response.body, 'This tender closed on'
   end
 
   test 'search results: alerts for the search come first in the sidebar' do

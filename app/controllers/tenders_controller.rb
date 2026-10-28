@@ -109,7 +109,7 @@ class TendersController < ApplicationController
       # Parsed per request: cached copies of every crawled tender filled Redis
       @tender_json = (JSON.parse(@tender_data.full_data) rescue nil) if @tender_data.full_data.present?
       @tender_json ||= {}
-      @bid_result = @tender_data.parsed_bid_result if @tender_data.has_bid_result?
+      @bid_result = @tender_data.parsed_bid_result if @tender_data.bid_result_details?
 
       # similar_tenders caches the matching ids; the rows are read fresh
       @similar_tenders = TenderSearch.similar_tenders(@tender_data, @tender_data.id, limit: 10)
