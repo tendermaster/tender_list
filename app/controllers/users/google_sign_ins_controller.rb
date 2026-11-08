@@ -21,6 +21,15 @@ class Users::GoogleSignInsController < ApplicationController
     new_user = user.previously_new_record? # read before sign_in saves the user again
     user.remember_me = true
     sign_in(:user, user, event: :authentication)
+    PostHog.identify(
+      distinct_id: user.posthog_distinct_id,
+      properties: user.posthog_properties
+    )
+    PostHog.capture(
+      distinct_id: user.posthog_distinct_id,
+      event: new_user ? 'user_signed_up' : 'user_logged_in',
+      properties: { authentication_method: 'google' }
+    )
     # Stay on the page the visitor signed in from; from the sign-in page, go
     # where they were headed. New users go to onboarding first.
     redirect = user.new_to_onboarding? ? welcome_path(return_to:) : return_to || after_sign_in_path_for(user)

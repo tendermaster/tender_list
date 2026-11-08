@@ -166,4 +166,8 @@ gem 'opentelemetry-instrumentation-sidekiq'
 gem 'opentelemetry-instrumentation-faraday'
 gem 'opentelemetry-instrumentation-net_http'
 
+# PostHog product analytics (config/initializers/posthog.rb)
+gem 'posthog-ruby', '~> 3.0'
+gem 'posthog-rails'
+
 

@@ -20,8 +20,10 @@ class ProductsController < ApplicationController
 
   def create
     @lead = build_lead(lead_params.merge(product: @product, kind: 'quote', answers: configuration_answer))
-    return render(:show, status: :unprocessable_entity) unless save_lead(@lead)
+    result = save_lead(@lead)
+    return render(:show, status: :unprocessable_entity) unless result
 
+    track('quote_requested', product_slug: @product.slug) if result == true
     redirect_to product_path(@product, quoted: 1)
   end
 

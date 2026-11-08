@@ -13,8 +13,10 @@ class PartnerRequestsController < ApplicationController
 
   def create
     @lead = build_lead(lead_params.merge(kind: 'partner', tender: @tender))
-    return render(:new, status: :unprocessable_entity) unless save_lead(@lead)
+    result = save_lead(@lead)
+    return render(:new, status: :unprocessable_entity) unless result
 
+    track('partner_request_submitted') if result == true
     redirect_to find_partner_path(tender: @tender&.slug_uuid, sent: 1)
   end
 

@@ -47,3 +47,4 @@
 .yarn
 .vscode
 logstash/
+.env

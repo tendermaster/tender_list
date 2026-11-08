@@ -19,6 +19,7 @@ class ChecklistDownloadsController < ApplicationController
     # Spam is shown the usual message, without the files
     return reply('Please check your email (including the spam folder) to download your files') if result == :spam
 
+    track('checklist_download_requested')
     if ActionMailer::Base.perform_deliveries
       CheckListDownloaderMailer.send_check_list(@lead.email, report).deliver_later
       reply('Please check your email (including the spam folder) to download your files')

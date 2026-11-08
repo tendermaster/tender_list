@@ -19,8 +19,10 @@ class EnquiriesController < ApplicationController
                                          answers: @topic.permitted_answers)
     @lead = build_lead(attrs.slice(:name, :email, :phone, :company)
                             .merge(kind: 'enquiry', topic: @topic.key, tender: @tender, answers: @topic.answers_from(attrs)))
-    return render(:show, status: :unprocessable_entity) unless save_lead(@lead)
+    result = save_lead(@lead)
+    return render(:show, status: :unprocessable_entity) unless result
 
+    track('enquiry_submitted', topic: @topic.key, from_tender: @tender.present?) if result == true
     redirect_to enquiry_path(@topic.key, tender: @tender&.slug_uuid, sent: 1)
   end
 

@@ -57,6 +57,7 @@ class QueriesController < ApplicationController
 
     respond_to do |format|
       if @query.save
+        track('saved_search_created')
         format.html { redirect_to queries_url, notice: "Query was successfully created." }
         # format.json { render :show, status: :created, location: @query }
       else
@@ -97,6 +98,7 @@ class QueriesController < ApplicationController
     coupon_code = params['coupon_code']
     res = User.redeem_coupon(current_user, coupon_code)
     if res[:ok]
+      track('coupon_redeemed')
       flash[:success] = res[:message]
     else
       flash[:error] = res[:message]

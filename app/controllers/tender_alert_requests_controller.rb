@@ -12,7 +12,9 @@ class TenderAlertRequestsController < ApplicationController
     answers = topic.answers_from(ActiveSupport::HashWithIndifferentAccess.new(answers: { keywords: params[:sectors] }))
     @lead = build_lead(kind: 'enquiry', topic: topic.key, name: params[:name], email: params[:email],
                        phone: params[:mobile], answers:)
-    @full_message = if save_lead(@lead)
+    result = save_lead(@lead)
+    track('tender_alert_requested') if result == true
+    @full_message = if result
                       'Thank you. We will send you tenders that match your business.'
                     else
                       "Please check the form: #{@lead.errors.full_messages.to_sentence}"

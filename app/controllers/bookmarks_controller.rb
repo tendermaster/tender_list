@@ -19,6 +19,7 @@ class BookmarksController < ApplicationController
     return head :not_found unless tender
 
     current_user.bookmarks.find_or_create_by!(tender:)
+    track('tender_bookmarked')
     render json: { bookmarked: true }
   rescue ActiveRecord::RecordNotUnique
     render json: { bookmarked: true } # saved by a simultaneous click
@@ -27,6 +28,7 @@ class BookmarksController < ApplicationController
   def destroy
     tender = Tender.find_by(slug_uuid: params[:slug_uuid])
     current_user.bookmarks.where(tender:).delete_all if tender
+    track('tender_unbookmarked') if tender
     respond_to do |format|
       format.json { render json: { bookmarked: false } }
       format.html { redirect_to bookmarks_path, notice: 'Removed from saved tenders' }

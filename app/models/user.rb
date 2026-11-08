@@ -32,6 +32,17 @@ class User < ApplicationRecord
   def needs_phone? = phone.blank?
   def new_to_onboarding? = needs_phone? && onboarded_at.nil? && sign_in_count <= 1
 
+  # Used by posthog-rails to associate request errors with this person. The
+  # primary key is stable, and the prefix keeps it distinct from AdminUser ids.
+  def posthog_distinct_id
+    "user_#{id}"
+  end
+
+  # Person properties are set during identification, never attached to events.
+  def posthog_properties
+    { email: email, name: name.presence, created_at: created_at&.iso8601 }.compact
+  end
+
   # The user for a Google account, linking or creating one on first sign-in.
   # Returns nil if Google hasn't verified the email address.
   def self.from_google(uid:, email:, email_verified:, name: nil)

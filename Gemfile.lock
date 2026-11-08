@@ -372,6 +372,11 @@ GEM
     pghero (4.0.1)
       activerecord (>= 7.2)
     phonelib (0.10.27)
+    posthog-rails (3.20.7)
+      posthog-ruby (= 3.32.0)
+      railties (>= 5.2.0)
+    posthog-ruby (3.32.0)
+      concurrent-ruby (~> 1)
     pp (0.6.4)
       prettyprint
     prettyprint (0.2.1)
@@ -579,6 +584,8 @@ DEPENDENCIES
   pg (~> 1.1)
   pghero
   phonelib
+  posthog-rails
+  posthog-ruby (~> 3.0)
   propshaft
   puma (~> 7.2)
   rails (~> 8.1.0)

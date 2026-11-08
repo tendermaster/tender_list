@@ -14,7 +14,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     if verify_captcha
-      super
+      response = super
+      if resource.persisted?
+        PostHog.identify(
+          distinct_id: resource.posthog_distinct_id,
+          properties: resource.posthog_properties
+        )
+        PostHog.capture(
+          distinct_id: resource.posthog_distinct_id,
+          event: 'user_signed_up',
+          properties: { authentication_method: 'email' }
+        )
+      end
+      response
     else
       build_resource(sign_up_params)
       clean_up_passwords(resource)

@@ -63,6 +63,7 @@ class TendersController < ApplicationController
     end
 
     @bookmarked_ids = bookmarked_ids_for(@records.presence || @fallback_tenders)
+    track('tender_search_completed', result_count: @pagy.count, filter_count: @filters.size, page: params[:page].to_i) if returning_visitor?
     response.headers['X-Cache'] = cache_hit ? 'HIT' : 'MISS'
     response.headers['X-Hits'] = @pagy.count.to_s
 

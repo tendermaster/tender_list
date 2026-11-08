@@ -45,4 +45,22 @@ class ApplicationController < ActionController::Base
       response.headers['Cache-Control'] = 'no-cache, no-store, private, max-age=0'
     end
   end
+
+  # A PostHog event (config/initializers/posthog.rb): the signed-in user's,
+  # else personless. Never put what a visitor typed (search words, form
+  # answers) in the properties.
+  def track(event, **properties)
+    attrs = { event:, properties: }
+    attrs[:distinct_id] = current_user.posthog_distinct_id if current_user
+    PostHog.capture(attrs)
+  end
+
+  # Signed in, or a browser that kept our session cookie: crawlers send
+  # neither, so page-level events aren't mostly bots
+  def returning_visitor?
+    return true if current_user
+    return false if request.user_agent.to_s.match?(/bot|crawl|spider|slurp|preview|fetch/i)
+
+    cookies.key?(Rails.application.config.session_options[:key])
+  end
 end
