@@ -81,13 +81,32 @@ class EnquiriesTest < ActionDispatch::IntegrationTest
       assert_equal 301, response.status
     end
 
+    # Help requests stay on the site: no Google Forms, no links out to GetSaarthi
+    [products_path, '/services', root_path].each do |path|
+      get path
+      assert_no_match %r{docs\.google\.com/forms|getsaarthi}i, response.body, path
+    end
     get products_path
-    # Only GetSaarthi's own forms (application_helper) are still Google Forms
-    getsaarthi = [getsaarthi_professional_form_url, getsaarthi_opportunity_matching_url].map { _1[%r{forms/d/e/[\w-]+}] }
-    linked = response.body.scan(%r{docs\.google\.com/(forms/d/(?:e/)?[\w-]+)}).flatten.uniq
-    assert_empty linked - getsaarthi
     assert_select "a[href='/enquiry/supplier']"
     assert_select "a[href='/enquiry/professional']"
+  end
+
+  test 'bid help from a tender page is linked to that tender' do
+    tender = Tender.create!(tender_id: 'T-1', title: 'Construction of district hospital', organisation: 'PWD Assam',
+                            state: 'Assam', tender_source: 'assam', slug_uuid: SecureRandom.uuid,
+                            submission_close_date: 10.days.from_now, updated_at_auto: Time.current, is_visible: true)
+    get enquiry_path('bid_support', tender: tender.slug_uuid)
+    assert_response :success
+    assert_select 'a', /Construction of district hospital/
+    assert_select "form[action='#{enquiry_path('bid_support', tender: tender.slug_uuid)}']"
+
+    answers = EnquiryTopic.find('bid_support').fields.select(&:required).to_h do |field|
+      [field.key, field.checkboxes? ? [field.options.first] : (field.options.first || 'Road works, ₹2 Cr')]
+    end
+    post enquiry_path('bid_support', tender: tender.slug_uuid),
+         params: { fill_ms: 10_000, lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210', company: 'Rao Builders', designation: 'Owner', answers: } }
+    assert_redirected_to enquiry_path('bid_support', tender: tender.slug_uuid, sent: 1)
+    assert_equal [tender, 'bid_support'], [Lead.last.tender, Lead.last.topic]
   end
 
   test 'staff see enquiries with their answers' do

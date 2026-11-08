@@ -1,0 +1,11 @@
+<%# The tender a lead form is about (?tender= on find-a-partner and
+    /enquiry/<topic>). locals: tender %>
+<div class="mt-6 rounded-lg border border-gray-200 bg-gray-50 p-4">
+  <p class="text-xs font-semibold uppercase tracking-wide text-gray-500">For this tender</p>
+  <%= link_to tender.title.to_s.squish.truncate(160), tender_show_path(slug_uuid: tender.slug_uuid),
+              class: 'mt-1 block font-semibold text-gray-900 hover:underline' %>
+  <p class="mt-1 text-sm text-gray-600"><%= [tender.organisation.to_s.squish.truncate(80), tender.state].compact_blank.join(' · ') %></p>
+  <% if tender.submission_close_date %>
+    <p class="mt-1 text-sm text-gray-600">Closes <%= tender.submission_close_date.utc.strftime('%-d %b %Y') %></p>
+  <% end %>
+</div>

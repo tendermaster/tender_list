@@ -32,6 +32,12 @@ module LeadRequests
     response.headers['Cache-Control'] = 'no-cache, no-store, private, max-age=0'
   end
 
+  # ?tender=<slug_uuid>: the tender a request is about, from its page
+  def set_tender
+    uuid = params[:tender].to_s
+    @tender = Tender.find_by(slug_uuid: uuid) if uuid.present?
+  end
+
   # Saves the lead. Returns true, :spam (kept with status spam, or dropped if
   # it isn't even valid; the visitor is thanked either way, so bots learn
   # nothing), or false with the errors on the lead.

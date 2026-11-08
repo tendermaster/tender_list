@@ -27,7 +27,7 @@ class FormPlacementsTest < ActionDispatch::IntegrationTest
     get tender_show_path(slug_uuid: @tender.slug_uuid)
     assert_not_includes response.body, 'Beyond this tender'
     assert_select 'h2', 'Bidding on this tender?'
-    assert_select "a[href='/enquiry/bid_support']", 'Get help filing this bid'
+    assert_select 'a[href=?]', "/enquiry/bid_support?tender=#{@tender.slug_uuid}", text: 'Get help filing this bid'
     assert_select 'h2', "Can't bid on this alone?"
     assert_select '#relevant_tenders_form form input[name=fill_ms]'
   end

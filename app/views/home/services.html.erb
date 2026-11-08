@@ -12,25 +12,19 @@
   </section>
 
   <main class="mx-auto max-w-6xl px-6 py-12 lg:px-8">
-    <section class="rounded-lg border border-orange-200 bg-white p-6 shadow-xs md:p-8" aria-labelledby="getsaarthi-services-cta">
+    <section class="rounded-lg border border-orange-200 bg-white p-6 shadow-xs md:p-8" aria-labelledby="bid-help">
       <div class="grid gap-6 lg:grid-cols-[1.6fr_1fr] lg:items-center">
         <div>
-          <p class="text-sm font-semibold uppercase text-orange-600">Execution support via GetSaarthi</p>
-          <h2 id="getsaarthi-services-cta" class="mt-2 text-2xl font-bold text-gray-900">Need help acting on tenders and opportunities?</h2>
+          <p class="text-sm font-semibold uppercase text-orange-600">Bid support from the SigmaTenders team</p>
+          <h2 id="bid-help" class="mt-2 text-2xl font-bold text-gray-900">Found a tender? We'll help you win it</h2>
           <p class="mt-4 text-base leading-7 text-gray-700">
-            Discovering a tender is only the first step. Through GetSaarthi, organisations can connect with professionals for documentation, proposal preparation, compliance readiness, digital execution, and opportunity-matching support.
+            Discovering a tender is only the first step. Our team helps with GeM registration, eligibility checks, tender documents, compliance and bid submission, so you can bid with confidence.
           </p>
         </div>
         <div class="flex flex-col gap-3">
-          <a href="<%= getsaarthi_opportunity_matching_url %>" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center rounded-lg bg-orange-600 px-5 py-3 text-center text-sm font-semibold text-white shadow-xs hover:bg-orange-700 focus:outline-hidden focus:ring-4 focus:ring-orange-200">
-            Get Opportunity Matching Support
-          </a>
-          <a href="<%= getsaarthi_professional_form_url %>" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center rounded-lg border border-orange-300 bg-white px-5 py-3 text-center text-sm font-semibold text-orange-700 hover:bg-orange-50 focus:outline-hidden focus:ring-4 focus:ring-orange-100">
-            Join as a Professional
-          </a>
-          <a href="<%= getsaarthi_website_url %>" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center rounded-lg px-5 py-3 text-center text-sm font-semibold text-gray-700 hover:bg-gray-100 focus:outline-hidden focus:ring-4 focus:ring-gray-200">
-            Explore GetSaarthi
-          </a>
+          <%= link_to 'Get bid support', enquiry_path('bid_support'), class: 'inline-flex justify-center rounded-lg px-5 py-3 text-center text-sm font-semibold focus:outline-hidden focus:ring-4 bg-orange-600 text-white shadow-xs hover:bg-orange-700 focus:ring-orange-200' %>
+          <%= link_to 'GeM registration', enquiry_path('gem_registration'), class: 'inline-flex justify-center rounded-lg px-5 py-3 text-center text-sm font-semibold focus:outline-hidden focus:ring-4 border border-orange-300 bg-white text-orange-700 hover:bg-orange-50 focus:ring-orange-100' %>
+          <%= link_to 'Tender document review', enquiry_path('document_review'), class: 'inline-flex justify-center rounded-lg px-5 py-3 text-center text-sm font-semibold focus:outline-hidden focus:ring-4 text-gray-700 hover:bg-gray-100 focus:ring-gray-200' %>
         </div>
       </div>
     </section>
@@ -65,17 +59,14 @@
           <p class="mt-3 text-sm leading-6 text-gray-600">Business setup, compliance support, and Digital Signature Certificate solutions for tender participation.</p>
         </article>
         <article class="rounded-lg border border-orange-200 bg-orange-50 p-6 shadow-xs">
-          <h3 class="text-lg font-semibold text-gray-900">Execution & Advisory Support via GetSaarthi</h3>
+          <h3 class="text-lg font-semibold text-gray-900">Bid Preparation and Submission</h3>
           <p class="mt-3 text-sm leading-6 text-gray-700">
-            Need support for tender documentation, proposal preparation, compliance, digital delivery, or opportunity matching? GetSaarthi connects organisations with professionals and advisory workflows to move from discovery to execution.
+            Tender documents, compliance sheets, eligibility checks and submission on GeM and state portals, handled by our team with you.
           </p>
           <div class="mt-5 flex flex-col gap-3">
-            <a href="<%= getsaarthi_opportunity_matching_url %>" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-orange-700 focus:outline-hidden focus:ring-4 focus:ring-orange-200">
-              Request Opportunity Matching
-            </a>
+            <%= link_to 'Request bid support', enquiry_path('bid_support'), class: 'inline-flex justify-center rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-orange-700 focus:outline-hidden focus:ring-4 focus:ring-orange-200' %>
             <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold">
-              <a href="<%= getsaarthi_professional_form_url %>" target="_blank" rel="noopener noreferrer" class="text-orange-700 hover:text-orange-800 hover:underline">Join as Professional</a>
-              <a href="<%= getsaarthi_website_url %>" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-gray-900 hover:underline">Explore GetSaarthi</a>
+              <%= link_to 'Join as a professional', enquiry_path('professional'), class: 'text-orange-700 hover:text-orange-800 hover:underline' %>
             </div>
           </div>
         </article>

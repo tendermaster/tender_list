@@ -20,11 +20,6 @@ class PartnerRequestsController < ApplicationController
 
   private
 
-  def set_tender
-    uuid = params[:tender].to_s
-    @tender = Tender.find_by(slug_uuid: uuid) if uuid.present?
-  end
-
   def lead_params
     params.require(:lead).permit(:partner_need, :details, :company, :annual_turnover, :location,
                                  :name, :email, :phone)
