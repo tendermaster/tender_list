@@ -27,4 +27,31 @@ class TendersHelperTest < ActionView::TestCase
     assert_nil topic('Tender')
     assert_nil topic('')
   end
+
+  test 'a reference number with spaces in it is not a topic' do
+    assert_nil topic('0110500305-PROJECTS/CPX-B/BOF GCP SLUDGE/SMS/1293')
+  end
+
+  test 'amounts in rupees; nothing when the portal gave none' do
+    assert_equal '₹99,926', rupees('99926')
+    assert_equal '₹1.25 Lakh', rupees('125000')
+    assert_equal '₹2.5 Crore', rupees(25_000_000)
+    assert_nil rupees(nil)
+    assert_nil rupees('-')
+    assert_equal 'As per document', rupees('As per document')
+  end
+
+  test 'cards are headed by the description when the title is a reference number' do
+    tender = Tender.new(title: 'HPPTCL/PIU Sarabai/Tenders/SMS/2026-27/14', description: 'Construction of Residential Quarters')
+    assert_equal 'Construction of Residential Quarters', tender_card_heading(tender)
+    assert_equal 'Supply of led lights', tender_card_heading(Tender.new(title: 'SUPPLY OF LED LIGHTS'))
+  end
+
+  test 'days until a portal date count calendar days in India' do
+    travel_to Time.utc(2026, 11, 10, 11, 37) do # 17:07 IST
+      assert_equal 1, ist_days_until(Time.utc(2026, 11, 11, 11)) # 11 Nov, 11:00 IST
+      assert_equal 0, ist_days_until(Time.utc(2026, 11, 10, 23))
+      assert_equal(-1, ist_days_until(Time.utc(2026, 11, 9, 23)))
+    end
+  end
 end

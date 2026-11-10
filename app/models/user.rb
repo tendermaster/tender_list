@@ -92,12 +92,9 @@ class User < ApplicationRecord
                           false
                         end
 
-    # has paid valid subscription
-    if (!user.nil? && ['PAID', 'PREMIUM'].include?(User.active_plan(user))) || is_tender_expired
-      true
-    else
-      false
-    end
+    # Signed-in users see everything (since 2026-11-10: SigmaTenders sells
+    # help with bids, and a sign-in is a lead); visitors see closed tenders
+    !user.nil? || is_tender_expired
   end
 
   def active_subscription

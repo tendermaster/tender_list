@@ -23,13 +23,30 @@ class FormPlacementsTest < ActionDispatch::IntegrationTest
     TendersController.define_singleton_method(:elastic_pagy, original)
   end
 
-  test 'an open tender: details first, then bidding help; partner and alerts in the sidebar' do
+  test 'an open tender leads with help filing the bid; partner and alerts in the sidebar' do
     get tender_show_path(slug_uuid: @tender.slug_uuid)
-    assert_not_includes response.body, 'Beyond this tender'
-    assert_select 'h2', 'Bidding on this tender?'
-    assert_select 'a[href=?]', "/enquiry/bid_support?tender=#{@tender.slug_uuid}", text: 'Get help filing this bid'
+    assert_select 'h1', 'Supply of CCTV cameras'
+    assert_select 'h2', 'Want us to file this bid for you?'
+    assert_select 'a[href=?]', "/enquiry/bid_support?tender=#{@tender.slug_uuid}", text: 'Get help with this bid'
+    assert_select "a[href^='https://wa.me/918882301033?text=']", minimum: 2
     assert_select 'h2', "Can't bid on this alone?"
     assert_select '#relevant_tenders_form form input[name=fill_ms]'
+    assert_select '#relevant_tenders_form input[name=tender][value=?]', @tender.slug_uuid
+    # The bid help comes before the details
+    assert_operator response.body.index('Want us to file this bid'), :<, response.body.index('Tender details')
+  end
+
+  test 'visitors sign in to see an open tender\'s ID and link; signed-in users see them' do
+    @tender.update!(page_link: 'https://eprocure.goa.gov.in/t/1')
+    get tender_show_path(slug_uuid: @tender.slug_uuid)
+    assert_select 'a[href=?]', new_user_session_path, text: /Sign in free for the tender ID and link/
+    assert_not_includes response.body, 'eprocure.goa.gov.in'
+    assert_not_includes response.body, '>T-1<'
+
+    sign_in User.create!(email: 'free@example.com', password: 'secret-password-1', confirmed_at: Time.current)
+    get tender_show_path(slug_uuid: @tender.slug_uuid)
+    assert_select 'a[href=?]', 'https://eprocure.goa.gov.in/t/1', text: /Original notice/
+    assert_select '#details dd', 'T-1'
   end
 
   test 'similar tenders sit under the details; the sidebar stays its own column' do
@@ -39,25 +56,26 @@ class FormPlacementsTest < ActionDispatch::IntegrationTest
     stub(TenderSearch, :similar_tenders, [other]) do
       get tender_show_path(slug_uuid: @tender.slug_uuid)
     end
-    # A stray </div> once closed the details column early, squeezing these into 1/12 of the page
-    assert_select '.grid-cols-12 > #similar-tenders.col-span-8 li', 1 do
-      assert_select 'h3 a', 'Installation of cctv at schools'
+    assert_select '.lg\\:grid-cols-12 > .col-span-8 #similar-tenders li', 1 do
+      assert_select 'h3 a', 'Installation of CCTV at schools'
       assert_select 'p', /Education Dept · Goa/
     end
     # Phones show the columns in source order: the forms come before similar tenders
-    columns = css_select('.grid-cols-12 > div').map { |div| div['id'] || div['class'][/col-span-\d+/] }
-    assert_equal ['col-span-8', 'col-span-4', 'similar-tenders'], columns
-    assert_select '.grid-cols-12 > .col-span-4.lg\\:row-span-2 #relevant_tenders_form'
+    columns = css_select('.lg\\:grid-cols-12 > *').map { |el| el.name == 'aside' ? 'aside' : el['class'][/col-span-\d+/] }
+    assert_equal ['col-span-8', 'aside', 'col-span-8'], columns
+    assert_select '.lg\\:grid-cols-12 > aside.lg\\:row-span-2 #relevant_tenders_form'
   end
 
   test 'a closed tender offers alerts for new ones, not a partner' do
     @tender.update!(submission_close_date: 2.days.ago)
     get tender_show_path(slug_uuid: @tender.slug_uuid)
     assert_select 'h2', 'Bidding on tenders like this?'
-    assert_select '#relevant_tenders_form h3', 'Get alerts for tenders like this'
+    assert_select '#relevant_tenders_form h3', 'Get tenders like this'
     # Prefilled with what the tender is for
     assert_select '#relevant_tenders_form textarea[name=sectors]', 'CCTV cameras'
     assert_select "a[href^='/find-a-partner?tender=']", count: 0
+    # Closed tenders were never locked
+    assert_select '#details dd', 'T-1'
   end
 
   # Most search visitors land on tenders that closed long ago: the top of the
@@ -70,18 +88,22 @@ class FormPlacementsTest < ActionDispatch::IntegrationTest
     closed = Tender.create!(title: 'CCTV maintenance', organisation: 'PWD', state: 'Goa', tender_source: 'goa',
                             slug_uuid: SecureRandom.uuid, submission_close_date: 1.year.ago,
                             updated_at_auto: Time.current, is_visible: true)
-    stub(TenderSearch, :similar_tenders, [open, closed]) do
+    stub(TenderSearch, :similar_tenders, [closed, open]) do
       get tender_show_path(slug_uuid: @tender.slug_uuid)
     end
     assert_select 'p', /This tender closed on 14 Sep 2024.\s+1 tender like it is open now./
-    assert_select "a[href='#similar-tenders']", 'See open tenders like this'
-    assert_select "a[href='#relevant_tenders_form']", 'Get alerts for new ones'
+    assert_select "a[href='#relevant_tenders_form']", 'Get new ones on WhatsApp'
     assert_select "a[href='#bid-results']", count: 0
+    # The open one at the top, before the details; the closed one further down
     assert_select '#similar-tenders h2', 'Open tenders like this'
-    assert_select '#similar-tenders li', 2 do |items|
+    assert_select '#similar-tenders li', 1 do |items|
       assert_match(/Closes/, items.first.text)
-      assert_match(/Closed/, items.last.text)
     end
+    assert_select '#more-tenders h2', 'More tenders like this'
+    assert_select '#more-tenders li', 1 do |items|
+      assert_match(/Closed/, items.first.text)
+    end
+    assert_operator response.body.index('id="similar-tenders"'), :<, response.body.index('Tender details')
   end
 
   test 'a closed tender links to its bid result only when there is one' do
@@ -100,6 +122,19 @@ class FormPlacementsTest < ActionDispatch::IntegrationTest
   test 'an open tender has no closed banner' do
     get tender_show_path(slug_uuid: @tender.slug_uuid)
     assert_not_includes response.body, 'This tender closed on'
+  end
+
+  test 'ALL-CAPS portal text is shown in sentence case, other text as written' do
+    @tender.update!(title: 'SUPPLY OF LED LIGHTS AT DISTRICT HOSPITAL', description: 'Annual CCTV maintenance for PWD offices')
+    get tender_show_path(slug_uuid: @tender.slug_uuid)
+    assert_select 'h1', 'Supply of led lights at district hospital'
+    assert_select '#details p', 'Annual CCTV maintenance for PWD offices'
+  end
+
+  test 'an alert request from a tender page is saved with that tender' do
+    post get_relevant_tenders_post_path, params: { sectors: 'CCTV', name: 'Test Person', mobile: '9876543210',
+                                                   email: 'person@example.com', tender: @tender.slug_uuid, fill_ms: 10_000 }
+    assert_equal @tender, Lead.order(:id).last.tender
   end
 
   test 'search results: alerts for the search come first in the sidebar' do

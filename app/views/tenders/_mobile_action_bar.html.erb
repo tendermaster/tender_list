@@ -1,0 +1,13 @@
+<%# Phones: the next step stays in reach while reading. locals: tender, closed, url %>
+<div class="fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-gray-200 bg-white/95 p-3 backdrop-blur lg:hidden dark:border-gray-700 dark:bg-gray-900/95">
+  <a href="<%= whatsapp_tender_url(tender, url) %>" target="_blank" rel="nofollow noopener noreferrer"
+     class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-green-600 px-3 py-2.5 text-sm font-semibold text-green-700">
+    <%= render 'tenders/whatsapp_icon' %> WhatsApp
+  </a>
+  <% if closed %>
+    <a href="#relevant_tenders_form" class="flex-1 rounded-lg bg-orange-600 px-3 py-2.5 text-center text-sm font-semibold text-white">Get tenders like this</a>
+  <% else %>
+    <%= link_to 'Get bid help', enquiry_path('bid_support', tender: tender.slug_uuid), rel: 'nofollow',
+                class: 'flex-1 rounded-lg bg-orange-600 px-3 py-2.5 text-center text-sm font-semibold text-white' %>
+  <% end %>
+</div>
