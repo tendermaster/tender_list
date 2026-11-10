@@ -28,12 +28,21 @@ class EnquiryTopic
     @key, @title, @intro, @submit = attrs.values_at('key', 'title', 'intro', 'submit')
     @form = attrs['form'] != false
     @index = attrs['index'] == true
+    @tender_form = attrs['tender_form']
     # "company!" asks for the company and requires it
     @contact = Array(attrs['contact']).to_h { |name| [name.delete_suffix('!'), name.end_with?('!')] }
     @fields = attrs.fetch('fields').map do |field|
       Field.new(key: field['key'], label: field['label'], type: field['type'], required: field['required'] == true,
                 options: Array(field['options']), hint: field['hint'])
     end
+  end
+
+  # The form as asked from a tender page (tender_form: in the YAML, a shorter
+  # one); the topic itself when it has none. Same key, so leads keep the topic
+  def for_tender
+    return self unless @tender_form
+
+    @for_tender ||= self.class.new(@tender_form.merge('key' => key))
   end
 
   def asks?(contact_field) = @contact.key?(contact_field)

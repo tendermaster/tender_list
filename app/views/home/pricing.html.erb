@@ -1,337 +1,147 @@
+<%# /pricing: finding tenders is free; the team's work is what's paid for
+    (docs/pivot.md in the infra repo). Prices are quoted after a call until
+    the first sales show what to fix them at. The subscription plans were
+    taken off on 2026-11-10: what they sold is free after signing in, and
+    their email alerts can't be sent. %>
+<% set_meta_tags title: 'Pricing & Services',
+                 description: 'Search tenders free. Pay only when you want our team to prepare and file your bid, register you on GeM or run your tendering.' %>
 <%= render 'layouts/navbar' %>
 
-<div class="bg-gray-50 min-h-screen">
-  <!-- Hero Section -->
-  <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">Pricing & Services</h1>
-        <p class="text-xl text-orange-100 max-w-3xl mx-auto leading-relaxed mb-8">
-          Find Your Winning Tenders & Projects for Your Industry/Organization
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="https://whatsapp.com/channel/0029Vab3ADv7YSd4FZmQpj02" target="_blank" class="inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-md text-orange-600 bg-white hover:bg-gray-50 transition-colors">
-            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
-            </svg>
-            Join WhatsApp Channel
-          </a>
-          <a href="#pricing-plans" class="inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-md text-white bg-transparent hover:bg-white hover:text-orange-600 transition-colors">
-            View Pricing Plans
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+<%
+  services = [
+    { title: 'Bid filing', badge: 'Most asked for',
+      text: 'Send us the tender you want. We read the documents, check your eligibility, prepare the bid and file it on the portal before the deadline. You approve everything before it goes in.',
+      points: ['Eligibility and document check', 'Technical and financial bid prepared', 'EMD and fee guidance', 'Online submission on the portal'],
+      cta: 'Get a quote', path: enquiry_path('bid_support') },
+    { title: 'GeM registration',
+      text: 'Get your business on the Government e-Marketplace, with your products or services listed so government buyers can find and order from you.',
+      points: ['Seller registration and vendor assessment', 'Product or service catalogue', 'Help with your first GeM bids'],
+      cta: 'Get a quote', path: enquiry_path('gem_registration') },
+    { title: 'Get bid-ready',
+      text: 'Most bids fail on paperwork. We get you ready before the next tender opens, so you aren\'t racing a deadline.',
+      points: ['Digital signature certificate (DSC)', 'MSME (Udyam) registration, which can waive the EMD', 'Portal vendor registration', 'Document and compliance review'],
+      cta: 'Get a quote', path: enquiry_path('document_review') },
+    { title: 'Tender desk', badge: 'Yearly',
+      text: 'Your own tendering team. We screen new tenders for you every day, send you the ones worth bidding on, and handle the bids you choose.',
+      points: ['Tenders screened for your business daily', 'Shortlist on WhatsApp', 'Bids prepared and filed', 'One person who knows your business'],
+      cta: 'Talk to us', path: enquiry_path('callback') }
+  ]
+  free = [
+    ['Search every tender', 'Central, state, PSU and GeM tenders from across India.'],
+    ['Tender IDs and original links', 'Free once you sign in with Google.'],
+    ['Tenders on WhatsApp', "Tell us what you supply and we'll send you matching tenders."],
+    ['Saved tenders and searches', 'Keep a list of the tenders you are looking at.']
+  ]
+  check = '<svg class="mt-0.5 h-4 w-4 shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m5 13 4 4L19 7"/></svg>'.html_safe
+%>
 
-  <!-- Value Proposition -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="bg-white rounded-lg shadow-xs border border-gray-200 p-8 mb-12">
-      <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold text-gray-900 mb-4">Why Choose SigmaTenders?</h2>
-        <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-          Real-time access to 1 Lakh+ tenders, personalized recommendations, and powerful tools to help you win more contracts. Stop missing business opportunities!
-        </p>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="text-center">
-          <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">1 Lakh+ Tenders</h3>
-          <p class="text-gray-600">Access to vast database of government contracts</p>
-        </div>
-        
-        <div class="text-center">
-          <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4 19h6v-2H4v2zM4 15h8v-2H4v2zM4 11h8V9H4v2z"></path>
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Daily Updates</h3>
-          <p class="text-gray-600">Get fresh tenders delivered to your inbox</p>
-        </div>
-        
-        <div class="text-center">
-          <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Smart Search</h3>
-          <p class="text-gray-600">Advanced filters for precise tender matching</p>
-        </div>
-        
-        <div class="text-center">
-          <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">All Sectors</h3>
-          <p class="text-gray-600">Coverage across all states and categories</p>
-        </div>
-      </div>
-      
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <p class="text-gray-700 leading-relaxed">
-          At SigmaTenders.com, you gain access to a comprehensive database encompassing <strong>RFPs, EOIs, Empanelment notifications, RFQs, ITBs, Purchase Orders, Service Contracts</strong>, and various other government contracts. This platform is meticulously curated to cater to the diverse needs of independent entrepreneurs, businesses, industries, schools, NGOs, and government organizations.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Pricing Plans Section -->
-  <div id="pricing-plans" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-4">Choose Your Perfect Plan</h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-        All plans include complete access to our tender database with personalized recommendations and email notifications.
+<div class="bg-gray-50">
+  <section class="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
+    <div class="mx-auto max-w-5xl px-4 py-14 text-center sm:px-6">
+      <h1 class="text-3xl font-bold sm:text-5xl">Pricing &amp; Services</h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-orange-50 sm:text-xl">
+        Finding tenders is free. Pay only when you want our team to do the work: preparing and filing bids, GeM registration and running your tendering.
       </p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      
-      <!-- 3 Month Plan -->
-      <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 transform transition hover:scale-102 hover:shadow-xl">
-        <div class="text-center">
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">3 Month Plan</h3>
-          <div class="mb-6">
-            <span class="text-4xl font-bold text-gray-900">₹1,999</span>
-            <span class="text-gray-500 ml-2">/3 months</span>
-          </div>
-          <div class="bg-orange-50 rounded-lg p-3 mb-6">
-            <span class="text-sm font-medium text-orange-700">₹666 per month</span>
-          </div>
-        </div>
-        
-        <ul class="space-y-4 mb-8">
-          <%= render 'home/pricing/pricing-features' %>
-        </ul>
-        
-        <a href="https://rzp.io/rzp/ZXJ7tSF" target="_blank" class="block w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg text-center transition-colors">
-          Get Started
-        </a>
-      </div>
-
-      <!-- 6 Month Plan -->
-      <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 transform transition hover:scale-102 hover:shadow-xl">
-        <div class="text-center">
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">6 Month Plan</h3>
-          <div class="mb-6">
-            <span class="text-4xl font-bold text-gray-900">₹3,999</span>
-            <span class="text-gray-500 ml-2">/6 months</span>
-          </div>
-          <div class="bg-green-50 rounded-lg p-3 mb-6">
-            <span class="text-sm font-medium text-green-700">₹666 per month • Save ₹0</span>
-          </div>
-        </div>
-        
-        <ul class="space-y-4 mb-8">
-          <%= render 'home/pricing/pricing-features' %>
-        </ul>
-        
-        <a href="https://rzp.io/rzp/FBg3bS0g" target="_blank" class="block w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg text-center transition-colors">
-          Get Started
-        </a>
-      </div>
-
-      <!-- 12 Month Plan - Most Popular -->
-      <div class="bg-white rounded-2xl shadow-xl border-2 border-orange-500 p-8 transform transition hover:scale-102 hover:shadow-2xl relative">
-        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-          <span class="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold">Most Popular</span>
-        </div>
-        
-        <div class="text-center">
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">12 Month Plan</h3>
-          <div class="mb-6">
-            <span class="text-4xl font-bold text-gray-900">₹5,999</span>
-            <span class="text-gray-500 ml-2">/12 months</span>
-          </div>
-          <div class="bg-green-50 rounded-lg p-3 mb-6">
-            <span class="text-sm font-medium text-green-700">₹500 per month • Save ₹2,000</span>
-          </div>
-        </div>
-        
-        <ul class="space-y-4 mb-8">
-          <%= render 'home/pricing/pricing-features' %>
-        </ul>
-        
-        <a href="https://rzp.io/rzp/KhWOmSzN" target="_blank" class="block w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg text-center transition-colors">
-          Get Started
-        </a>
-      </div>
-
-      <!-- 24 Month Plan -->
-      <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 transform transition hover:scale-102 hover:shadow-xl">
-        <div class="text-center">
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">24 Month Plan</h3>
-          <div class="mb-6">
-            <span class="text-4xl font-bold text-gray-900">₹9,997</span>
-            <span class="text-gray-500 ml-2">/24 months</span>
-          </div>
-          <div class="bg-green-50 rounded-lg p-3 mb-6">
-            <span class="text-sm font-medium text-green-700">₹416 per month • Save ₹6,000</span>
-          </div>
-        </div>
-        
-        <ul class="space-y-4 mb-8">
-          <%= render 'home/pricing/pricing-features' %>
-        </ul>
-        
-        <a href="https://rzp.io/rzp/FduHF0Z" target="_blank" class="block w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg text-center transition-colors">
-          Get Started
+      <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href="#services" class="rounded-lg bg-white px-6 py-3 font-semibold text-orange-700 hover:bg-orange-50">See our services</a>
+        <a href="https://wa.me/918882301033?text=<%= ERB::Util.url_encode('Hi, I want help with government tenders') %>" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center justify-center gap-2 rounded-lg border border-white px-6 py-3 font-semibold text-white hover:bg-white/10">
+          <%= render 'tenders/whatsapp_icon' %> Ask on WhatsApp
         </a>
       </div>
     </div>
+  </section>
 
-    <!-- Contact Support -->
-    <div class="text-center mt-12">
-      <p class="text-gray-600 mb-4">Need help choosing the right plan or have questions?</p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="mailto:tendermasterinfo@gmail.com" class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-          </svg>
-          Email Support
-        </a>
-        <a href="https://wa.me/918882301033" target="_blank" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
-          </svg>
-          WhatsApp Support
-        </a>
+  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <div class="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
+      <div class="flex flex-wrap items-baseline justify-between gap-2">
+        <h2 class="text-2xl font-bold text-gray-900">Free for everyone</h2>
+        <span class="text-2xl font-bold text-green-700">₹0</span>
+      </div>
+      <dl class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <% free.each do |title, text| %>
+          <div class="flex gap-2">
+            <%= check %>
+            <div>
+              <dt class="font-semibold text-gray-900"><%= title %></dt>
+              <dd class="mt-1 text-sm text-gray-600"><%= text %></dd>
+            </div>
+          </div>
+        <% end %>
+      </dl>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <%= link_to 'Search tenders', root_path, class: 'rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-orange-700' %>
+        <%= link_to 'Get tenders on WhatsApp', get_relevant_tenders_path, rel: 'nofollow', class: 'rounded-lg border border-orange-600 px-5 py-2.5 text-sm font-semibold text-orange-700 hover:bg-orange-50' %>
       </div>
     </div>
-  </div>
+  </section>
 
+  <section id="services" class="mx-auto max-w-6xl scroll-mt-6 px-4 pb-14 sm:px-6">
+    <h2 class="text-2xl font-bold text-gray-900 sm:text-3xl">When you want us to do the work</h2>
+    <p class="mt-2 max-w-3xl text-gray-600">Every job starts with a free call. We tell you what it needs and quote a fixed price before you pay anything.</p>
 
-  <!-- Business Support Services Section -->
-  <div class="bg-gray-100 pt-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-gray-900 mb-4">Additional Business Support Services</h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Beyond tender access, we offer comprehensive business support services to help you succeed in government contracting.
-        </p>
-      </div>
-
-  <div class="container mx-auto py-12 px-4">
-    <h2 class="text-2xl font-bold mb-4">(A) Bid Management Support</h2>
-
-    <div class="mb-8">
-      <h3 class="text-lg font-semibold mb-2">• Expert Bid Writing & Proposal Development Services</h3>
-      <p class="text-gray-700 mb-2">Tailored bid writing, proposal preparation, and strategic guidance to increase
-        tender success rates.</p>
-      <div class="flex space-x-4">
-        <a href="https://company-setup.sigmatenders.com/tendering-bid-management-services" class="text-blue-500 hover:underline">Learn
-          More</a>
-        <a href="<%= enquiry_path('bid_support') %>" class="text-blue-500 hover:underline">Contact
-          for this service</a>
-      </div>
+    <div class="mt-8 grid gap-6 md:grid-cols-2">
+      <% services.each do |service| %>
+        <div class="flex flex-col rounded-2xl border <%= service[:badge] == 'Most asked for' ? 'border-2 border-orange-500' : 'border-gray-200' %> bg-white p-6 shadow-xs">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="text-xl font-bold text-gray-900"><%= service[:title] %></h3>
+            <% if service[:badge] %>
+              <span class="rounded-full bg-orange-100 px-2.5 py-1 text-xs font-semibold text-orange-800"><%= service[:badge] %></span>
+            <% end %>
+          </div>
+          <p class="mt-2 text-sm text-gray-700"><%= service[:text] %></p>
+          <ul class="mt-4 space-y-2 text-sm text-gray-700">
+            <% service[:points].each do |point| %>
+              <li class="flex gap-2"><%= check %><span><%= point %></span></li>
+            <% end %>
+          </ul>
+          <p class="mt-5 text-sm font-semibold text-gray-900">Fixed price, quoted after a free call</p>
+          <%= link_to service[:cta], service[:path], rel: 'nofollow',
+                      class: 'mt-3 rounded-lg bg-orange-600 px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-orange-700 sm:self-start' %>
+        </div>
+      <% end %>
     </div>
 
-    <div>
-      <h3 class="text-lg font-semibold mb-2">• Tender Compliance & Documentation Review Services</h3>
-      <p class="text-gray-700 mb-2">Detailed review and support to ensure that all tender documents meet specified
-        requirements and standards.</p>
-      <a href="<%= enquiry_path('document_review') %>" class="text-blue-500 hover:underline">Contact
-        for this service</a>
-    </div>
-  </div>
+    <p class="mt-6 text-sm text-gray-600">
+      Also: <%= link_to 'find a JV, consortium or local partner', find_partner_path, rel: 'nofollow', class: 'font-semibold text-orange-700 hover:underline' %>
+      for a tender you can't bid on alone, or <%= link_to 'get quotes from suppliers', enquiry_path('rfq'), rel: 'nofollow', class: 'font-semibold text-orange-700 hover:underline' %>
+      for what a tender asks you to supply.
+    </p>
+  </section>
 
-  <div class="mx-auto p-8">
-    <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">(B) Business/Industry Registrations & Compliance
-      Services
-      - SigmaTenders Business Support Services</h1>
+  <section class="border-t border-gray-200 bg-white">
+    <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+      <h2 class="text-2xl font-bold text-gray-900">How it works</h2>
+      <ol class="mt-6 grid gap-6 md:grid-cols-3">
+        <% [['Tell us what you need', 'Send the tender, or tell us what you supply. On the form, on WhatsApp or by phone.'],
+            ['Free call and a fixed quote', 'We go through the tender and your documents and tell you the price before you pay.'],
+            ['We do the work', 'You approve the bid before we file it, and we keep you posted until the result.']].each_with_index do |(title, text), index| %>
+          <li class="flex gap-4">
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-orange-600 font-bold text-white"><%= index + 1 %></span>
+            <div>
+              <h3 class="font-semibold text-gray-900"><%= title %></h3>
+              <p class="mt-1 text-sm text-gray-600"><%= text %></p>
+            </div>
+          </li>
+        <% end %>
+      </ol>
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-
-      <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-4 text-center">
-        <h2 class="text-xl font-semibold mb-4">1. Business Essentials/ Business Setups Support</h2>
-        <div class="space-y-4">
-          <div>• Business Registration & Incorporation Services<br>Includes registration of Private Limited Companies,
-            LLPs, and Proprietorship
-            setups.<br><a href="https://company-setup.sigmatenders.com/business-registration-incorporation" class="text-blue-500">Learn
-            More</a> |
-            <a href="<%= enquiry_path('business_setup') %>" class="text-blue-500">Contact
-              for this service</a></div>
-          <div>• GST Registration & Filing Services<br>Complete assistance with GST number registration, GST return
-            filings, and compliance.<br><a href="https://company-setup.sigmatenders.com" class="text-blue-500">Learn
-            More</a> |
-            <a href="<%= enquiry_path('gst') %>" class="text-blue-500">Contact
-              for this service</a></div>
-          <div>• Company Law Compliance (MCA) Services<br>Compliance with Ministry of Corporate Affairs regulations,
-            including annual filings and company
-            updates.<br><a href="https://company-setup.sigmatenders.com" class="text-blue-500">Learn More</a> |
-            <a href="<%= enquiry_path('company_law') %>" class="text-blue-500">Contact
-              for this service</a></div>
-          <div>• Income Tax Registration & Filing Services<br>Support for obtaining PAN, filing income tax returns, and
-            managing tax compliance.<br><a href="https://company-setup.sigmatenders.com" class="text-blue-500">Learn
-            More</a> |
-            <a href="<%= enquiry_path('income_tax') %>" class="text-blue-500">Contact
-              for this service</a></div>
-          <a href="https://company-setup.sigmatenders.com" class="text-blue-500">Explore More Business Essentials</a>
+      <div class="mt-12 flex flex-col gap-3 rounded-2xl bg-gray-50 p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p class="font-semibold text-gray-900">Questions? Talk to us.</p>
+          <p class="mt-1 text-sm text-gray-600">Already a subscriber? Your plan carries on as before; WhatsApp us for anything you need.</p>
+        </div>
+        <div class="flex flex-col gap-2 sm:flex-row">
+          <a href="https://wa.me/918882301033" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-green-700">
+            <%= render 'tenders/whatsapp_icon' %> WhatsApp
+          </a>
+          <%= link_to 'Request a call', enquiry_path('callback'), rel: 'nofollow',
+                      class: 'rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-center text-sm font-semibold text-gray-700 hover:bg-gray-50' %>
         </div>
       </div>
-
-
-      <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-2">
-        <h2 class="text-xl font-semibold mb-4">2. Specialized Business Support Services</h2>
-        <div class="space-y-4">
-          <div>• Import Export Code (IEC) Registration<br>Essential for businesses involved in international trade,
-            including new applications and
-            updates.<br><a href="https://company-setup.sigmatenders.com/import-export-code-iec-registration" class="text-blue-500">Learn
-            More</a> |
-            <a href="<%= enquiry_path('iec') %>" class="text-blue-500">Contact
-              for this service</a></div>
-          <div>• MSME Registration Services<br>For small and medium enterprises to access government benefits and
-            schemes.<br><a href="#" class="text-blue-500">Learn More</a> |
-            <a href="<%= enquiry_path('msme') %>" class="text-blue-500">Contact
-              for this service</a></div>
-          <div>• FSSAI License Services<br>Assistance with food safety and standards registration for food-related
-            businesses.<br><a href="https://company-setup.sigmatenders.com/fssai-food-safety-and-standards" class="text-blue-500">Learn
-            More</a> |
-            <a href="<%= enquiry_path('food_safety') %>" class="text-blue-500">Contact
-              for this service</a></div>
-          <a href="https://company-setup.sigmatenders.com" class="text-blue-500">Explore More Specialized Services</a>
-        </div>
-      </div>
-
-
-      <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-2">
-        <h2 class="text-xl font-semibold mb-4">3. NGO Support - Registration / Accounting / Funding and Project
-          Proposals</h2>
-        <div class="space-y-4">
-          <div>• NGO/Trust Registration & Compliance Services<br>Covers the setup and management of NGOs, trusts, and
-            societies, including ongoing regulatory
-            compliance.<br><a href="https://trustngoprojects.org/ngo-support" class="text-blue-500">Learn More</a> |
-            <a href="<%= enquiry_path('csr_grants') %>" class="text-blue-500">Contact
-              for this service</a></div>
-          <div>• FCRA Registration Services<br>Registration and compliance for receiving foreign contributions under the
-            Foreign Contribution Regulation
-            Act.<br><a href="https://company-setup.sigmatenders.com/fcra-foreign-contribution-regulation-act" class="text-blue-500">Learn
-            More</a> |
-            <a href="<%= enquiry_path('fcra') %>" class="text-blue-500">Contact
-              for this service</a></div>
-          <a href="https://company-setup.sigmatenders.com" class="text-blue-500" target="_blank">Explore More NGO
-            Support</a></div>
-      </div>
-
     </div>
-
-
-    <div class="mt-12 text-center">
-      <p class="text-xl font-semibold">Ready to Succeed? Choose Your Plan Today!</p>
-      <a href="https://sigmatenders.com/pricing" class="text-blue-500 mt-2 inline-block" target="_blank">Visit
-        SigmaTenders Pricing</a>
-    </div>
-
-  </div>
-
+  </section>
 </div>
 
 <%= render 'layouts/footer' %>

@@ -2,12 +2,13 @@
 # the Google Forms (services, supplier registration, callback, RFQ, ...).
 # Saved as Leads of kind enquiry, with the answers keyed by question.
 # ?tender=<slug_uuid> links the lead to the tender it came from (the bid
-# help button on tender pages).
+# help button on tender pages), and asks the topic's shorter tender_form.
 class EnquiriesController < ApplicationController
   include LeadRequests
 
   before_action :set_topic
   before_action :set_tender
+  before_action -> { @topic = @topic.for_tender }, if: -> { @tender }
   before_action :no_cache
 
   def show

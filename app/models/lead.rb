@@ -32,7 +32,11 @@ class Lead < ApplicationRecord
   validates :name, :email, :quantity, :location, :company, length: { maximum: 120 }
   validates :details, length: { maximum: 2000 }
 
-  def enquiry_topic = (EnquiryTopic.find(topic) if topic.present?)
+  # A lead about a tender was asked the topic's tender form
+  def enquiry_topic
+    found = (EnquiryTopic.find(topic) if topic.present?)
+    tender_id && found ? found.for_tender : found
+  end
 
   # Where it was sent from (request_meta), for the admin list
   def country = request_meta['country']

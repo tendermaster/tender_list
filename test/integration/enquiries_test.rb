@@ -91,22 +91,41 @@ class EnquiriesTest < ActionDispatch::IntegrationTest
     assert_select "a[href='/enquiry/professional']"
   end
 
-  test 'bid help from a tender page is linked to that tender' do
+  test 'bid help from a tender page asks only who to call, and is linked to that tender' do
     tender = Tender.create!(tender_id: 'T-1', title: 'Construction of district hospital', organisation: 'PWD Assam',
                             state: 'Assam', tender_source: 'assam', slug_uuid: SecureRandom.uuid,
                             submission_close_date: 10.days.from_now, updated_at_auto: Time.current, is_visible: true)
     get enquiry_path('bid_support', tender: tender.slug_uuid)
     assert_response :success
+    assert_select 'h1', 'Get help with this tender'
     assert_select 'a', /Construction of district hospital/
     assert_select "form[action='#{enquiry_path('bid_support', tender: tender.slug_uuid)}']"
+    assert_select 'input[name="lead[company]"]', count: 0
+    assert_select 'input[name="lead[designation]"]', count: 0
+    assert_select 'textarea[name="lead[answers][note]"]:not([required])'
 
-    answers = EnquiryTopic.find('bid_support').fields.select(&:required).to_h do |field|
-      [field.key, field.checkboxes? ? [field.options.first] : (field.options.first || 'Road works, ₹2 Cr')]
-    end
     post enquiry_path('bid_support', tender: tender.slug_uuid),
-         params: { fill_ms: 10_000, lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210', company: 'Rao Builders', designation: 'Owner', answers: } }
+         params: { fill_ms: 10_000, lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210',
+                                            answers: { note: 'We have no DSC yet' } } }
     assert_redirected_to enquiry_path('bid_support', tender: tender.slug_uuid, sent: 1)
-    assert_equal [tender, 'bid_support'], [Lead.last.tender, Lead.last.topic]
+    lead = Lead.last
+    assert_equal [tender, 'bid_support', { 'Anything we should know?' => 'We have no DSC yet' }],
+                 [lead.tender, lead.topic, lead.answers]
+  end
+
+  test 'bid help from a closed tender is about the next one' do
+    tender = Tender.create!(tender_id: 'T-2', title: 'Road repairs', organisation: 'PWD', state: 'Goa', tender_source: 'goa',
+                            slug_uuid: SecureRandom.uuid, submission_close_date: 1.year.ago,
+                            updated_at_auto: Time.current, is_visible: true)
+    get enquiry_path('bid_support', tender: tender.slug_uuid)
+    assert_select 'h1', 'Get ready for the next tender like this'
+  end
+
+  test 'bid help without a tender keeps the full form' do
+    get enquiry_path('bid_support')
+    assert_select 'input[name="lead[company]"][required]'
+    post enquiry_path('bid_support'), params: { fill_ms: 10_000, lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210' } }
+    assert_response :unprocessable_entity
   end
 
   test 'staff see enquiries with their answers' do

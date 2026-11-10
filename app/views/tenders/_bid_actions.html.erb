@@ -1,17 +1,23 @@
-<%# Help bidding: at the top of an open tender (the main offer), under a closed
-    tender's details. locals: tender, open, url (the tender's page) %>
+<%# Help bidding: at the top of an open tender (the main offer); under a closed
+    tender's details, getting ready for the next one like it.
+    locals: tender, open, url (the tender's page) %>
+<% topic = tender_topic(tender) unless open %>
+<%# "Road construction" reads "road construction" mid-sentence; "CCTV cameras" stays %>
+<% topic = topic.downcase_first if topic&.match?(/\A[A-Z][a-z]/) %>
 <section class="<%= open ? 'rounded-xl border-2 border-orange-500 bg-orange-50 dark:bg-orange-950/40' : 'mt-8 rounded-lg border border-gray-200 bg-white dark:bg-gray-800' %> p-5 sm:p-6 dark:border-gray-700">
-  <h2 class="text-lg font-bold text-gray-900 dark:text-white"><%= open ? 'Want us to file this bid for you?' : 'Bidding on tenders like this?' %></h2>
+  <h2 class="text-lg font-bold text-gray-900 dark:text-white">
+    <% if open %>Want us to file this bid for you?<% elsif topic %>Bid on the next <%= topic %> tender<% else %>Bid on the next tender like this<% end %>
+  </h2>
   <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
     <% if open %>
       Our team reads the tender documents, checks your eligibility, prepares the documents and files the bid on the portal before the deadline.
     <% else %>
-      We prepare and file government bids, register businesses on GeM and find JV partners.
+      Most bids fail on paperwork. Before the next one opens, we'll check your eligibility and get your registrations, digital signature (DSC) and documents ready.
     <% end %>
   </p>
 
   <div class="mt-4 flex flex-col gap-2 sm:flex-row">
-    <%= link_to(open ? 'Get help with this bid' : 'Get bid help', enquiry_path('bid_support', tender: tender.slug_uuid), rel: 'nofollow',
+    <%= link_to(open ? 'Get help with this bid' : 'Get ready for the next one', enquiry_path('bid_support', tender: tender.slug_uuid), rel: 'nofollow',
                 class: 'rounded-lg bg-orange-600 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-orange-700') %>
     <a href="<%= whatsapp_tender_url(tender, url) %>" target="_blank" rel="nofollow noopener noreferrer"
        class="inline-flex items-center justify-center gap-2 rounded-lg border border-green-600 bg-white px-4 py-2.5 text-sm font-semibold text-green-700 hover:bg-green-50 dark:bg-transparent">

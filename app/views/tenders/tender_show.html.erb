@@ -163,16 +163,14 @@
 
     <div class="col-span-8">
       <% if closed %>
+        <%# Details, who won, getting ready for the next one; the old corrigenda last %>
         <%= render 'tenders/tender_details', tender: @tender_data, unlocked: unlocked %>
-      <% end %>
-
-      <%= render 'tenders/partials/corrigendums' %>
-      <% if @bid_result %>
-        <%= render 'tenders/partials/tender_results' %>
-      <% end %>
-
-      <% if closed %>
+        <%= render 'tenders/partials/tender_results' if @bid_result %>
         <%= render 'tenders/bid_actions', tender: @tender_data, open: false, url: canonical_url %>
+        <%= render 'tenders/partials/corrigendums' %>
+      <% else %>
+        <%= render 'tenders/partials/corrigendums' %>
+        <%= render 'tenders/partials/tender_results' if @bid_result %>
       <% end %>
 
       <% if rest_similar.any? %>

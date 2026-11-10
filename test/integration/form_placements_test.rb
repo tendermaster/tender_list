@@ -69,7 +69,8 @@ class FormPlacementsTest < ActionDispatch::IntegrationTest
   test 'a closed tender offers alerts for new ones, not a partner' do
     @tender.update!(submission_close_date: 2.days.ago)
     get tender_show_path(slug_uuid: @tender.slug_uuid)
-    assert_select 'h2', 'Bidding on tenders like this?'
+    assert_select 'h2', 'Bid on the next CCTV cameras tender'
+    assert_select 'a[href=?]', "/enquiry/bid_support?tender=#{@tender.slug_uuid}", text: 'Get ready for the next one'
     assert_select '#relevant_tenders_form h3', 'Get tenders like this'
     # Prefilled with what the tender is for
     assert_select '#relevant_tenders_form textarea[name=sectors]', 'CCTV cameras'
@@ -159,5 +160,15 @@ class FormPlacementsTest < ActionDispatch::IntegrationTest
 
     get new_query_path(keyword: 'CCTV')
     assert_select 'textarea[name="query[include_keyword]"]', 'CCTV'
+  end
+
+  test 'a closed tender: details, then getting ready for the next one, old corrigenda last' do
+    @tender.update!(title: 'Road construction at Panaji', submission_close_date: 1.year.ago,
+                    meta_data: { corrigendums: [{ title: 'Date extended' }] }.to_json)
+    get tender_show_path(slug_uuid: @tender.slug_uuid)
+    assert_select 'h2', 'Bid on the next road construction tender'
+    body = response.body
+    assert_operator body.index('Tender details'), :<, body.index('Bid on the next')
+    assert_operator body.index('Bid on the next'), :<, body.index('id="corrigenda"')
   end
 end

@@ -370,6 +370,17 @@
   title: 'Tendering and bid support: free consultation'
   intro: Tell us about your business and tendering goals, and our experts will call you.
   submit: Book free consultation
+  # Opened from a tender page (?tender=): just who to call; the team asks the
+  # rest on the call
+  tender_form:
+    title: Get help with this tender
+    intro: Tell us how to reach you. We'll go through the tender and call you, usually within one working day.
+    submit: Request a call
+    fields:
+    - key: note
+      label: Anything we should know?
+      type: paragraph
+      hint: Optional. For example what you supply, your turnover, or documents you don't have yet.
   contact:
   - company!
   - designation!
