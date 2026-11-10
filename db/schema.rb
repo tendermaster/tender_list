@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_24_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_10_123641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_buffercache"
   enable_extension "pg_catalog.plpgsql"
@@ -108,7 +108,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_24_100000) do
     t.bigint "product_id"
     t.bigint "user_id"
     t.string "name", null: false
-    t.string "email", null: false
+    t.string "email"
     t.string "phone", null: false
     t.string "quantity"
     t.string "location"

@@ -17,7 +17,8 @@ class Lead < ApplicationRecord
 
   before_validation :normalize_phone
 
-  validates :name, :email, :phone, presence: true
+  # Email is optional: mail is off, and the team calls or WhatsApps
+  validates :name, :phone, presence: true
   validates :location, presence: true, unless: :enquiry?
   validates :product, :quantity, presence: true, if: :quote?
   validates :partner_need, inclusion: { in: PARTNER_NEEDS }, if: :partner?

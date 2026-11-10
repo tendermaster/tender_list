@@ -17,7 +17,7 @@
   meta_desc = if has_results
     "Find the latest #{@query_label} tenders in India. Access tender documents, BOQs, and online bidding details on Sigma Tenders."
   else
-    "Search and receive daily email alerts for #{@query_label} tenders in India across central, state government, GeM, and PSU portals."
+    "Search #{@query_label} tenders in India across central, state government, GeM and PSU portals, free. Get help preparing and filing your bid."
   end
 
   # Industry standard SEO rule:
@@ -76,7 +76,7 @@
   <h1 class="my-4 text-xl font-bold">Results for: <%= @query_label %></h1>
   <%= render 'tenders/search_filters', total: @total, filters: @filters %>
   <h2 class="mt-4 mb-8 text-sm font-bold text-gray-700 dark:text-gray-300">
-    Find the latest <%= @query_label %> tenders from different organizations. SigmaTenders helps you participate in these online e-Procurement tenders. We provide access to tender details, BOQs, and technical bids, along with bidding support for <%= @query_label %> e-tenders. Stay informed with daily email alerts and comprehensive coverage across government websites, GeM, and e-Procurement portals.
+    Find the latest <%= @query_label %> tenders from different organizations. SigmaTenders helps you participate in these online e-Procurement tenders. We provide access to tender details, BOQs, and technical bids, along with bidding support for <%= @query_label %> e-tenders. Get matching tenders on WhatsApp, with coverage across government websites, GeM and e-Procurement portals.
   </h2>
 
   <div class="lg:grid grid-cols-12 gap-x-8">

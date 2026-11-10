@@ -52,7 +52,7 @@
   intro: Get your business registered on the Government e-Marketplace (GeM) and your products or services listed. We'll call you to collect the documents.
   submit: Request a call
   contact:
-  - company!
+  - company
   fields:
   - key: gem_status
     label: Where are you on GeM?
@@ -63,17 +63,6 @@
     - Registered, need help listing products or services
     - Listed, need help bidding
     - Need help with something else
-  - key: business_type
-    label: Business type
-    type: choice
-    required: true
-    options:
-    - Proprietorship
-    - Partnership
-    - Private or Public Limited Company
-    - LLP
-    - NGO / Trust / Society
-    - Other
   - key: offer
     label: What do you sell?
     type: paragraph
@@ -89,10 +78,6 @@
     - Company or firm registration
     - Bank account details
     - Product brand or OEM authorisation
-  - key: state
-    label: State
-    type: short
-    required: true
 - key: supplier
   title: Register as a supplier or vendor
   index: true
@@ -286,6 +271,12 @@
     label: Products or services you offer
     type: paragraph
     required: true
+  - key: bid_help
+    label: Want us to file bids for you?
+    type: choice
+    options:
+    - Yes, help me bid
+    - Just send tenders
   - key: message
     label: Message
     type: paragraph
@@ -367,9 +358,23 @@
     - Referral Programs with Existing Subscribers
     - NGOs and voluntary organisations
 - key: bid_support
-  title: 'Tendering and bid support: free consultation'
-  intro: Tell us about your business and tendering goals, and our experts will call you.
-  submit: Book free consultation
+  title: 'Bid filing: get a quote'
+  intro: Tell us the tender you want to bid on, or what you supply. We'll call you, go through it and quote a fixed price before you pay anything.
+  submit: Request a call
+  contact:
+  - company
+  fields:
+  - key: need
+    label: Which tender, or what do you supply?
+    type: paragraph
+    required: true
+    hint: A tender link or ID, or your products or services
+  - key: bid_before
+    label: Have you bid on government tenders before?
+    type: choice
+    options:
+    - 'Yes'
+    - 'No'
   # Opened from a tender page (?tender=): just who to call; the team asks the
   # rest on the call
   tender_form:
@@ -381,123 +386,6 @@
       label: Anything we should know?
       type: paragraph
       hint: Optional. For example what you supply, your turnover, or documents you don't have yet.
-  contact:
-  - company!
-  - designation!
-  - website
-  fields:
-  - key: industry
-    label: Industry
-    type: choice
-    required: true
-    options:
-    - 'Civil Engineering: Road construction, bridge building, building construction'
-    - 'Electrical Engineering: Power plants, transmission lines, electrical installations'
-    - 'Mechanical Engineering: HVAC systems, piping, industrial equipment'
-    - 'Architectural Services: Building design and planning'
-    - 'Software Development: Application development, system integration'
-    - 'Hardware Manufacturing: Computers, servers, networking equipment'
-    - 'IT Services: Consulting, support, cybersecurity'
-    - 'Telecommunications: Network infrastructure, mobile services'
-    - 'Pharmaceuticals: Drug manufacturing and distribution'
-    - 'Medical Equipment: Hospital supplies, diagnostic equipment'
-    - 'Healthcare Services: Hospitals, clinics, nursing homes'
-    - 'Educational Services: Schools, universities, training institutes'
-    - 'Educational Technology: E-learning platforms, educational software'
-    - Skilling , training and vocational education
-    - 'Agricultural Products: Crops, livestock, dairy products'
-    - 'Food Processing: Food manufacturing, packaging'
-    - 'Automotive: Vehicle manufacturing, maintenance'
-    - 'Logistics: Transportation services, warehousing'
-    - 'Renewable Energy: Solar, wind, hydro power'
-    - 'Fossil Fuels: Oil, gas, coal'
-    - 'Defense Equipment: Weapons, vehicles, military hardware'
-    - 'Security Services: Security personnel, surveillance systems'
-    - 'Consulting Services: Management consulting, financial consulting'
-    - 'Legal Services: Legal advice, contract drafting'
-    - 'Printing and Publishing: Printing services, publishing houses'
-    - NGO services
-    - Horticulture and support services
-    - Man power and security guards
-    - Catering services
-    - Supplies of various goods and articles
-    - Others
-    - Option 32
-  - key: turnover
-    label: Estimated Annual Turnover (INR)
-    type: short
-    required: true
-  - key: bid_before
-    label: Have you participated in government tenders before?
-    type: choice
-    required: true
-    options:
-    - 'Yes'
-    - 'No'
-  - key: sectors
-    label: Which industries or sectors are you interested in bidding for?
-    type: checkboxes
-    required: true
-    options:
-    - 'Civil Engineering: Road construction, bridge building, building construction'
-    - 'Electrical Engineering: Power plants, transmission lines, electrical installations'
-    - 'Mechanical Engineering: HVAC systems, piping, industrial equipment'
-    - 'Architectural Services: Building design and planning'
-    - 'Software Development: Application development, system integration'
-    - 'Hardware Manufacturing: Computers, servers, networking equipment'
-    - 'IT Services: Consulting, support, cybersecurity'
-    - 'Telecommunications: Network infrastructure, mobile services'
-    - 'Pharmaceuticals: Drug manufacturing and distribution'
-    - 'Medical Equipment: Hospital supplies, diagnostic equipment'
-    - 'Healthcare Services: Hospitals, clinics, nursing homes'
-    - 'Educational Services: Schools, universities, training institutes'
-    - 'Educational Technology: E-learning platforms, educational software'
-    - Skilling , training and vocational education
-    - 'Agricultural Products: Crops, livestock, dairy products'
-    - 'Food Processing: Food manufacturing, packaging'
-    - 'Automotive: Vehicle manufacturing, maintenance'
-    - 'Logistics: Transportation services, warehousing'
-    - 'Renewable Energy: Solar, wind, hydro power'
-    - 'Fossil Fuels: Oil, gas, coal'
-    - 'Defense Equipment: Weapons, vehicles, military hardware'
-    - 'Security Services: Security personnel, surveillance systems'
-    - 'Consulting Services: Management consulting, financial consulting'
-    - 'Legal Services: Legal advice, contract drafting'
-    - 'Printing and Publishing: Printing services, publishing houses'
-    - NGO services
-    - Horticulture and support services
-    - Man power and security guards
-    - Catering services
-    - Supplies of various goods and articles
-    - Others
-  - key: goal
-    label: What are your primary goals for tendering?
-    type: choice
-    required: true
-    options:
-    - Find More Relevant Tenders
-    - Improve Bid Quality & Competitiveness
-    - Increase Chances of Winning Tenders
-    - Save Time & Resources on Tendering
-    - Get Expert Guidance Throughout the Process
-    - Other (Specify)
-  - key: services
-    label: Which services are you most interested in?
-    type: checkboxes
-    required: true
-    options:
-    - General Tendering Consultancy
-    - SigmaTenders Premium Subscription
-    - 'Package 1: Tender Alert & Search'
-    - 'Package 2: Bid Preparation Support'
-    - 'Package 3: Complete Tender Management'
-    - Both General Consultancy & SigmaTenders Premium
-  - key: challenges
-    label: What are your primary challenges or concerns related to tendering?
-    type: paragraph
-  - key: tenders_per_month
-    label: How many tenders do you typically apply for each month/quarter?
-    type: short
 - key: document_review
   title: Tender compliance and document review
   intro: Tell us about the tender and documents you want reviewed.
@@ -508,6 +396,46 @@
   - key: message
     label: Message
     type: paragraph
+- key: bid_ready
+  title: 'Get bid-ready: DSC, registrations and documents'
+  intro: Most bids fail on paperwork. Tell us what you need and we'll call you with a fixed quote, so you're ready before the next tender opens.
+  submit: Request a call
+  contact:
+  - company
+  fields:
+  - key: needs
+    label: What do you need?
+    type: checkboxes
+    required: true
+    options:
+    - Digital signature certificate (DSC)
+    - MSME (Udyam) registration
+    - Vendor registration on a tender portal
+    - Document and compliance review
+    - Not sure, tell me what I need
+  - key: supply
+    label: What do you supply?
+    type: short
+- key: tender_desk
+  title: 'Tender desk: your own tendering team'
+  intro: We screen new tenders for you every day, send you the ones worth bidding on, and handle the bids you choose. Tell us about your business and we'll call you.
+  submit: Request a call
+  contact:
+  - company
+  fields:
+  - key: supply
+    label: What do you supply?
+    type: paragraph
+    required: true
+    hint: Products or services, and the states you work in
+  - key: per_month
+    label: How many tenders do you bid on a month?
+    type: choice
+    options:
+    - None yet
+    - 1–2
+    - 3–5
+    - 6 or more
 - key: business_setup
   title: 'Business setup and registrations: free consultation'
   intro: Starting or expanding a business? Tell us what you need registered.

@@ -11,12 +11,13 @@ class TenderAlertRequestsController < ApplicationController
 
   def create
     topic = EnquiryTopic.find('tender_alerts')
-    answers = topic.answers_from(ActiveSupport::HashWithIndifferentAccess.new(answers: { keywords: params[:sectors] }))
+    answers = topic.answers_from(ActiveSupport::HashWithIndifferentAccess.new(answers: { keywords: params[:sectors],
+                                                                                       bid_help: params[:bid_help] }))
     @lead = build_lead(kind: 'enquiry', topic: topic.key, name: params[:name], email: params[:email],
                        phone: params[:mobile], answers:, tender: @tender)
     result = save_lead(@lead)
     if result == true
-      track('tender_alert_requested', from_tender: @tender.present?,
+      track('tender_alert_requested', from_tender: @tender.present?, wants_bid_help: params[:bid_help] == 'Yes, help me bid',
                                       tender_open: (@tender.submission_close_date&.future? if @tender))
     end
     @full_message = if result

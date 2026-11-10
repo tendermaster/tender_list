@@ -62,7 +62,8 @@ Rails.application.routes.draw do
   get '/coming-soon', controller: :home, action: :coming_soon
   get '/get-callback', to: redirect('/enquiry/callback'), as: :get_callback
   get '/partner-with-us', to: redirect('/enquiry/partnership'), as: :partner_with_us
-  get '/onboarding', controller: :home, action: :onboarding, as: :onboarding
+  # The old "how to subscribe" page; subscriptions are off /pricing since 2026-11-10
+  get '/onboarding', to: redirect('/pricing', status: 301), as: :onboarding
   get '/get-sample-tenders', to: redirect('/enquiry/sample_tender'), as: :get_sample_tenders
   get '/free-trial', to: redirect('/enquiry/free_trial'), as: :free_trial
   get '/faq', controller: :home, action: :faq, as: :faq

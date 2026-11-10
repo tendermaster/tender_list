@@ -151,15 +151,36 @@ class FormPlacementsTest < ActionDispatch::IntegrationTest
     assert_select '#relevant_tenders_form h3', /No live tenders matching “Hovercraft” today/
   end
 
-  test 'signed-in users are offered to save the search as an alert' do
+  # Saved-search alerts are emails, which are off: signed-in users get the
+  # WhatsApp form too, without name and email
+  test 'signed-in users get tenders on WhatsApp through the same form' do
     sign_in User.create!(email: 'buyer@example.com', password: 'secret-password-1', confirmed_at: Time.current,
                          phone: '9876543210')
     search('/tenders/CCTV-tenders', [@tender])
-    assert_select '#relevant_tenders_form form', count: 0
-    assert_select 'a[href=?]', new_query_path(keyword: 'CCTV'), 'Save “CCTV” as an alert'
+    assert_select '#relevant_tenders_form textarea[name=sectors]', 'CCTV'
+    assert_select '#relevant_tenders_form input[name=name]', count: 0
+    assert_select '#relevant_tenders_form input[name=mobile]', count: 0
+    assert_select '#relevant_tenders_form', /We'll contact you at \+919876543210/
+    assert_not_includes response.body, 'Your alerts come from your saved searches'
+  end
 
-    get new_query_path(keyword: 'CCTV')
-    assert_select 'textarea[name="query[include_keyword]"]', 'CCTV'
+  test 'an alert request needs no email and records whether they want bid help' do
+    post get_relevant_tenders_post_path, params: { sectors: 'CCTV', name: 'Test Person', mobile: '9876543210',
+                                                   bid_help: 'Yes, help me bid', fill_ms: 10_000 }
+    lead = Lead.order(:id).last
+    assert_nil lead.email
+    assert_equal 'Yes, help me bid', lead.answers['Want us to file bids for you?']
+    assert_select 'a[href^="https://wa.me/918882301033"]', /Message us on WhatsApp/
+  end
+
+  test 'an open tender closing tomorrow asks them to send it on WhatsApp now' do
+    travel_to Time.utc(2026, 11, 10, 6) do
+      @tender.update!(submission_close_date: Time.utc(2026, 11, 11, 15))
+      get tender_show_path(slug_uuid: @tender.slug_uuid)
+    end
+    assert_select 'h2', 'Closes tomorrow: talk to us now'
+    assert_select 'h2', text: 'Want us to file this bid for you?', count: 0
+    assert_operator response.body.index('Send it on WhatsApp now'), :<, response.body.index('Get help with this bid')
   end
 
   test 'a closed tender: details, then getting ready for the next one, old corrigenda last' do

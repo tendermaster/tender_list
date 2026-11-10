@@ -121,11 +121,42 @@ class EnquiriesTest < ActionDispatch::IntegrationTest
     assert_select 'h1', 'Get ready for the next tender like this'
   end
 
-  test 'bid help without a tender keeps the full form' do
+  test 'bid filing without a tender: what they need, nothing else required' do
     get enquiry_path('bid_support')
-    assert_select 'input[name="lead[company]"][required]'
-    post enquiry_path('bid_support'), params: { fill_ms: 10_000, lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210' } }
+    assert_select 'h1', 'Bid filing: get a quote'
+    assert_select 'input[name="lead[company]"]:not([required])'
+    assert_select 'input[name="lead[email]"]:not([required])'
+    post enquiry_path('bid_support'), params: { fill_ms: 10_000, lead: { name: 'Asha', phone: '9876543210' } }
     assert_response :unprocessable_entity
+    post enquiry_path('bid_support'), params: { fill_ms: 10_000, lead: { name: 'Asha', phone: '9876543210',
+                                                                         answers: { need: 'Road works in Goa' } } }
+    assert_redirected_to enquiry_path('bid_support', sent: 1)
+    follow_redirect!
+    assert_select 'a[href^="https://wa.me/918882301033"]', /Message us on WhatsApp/
+  end
+
+  test 'the pricing cards each have their own short form' do
+    post enquiry_path('bid_ready'), params: { fill_ms: 10_000, lead: { name: 'Asha', phone: '9876543210',
+                                                                       answers: { needs: ['Digital signature certificate (DSC)', 'Made up'] } } }
+    assert_equal({ 'What do you need?' => ['Digital signature certificate (DSC)'] }, Lead.last.answers)
+
+    post enquiry_path('tender_desk'), params: { fill_ms: 10_000, lead: { name: 'Asha', phone: '9876543210',
+                                                                         answers: { supply: 'CCTV, Goa', per_month: '1–2' } } }
+    assert_equal 'tender_desk', Lead.last.topic
+
+    post enquiry_path('gem_registration'), params: { fill_ms: 10_000, lead: { name: 'Asha', phone: '9876543210',
+                                                                              answers: { gem_status: 'Not registered yet', offer: 'Office chairs' } } }
+    assert_equal 'gem_registration', Lead.last.topic
+
+    get pricing_path
+    assert_select '#services a[href=?]', enquiry_path('bid_ready')
+    assert_select '#services a[href=?]', enquiry_path('tender_desk')
+  end
+
+  test 'the old onboarding page goes to pricing' do
+    get '/onboarding'
+    assert_redirected_to '/pricing'
+    assert_equal 301, response.status
   end
 
   test 'staff see enquiries with their answers' do

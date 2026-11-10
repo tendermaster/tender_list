@@ -1,33 +1,43 @@
 <%# Help bidding: at the top of an open tender (the main offer); under a closed
     tender's details, getting ready for the next one like it.
     locals: tender, open, url (the tender's page) %>
+<%# An open tender closing within 2 days: there may not be time for the full
+    service, so say so and ask them to send it now on WhatsApp %>
+<% days = ist_days_until(tender.submission_close_date)&.clamp(0..) if open %>
+<% rush = days && days <= 2 %>
+<% when_text = { 0 => 'today', 1 => 'tomorrow' }.fetch(days, "in #{days} days") if rush %>
 <% topic = tender_topic(tender) unless open %>
 <%# "Road construction" reads "road construction" mid-sentence; "CCTV cameras" stays %>
 <% topic = topic.downcase_first if topic&.match?(/\A[A-Z][a-z]/) %>
 <section class="<%= open ? 'rounded-xl border-2 border-orange-500 bg-orange-50 dark:bg-orange-950/40' : 'mt-8 rounded-lg border border-gray-200 bg-white dark:bg-gray-800' %> p-5 sm:p-6 dark:border-gray-700">
   <h2 class="text-lg font-bold text-gray-900 dark:text-white">
-    <% if open %>Want us to file this bid for you?<% elsif topic %>Bid on the next <%= topic %> tender<% else %>Bid on the next tender like this<% end %>
+    <% if rush %>Closes <%= when_text %>: talk to us now<% elsif open %>Want us to file this bid for you?<% elsif topic %>Bid on the next <%= topic %> tender<% else %>Bid on the next tender like this<% end %>
   </h2>
   <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
-    <% if open %>
+    <% if rush %>
+      There may still be time if your documents are ready. Send us the tender on WhatsApp now and we'll tell you today whether we can file it.
+    <% elsif open %>
       Our team reads the tender documents, checks your eligibility, prepares the documents and files the bid on the portal before the deadline.
     <% else %>
       Most bids fail on paperwork. Before the next one opens, we'll check your eligibility and get your registrations, digital signature (DSC) and documents ready.
     <% end %>
   </p>
 
+  <%
+    form_button = link_to(open ? 'Get help with this bid' : 'Get ready for the next one',
+                          enquiry_path('bid_support', tender: tender.slug_uuid), rel: 'nofollow',
+                          class: "rounded-lg px-4 py-2.5 text-center text-sm font-semibold #{rush ? 'border border-orange-600 bg-white text-orange-700 hover:bg-orange-50' : 'bg-orange-600 text-white hover:bg-orange-700'}")
+    whatsapp_button = link_to(whatsapp_tender_url(tender, url), target: '_blank', rel: 'nofollow noopener noreferrer',
+                              class: "inline-flex items-center justify-center gap-2 rounded-lg border border-green-600 px-4 py-2.5 text-sm font-semibold #{rush ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-white text-green-700 hover:bg-green-50 dark:bg-transparent'}") do
+      safe_join([render('tenders/whatsapp_icon'), rush ? 'Send it on WhatsApp now' : 'Ask on WhatsApp'], ' ')
+    end
+  %>
   <div class="mt-4 flex flex-col gap-2 sm:flex-row">
-    <%= link_to(open ? 'Get help with this bid' : 'Get ready for the next one', enquiry_path('bid_support', tender: tender.slug_uuid), rel: 'nofollow',
-                class: 'rounded-lg bg-orange-600 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-orange-700') %>
-    <a href="<%= whatsapp_tender_url(tender, url) %>" target="_blank" rel="nofollow noopener noreferrer"
-       class="inline-flex items-center justify-center gap-2 rounded-lg border border-green-600 bg-white px-4 py-2.5 text-sm font-semibold text-green-700 hover:bg-green-50 dark:bg-transparent">
-      <%= render 'tenders/whatsapp_icon' %> Ask on WhatsApp
-    </a>
+    <%= rush ? safe_join([whatsapp_button, form_button]) : safe_join([form_button, whatsapp_button]) %>
   </div>
 
   <p class="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
     <%= link_to 'GeM registration', enquiry_path('gem_registration'), rel: 'nofollow', class: 'font-semibold text-orange-700 hover:underline' %>
-    <%= link_to 'Supplier quotes', enquiry_path('rfq'), rel: 'nofollow', class: 'font-semibold text-orange-700 hover:underline' %>
     <%= link_to 'How to file a tender', how_to_file_tender_path, class: 'font-semibold text-gray-700 hover:underline dark:text-gray-300' %>
   </p>
 </section>

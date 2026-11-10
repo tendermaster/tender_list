@@ -15,13 +15,13 @@
     <%= f.text_field :name, required: true, maxlength: 120, autocomplete: 'name', class: input %>
   </div>
   <div>
-    <%= f.label :email, 'Email', class: 'block text-sm font-medium text-gray-900' %>
-    <%= f.email_field :email, required: true, maxlength: 120, autocomplete: 'email', class: input %>
-  </div>
-  <div>
     <%= f.label :phone, 'Mobile number', class: 'block text-sm font-medium text-gray-900' %>
     <%= f.telephone_field :phone, required: true, inputmode: 'numeric', autocomplete: 'tel-national',
                           placeholder: '98765 43210', class: input %>
+  </div>
+  <div>
+    <%= f.label :email, 'Email (optional)', class: 'block text-sm font-medium text-gray-900' %>
+    <%= f.email_field :email, maxlength: 120, autocomplete: 'email', class: input %>
   </div>
   <p class="text-xs text-gray-500">Have an account? <%= link_to 'Sign in', new_user_session_path, class: 'font-semibold text-orange-700 hover:underline' %> to skip these.</p>
 <% end %>

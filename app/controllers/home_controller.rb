@@ -15,10 +15,6 @@ class HomeController < ApplicationController
     render 'home/coming_soon'
   end
 
-  def onboarding
-
-  end
-
   def faq
 
   end
