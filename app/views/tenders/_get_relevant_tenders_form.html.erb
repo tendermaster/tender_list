@@ -38,7 +38,7 @@
           <%= form.telephone_field :mobile, required: true, inputmode: 'tel', autocomplete: 'tel', placeholder: '98765 43210', class: input %>
         </div>
       <% end %>
-      <p class="text-xs text-gray-500">We'll contact you at <%= current_user.phone.presence || 'this number' %>.</p>
+      <p class="text-xs text-gray-500">We'll contact you at <span data-ph-mask><%= current_user.phone.presence || 'this number' %></span>.</p>
     <% else %>
       <div>
         <%= form.label :name, 'Your name', class: label %>

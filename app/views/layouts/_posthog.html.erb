@@ -1,0 +1,43 @@
+<%# PostHog in the browser (config/initializers/posthog.rb has the server
+    side): pageviews, clicks, heatmaps, web vitals and session recordings.
+    Only when both PostHog keys are set, so not in tests, development or
+    staging; never on /admin, which shows people's leads.
+    Recordings mask every input and any element with data-ph-mask (the
+    navbar's email, account pages); console logs and network requests are
+    off in the project settings.
+    Anonymous visitors stay personless (identified_only). Signed-in pages
+    identify the browser as user_<id>, the id the server's events use, and
+    a browser still identified after signing out is reset. Anonymous tender
+    pages are cached by Cloudflare, so nothing here may depend on the
+    visitor except inside the signed-in branch, which is never cached.
+    The browser talks to PostHog through e.sigmatenders.com, PostHog's
+    managed reverse proxy (a DNS-only CNAME in Cloudflare), so ad blockers
+    that block *.posthog.com don't drop visits. %>
+<% token = ENV['POSTHOG_PROJECT_TOKEN'].to_s.strip
+   host = ENV['POSTHOG_HOST'].to_s.strip %>
+<% if token.present? && host.present? && !request.path.start_with?('/admin') %>
+  <%= javascript_tag nonce: true do %>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags on onFeatureFlags onSessionId identify setPersonProperties group resetGroups reset get_distinct_id get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init(<%= raw token.to_json %>, {
+      api_host: 'https://e.sigmatenders.com',
+      ui_host: 'https://us.posthog.com',
+      person_profiles: 'identified_only',
+      capture_pageview: true,
+      capture_pageleave: true,
+      enable_heatmaps: true,
+      capture_performance: { web_vitals: true, network_timing: false },
+      session_recording: {
+        maskAllInputs: true,
+        maskTextSelector: '[data-ph-mask]',
+        recordCrossOriginIframes: false
+      },
+      loaded: function (ph) {
+        <% if user_signed_in? %>
+          ph.identify(<%= raw current_user.posthog_distinct_id.to_json %>);
+        <% else %>
+          if (ph.get_property('$user_state') === 'identified') ph.reset();
+        <% end %>
+      }
+    });
+  <% end %>
+<% end %>

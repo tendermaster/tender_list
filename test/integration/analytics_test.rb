@@ -55,4 +55,61 @@ class AnalyticsTest < ActionDispatch::IntegrationTest
     assert_equal ['tender_search_completed'], @events.map { _1[:event] }
     assert_nil @events.first[:distinct_id]
   end
+
+  def with_posthog_keys
+    old = ENV.values_at('POSTHOG_PROJECT_TOKEN', 'POSTHOG_HOST')
+    ENV['POSTHOG_PROJECT_TOKEN'] = 'phc_test'
+    ENV['POSTHOG_HOST'] = 'https://us.i.posthog.com'
+    yield
+  ensure
+    ENV['POSTHOG_PROJECT_TOKEN'], ENV['POSTHOG_HOST'] = old
+  end
+
+  test 'the browser library loads only with both keys, and never on admin pages' do
+    get "/privacy-policy"
+    assert_no_match 'posthog.init', response.body
+
+    with_posthog_keys do
+      get "/privacy-policy"
+      assert_match 'posthog.init("phc_test"', response.body
+      assert_match "person_profiles: 'identified_only'", response.body
+      assert_match 'maskAllInputs: true', response.body
+      # Anonymous pages are cached by Cloudflare: they never identify anyone
+      assert_no_match 'ph.identify(', response.body
+
+      get '/admin'
+      assert_no_match 'posthog.init', response.body
+    end
+  end
+
+  test "signed-in pages identify the browser with the server's id and mask the email" do
+    user = User.create!(email: 'ravi@example.com', password: 'password123', name: 'Ravi', confirmed_at: Time.current)
+    sign_in user
+    with_posthog_keys { get "/privacy-policy" }
+    assert_match %(ph.identify("user_#{user.id}")), response.body
+    assert_select '#user-email[data-ph-mask]'
+  end
+
+  test "a visitor's events use their browser's PostHog id and session, still personless" do
+    with_posthog_keys do
+      cookies['ph_phc_test_posthog'] = { distinct_id: '0199-anon-id', '$sesid' => [1, '0199-session', 1] }.to_json
+      capturing do
+        post enquiry_path('callback'), params: { fill_ms: 10_000, lead: { name: 'Asha', email: 'asha@example.com', phone: '9876543210',
+                                                         answers: { message: 'Call me' } } }
+      end
+    end
+    event = @events.sole
+    assert_equal '0199-anon-id', event[:distinct_id]
+    assert_equal '0199-session', event[:properties][:$session_id]
+    assert_equal false, event[:properties][:$process_person_profile]
+  end
+
+  test 'a tampered PostHog cookie is ignored' do
+    with_posthog_keys do
+      cookies['ph_phc_test_posthog'] = { distinct_id: '<script>', '$sesid' => 'x' }.to_json
+      capturing { post enquiry_path('callback'), params: { fill_ms: 10_000, lead: { name: 'Asha', phone: '9876543210', answers: { message: 'Call me' } } } }
+    end
+    assert_nil @events.sole[:distinct_id]
+    assert_equal %i[topic from_tender], @events.sole[:properties].keys
+  end
 end

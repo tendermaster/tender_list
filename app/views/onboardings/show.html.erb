@@ -3,7 +3,7 @@
 
 <div class="mx-auto w-full max-w-2xl px-4 py-10" data-controller="onboarding">
   <h1 class="text-2xl font-bold text-gray-900 md:text-3xl">
-    Welcome<%= ", #{current_user.name.split.first}" if current_user.name.present? %> 👋
+    Welcome<span data-ph-mask><%= ", #{current_user.name.split.first}" if current_user.name.present? %></span> 👋
   </h1>
   <p class="mt-2 text-gray-600">Tell us what you bid on. We'll show matching open tenders now, and our team will call you to help you find and win more.</p>
 

@@ -8,6 +8,7 @@
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
   <%= render 'layouts/google' %>
+  <%= render 'layouts/posthog' %>
   <%= javascript_importmap_tags %>
   <%# vendored UMD builds (vendor/javascript), versions in the file names %>
   <%= javascript_include_tag "flowbite-4.0.2.min", "jquery-3.7.1.min", "sweetalert2-11.26.25.all.min" %>
@@ -28,7 +29,7 @@
       data-google-sign-in-return-here-value="<%= !request.path.start_with?('/users') %>">
 <% end %>
 
-<main class="">
+<main class=""<%= ' data-ph-mask' if request.path.start_with?('/users') %>>
 <!--  <p class="notice"><%#= notice %></p>-->
 <!--  <p class="alert"><%#= alert %></p>-->
   <%= yield %>

@@ -50,9 +50,31 @@ class ApplicationController < ActionController::Base
   # else personless. Never put what a visitor typed (search words, form
   # answers) in the properties.
   def track(event, **properties)
+    browser = posthog_browser
+    properties[:$session_id] = browser[:session_id] if browser[:session_id]
     attrs = { event:, properties: }
-    attrs[:distinct_id] = current_user.posthog_distinct_id if current_user
+    if current_user
+      attrs[:distinct_id] = current_user.posthog_distinct_id
+    elsif browser[:distinct_id]
+      # The visitor's browser id (layouts/_posthog), so the event joins their
+      # session and recording; still personless, like their browser events
+      attrs[:distinct_id] = browser[:distinct_id]
+      properties[:$process_person_profile] = false
+    end
     PostHog.capture(attrs)
+  end
+
+  # The PostHog browser library's cookie (ph_<token>_posthog): its distinct id
+  # and current session id. The visitor controls it, so only short plain ids.
+  def posthog_browser
+    token = ENV['POSTHOG_PROJECT_TOKEN'].to_s.strip
+    data = token.present? && JSON.parse(cookies["ph_#{token}_posthog"].to_s)
+    return {} unless data.is_a?(Hash)
+
+    plain = ->(id) { id if id.is_a?(String) && id.match?(/\A[\w.@:-]{1,100}\z/) }
+    { distinct_id: plain.(data['distinct_id']), session_id: plain.(Array(data['$sesid'])[1]) }.compact
+  rescue JSON::ParserError
+    {}
   end
 
   # Signed in, or a browser that kept our session cookie: crawlers send
