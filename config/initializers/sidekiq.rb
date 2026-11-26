@@ -55,6 +55,13 @@ unless ENV['SECRET_KEY_BASE_DUMMY'] || ENV['SKIP_SIDEKIQ_CRON']
       class: 'InfraHealthCheckJob'
     )
 
+    # BIS licences for products.sigmatenders.com (BisImportJob)
+    Sidekiq::Cron::Job.create(
+      name:  'BisImportJob - monthly, 3rd at 5am IST',
+      cron:  '0 5 3 * * Asia/Kolkata',
+      class: 'BisImportJob'
+    )
+
     Sidekiq::Cron::Job.create(
       name:  'LeadMetaCleanupJob - daily 4:30am IST',
       cron:  '30 4 * * * Asia/Kolkata',

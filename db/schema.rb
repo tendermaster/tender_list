@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_26_120100) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_26_120400) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_buffercache"
   enable_extension "pg_catalog.plpgsql"
@@ -156,6 +156,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_120100) do
     t.index ["user_id"], name: "index_leads_on_user_id"
   end
 
+  create_table "marketplace_pages", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "template", null: false
+    t.string "key"
+    t.bigint "product_id"
+    t.bigint "supplier_id"
+    t.boolean "indexable", default: false, null: false
+    t.string "fingerprint", null: false
+    t.datetime "lastmod", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_marketplace_pages_on_path", unique: true
+    t.index ["product_id"], name: "index_marketplace_pages_on_product_id"
+    t.index ["supplier_id"], name: "index_marketplace_pages_on_supplier_id"
+    t.index ["template", "indexable"], name: "index_marketplace_pages_on_template_and_indexable"
+  end
+
   create_table "misc_data_stores", force: :cascade do |t|
     t.json "data"
     t.string "name"
@@ -177,6 +194,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_120100) do
     t.datetime "updated_at", null: false
     t.jsonb "configurations", default: [], null: false
     t.string "image_url"
+    t.boolean "marketplace", default: false, null: false
+    t.string "is_numbers", default: [], null: false, array: true
+    t.string "tender_query"
+    t.jsonb "price_table", default: {}, null: false
+    t.date "price_updated_on"
+    t.jsonb "spec_table", default: {}, null: false
+    t.datetime "marketplace_changed_at"
     t.index ["slug"], name: "index_products_on_slug", unique: true
   end
 
@@ -343,6 +367,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_120100) do
   add_foreign_key "bookmarks", "users"
   add_foreign_key "leads", "products"
   add_foreign_key "leads", "users"
+  add_foreign_key "marketplace_pages", "products"
+  add_foreign_key "marketplace_pages", "suppliers"
   add_foreign_key "queries", "users"
   add_foreign_key "subscriptions", "users"
 end

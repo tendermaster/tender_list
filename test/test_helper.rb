@@ -6,9 +6,16 @@ require "rails/test_help"
 # need them before any request has been made)
 Rails.application.reload_routes_unless_loaded
 
+# The marketplace.* views, when tests run in a single process
+Marketplace::Views.apply!
+
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)
+
+  # schema.rb doesn't keep views: each test database gets the marketplace.*
+  # ones products-web reads (db/marketplace/views.sql)
+  parallelize_setup { |_worker| Marketplace::Views.apply! }
 
   # Minitest 6 dropped Object#stub (it moved to the minitest-mock gem). Same
   # use: stub(TenderSearch, :weighted_search, value_or_callable) { ... }
@@ -49,3 +56,5 @@ module GoogleTokenHelper
     JWT.encode(claims, key, 'RS256', { kid: 'test-key' })
   end
 end
+
+Dir[File.expand_path('support/**/*.rb', __dir__)].each { require _1 }
