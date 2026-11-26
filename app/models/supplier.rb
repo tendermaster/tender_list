@@ -11,7 +11,10 @@ class Supplier < ApplicationRecord
   validates :slug, :identity_key, uniqueness: true
 
   before_validation :set_slug, on: :create
-  before_save { self.state_slug = Marketplace.slug(state) }
+  before_save do
+    self.state_slug = Marketplace.slug(state)
+    self.display_name = Marketplace.display_name(name)
+  end
 
   scope :visible, -> { where.not(status: :hidden) }
   # Has at least one Operative licence for one of these IS numbers

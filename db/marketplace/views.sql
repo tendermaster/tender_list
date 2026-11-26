@@ -24,7 +24,8 @@ SELECT p.id,
        p.price_updated_on,
        p.spec_table ->> 'standard' AS spec_standard,
        p.position,
-       p.marketplace_changed_at AS changed_at
+       p.marketplace_changed_at AS changed_at,
+       p.search_term
 FROM public.products p
 WHERE p.marketplace AND p.published;
 
@@ -80,7 +81,8 @@ SELECT s.id,
        s.website,
        CASE WHEN s.status = 1 THEN s.phone END AS phone,
        (s.status = 1) AS claimed,
-       s.updated_at
+       s.updated_at,
+       COALESCE(s.display_name, s.name) AS display_name
 FROM public.suppliers s
 WHERE s.status <> 2;
 
@@ -114,7 +116,12 @@ SELECT mp.path,
        p.slug AS category_slug,
        mp.supplier_id,
        mp.indexable,
-       mp.lastmod
+       mp.lastmod,
+       mp.title,
+       mp.description,
+       mp.h1,
+       mp.breadcrumbs,
+       mp.data
 FROM public.marketplace_pages mp
 LEFT JOIN public.products p ON p.id = mp.product_id;
 

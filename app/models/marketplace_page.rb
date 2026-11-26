@@ -1,7 +1,7 @@
 # A page products.sigmatenders.com may serve (Marketplace::PageRefresher).
 # products-web reads these through the marketplace.pages view.
 class MarketplacePage < ApplicationRecord
-  TEMPLATES = %w[category price manufacturers tenders state size grade brand supplier].freeze
+  TEMPLATES = %w[category price size-chart size grade brand state city supplier].freeze
 
   belongs_to :product, optional: true
   belongs_to :supplier, optional: true

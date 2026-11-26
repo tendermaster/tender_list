@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_26_120600) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_26_130100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_buffercache"
   enable_extension "pg_catalog.plpgsql"
@@ -169,6 +169,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_120600) do
     t.datetime "lastmod", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
+    t.string "description"
+    t.string "h1"
+    t.jsonb "breadcrumbs", default: [], null: false
+    t.jsonb "data", default: {}, null: false
     t.index ["path"], name: "index_marketplace_pages_on_path", unique: true
     t.index ["product_id"], name: "index_marketplace_pages_on_product_id"
     t.index ["supplier_id"], name: "index_marketplace_pages_on_supplier_id"
@@ -203,6 +208,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_120600) do
     t.date "price_updated_on"
     t.jsonb "spec_table", default: {}, null: false
     t.datetime "marketplace_changed_at"
+    t.string "search_term"
     t.index ["slug"], name: "index_products_on_slug", unique: true
   end
 
@@ -268,6 +274,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_120600) do
     t.datetime "claimed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "display_name"
     t.index ["identity_key"], name: "index_suppliers_on_identity_key", unique: true
     t.index ["slug"], name: "index_suppliers_on_slug", unique: true
     t.index ["state"], name: "index_suppliers_on_state"

@@ -9,12 +9,12 @@ module MarketplaceHelper
   end
 
   # A supplier with one Operative licence (or the status given)
-  def licensed_supplier(name, state: 'West Bengal', sizes: [63, 90], pn: [6], brands: ['Exampleflow'],
-                        status: 'Operative', supplier_status: :listed, is_number: 'IS 4984')
+  def licensed_supplier(name, state: 'West Bengal', sizes: [63, 90], pn: [6], pe: [], brands: ['Exampleflow'],
+                        status: 'Operative', supplier_status: :listed, is_number: 'IS 4984', district: 'Kolkata')
     supplier = Supplier.create!(name:, identity_key: name.parameterize, address: '1 Test Road', pincode: '700001',
-                                district: 'Kolkata', state:, status: supplier_status)
+                                district:, state:, status: supplier_status)
     supplier.bis_licences.create!(cml_no: "99#{SecureRandom.random_number(10**8)}", standard: "#{is_number} : 2016",
-                                  is_number:, brands:, status:, grades: { 'sizes_mm' => sizes, 'pn' => pn },
+                                  is_number:, brands:, status:, grades: { 'sizes_mm' => sizes, 'pn' => pn, 'pe' => pe },
                                   data_changed_at: Time.current)
     supplier
   end

@@ -76,7 +76,8 @@ class Product < ApplicationRecord
 
   private
 
-  MARKETPLACE_FIELDS = %w[name summary body is_numbers tender_query price_table spec_table marketplace published].freeze
+  MARKETPLACE_FIELDS = %w[name summary body is_numbers tender_query search_term price_table spec_table marketplace
+                          published].freeze
 
   # Each price and spec row carries its size and grade slugs, made here so
   # products-web never builds one (Marketplace.size_slug, .grade_slug)

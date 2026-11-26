@@ -29,7 +29,7 @@ class Bis::LicenceImporterTest < ActiveSupport::TestCase
     assert_equal 'IS 4984', licence.is_number
     assert_equal ['EXAMPLEFLOW'], licence.brands
     assert_equal [63, 75, 90], licence.sizes_mm
-    assert_equal({ 'brands' => ['exampleflow'], 'grades' => ['pn-6'] }, licence.slugs)
+    assert_equal({ 'brands' => ['exampleflow'], 'grades' => %w[pn-6 pe-100] }, licence.slugs)
     assert licence.data_changed_at
   end
 

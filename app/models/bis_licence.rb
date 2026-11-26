@@ -14,7 +14,7 @@ class BisLicence < ApplicationRecord
   # Slugs are made here, in Ruby, and stored: products-web reads them
   before_save do
     self.slugs = { 'brands' => brands.filter_map { Marketplace.slug(_1) }.uniq,
-                   'grades' => Marketplace.licence_grade_slugs(grades) }
+                   'grades' => Marketplace.licence_grade_slugs(grades, is_number) }
   end
 
   def operative? = status == OPERATIVE
