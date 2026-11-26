@@ -33,6 +33,13 @@ class Bis::LicenceImporterTest < ActiveSupport::TestCase
     assert licence.data_changed_at
   end
 
+  test 'imports hand pumps (IS 15500), which have no sizes to match' do
+    Bis::LicenceImporter.new.import([row('Standard No' => 'IS 15500 : PART 2 : 2019', 'Variety' => 'India Mark II, Deep well')])
+    licence = BisLicence.sole
+    assert_equal 'IS 15500', licence.is_number
+    assert_equal [], licence.sizes_mm
+  end
+
   test 'skips standards the marketplace does not list' do
     result = Bis::LicenceImporter.new.import([row('Standard No' => 'IS 1180 : PART 1 : 2014')])
     assert_equal 1, result.skipped

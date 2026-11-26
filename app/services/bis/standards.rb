@@ -28,7 +28,8 @@ module Bis
       'IS 9537' => CONDUIT,  # electrical conduits
       'IS 1239' => STEEL_NB, # steel (GI/black) tubes
       'IS 1161' => STEEL_NB, # steel tubes for structural purposes
-      'IS 3589' => nil       # large welded steel pipes, given by outside diameter
+      'IS 3589' => nil,      # large welded steel pipes, given by outside diameter
+      'IS 15500' => nil      # deep-well hand pumps (India Mark II / III)
     }.freeze
 
     def self.imported?(is_number) = SIZES.key?(is_number)
