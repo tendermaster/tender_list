@@ -10,8 +10,6 @@ class Lead < ApplicationRecord
   belongs_to :product, optional: true
   belongs_to :tender, optional: true
   belongs_to :user, optional: true
-  # The supplier whose page a quote was requested from (products.sigmatenders.com)
-  belongs_to :supplier, optional: true
 
   enum :kind, { quote: 'quote', partner: 'partner', enquiry: 'enquiry' }, default: 'quote'
   # Pending: nobody has called yet. Spam: caught by SpamFilter, kept for review

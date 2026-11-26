@@ -2,7 +2,7 @@ class LeadResource < Madmin::Resource
   attribute :id, form: false
   attribute :created_at, form: false
   attribute :kind, index: true
-  attribute :product, index: true
+  attribute :product, index: true, form: false
   # Read-only: a form select would list every tender
   attribute :tender, form: false
   attribute :topic, index: true, form: false

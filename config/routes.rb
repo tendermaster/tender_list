@@ -29,9 +29,16 @@ Rails.application.routes.draw do
   delete '/bookmarks/:slug_uuid', to: 'bookmarks#destroy', as: :bookmark
 
   # Product buying guides with a "Get quote" form; requests go to /admin/leads
-  get '/products', to: 'products#index', as: :products
-  get '/products/:slug', to: 'products#show', as: :product
-  post '/products/:slug/quote', to: 'products#create', as: :product_quote
+  # Products moved to products.sigmatenders.com (its own app, 2026-11-26):
+  # a product it lists keeps its slug there, the rest go to its home page
+  products_site = 'https://products.sigmatenders.com'
+  moved_products = %w[hdpe-pipes upvc-pipes gi-ms-pipes cpvc-pipes swr-pipes casing-pipes electrical-conduit-pipes
+                      hand-pumps]
+  get '/products', to: redirect("#{products_site}/", status: 301), as: :products
+  get '/products/:slug', to: redirect(status: 301) { |params, _request|
+    moved_products.include?(params[:slug]) ? "#{products_site}/#{params[:slug]}" : "#{products_site}/"
+  }
+  match '/products/:slug/quote', to: redirect("#{products_site}/", status: 301), via: %i[get post]
 
   # A JV/consortium partner or subcontractor for a tender; also goes to /admin/leads
   get '/find-a-partner', to: 'partner_requests#new', as: :find_partner
@@ -138,8 +145,6 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get '/search', to: 'search#index'
-      # Quote requests from products.sigmatenders.com (leads-scoped key)
-      post '/leads', to: 'leads#create'
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

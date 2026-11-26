@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_26_130100) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_27_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_buffercache"
   enable_extension "pg_catalog.plpgsql"
@@ -73,28 +73,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_130100) do
     t.index ["tender_id"], name: "index_attachments_on_tender_id"
   end
 
-  create_table "bis_licences", force: :cascade do |t|
-    t.bigint "supplier_id", null: false
-    t.string "cml_no", null: false
-    t.string "standard", null: false
-    t.string "is_number", null: false
-    t.string "brands", default: [], null: false, array: true
-    t.text "variety"
-    t.jsonb "grades", default: {}, null: false
-    t.jsonb "slugs", default: {}, null: false
-    t.string "status", null: false
-    t.date "granted_on"
-    t.date "valid_until"
-    t.date "last_seen_on"
-    t.datetime "data_changed_at"
-    t.jsonb "raw", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cml_no"], name: "index_bis_licences_on_cml_no", unique: true
-    t.index ["is_number", "status"], name: "index_bis_licences_on_is_number_and_status"
-    t.index ["supplier_id"], name: "index_bis_licences_on_supplier_id"
-  end
-
   create_table "bookmarks", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "tender_id", null: false
@@ -149,35 +127,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_130100) do
     t.string "topic"
     t.jsonb "answers", default: {}, null: false
     t.jsonb "request_meta", default: {}, null: false
-    t.bigint "supplier_id"
     t.index ["product_id"], name: "index_leads_on_product_id"
     t.index ["status", "created_at"], name: "index_leads_on_status_and_created_at"
-    t.index ["supplier_id"], name: "index_leads_on_supplier_id"
     t.index ["tender_id"], name: "index_leads_on_tender_id"
     t.index ["topic"], name: "index_leads_on_topic"
     t.index ["user_id"], name: "index_leads_on_user_id"
-  end
-
-  create_table "marketplace_pages", force: :cascade do |t|
-    t.string "path", null: false
-    t.string "template", null: false
-    t.string "key"
-    t.bigint "product_id"
-    t.bigint "supplier_id"
-    t.boolean "indexable", default: false, null: false
-    t.string "fingerprint", null: false
-    t.datetime "lastmod", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "title"
-    t.string "description"
-    t.string "h1"
-    t.jsonb "breadcrumbs", default: [], null: false
-    t.jsonb "data", default: {}, null: false
-    t.index ["path"], name: "index_marketplace_pages_on_path", unique: true
-    t.index ["product_id"], name: "index_marketplace_pages_on_product_id"
-    t.index ["supplier_id"], name: "index_marketplace_pages_on_supplier_id"
-    t.index ["template", "indexable"], name: "index_marketplace_pages_on_template_and_indexable"
   end
 
   create_table "misc_data_stores", force: :cascade do |t|
@@ -201,14 +155,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_130100) do
     t.datetime "updated_at", null: false
     t.jsonb "configurations", default: [], null: false
     t.string "image_url"
-    t.boolean "marketplace", default: false, null: false
-    t.string "is_numbers", default: [], null: false, array: true
-    t.string "tender_query"
-    t.jsonb "price_table", default: {}, null: false
-    t.date "price_updated_on"
-    t.jsonb "spec_table", default: {}, null: false
-    t.datetime "marketplace_changed_at"
-    t.string "search_term"
     t.index ["slug"], name: "index_products_on_slug", unique: true
   end
 
@@ -254,30 +200,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_130100) do
     t.index ["order_id"], name: "index_subscriptions_on_order_id"
     t.index ["plan_name"], name: "index_subscriptions_on_plan_name"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
-  end
-
-  create_table "suppliers", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "slug", null: false
-    t.string "identity_key", null: false
-    t.text "address"
-    t.string "pincode"
-    t.string "district"
-    t.string "state"
-    t.string "state_slug"
-    t.string "gstin"
-    t.string "gem_seller_id"
-    t.string "website"
-    t.string "phone"
-    t.integer "status", default: 0, null: false
-    t.string "source", default: "bis", null: false
-    t.datetime "claimed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "display_name"
-    t.index ["identity_key"], name: "index_suppliers_on_identity_key", unique: true
-    t.index ["slug"], name: "index_suppliers_on_slug", unique: true
-    t.index ["state"], name: "index_suppliers_on_state"
   end
 
   create_table "tenders", force: :cascade do |t|
@@ -371,14 +293,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_130100) do
   end
 
   add_foreign_key "attachments", "tenders", on_delete: :cascade
-  add_foreign_key "bis_licences", "suppliers"
   add_foreign_key "bookmarks", "tenders"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "leads", "products"
-  add_foreign_key "leads", "suppliers"
   add_foreign_key "leads", "users"
-  add_foreign_key "marketplace_pages", "products"
-  add_foreign_key "marketplace_pages", "suppliers"
   add_foreign_key "queries", "users"
   add_foreign_key "subscriptions", "users"
 end

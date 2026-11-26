@@ -55,12 +55,9 @@ unless ENV['SECRET_KEY_BASE_DUMMY'] || ENV['SKIP_SIDEKIQ_CRON']
       class: 'InfraHealthCheckJob'
     )
 
-    # BIS licences for products.sigmatenders.com (BisImportJob)
-    Sidekiq::Cron::Job.create(
-      name:  'BisImportJob - monthly, 3rd at 5am IST',
-      cron:  '0 5 3 * * Asia/Kolkata',
-      class: 'BisImportJob'
-    )
+    # Moved to products.sigmatenders.com's own worker (2026-11-26):
+    # sidekiq-cron keeps jobs in Redis, so the old one is removed explicitly
+    Sidekiq::Cron::Job.destroy('BisImportJob - monthly, 3rd at 5am IST')
 
     Sidekiq::Cron::Job.create(
       name:  'LeadMetaCleanupJob - daily 4:30am IST',

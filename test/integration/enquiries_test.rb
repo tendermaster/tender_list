@@ -82,13 +82,10 @@ class EnquiriesTest < ActionDispatch::IntegrationTest
     end
 
     # Help requests stay on the site: no Google Forms, no links out to GetSaarthi
-    [products_path, '/services', root_path].each do |path|
+    ['/services', root_path].each do |path|
       get path
       assert_no_match %r{docs\.google\.com/forms|getsaarthi}i, response.body, path
     end
-    get products_path
-    assert_select "a[href='/enquiry/supplier']"
-    assert_select "a[href='/enquiry/professional']"
   end
 
   test 'bid help from a tender page asks only who to call, and is linked to that tender' do
