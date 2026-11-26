@@ -82,7 +82,8 @@ module Marketplace
                                           "with the sizes and grades each is licensed for. Get quotes within 48 hours." : product.summary,
            h1: name, breadcrumbs: [['Home', '/'], [name, base]],
            data: { 'makers' => count, 'states' => states, 'grades' => grades, 'sizes' => sizes,
-                   'standards' => product.is_numbers, 'faqs' => product.faqs, 'term' => term })
+                   'standards' => product.is_numbers, 'faqs' => product.faqs, 'term' => term,
+                   'guide_html' => product.guide_html })
     end
 
     def price_page

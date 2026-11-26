@@ -57,6 +57,13 @@ class Product < ApplicationRecord
   # a level: the guide sits under the page's "Buying guide" heading.
   def body_html = Commonmarker.to_html(body.to_s.gsub(/^(\#{1,5}) /, '#\\1 '), options: BlogPost::MARKDOWN_OPTIONS)
 
+  # The guide without its FAQ section, for products.sigmatenders.com, which
+  # shows the FAQs separately (with FAQPage structured data)
+  def guide_html
+    guide = body.to_s.split(/^## Frequently asked questions\s*$/i, 2).first.to_s
+    Commonmarker.to_html(guide.gsub(/^(\#{1,5}) /, '#\\1 '), options: BlogPost::MARKDOWN_OPTIONS)
+  end
+
   # <title> is capped at 70 characters including the "Sigma Tenders | " prefix
   def seo_title
     ["#{name}: Compare & Request a Quote", "#{name}: Request a Quote", name].find { |title| title.size <= 54 } || name.truncate(54)

@@ -98,6 +98,9 @@
               "type": "string"
             }
           }
+        },
+        "guide_html": {
+          "type": "string"
         }
       },
       "required": [
@@ -107,7 +110,8 @@
         "grades",
         "sizes",
         "standards",
-        "faqs"
+        "faqs",
+        "guide_html"
       ],
       "additionalProperties": false
     },

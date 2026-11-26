@@ -19,7 +19,8 @@ module Marketplace
         'grades' => [{ 'slug' => 'string', 'label' => 'string?', 'makers' => 'integer' }],
         'sizes' => [{ 'mm' => 'number', 'makers' => 'integer' }],
         'standards' => ['string'],
-        'faqs' => [['string']]
+        'faqs' => [['string']],
+        'guide_html' => 'string'
       ),
       'price' => TERM,
       'size-chart' => TERM,
