@@ -1,10 +1,14 @@
 # A partner's key for /api/v1/search. Created in /admin/api_keys (or with
 # `bin/rails "api_keys:create[Partner name]"`), where admins can view it
-# again. Requests are matched on its SHA-256 digest.
+# again. Requests are matched on its SHA-256 digest. Scopes say what it may
+# call: partners' keys only `search`; products.sigmatenders.com's key also
+# `marketplace` (catalogue reads) and `leads` (quote requests).
 class ApiKey < ApplicationRecord
   PREFIX = 'st_'
+  SCOPES = %w[search marketplace leads].freeze
 
   validates :name, presence: true
+  validate :scopes_known
 
   before_validation :generate_token, on: :create
 
@@ -24,7 +28,13 @@ class ApiKey < ApplicationRecord
     update_columns(attrs)
   end
 
+  def allows?(scope) = scopes.include?(scope.to_s)
+
   private
+
+  def scopes_known
+    errors.add(:scopes, "must be from: #{SCOPES.join(', ')}") if scopes.blank? || (scopes - SCOPES).any?
+  end
 
   def generate_token
     self.token = "#{PREFIX}#{SecureRandom.base58(32)}"

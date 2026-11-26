@@ -3,6 +3,7 @@
 module Api
   module V1
     class SearchController < ActionController::API
+      include ApiKeyAuthentication
       DEFAULT_PER_PAGE = 10
       MAX_PER_PAGE = 20
       THROTTLE_LIMIT = 60
@@ -13,7 +14,7 @@ module Api
       COLUMNS = %i[id slug_uuid title description organisation state submission_open_date
                    submission_close_date tender_value emd tender_id].freeze
 
-      before_action :authenticate_api_key!
+      before_action -> { authenticate_api_key!('search') }
       before_action :throttle_requests!
 
       def index
@@ -99,21 +100,6 @@ module Api
         per_page = value.to_i
         per_page = DEFAULT_PER_PAGE if per_page < 1
         [per_page, MAX_PER_PAGE].min
-      end
-
-      # A partner's key, in X-Api-Key or Authorization: Bearer (ApiKey)
-      def authenticate_api_key!
-        token = request.headers['X-Api-Key'].presence ||
-                request.authorization.to_s[/\ABearer (.+)\z/, 1]
-        @api_key = ApiKey.authenticate(token)
-        return @api_key.record_use! if @api_key
-
-        error = if token.present?
-                  'Invalid or revoked API key. Contact SigmaTenders if you need a new one.'
-                else
-                  'API key required: send it in the X-Api-Key header. Contact SigmaTenders to request one.'
-                end
-        render json: { error: }, status: :unauthorized
       end
 
       def throttle_requests!
