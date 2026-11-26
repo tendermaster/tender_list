@@ -13,6 +13,12 @@ class MarketplaceContractTest < ActiveSupport::TestCase
     assert_equal JSON.parse(Marketplace::Views::CONTRACT.read), Marketplace::Views.columns
   end
 
+  # products-web generates its quote form's Zod schema from this file
+  test 'the lead request schema matches the Lead validations' do
+    assert_equal JSON.parse(Marketplace::LeadSchema::FILE.read), Marketplace::LeadSchema.build,
+                 'Lead validations changed: bin/rails marketplace:dump_lead_schema, then rebuild products-web'
+  end
+
   test 'tables are unpacked into typed rows with their slugs' do
     marketplace_product(price_table: { 'rows' => [{ 'size_mm' => 63, 'inch' => '2', 'grade' => 'PN 6', 'min' => 90 }] })
     row = view('price_rows').sole

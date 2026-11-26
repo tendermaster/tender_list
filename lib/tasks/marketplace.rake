@@ -16,6 +16,12 @@ namespace :marketplace do
     puts "wrote #{Marketplace::Views::CONTRACT}"
   end
 
+  desc 'Write db/marketplace/lead-request.schema.json from Lead validations'
+  task dump_lead_schema: :environment do
+    Marketplace::LeadSchema.dump!
+    puts "wrote #{Marketplace::LeadSchema::FILE}"
+  end
+
   # The role products-web connects as: read-only, the marketplace views only,
   # short statements, few connections. Password from PRODUCTS_WEB_DB_PASSWORD
   # (put the same value in products-web's DATABASE_URL); run again to change it.
