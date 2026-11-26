@@ -10,18 +10,26 @@ module Captcha
 
   private
 
-  def verify_captcha
-    return verify_recaptcha unless Captcha.turnstile?
+  def verify_captcha = captcha_failure.nil?
+
+  # Why the captcha wasn't passed ('missing token', Turnstile's error codes),
+  # or nil when it was
+  def captcha_failure
+    return (verify_recaptcha ? nil : 'recaptcha failed') unless Captcha.turnstile?
 
     token = params['cf-turnstile-response'].to_s
-    return false if token.blank?
+    return 'missing token' if token.blank?
 
     response = Net::HTTP.start(VERIFY_URL.host, VERIFY_URL.port, use_ssl: true, open_timeout: 5, read_timeout: 5) do |http|
-      http.post(VERIFY_URL.path, URI.encode_www_form(secret: ENV['TURNSTILE_SECRET_KEY'], response: token))
+      http.post(VERIFY_URL.path, URI.encode_www_form(secret: ENV['TURNSTILE_SECRET_KEY'], response: token,
+                                                     remoteip: request.remote_ip))
     end
-    JSON.parse(response.body)['success'] == true
+    result = JSON.parse(response.body)
+    return if result['success'] == true
+
+    Array(result['error-codes']).join(', ').presence || 'not passed'
   rescue StandardError => e
     Rails.logger.warn("Turnstile verification failed: #{e.class}: #{e.message}")
-    false
+    "verification error (#{e.class})"
   end
 end

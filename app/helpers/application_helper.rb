@@ -1,4 +1,12 @@
 module ApplicationHelper
+  # The page a form was sent from, if it's on this site (else the home page)
+  def safe_back_url
+    referer = URI.parse(request.referer.to_s)
+    referer.host == request.host && referer.path.present? ? referer.request_uri : root_path
+  rescue URI::InvalidURIError
+    root_path
+  end
+
   include Pagy::Frontend
 
   # Bot check widget for Captcha#verify_captcha: Turnstile when configured,

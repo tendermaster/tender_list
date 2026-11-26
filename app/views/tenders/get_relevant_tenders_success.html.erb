@@ -3,8 +3,20 @@
 <div class="">
 
   <div class="flex flex-col justify-center items-center mx-auto max-w-xl px-4">
-    <p class="py-2 px-3 bg-green-50 my-5 text-green-700 font-medium rounded-lg inline-block" id="notice"><%= @full_message %></p>
-    <%= render 'leads/whatsapp_next_step' unless @report_data %>
+    <% if @error_message %>
+      <%# A refused form (TenderAlertRequestsController, ChecklistDownloadsController):
+          nothing was saved, so say so plainly and offer the way back %>
+      <div class="my-5 w-full rounded-lg border border-red-300 bg-red-50 p-4 text-left" id="form-error" role="alert">
+        <p class="font-semibold text-red-800">Your request was not sent</p>
+        <p class="mt-1 text-sm text-red-700"><%= @error_message %></p>
+        <a href="<%= safe_back_url %>" onclick="if (history.length > 1) { history.back(); return false }" class="mt-3 inline-flex rounded-lg bg-red-700 px-4 py-2 text-sm font-semibold text-white hover:bg-red-800">Go back and try again</a>
+      </div>
+      <%= render 'leads/whatsapp_next_step', heading: 'Or send it on WhatsApp',
+                 text: 'Hi, I tried to send a request on SigmaTenders.' %>
+    <% else %>
+      <p class="py-2 px-3 bg-green-50 my-5 text-green-700 font-medium rounded-lg inline-block" id="notice"><%= @full_message %></p>
+      <%= render 'leads/whatsapp_next_step' unless @report_data %>
+    <% end %>
     <div class="mt-6">
       <% if @report_data %>
         <ul class="space-y-3">

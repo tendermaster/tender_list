@@ -10,12 +10,18 @@ class ChecklistDownloadsController < ApplicationController
 
   def create
     report = helpers.checklist_options('get_code', params[:report_type].to_s)
-    return reply('Please choose your industry') unless report
+    unless report
+      @error_message = 'Please choose your industry'
+      return render('tenders/get_relevant_tenders_success', status: :unprocessable_content)
+    end
 
     @lead = build_lead(kind: 'enquiry', topic: 'checklist_download', name: params[:full_name], email: params[:email],
                        phone: params[:phone], answers: { 'Checklist' => report[:label] })
     result = save_lead(@lead)
-    return reply("Please check the form: #{@lead.errors.full_messages.to_sentence}") unless result
+    unless result
+      @error_message = @lead.errors.full_messages.to_sentence
+      return render('tenders/get_relevant_tenders_success', status: :unprocessable_content)
+    end
     # Spam is shown the usual message, without the files
     return reply('Please check your email (including the spam folder) to download your files') if result == :spam
 

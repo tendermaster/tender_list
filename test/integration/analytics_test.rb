@@ -74,6 +74,9 @@ class AnalyticsTest < ActionDispatch::IntegrationTest
       assert_match 'posthog.init("phc_test"', response.body
       assert_match "person_profiles: 'identified_only'", response.body
       assert_match 'maskAllInputs: true', response.body
+      # Recordings wait for a real visitor (Indian time, a click or key press)
+      assert_match 'disable_session_recording: true', response.body
+      assert_match "tz === 'Asia/Kolkata'", response.body
       # Anonymous pages are cached by Cloudflare: they never identify anyone
       assert_no_match 'ph.identify(', response.body
 
@@ -87,6 +90,8 @@ class AnalyticsTest < ActionDispatch::IntegrationTest
     sign_in user
     with_posthog_keys { get "/privacy-policy" }
     assert_match %(ph.identify("user_#{user.id}")), response.body
+    assert_match 'ph.startSessionRecording();', response.body
+    assert_no_match "tz === 'Asia/Kolkata'", response.body
     assert_select '#user-email[data-ph-mask]'
   end
 

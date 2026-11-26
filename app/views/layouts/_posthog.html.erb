@@ -2,9 +2,11 @@
     side): pageviews, clicks, heatmaps, web vitals and session recordings.
     Only when both PostHog keys are set, so not in tests, development or
     staging; never on /admin, which shows people's leads.
-    Recordings mask every input and any element with data-ph-mask (the
-    navbar's email, account pages); console logs and network requests are
-    off in the project settings.
+    Recordings start only for signed-in users, and for visitors whose
+    browser is on Indian time once they click, tap or type. They mask every
+    input and any element with data-ph-mask (the navbar's email, account
+    pages); console logs and network requests are off in the project
+    settings.
     Anonymous visitors stay personless (identified_only). Signed-in pages
     identify the browser as user_<id>, the id the server's events use, and
     a browser still identified after signing out is reset. Anonymous tender
@@ -26,6 +28,9 @@
       capture_pageleave: true,
       enable_heatmaps: true,
       capture_performance: { web_vitals: true, network_timing: false },
+      // Recordings start only for real visitors (below): bots used up the
+      // free 5,000 a month in 4 days (2026-11-12 to 16)
+      disable_session_recording: true,
       session_recording: {
         maskAllInputs: true,
         maskTextSelector: '[data-ph-mask]',
@@ -34,8 +39,19 @@
       loaded: function (ph) {
         <% if user_signed_in? %>
           ph.identify(<%= raw current_user.posthog_distinct_id.to_json %>);
+          ph.startSessionRecording();
         <% else %>
           if (ph.get_property('$user_state') === 'identified') ph.reset();
+          // Visitors: a browser on Indian time, from its first click, tap or
+          // key press. Crawlers load a page and leave, mostly on US time.
+          var tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '');
+          if (tz === 'Asia/Kolkata' || tz === 'Asia/Calcutta') {
+            var start = function () {
+              ['pointerdown', 'keydown', 'touchstart'].forEach(function (e) { removeEventListener(e, start, true) });
+              ph.startSessionRecording();
+            };
+            ['pointerdown', 'keydown', 'touchstart'].forEach(function (e) { addEventListener(e, start, true) });
+          }
         <% end %>
       }
     });

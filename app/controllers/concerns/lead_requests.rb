@@ -40,7 +40,8 @@ module LeadRequests
 
   # Saves the lead. Returns true, :spam (kept with status spam, or dropped if
   # it isn't even valid; the visitor is thanked either way, so bots learn
-  # nothing), or false with the errors on the lead.
+  # nothing), or false with the errors on the lead. A signed-out visitor who
+  # didn't pass the captcha is never refused: see below.
   def save_lead(lead)
     lead.request_meta = request_meta
     if (reason = spam_reason(lead))
@@ -56,9 +57,19 @@ module LeadRequests
       Rails.logger.info("Lead marked spam (#{reason}#{', not kept' unless kept}): #{lead.kind} #{lead.topic || lead.product_id}")
       return :spam
     end
-    if current_user.nil? && !verify_captcha
-      lead.errors.add(:base, "Please confirm you're not a robot and try again")
-      return false
+    if current_user.nil? && (failure = captcha_failure)
+      Rails.logger.info("Lead captcha not passed (#{failure}): #{lead.kind} #{lead.topic || lead.product_id}")
+      return false unless lead.valid?
+
+      # The captcha sometimes asks for a tick, or expires on a page left open:
+      # people sent forms and lost them. A valid request from India with an
+      # Indian mobile is kept for the call list, marked; the rest is spam.
+      unless indian_request?(lead)
+        lead.assign_attributes(status: :spam, note: "Spam: captcha not passed (#{failure})")
+        lead.save(validate: false)
+        return :spam
+      end
+      lead.note = "Captcha not passed (#{failure}): check before calling"
     end
     return false unless lead.save
 
@@ -67,6 +78,10 @@ module LeadRequests
     # for real leads, never spam
     flash[:lead_event] = lead.enquiry? ? lead.topic : lead.kind
     true
+  end
+
+  def indian_request?(lead)
+    lead.request_meta['country'] == 'IN' && Phonelib.parse(lead.phone).country == 'IN'
   end
 
   # Request headers that are credentials, never stored with a lead

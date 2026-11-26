@@ -20,11 +20,12 @@ class TenderAlertRequestsController < ApplicationController
       track('tender_alert_requested', from_tender: @tender.present?, wants_bid_help: params[:bid_help] == 'Yes, help me bid',
                                       tender_open: (@tender.submission_close_date&.future? if @tender))
     end
-    @full_message = if result
-                      'Thank you. We will send you matching tenders on WhatsApp and call you.'
-                    else
-                      "Please check the form: #{@lead.errors.full_messages.to_sentence}"
-                    end
-    render 'tenders/get_relevant_tenders_success'
+    if result
+      @full_message = 'Thank you. We will send you matching tenders on WhatsApp and call you.'
+      render 'tenders/get_relevant_tenders_success'
+    else
+      @error_message = @lead.errors.full_messages.to_sentence
+      render 'tenders/get_relevant_tenders_success', status: :unprocessable_content
+    end
   end
 end
