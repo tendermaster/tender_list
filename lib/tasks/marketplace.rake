@@ -22,6 +22,12 @@ namespace :marketplace do
     puts "wrote #{Marketplace::LeadSchema::FILE}"
   end
 
+  desc 'Write db/marketplace/page-data.schema.json from Marketplace::PageData'
+  task dump_page_data_schema: :environment do
+    Marketplace::PageData.dump!
+    puts "wrote #{Marketplace::PageData::FILE}"
+  end
+
   # The role products-web connects as: read-only, the marketplace views only,
   # short statements, few connections. Password from PRODUCTS_WEB_DB_PASSWORD
   # (put the same value in products-web's DATABASE_URL); run again to change it.

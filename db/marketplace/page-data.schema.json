@@ -1,0 +1,321 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarketplacePageData",
+  "description": "Each marketplace page's data by template, and breadcrumbs. Generated from Marketplace::PageData by bin/rails marketplace:dump_page_data_schema; do not edit.",
+  "type": "object",
+  "properties": {
+    "category": {
+      "type": "object",
+      "properties": {
+        "term": {
+          "type": "string"
+        },
+        "makers": {
+          "type": "integer"
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "makers": {
+                "type": "integer"
+              },
+              "path": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "makers",
+              "path"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "grades": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "slug": {
+                "type": "string"
+              },
+              "label": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "makers": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "slug",
+              "label",
+              "makers"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "sizes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "mm": {
+                "type": "number"
+              },
+              "makers": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "mm",
+              "makers"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "standards": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "faqs": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": [
+        "term",
+        "makers",
+        "states",
+        "grades",
+        "sizes",
+        "standards",
+        "faqs"
+      ],
+      "additionalProperties": false
+    },
+    "price": {
+      "type": "object",
+      "properties": {
+        "term": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "term"
+      ],
+      "additionalProperties": false
+    },
+    "size-chart": {
+      "type": "object",
+      "properties": {
+        "term": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "term"
+      ],
+      "additionalProperties": false
+    },
+    "size": {
+      "type": "object",
+      "properties": {
+        "term": {
+          "type": "string"
+        },
+        "size_mm": {
+          "type": "number"
+        },
+        "label": {
+          "type": "string"
+        },
+        "makers": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "term",
+        "size_mm",
+        "label",
+        "makers"
+      ],
+      "additionalProperties": false
+    },
+    "grade": {
+      "type": "object",
+      "properties": {
+        "term": {
+          "type": "string"
+        },
+        "grade": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "makers": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "term",
+        "grade",
+        "label",
+        "makers"
+      ],
+      "additionalProperties": false
+    },
+    "brand": {
+      "type": "object",
+      "properties": {
+        "term": {
+          "type": "string"
+        },
+        "brand": {
+          "type": "string"
+        },
+        "licences": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "term",
+        "brand",
+        "licences"
+      ],
+      "additionalProperties": false
+    },
+    "state": {
+      "type": "object",
+      "properties": {
+        "term": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "makers": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "term",
+        "state",
+        "makers"
+      ],
+      "additionalProperties": false
+    },
+    "city": {
+      "type": "object",
+      "properties": {
+        "term": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "districts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "makers": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "term",
+        "city",
+        "districts",
+        "makers"
+      ],
+      "additionalProperties": false
+    },
+    "supplier": {
+      "type": "object",
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "slug": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "slug",
+              "name"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "place": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "categories",
+        "place"
+      ],
+      "additionalProperties": false
+    },
+    "breadcrumbs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "label",
+          "path"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "category",
+    "price",
+    "size-chart",
+    "size",
+    "grade",
+    "brand",
+    "state",
+    "city",
+    "supplier",
+    "breadcrumbs"
+  ],
+  "additionalProperties": false
+}

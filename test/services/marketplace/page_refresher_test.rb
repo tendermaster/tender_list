@@ -61,6 +61,21 @@ class Marketplace::PageRefresherTest < ActiveSupport::TestCase
     assert_equal 'Bengal Polymers 0', page('/supplier/bengal-polymers-0-howrah').h1
   end
 
+  # products-web generates Zod for page data from page-data.schema.json
+  test 'every page fits the page data contract' do
+    Marketplace::PageRefresher.call
+    assert_equal JSON.parse(Marketplace::PageData::FILE.read), Marketplace::PageData.json_schema,
+                 'shapes changed: bin/rails marketplace:dump_page_data_schema, then `just contracts` in products-web'
+    assert_equal Marketplace::PageData::SHAPES.keys.sort, MarketplacePage::TEMPLATES.sort
+    MarketplacePage.find_each do |page|
+      problems = Marketplace::PageData.errors(page.data, template: page.template) +
+                 Marketplace::PageData.errors(page.breadcrumbs, Marketplace::PageData::BREADCRUMBS, 'breadcrumbs')
+      assert_empty problems, "#{page.path} (#{page.template})"
+    end
+    assert_equal %w[brand category city grade price size size-chart state supplier],
+                 MarketplacePage.distinct.pluck(:template).sort, 'the fixture covers every template'
+  end
+
   test 'lastmod moves only for pages whose data changed; gone pages are removed' do
     Marketplace::PageRefresher.call
     before = MarketplacePage.pluck(:path, :lastmod).to_h
