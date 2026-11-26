@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_26_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_26_120100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_buffercache"
   enable_extension "pg_catalog.plpgsql"
@@ -71,6 +71,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_120000) do
     t.index ["file_path"], name: "index_attachments_on_file_path", unique: true
     t.index ["file_text_vector"], name: "file_text_vector_idx", using: :gin
     t.index ["tender_id"], name: "index_attachments_on_tender_id"
+  end
+
+  create_table "bis_licences", force: :cascade do |t|
+    t.bigint "supplier_id", null: false
+    t.string "cml_no", null: false
+    t.string "standard", null: false
+    t.string "is_number", null: false
+    t.string "brands", default: [], null: false, array: true
+    t.text "variety"
+    t.jsonb "grades", default: {}, null: false
+    t.jsonb "slugs", default: {}, null: false
+    t.string "status", null: false
+    t.date "granted_on"
+    t.date "valid_until"
+    t.date "last_seen_on"
+    t.datetime "data_changed_at"
+    t.jsonb "raw", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cml_no"], name: "index_bis_licences_on_cml_no", unique: true
+    t.index ["is_number", "status"], name: "index_bis_licences_on_is_number_and_status"
+    t.index ["supplier_id"], name: "index_bis_licences_on_supplier_id"
   end
 
   create_table "bookmarks", force: :cascade do |t|
@@ -202,6 +224,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_120000) do
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
+  create_table "suppliers", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.string "identity_key", null: false
+    t.text "address"
+    t.string "pincode"
+    t.string "district"
+    t.string "state"
+    t.string "state_slug"
+    t.string "gstin"
+    t.string "gem_seller_id"
+    t.string "website"
+    t.string "phone"
+    t.integer "status", default: 0, null: false
+    t.string "source", default: "bis", null: false
+    t.datetime "claimed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["identity_key"], name: "index_suppliers_on_identity_key", unique: true
+    t.index ["slug"], name: "index_suppliers_on_slug", unique: true
+    t.index ["state"], name: "index_suppliers_on_state"
+  end
+
   create_table "tenders", force: :cascade do |t|
     t.string "tender_id"
     t.text "title"
@@ -293,6 +338,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_120000) do
   end
 
   add_foreign_key "attachments", "tenders", on_delete: :cascade
+  add_foreign_key "bis_licences", "suppliers"
   add_foreign_key "bookmarks", "tenders"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "leads", "products"
