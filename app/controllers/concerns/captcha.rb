@@ -10,6 +10,10 @@ module Captcha
 
   private
 
+  def captcha_token = params['cf-turnstile-response'].to_s
+
+  def captcha_remote_ip = request.remote_ip
+
   def verify_captcha = captcha_failure.nil?
 
   # Why the captcha wasn't passed ('missing token', Turnstile's error codes),
@@ -17,12 +21,12 @@ module Captcha
   def captcha_failure
     return (verify_recaptcha ? nil : 'recaptcha failed') unless Captcha.turnstile?
 
-    token = params['cf-turnstile-response'].to_s
+    token = captcha_token
     return 'missing token' if token.blank?
 
     response = Net::HTTP.start(VERIFY_URL.host, VERIFY_URL.port, use_ssl: true, open_timeout: 5, read_timeout: 5) do |http|
       http.post(VERIFY_URL.path, URI.encode_www_form(secret: ENV['TURNSTILE_SECRET_KEY'], response: token,
-                                                     remoteip: request.remote_ip))
+                                                     remoteip: captcha_remote_ip))
     end
     result = JSON.parse(response.body)
     return if result['success'] == true

@@ -3,6 +3,7 @@
 # BIS data. The phone is shown only once the supplier claims the listing.
 class Supplier < ApplicationRecord
   has_many :bis_licences, dependent: :destroy
+  has_many :leads, dependent: :nullify
 
   enum :status, { listed: 0, claimed: 1, hidden: 2 }
 

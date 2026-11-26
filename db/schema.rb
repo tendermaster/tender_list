@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_26_120400) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_26_120600) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_buffercache"
   enable_extension "pg_catalog.plpgsql"
@@ -149,8 +149,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_120400) do
     t.string "topic"
     t.jsonb "answers", default: {}, null: false
     t.jsonb "request_meta", default: {}, null: false
+    t.bigint "supplier_id"
     t.index ["product_id"], name: "index_leads_on_product_id"
     t.index ["status", "created_at"], name: "index_leads_on_status_and_created_at"
+    t.index ["supplier_id"], name: "index_leads_on_supplier_id"
     t.index ["tender_id"], name: "index_leads_on_tender_id"
     t.index ["topic"], name: "index_leads_on_topic"
     t.index ["user_id"], name: "index_leads_on_user_id"
@@ -366,6 +368,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_120400) do
   add_foreign_key "bookmarks", "tenders"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "leads", "products"
+  add_foreign_key "leads", "suppliers"
   add_foreign_key "leads", "users"
   add_foreign_key "marketplace_pages", "products"
   add_foreign_key "marketplace_pages", "suppliers"

@@ -9,7 +9,7 @@ module LeadRequests
   included do
     # remote_ip is the visitor's: Caddy passes on Cloudflare's CF-Connecting-IP,
     # trusted only from Cloudflare's addresses (caddy/conf/Caddyfile)
-    rate_limit to: 5, within: 1.hour, only: :create, by: -> { request.remote_ip },
+    rate_limit to: 5, within: 1.hour, only: :create, by: -> { lead_client_ip },
                with: -> { render plain: 'Too many requests. Please try again in an hour.', status: :too_many_requests }
   end
 
@@ -74,11 +74,19 @@ module LeadRequests
     return false unless lead.save
 
     remember_on_account(lead)
-    # A GA4 generate_lead event on the next page (layouts/_lead_event): only
-    # for real leads, never spam
-    flash[:lead_event] = lead.enquiry? ? lead.topic : lead.kind
+    note_lead_event(lead)
     true
   end
+
+  # A GA4 generate_lead event on the next page (layouts/_lead_event): only
+  # for real leads, never spam
+  def note_lead_event(lead)
+    flash[:lead_event] = lead.enquiry? ? lead.topic : lead.kind
+  end
+
+  # The visitor's IP: here the request's; the products site's API passes on
+  # its visitor's (Api::V1::LeadsController)
+  def lead_client_ip = request.remote_ip
 
   def indian_request?(lead)
     lead.request_meta['country'] == 'IN' && Phonelib.parse(lead.phone).country == 'IN'
@@ -98,7 +106,7 @@ module LeadRequests
       [name, value.to_s.first(500)] unless SECRET_HEADERS.include?(name)
     end.sort.to_h
     {
-      'ip' => request.remote_ip,
+      'ip' => lead_client_ip,
       'country' => headers['cf-ipcountry'],
       'page' => request.referer.to_s.first(300).presence,
       'headers' => headers
