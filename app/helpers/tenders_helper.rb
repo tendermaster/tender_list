@@ -90,4 +90,26 @@ module TendersHelper
 
     topic.match?(/[a-z]/) ? topic.sub(/\A./, &:upcase) : topic.capitalize
   end
+
+  # Products sigmatenders.com's sister site lists (products.sigmatenders.com):
+  # a tender for one of them links to its makers and prices there
+  PRODUCT_LINKS = [
+    ['hdpe-pipes', 'HDPE pipes', /\bhdpe\b/i],
+    ['mdpe-pipes', 'MDPE pipes', /\bmdpe\b/i],
+    ['cpvc-pipes', 'CPVC pipes', /\bcpvc\b/i],
+    ['ppr-pipes', 'PPR pipes', /\bpp-?r\b/i],
+    ['swr-pipes', 'SWR pipes', /\bswr\b/i],
+    ['casing-pipes', 'Borewell casing pipes', /casing\s+pipe/i],
+    ['electrical-conduit-pipes', 'Electrical conduit pipes', /\bconduit/i],
+    ['upvc-pipes', 'uPVC pipes', /\bu\.?pvc\b|\b(?<!c)pvc\s+(?:pressure\s+)?pipe/i],
+    ['gi-ms-pipes', 'GI and MS pipes', /\b(?:g\.?\s?i\.?|m\.?\s?s\.?|erw|galvani[sz]ed(?:\s+iron)?)\s+pipe/i],
+    ['square-hollow-sections', 'Hollow sections', /hollow\s+section|\b(?:square|rectangular)\s+(?:pipe|tube)|\b[sr]hs\b/i],
+    ['hand-pumps', 'Hand pumps', /hand\s*pump|india\s+mark/i],
+  ].freeze
+
+  # Up to two [slug, name] the tender's title or description mentions
+  def tender_products(tender)
+    text = [tender.title, tender.description].join(' ').tr('_', ' ')
+    PRODUCT_LINKS.select { |_, _, pattern| text.match?(pattern) }.first(2).map { |slug, name, _| [slug, name] }
+  end
 end

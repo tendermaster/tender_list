@@ -54,4 +54,21 @@ class TendersHelperTest < ActionView::TestCase
       assert_equal(-1, ist_days_until(Time.utc(2026, 11, 9, 23)))
     end
   end
+
+  def products(title, description = nil)
+    tender_products(Tender.new(title:, description:)).map(&:first)
+  end
+
+  # Made-up tender titles in portal style
+  test 'products a tender is for, for links to their makers' do
+    assert_equal ['hdpe-pipes'], products('Supply of HDPE Pipe PE 100 PN 10 for water supply scheme')
+    assert_equal ['gi-ms-pipes'], products('Procurement of G.I. Pipe Class B for PHED')
+    assert_equal ['gi-ms-pipes'], products('SUPPLY OF MS PIPE AND FITTINGS')
+    assert_equal ['cpvc-pipes'], products('Plumbing work with CPVC pipe')
+    assert_equal ['upvc-pipes'], products('Laying of PVC pressure pipe 110 mm')
+    assert_equal ['hand-pumps'], products('Installation of India Mark II hand pumps', 'Repair of handpump')
+    assert_equal ['electrical-conduit-pipes', 'square-hollow-sections'], products('Electrical conduit and square pipe fabrication')
+    assert_equal [], products('Construction of community hall')
+    assert_equal [], products('Annual maintenance of MS Office licences')
+  end
 end

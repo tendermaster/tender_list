@@ -157,6 +157,7 @@
                    intro: "This one has closed. Tell us what you supply: we'll send you new tenders like it on WhatsApp and call you about them." %>
       <% else %>
         <%= render 'tenders/partner_card', tender: @tender_data %>
+        <%= render 'tenders/products_card', tender: @tender_data %>
         <%= render 'get_relevant_tenders_form', tender: @tender_data %>
       <% end %>
     </aside>
