@@ -72,6 +72,8 @@ class TendersHelperTest < ActionView::TestCase
     assert_equal %w[hdpe-fittings hdpe-pipes], products('Supply of HDPE pipes and HDPE fittings')
     assert_equal %w[drip-irrigation-pipes], products('Drip irrigation system for orchard')
     assert_equal %w[steel-poles], products('Erection of street light poles')
+    assert_equal %w[column-pipe upvc-pipes], products('Supply of uPVC column pipe 40 mm for submersible pump')
+    assert_equal %w[column-pipe], products('Riser pipe for submersible pump set')
     assert_equal [], products('Construction of community hall')
     assert_equal [], products('Annual maintenance of MS Office licences')
   end

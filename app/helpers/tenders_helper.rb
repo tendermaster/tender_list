@@ -108,6 +108,7 @@ module TendersHelper
     ['ppr-pipes', 'PPR pipes', /\bpp-?r\b/i],
     ['swr-pipes', 'SWR pipes', /\bswr\b/i],
     ['casing-pipes', 'Borewell casing pipes', /casing\s+pipe/i],
+    ['column-pipe', 'Column pipes', /column\s+pipe|riser\s+pipe/i],
     ['electrical-conduit-pipes', 'Electrical conduit pipes', /\bconduit/i],
     ['upvc-pipes', 'uPVC pipes', /\bu\.?pvc\b|\b(?<!c)pvc\s+(?:pressure\s+)?pipe/i],
     ['gi-ms-pipes', 'GI and MS pipes', /\b(?:g\.?\s?i\.?|m\.?\s?s\.?|erw|galvani[sz]ed(?:\s+iron)?)\s+pipe/i],
