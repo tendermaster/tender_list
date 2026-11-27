@@ -94,6 +94,14 @@ module TendersHelper
   # Products sigmatenders.com's sister site lists (products.sigmatenders.com):
   # a tender for one of them links to its makers and prices there
   PRODUCT_LINKS = [
+    ['hume-pipes', 'RCC hume pipes', /\bhume\s+pipe|\br\.?c\.?c\.?\s+(?:np\s?\d\s+)?pipe|\bnp\s?[234]\b/i],
+    ['drip-irrigation-pipes', 'Drip irrigation pipes', /\bdrip\b/i],
+    ['dwc-pipes', 'DWC pipes', /\bdwc\b|double\s+wall(?:ed)?\s+corrugated/i],
+    ['hdpe-fittings', 'HDPE fittings', /\bhdpe\s+(?:pipe\s+)?fittings?|electro-?fusion/i],
+    ['swr-fittings', 'SWR fittings', /\bswr\s+(?:pipe\s+)?fittings?/i],
+    ['upvc-fittings', 'uPVC fittings', /\bu\.?pvc\s+(?:pipe\s+)?fittings?|\bpvc\s+fittings?/i],
+    ['solvent-cement', 'Solvent cement', /solvent\s+cement/i],
+    ['steel-poles', 'Tubular steel poles', /tubular\s+(?:steel\s+)?poles?|swaged\s+poles?|street\s*light\s+poles?/i],
     ['hdpe-pipes', 'HDPE pipes', /\bhdpe\b/i],
     ['mdpe-pipes', 'MDPE pipes', /\bmdpe\b/i],
     ['cpvc-pipes', 'CPVC pipes', /\bcpvc\b/i],

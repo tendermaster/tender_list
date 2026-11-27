@@ -68,6 +68,10 @@ class TendersHelperTest < ActionView::TestCase
     assert_equal ['upvc-pipes'], products('Laying of PVC pressure pipe 110 mm')
     assert_equal ['hand-pumps'], products('Installation of India Mark II hand pumps', 'Repair of handpump')
     assert_equal ['electrical-conduit-pipes', 'square-hollow-sections'], products('Electrical conduit and square pipe fabrication')
+    assert_equal %w[hume-pipes], products('Laying of RCC NP3 pipe culvert')
+    assert_equal %w[hdpe-fittings hdpe-pipes], products('Supply of HDPE pipes and HDPE fittings')
+    assert_equal %w[drip-irrigation-pipes], products('Drip irrigation system for orchard')
+    assert_equal %w[steel-poles], products('Erection of street light poles')
     assert_equal [], products('Construction of community hall')
     assert_equal [], products('Annual maintenance of MS Office licences')
   end
